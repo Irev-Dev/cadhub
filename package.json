@@ -10,7 +10,15 @@
     "@redwoodjs/core": "^0.19.2"
   },
   "eslintConfig": {
-    "extends": "@redwoodjs/eslint-config"
+    "extends": "@redwoodjs/eslint-config",
+    "workingDirectories": [
+      "./api",
+      "./web/src/components",
+      "./web/src/layouts",
+      "./web/src/pages",
+      "./web/src/index.js",
+      "./web/src/Routes.js"
+    ]
   },
   "engines": {
     "node": ">=12",
