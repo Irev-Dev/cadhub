@@ -1,18 +1,42 @@
 import BlogLayout from 'src/layouts/BlogLayout'
 import BlogPostsCell from 'src/components/BlogPostsCell'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
+const starterCode =
+`// Welcome to Cascade Studio!   Here are some useful functions:
+//  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
+//  Box(), Sphere(), Cylinder(), Cone(), Text3D(), Polygon()
+//  Offset(), Extrude(), RotatedExtrude(), Revolve(), Pipe(), Loft(),
+//  FilletEdges(), ChamferEdges(),
+//  Slider(), Button(), Checkbox()
+
+// Uncomment and hover over them to see their apis
+
+let holeRadius = Slider("Radius", 30 , 20 , 40);
+
+let sphere     = Sphere(50);
+let cylinderZ  =                     Cylinder(holeRadius, 200, true);
+let cylinderY  = Rotate([0,1,0], 90, Cylinder(holeRadius, 200, true));
+let cylinderX  = Rotate([1,0,0], 90, Cylinder(holeRadius, 200, true));
+
+Translate([0, 0, 50], Difference(sphere, [cylinderX, cylinderY, cylinderZ]));
+
+Translate([-100, 0, 100], Text3D("cadhub.xyz"));
+
+// Don't forget to push imported or oc-defined shapes into sceneShapes to add them to the workspace!
+`;
 
 const HomePage = () => {
+  const [code, setCode] = useState(starterCode)
   useEffect(() => {
-    new initialize()
-    // TODO currently you need to press f5 to get the first render to work and for the evaluate menu to show up
-    // figure out why it's not initializing properly
+    const sickCallback = (code) => setCode(code)
+    new initialize(sickCallback, starterCode)
   }, [])
   return (
 
     <BlogLayout>
+      <div>current code {code}</div>
       <BlogPostsCell/>
       <div>
         <h1 hidden></h1>
@@ -42,8 +66,9 @@ const HomePage = () => {
               window.history.replaceState({}, 'Cascade Studio','?')
             }}>Reset Project</a>
         </div>
-        <div id="appbody" style={{height:'auto'}}>
+        <div id="cascade-container" style={{height:'auto'}}>
         </div>
+        <footer>footer</footer>
       </div>
     </BlogLayout>
   )

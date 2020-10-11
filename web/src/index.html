@@ -11,6 +11,7 @@
       var messageHandlers = {};
       var cascadeStudioWorker
       var workerWorking = false
+      var galleryProject = undefined
       function coolGuy() {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js').then(function(registration) {
