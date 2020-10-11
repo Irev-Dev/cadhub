@@ -1,15 +1,20 @@
 import BlogLayout from 'src/layouts/BlogLayout'
 import BlogPostsCell from 'src/components/BlogPostsCell'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
+import { useEffect } from 'react'
 
 
 const HomePage = () => {
+  useEffect(() => {
+    new initialize()
+    // TODO currently you need to press f5 to get the first render to work and for the evaluate menu to show up
+    // figure out why it's not initializing properly
+  }, [])
   return (
 
     <BlogLayout>
       <BlogPostsCell/>
       <div>
-        <button onClick={() => new initialize()}>init</button>
         <h1 hidden></h1>
         <div id="topnav" className="topnav">
             <a href="https://github.com/zalo/CascadeStudio">Cascade Studio 0.0.6</a>
@@ -38,12 +43,6 @@ const HomePage = () => {
             }}>Reset Project</a>
         </div>
         <div id="appbody" style={{height:'auto'}}>
-            {/* <link data-name="vs/editor/editor.main" rel="stylesheet" href="./node_modules/monaco-editor/min/vs/editor/editor.main.css"> */}
-            {/* <script>var require = { paths: { 'vs': 'node_modules/monaco-editor/min/vs' } };</script>
-            <script type="text/javascript" src="./node_modules/monaco-editor/min/vs/loader.js"></script>
-            <script type="text/javascript" src="./node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
-            <script type="text/javascript" src="./node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
-            <script type="text/javascript" src="./js/MainPage/CascadeMain.js"></script> */}
         </div>
       </div>
     </BlogLayout>

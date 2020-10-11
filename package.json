@@ -6,6 +6,10 @@
       "web"
     ]
   },
+  "scripts": {
+    "comment": "Rather crude approach to move ts definitions into the public folder so the browser can grab them later in CascadeMain.js",
+    "move-ts-defs": "cp ./node_modules/opencascade.js/dist/opencascade.d.ts ./web/public && cp ./node_modules/three/src/Three.d.ts ./web/public && cp ./web/src/cascade/js/StandardLibraryIntellisense.ts ./web/public"
+  },
   "devDependencies": {
     "@redwoodjs/core": "^0.19.2"
   },

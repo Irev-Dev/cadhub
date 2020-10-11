@@ -6,6 +6,10 @@ import Routes from 'src/Routes'
 
 import './scaffold.css'
 import './index.css'
+import 'golden-layout/src/css/goldenlayout-base.css'
+import 'golden-layout/src/css/goldenlayout-dark-theme.css'
+import './cascade/css/main.css'
+import 'monaco-editor/min/vs/editor/editor.main.css'
 
 ReactDOM.render(
   <FatalErrorBoundary page={FatalErrorPage}>

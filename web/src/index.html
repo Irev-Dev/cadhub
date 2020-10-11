@@ -6,7 +6,36 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script>
-      var messageHandlers = {}
+      // Install Cascade Studio as a Progressive Web App for Offline Access
+      // This needs to be put before ANY HTTP Requests are made, so it can cache them.
+      var messageHandlers = {};
+      var cascadeStudioWorker
+      var workerWorking = false
+      function coolGuy() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                registration.update(); // Always update the registration for the latest assets
+            }, function() {
+                console.log('Could not register Cascade Studio for offline use!');
+            });
+        } else {
+            console.log('Browser does not support offline access!');
+        }
+
+        // Begins loading the CAD Kernel Web Worker
+        if (window.Worker) {
+            cascadeStudioWorker = new Worker('./src/cascade/js/CADWorker/CascadeStudioMainWorker.js');
+            // Ping Pong Messages Back and Forth based on their registration in messageHandlers
+            // var messageHandlers = {};
+            cascadeStudioWorker.onmessage = function (e) {
+                if(e.data.type in messageHandlers){
+                    let response = messageHandlers[e.data.type](e.data.payload);
+                    if (response) { cascadeStudioWorker.postMessage({ "type": e.data.type, payload: response }) };
+                }
+            }
+        }
+      }
+      coolGuy()
     </script>
   </head>
   <body>
