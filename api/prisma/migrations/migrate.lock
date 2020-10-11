@@ -1,3 +1,6 @@
 # Prisma Migrate lockfile v1
 
 20201009213512-create-posts
+20201011043647-create-parts
+20201011052155-add-code-to-part
+20201011082558-add-code-not-needed-upon-create

@@ -1,43 +1,77 @@
-import MainLayout from 'src/layouts/MainLayout'
-import BlogPostsCell from 'src/components/BlogPostsCell'
+import { useMutation, useFlash } from '@redwoodjs/web'
+import { Link, routes, navigate } from '@redwoodjs/router'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
 import { useEffect, useState } from 'react'
 
-const starterCode =
-`// Welcome to Cascade Studio!   Here are some useful functions:
-//  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
-//  Box(), Sphere(), Cylinder(), Cone(), Text3D(), Polygon()
-//  Offset(), Extrude(), RotatedExtrude(), Revolve(), Pipe(), Loft(),
-//  FilletEdges(), ChamferEdges(),
-//  Slider(), Button(), Checkbox()
+const DELETE_PART_MUTATION = gql`
+  mutation DeletePartMutation($id: Int!) {
+    deletePart(id: $id) {
+      id
+    }
+  }
+`
 
-// Uncomment and hover over them to see their apis
-
-let holeRadius = Slider("Radius", 30 , 20 , 40);
-
-let sphere     = Sphere(50);
-let cylinderZ  =                     Cylinder(holeRadius, 200, true);
-let cylinderY  = Rotate([0,1,0], 90, Cylinder(holeRadius, 200, true));
-let cylinderX  = Rotate([1,0,0], 90, Cylinder(holeRadius, 200, true));
-
-Translate([0, 0, 50], Difference(sphere, [cylinderX, cylinderY, cylinderZ]));
-
-Translate([-100, 0, 100], Text3D("cadhub.xyz"));
-
-// Don't forget to push imported or oc-defined shapes into sceneShapes to add them to the workspace!
-`;
-
-const HomePage = () => {
-  const [code, setCode] = useState(starterCode)
+const Part = ({ part, saveCode, loading, error}) => {
+  const [code, setCode] = useState(part.code)
   useEffect(() => {
     const sickCallback = (code) => setCode(code)
-    new initialize(sickCallback, starterCode)
+    initialize(sickCallback, part.code)
   }, [])
-  return (
+  const hasChanges = code !== part.code
+  const { addMessage } = useFlash()
+  const [deletePart] = useMutation(DELETE_PART_MUTATION, {
+    onCompleted: () => {
+      navigate(routes.parts())
+      addMessage('Part deleted.', { classes: 'rw-flash-success' })
+    },
+  })
 
-    <MainLayout>
-      <div>current code {code}</div>
-      <BlogPostsCell/>
+  const onDeleteClick = (id) => {
+    if (confirm('Are you sure you want to delete part ' + id + '?')) {
+      deletePart({ variables: { id } })
+    }
+  }
+
+  return (
+    <>
+      <div className="rw-segment">
+        <header className="rw-segment-header">
+          <h2 className="rw-heading rw-heading-secondary">
+            Part {part.id} Detail
+          </h2>
+        </header>
+        <table className="rw-table">
+          <tbody>
+            <tr>
+              <th>Title</th>
+              <td>{part.title}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{part.description}</td>
+            </tr>
+            {/* <tr>
+              <th>Code</th>
+              <td>{part.code}</td>
+            </tr> */}
+            {/* <tr>
+              <th>Main image</th>
+              <td>{part.mainImage}</td>
+            </tr> */}
+            {/* <tr>
+              <th>Created at</th>
+              <td>{timeTag(part.createdAt)}</td>
+            </tr> */}
+          </tbody>
+        </table>
+        <img src={part.mainImage} />
+      </div>
+      <nav className="rw-button-group">
+        {loading && 'Loading...'}
+        {hasChanges && !loading && <button onClick={() => saveCode({code}, part.id)} className="rw-button rw-button-blue">
+          Save Changes
+        </button>}
+      </nav>
       <div>
         <div id="topnav" className="topnav">
             <a href="https://github.com/zalo/CascadeStudio">Cascade Studio 0.0.6</a>
@@ -69,8 +103,8 @@ const HomePage = () => {
         </div>
         <footer>footer</footer>
       </div>
-    </MainLayout>
+    </>
   )
 }
 
-export default HomePage
+export default Part
