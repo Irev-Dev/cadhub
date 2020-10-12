@@ -33,6 +33,7 @@ const ContactPage = () => {
   return (
     <MainLayout>
       <Flash timeout={2000} />
+      <h1>Hi Test</h1>
       <Form onSubmit={onSubmit} validation={{ mode: 'onBlur' }} error={error} formMethods={formMethods}>
         <FormError
           error={error}
