@@ -5874,6 +5874,11 @@ content-type@~1.0.4:
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
   integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
 
+controlkit@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/controlkit/-/controlkit-0.1.9.tgz#00a0598a2a3c25f85494327d86d3daf1b11f08ab"
+  integrity sha1-AKBZiio8JfhUlDJ9htPa8bEfCKs=
+
 convert-source-map@^1.1.0, convert-source-map@^1.4.0, convert-source-map@^1.5.0, convert-source-map@^1.6.0, convert-source-map@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.7.0.tgz#17a2cb882d7f77d3490585e2ce6c524424a3a442"
@@ -8235,6 +8240,13 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+golden-layout@^1.5.9:
+  version "1.5.9"
+  resolved "https://registry.yarnpkg.com/golden-layout/-/golden-layout-1.5.9.tgz#a39bc1f6a67e6f886b797c016dd924e9426ba77f"
+  integrity sha1-o5vB9qZ+b4hreXwBbdkk6UJrp38=
+  dependencies:
+    jquery "*"
+
 good-listener@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
@@ -9892,6 +9904,11 @@ jest@^26.1.0:
     import-local "^3.0.2"
     jest-cli "^26.2.2"
 
+jquery@*, jquery@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
+  integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -10919,6 +10936,18 @@ module-not-found-error@^1.0.1:
   resolved "https://registry.yarnpkg.com/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
   integrity sha1-z4tP9PKWQGdNbN0CsOO8UjwrvcA=
 
+monaco-editor-webpack-plugin@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.9.1.tgz#eb4bbb1c5e5bfb554541c1ae1542e74c2a9f43fd"
+  integrity sha512-x7fx1w3i/uwZERIgztHAAK3VQMsL8+ku0lFXXbO81hKDg8IieACqjGEa2mqEueg0c/fX+wd0oI+75wB19KJAsA==
+  dependencies:
+    loader-utils "^1.2.3"
+
+monaco-editor@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.20.0.tgz#5d5009343a550124426cb4d965a4d27a348b4dea"
+  integrity sha512-hkvf4EtPJRMQlPC3UbMoRs0vTAFAYdzFQ+gpMb8A+9znae1c43q8Mab9iVsgTcg/4PNiLGGn3SlDIa8uvK1FIQ==
+
 morgan@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.10.0.tgz#091778abc1fc47cd3509824653dae1faab6b17d7"
@@ -11432,6 +11461,11 @@ open@^7.0.0:
   dependencies:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
+
+opencascade.js@^0.1.15:
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/opencascade.js/-/opencascade.js-0.1.19.tgz#32d545ca4add213d168eb6e6973dceba1bcab35b"
+  integrity sha512-7q8LNihtU7BzsIXXoqTHq2/7ASfDdK5OycuI1oscc/9Opmew8OXjcv/oTSF+w5U+0dwUt8LewdG/xYSIkkf8Ig==
 
 opener@^1.5.1:
   version "1.5.1"
@@ -14165,6 +14199,11 @@ text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
+
+three@^0.118.3:
+  version "0.118.3"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.118.3.tgz#c0bf8c10a68155478f12f4ccac2ff979526a4a0a"
+  integrity sha512-ijECXrNzDkHieoeh2H69kgawTGH8DiamhR4uBN8jEM7VHSKvfTdEvOoHsA8Aq7dh7PHAxhlqBsN5arBI3KixSw==
 
 throat@^5.0.0:
   version "5.0.0"

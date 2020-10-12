@@ -7,7 +7,7 @@
 
 [web]
   port = 8910
-  apiProxyPath = "/.redwood/functions"
+  apiProxyPath = "/.netlify/functions"
 [api]
   port = 8911
 [browser]
