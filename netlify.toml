@@ -4,7 +4,7 @@ publish = "web/dist"
 functions = "api/dist/functions"
 
 [dev]
-  command = "yarn rw dev"
+  command = "yarn move-ts-defs && yarn rw dev"
 
 [[redirects]]
   from = "/*"
