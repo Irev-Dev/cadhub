@@ -15,6 +15,9 @@ const MainLayout = ({ children }) => {
             <li>
               <Link to={routes.parts()}>Parts</Link>
             </li>
+            <li>
+              <Link to={routes.contact()}>Contact</Link>
+            </li>
           </ul>
         </nav>
       </header>
