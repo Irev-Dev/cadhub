@@ -13,6 +13,7 @@
     ]
   },
   "dependencies": {
+    "@redwoodjs/auth": "^0.19.3",
     "@redwoodjs/forms": "^0.19.2",
     "@redwoodjs/router": "^0.19.2",
     "@redwoodjs/web": "^0.19.2",
@@ -21,6 +22,7 @@
     "jquery": "^3.5.1",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
+    "netlify-identity-widget": "^1.9.1",
     "opencascade.js": "^0.1.15",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
