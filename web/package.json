@@ -28,5 +28,10 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "three": "^0.118.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "9.8.6",
+    "postcss-loader": "4.0.2",
+    "tailwindcss": "^1.9.1"
   }
 }
