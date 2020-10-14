@@ -15,7 +15,7 @@ const PostsLayout = (props) => {
           <div className="rw-button-icon">+</div> New Post
         </Link>
       </header>
-      <main className="rw-main">{props.children}</main>
+      <main>{props.children}</main>
     </div>
   )
 }
