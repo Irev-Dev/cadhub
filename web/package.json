@@ -13,6 +13,7 @@
     ]
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "@redwoodjs/auth": "^0.19.3",
     "@redwoodjs/forms": "^0.19.2",
     "@redwoodjs/router": "^0.19.2",
