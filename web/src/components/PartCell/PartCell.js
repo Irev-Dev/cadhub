@@ -21,7 +21,7 @@ export const Success = ({ part }) => {
         <div className="bg-white p-8 my-12 min-h-md">
           <h2 className="text-4xl py-4">{part.title}</h2>
           <Editor
-            className="bg-indigo-700"
+            className="markdown-overrides"
             defaultValue={part.description}
             readOnly
           />
