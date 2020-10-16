@@ -7,7 +7,17 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {}
+    extend: {
+      maxWidth: {
+        '7xl': '80rem',
+        '8xl': '96rem',
+        '9xl': '110rem',
+      },
+      minHeight: {
+        'md': '28rem'
+      },
+
+    }
   },
   variants: {},
   plugins: []
