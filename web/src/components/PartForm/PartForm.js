@@ -9,10 +9,12 @@ import {
 } from '@redwoodjs/forms'
 import { useState } from 'react';
 import { navigate, routes } from '@redwoodjs/router'
+import { useFlash } from '@redwoodjs/web'
 
 import Editor from "rich-markdown-editor";
 
 const PartForm = (props) => {
+  const { addMessage } = useFlash()
   const [description, setDescription] = useState(props?.part?.description)
   const onSubmit = async (data, e) => {
 
@@ -26,6 +28,7 @@ const PartForm = (props) => {
     } else {
       navigate(routes.part({id: props?.part?.id}))
     }
+    addMessage('Part updated.', { classes: 'rw-flash-success' })
   }
 
   return (

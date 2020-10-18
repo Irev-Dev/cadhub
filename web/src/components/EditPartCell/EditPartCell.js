@@ -1,5 +1,4 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
-import { navigate, routes } from '@redwoodjs/router'
+import { useMutation } from '@redwoodjs/web'
 import PartForm from 'src/components/PartForm'
 
 export const QUERY = gql`
@@ -26,12 +25,7 @@ const UPDATE_PART_MUTATION = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Success = ({ part }) => {
-  const { addMessage } = useFlash()
-  const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
-    onCompleted: () => {
-      addMessage('Part updated.', { classes: 'rw-flash-success' })
-    },
-  })
+  const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION)
 
   const onSave = (input, id) => updatePart({ variables: { id, input } })
 
