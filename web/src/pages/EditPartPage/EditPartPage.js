@@ -1,11 +1,11 @@
-import PartsLayout from 'src/layouts/PartsLayout'
 import EditPartCell from 'src/components/EditPartCell'
+import MainLayout from 'src/layouts/MainLayout'
 
 const EditPartPage = ({ id }) => {
   return (
-    <PartsLayout>
+    <MainLayout>
       <EditPartCell id={id} />
-    </PartsLayout>
+    </MainLayout>
   )
 }
 

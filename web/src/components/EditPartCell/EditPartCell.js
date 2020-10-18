@@ -39,13 +39,6 @@ export const Success = ({ part }) => {
   }
 
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">Edit Part {part.id}</h2>
-      </header>
-      <div className="rw-segment-main">
-        <PartForm part={part} onSave={onSave} error={error} loading={loading} />
-      </div>
-    </div>
+    <PartForm part={part} onSave={onSave} error={error} loading={loading} />
   )
 }

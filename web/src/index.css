@@ -12,6 +12,25 @@
  * END --- TAILWIND GENERATOR EDIT
  */
 
+.markdown-overrides h4 {
+  @apply text-lg font-bold;
+}
+.markdown-overrides h3 {
+  @apply text-xl;
+}
+.markdown-overrides h2 {
+  @apply text-2xl;
+}
+.markdown-overrides h1 {
+  @apply text-3xl;
+}
+.markdown-overrides ol {
+  @apply list-decimal;
+}
+.markdown-overrides ul {
+  @apply list-disc;
+}
+
 body {
   /* TODO can I use a tailwind class here? */
   background-color: #4a5568;
