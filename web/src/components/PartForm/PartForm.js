@@ -8,16 +8,24 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 import { useState } from 'react';
+import { navigate, routes } from '@redwoodjs/router'
 
 import Editor from "rich-markdown-editor";
 
 const PartForm = (props) => {
   const [description, setDescription] = useState(props?.part?.description)
-  const onSubmit = (data) => {
-    props.onSave({
+  const onSubmit = async (data, e) => {
+
+    await props.onSave({
       ...data,
       description,
     }, props?.part?.id)
+    const shouldOpenIde = e?.nativeEvent?.submitter?.dataset?.openIde
+    if(shouldOpenIde) {
+      navigate(routes.partIde({id: props?.part?.id}))
+    } else {
+      navigate(routes.part({id: props?.part?.id}))
+    }
   }
 
   return (
@@ -79,6 +87,9 @@ const PartForm = (props) => {
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
             Save
+          </Submit>
+          <Submit disabled={props.loading} data-open-ide={true} className="rw-button rw-button-blue">
+            Save and open IDE
           </Submit>
         </div>
       </Form>

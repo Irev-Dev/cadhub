@@ -29,14 +29,11 @@ export const Success = ({ part }) => {
   const { addMessage } = useFlash()
   const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: () => {
-      navigate(routes.parts())
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
 
-  const onSave = (input, id) => {
-    updatePart({ variables: { id, input } })
-  }
+  const onSave = (input, id) => updatePart({ variables: { id, input } })
 
   return (
     <PartForm part={part} onSave={onSave} error={error} loading={loading} />
