@@ -14,9 +14,11 @@ export const user = ({ id }) => {
 }
 
 export const createUser = ({ input }) => {
-  console.log(input)
-  console.log(JSON.stringify(input))
   requireAuth({ role: 'admin' })
+  return createUserInsecure({input})
+}
+
+export const createUserInsecure = ({ input }) => {
   return db.user.create({
     data: input,
   })
