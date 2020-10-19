@@ -1,4 +1,6 @@
-import { createUser } from 'src/services/users/users.js'
+// import { createUser } from 'src/services/users/users.js'
+
+// identity-signup.js
 
 export const handler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -13,15 +15,15 @@ export const handler = async (req, _context) => {
 
   if (eventType === 'signup') {
     roles.push('user')
-    const hi = {
-      email: 'kurt.hutten@gmail.com',
-      image: '',
-      bio: ''
-    }
-    const input = {
-      email,
-    }
-    createUser({input})
+    // const hi = {
+    //   email: 'kurt.hutten@gmail.com',
+    //   image: '',
+    //   bio: ''
+    // }
+    // const input = {
+    //   email,
+    // }
+    // createUser({input})
 
     return {
       statusCode: 200,
