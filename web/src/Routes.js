@@ -12,6 +12,15 @@ import { Router, Route, Private } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
+      {/* TODO add add min role to users and users/new  */}
+      <Private unauthenticated="home" role="admin">
+        <Route path="/users" page={UsersPage} name="users" />
+        <Route path="/users/new" page={NewUserPage} name="newUser" />
+      </Private>
+      <Private unauthenticated="home">
+        <Route path="/users/{id:Int}/edit" page={EditUserPage} name="editUser" />
+      </Private>
+      <Route path="/users/{id:Int}" page={UserPage} name="user" />
       <Route path="/contact" page={ContactPage} name="contact" />
       <Route path="/parts/new" page={NewPartPage} name="newPart" />
       <Route path="/parts/{id:Int}/edit" page={EditPartPage} name="editPart" />
