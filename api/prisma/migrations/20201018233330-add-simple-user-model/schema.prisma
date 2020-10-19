@@ -1,6 +1,6 @@
 datasource DS {
   provider = ["sqlite", "postgresql"]
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -35,10 +35,10 @@ model Contact {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  // userName String @unique
-  // issuer String @unique
+  id       Int    @id @default(autoincrement())
+  userName String @unique
+  email    String @unique
+  issuer   String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

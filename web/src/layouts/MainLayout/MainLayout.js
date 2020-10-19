@@ -35,7 +35,12 @@ const MainLayout = ({ children }) => {
                 <Svg name="plus" className="text-indigo-300" />
               </Link>
             </li>
-            <li className="mr-12 p-px border-2 rounded-full border-indigo-300"><img src={avatar} className="rounded-full h-10 w-10" /></li>
+            <li className="mr-12 p-px border-2 rounded-full border-indigo-300 text-indigo-200">
+              <a href="#" onClick={isAuthenticated ? logOut : logIn}>
+                {isAuthenticated ? 'Log Out' : 'Log In'}
+                <img src={avatar} className="rounded-full h-10 w-10" />
+              </a>
+            </li>
           </ul>
         </nav>
       </header>
