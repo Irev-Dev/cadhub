@@ -1,6 +1,4 @@
-// import { createUser } from 'src/services/users/users.js'
-
-// identity-signup.js
+import { createUser } from 'src/services/users/users.js'
 
 export const handler = async (req, _context) => {
   const body = JSON.parse(req.body)
