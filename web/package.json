@@ -28,6 +28,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "rich-markdown-editor": "^11.0.2",
+    "styled-components": "^5.2.0",
     "three": "^0.118.3"
   },
   "devDependencies": {

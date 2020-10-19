@@ -1,8 +1,10 @@
 import { Link, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+import { Flash } from '@redwoodjs/web'
+import Tooltip from '@material-ui/core/Tooltip';
+
 import avatar from 'src/assets/harold.jpg'
 import Svg from 'src/components/Svg'
-import Tooltip from '@material-ui/core/Tooltip';
 
 const MainLayout = ({ children }) => {
   const { logIn, logOut, isAuthenticated } = useAuth()
@@ -28,11 +30,21 @@ const MainLayout = ({ children }) => {
             </li>
           </ul>
           <ul className="flex items-center">
-            <li className="mr-8 rounded-full border-2 border-indigo-300"><Svg name="plus" className="text-indigo-300" /></li>
-            <li className="mr-12 p-px border-2 rounded-full border-indigo-300"><img src={avatar} className="rounded-full h-10 w-10" /></li>
+            <li className="mr-8 rounded-full border-2 border-indigo-300">
+              <Link to={routes.newPart()}>
+                <Svg name="plus" className="text-indigo-300" />
+              </Link>
+            </li>
+            <li className="mr-12 p-px border-2 rounded-full border-indigo-300 text-indigo-200">
+              <a href="#" onClick={isAuthenticated ? logOut : logIn}>
+                {isAuthenticated ? 'Log Out' : 'Log In'}
+                <img src={avatar} className="rounded-full h-10 w-10" />
+              </a>
+            </li>
           </ul>
         </nav>
       </header>
+      <Flash timeout={1000} />
       <main>{children}</main>
     </>
   )

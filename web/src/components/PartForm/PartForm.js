@@ -7,14 +7,32 @@ import {
   TextAreaField,
   Submit,
 } from '@redwoodjs/forms'
+import { useState } from 'react';
+import { navigate, routes } from '@redwoodjs/router'
+import { useFlash } from '@redwoodjs/web'
+
+import Editor from "rich-markdown-editor";
 
 const PartForm = (props) => {
-  const onSubmit = (data) => {
-    props.onSave(data, props?.part?.id)
+  const { addMessage } = useFlash()
+  const [description, setDescription] = useState(props?.part?.description)
+  const onSubmit = async (data, e) => {
+
+    await props.onSave({
+      ...data,
+      description,
+    }, props?.part?.id)
+    const shouldOpenIde = e?.nativeEvent?.submitter?.dataset?.openIde
+    if(shouldOpenIde) {
+      navigate(routes.partIde({id: props?.part?.id}))
+    } else {
+      navigate(routes.part({id: props?.part?.id}))
+    }
+    addMessage('Part updated.', { classes: 'rw-flash-success' })
   }
 
   return (
-    <div className="rw-form-wrapper">
+    <div className="max-w-7xl mx-auto mt-10">
       <Form onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
@@ -25,7 +43,7 @@ const PartForm = (props) => {
 
         <Label
           name="title"
-          className="rw-label"
+          className="p-0"
           errorClassName="rw-label rw-label-error"
         >
           Title
@@ -40,40 +58,8 @@ const PartForm = (props) => {
         <FieldError name="title" className="rw-field-error" />
 
         <Label
-          name="description"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Description
-        </Label>
-        <TextField
-          name="description"
-          defaultValue={props.part?.description}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-        <FieldError name="description" className="rw-field-error" />
-
-        <Label
-          name="code"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Code
-        </Label>
-        <TextAreaField
-          name="code"
-          defaultValue={props.part?.code}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: false }}
-        />
-        <FieldError name="code" className="rw-field-error" />
-
-        <Label
           name="mainImage"
-          className="rw-label"
+          className="p-0"
           errorClassName="rw-label rw-label-error"
         >
           Main image
@@ -87,9 +73,26 @@ const PartForm = (props) => {
         />
         <FieldError name="mainImage" className="rw-field-error" />
 
+        <Label
+          name="description"
+          className="p-0"
+          errorClassName="rw-label rw-label-error"
+        >
+          Description
+        </Label>
+        <div name="description" className="markdown-overrides bg-white p-12 my-10 min-h-md">
+          <Editor
+            defaultValue={props.part?.description}
+            onChange={(valueFn) => setDescription(valueFn())}
+          />
+        </div>
+
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
             Save
+          </Submit>
+          <Submit disabled={props.loading} data-open-ide={true} className="rw-button rw-button-blue">
+            Save and open IDE
           </Submit>
         </div>
       </Form>

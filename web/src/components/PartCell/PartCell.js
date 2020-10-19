@@ -1,46 +1,32 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
-import { navigate, routes } from '@redwoodjs/router'
-import Part from 'src/components/Part'
 
-export const QUERY = gql`
-  query FIND_PART_BY_ID($id: Int!) {
-    part: part(id: $id) {
-      id
-      title
-      description
-      code
-      mainImage
-      createdAt
-    }
-  }
-`
+import {QUERY as reExportQuery} from 'src/components/EditPartCell'
+import Editor from "rich-markdown-editor";
 
-const UPDATE_PART_MUTATION = gql`
-  mutation UpdatePartMutation($id: Int!, $input: UpdatePartInput!) {
-    updatePart(id: $id, input: $input) {
-      id
-    }
-  }
-`
+export const QUERY = reExportQuery
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>Part not found</div>
+export const Empty = () => <div>Empty</div>
+
+export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ part }) => {
-  const { addMessage } = useFlash()
-  const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
-    onCompleted: () => {
-      // navigate(routes.part({id: updatePart.id}))
-      addMessage('Part updated.', { classes: 'rw-flash-success' })
-    },
-  })
-  console.log({updatePart})
-
-
-  const saveCode = (input, id) => {
-    console.log(id, input, 'wowow')
-    updatePart({ variables: { id, input } })
-  }
-  return <Part part={{...part, code: part.code}} saveCode={saveCode} loading={loading} error={error} />
+  console.log(part)
+  return (
+    <>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-center">
+          <img src={part.mainImage} />
+        </div>
+        <div className="bg-white p-8 my-12 min-h-md">
+          <h2 className="text-4xl py-4">{part.title}</h2>
+          <Editor
+            className="markdown-overrides"
+            defaultValue={part.description}
+            readOnly
+          />
+        </div>
+      </div>
+    </>
+  )
 }
