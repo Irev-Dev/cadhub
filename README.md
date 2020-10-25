@@ -44,3 +44,11 @@ If you not familiar with Redwood, never fear the main bit of tech it uses is Rea
 ## Styles
 
 We're using tailwind utility classes so please try and use them as much as possible. Again if you not familiar, the [tailwind search](https://tailwindcss.com/) is fantastic, so searching for the css property you want to use will lead you to the correct class 99% of the time.
+
+## Designs
+
+In progress, though can be [seen on Figma](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/CadHub?node-id=0%3A1)
+
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20Page(1).jpg">
+
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/User%20Page%20Edit.jpg">
