@@ -29,7 +29,7 @@ yarn rw dev
 
 Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`.
 
-You may need to register a account depending on what issue you are trying to tackle, This can be done by clicking the login button on the top right.
+You may need to register a account depending on what issue you are trying to tackle, This can be done by clicking the login button on the top right. This will open up netlify's idenitiy modal asking for the websites url, since it will notice you developing locally. Enter `https://cadhub.xyz/` than use you email, verify your email and you should be set.
 (some routes are protected, but permissions is a big area that needs a lot of work in the near future, so it's in a very incomplete state atm)
 
 ### Note:
