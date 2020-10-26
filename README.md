@@ -22,6 +22,11 @@ Install dependencies
 yarn install
 ```
 
+Initialise the db
+``` terminal
+yarn rw db up
+```
+
 ### Fire up dev
 ```terminal
 yarn rw dev
