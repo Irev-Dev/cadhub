@@ -4,12 +4,13 @@ import {
   FieldError,
   Label,
   TextField,
-  TextAreaField,
   Submit,
 } from '@redwoodjs/forms'
 import { useState } from 'react';
 import { navigate, routes } from '@redwoodjs/router'
 import { useFlash } from '@redwoodjs/web'
+import ImageUploader from './ImageUploader.js'
+
 
 import Editor from "rich-markdown-editor";
 
@@ -34,6 +35,8 @@ const PartForm = (props) => {
   return (
     <div className="max-w-7xl mx-auto mt-10">
       <Form onSubmit={onSubmit} error={props.error}>
+        <ImageUploader onImageUpload={(yo) => {console.log('yo', yo)}} />
+
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
