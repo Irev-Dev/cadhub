@@ -4,23 +4,25 @@ import Button from "@material-ui/core/Button";
 import axios from 'axios'
 import ReactCrop from 'react-image-crop'
 import { Dialog } from '@material-ui/core'
+import { Image as CloudinaryImage } from 'cloudinary-react'
 import 'react-image-crop/dist/ReactCrop.css'
+import Svg from 'src/components/Svg/Svg.js'
 
-const CLOUDINARY_UPLOAD_PRESET = process.env.GATSBY_PROD_PRESET || "dev_preset";
-const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/irevdev/upload";
+const CLOUDINARY_UPLOAD_PRESET = "CadHub_project_images";
+const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/irevdev/upload/?custom_coordinates=10,10,20,20";
 
-export default function ImageUploader({ onImageUpload }) {
+export default function ImageUploader({ onImageUpload, imageUrl }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState()
+  const [cloudinaryId, setCloudinaryId] = useState(imageUrl)
+  const [imageObj, setImageObj] = useState()
   const [crop, setCrop] = useState({
     aspect: 16 / 9,
     unit: '%',
     width: 100,
   });
   async function handleImageUpload() {
-    var image = new Image();
-    image.src = file
-    const croppedFile = await getCroppedImg(image, crop, 'avatar')
+    const croppedFile = await getCroppedImg(imageObj, crop, 'avatar')
     console.log(croppedFile)
     const imageData = new FormData();
     imageData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
@@ -30,6 +32,8 @@ export default function ImageUploader({ onImageUpload }) {
       const { data } = await upload
       if (data && data.public_id !== "") {
         onImageUpload({cloudinaryPublicId: data.public_id})
+        setCloudinaryId(data.public_id)
+        setIsModalOpen(false)
       }
     } catch (e) {
       console.error('ERROR', e)
@@ -47,24 +51,35 @@ export default function ImageUploader({ onImageUpload }) {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
-    <div>
+    <div className="m-8">
       <div className="w-full relative" {...getRootProps()}>
+        {cloudinaryId && <button className="absolute z-10 w-full inset-0 bg-indigo-900 opacity-50 flex justify-center items-center">
+          <Svg name="pencil" strokeWidth={2} className="text-gray-300 h-48 w-48" />
+        </button>}
         <input {...getInputProps()} />
-          {/* <Button className variant="outlined">Upload</Button> */}
-        <button className="absolute inset-0"></button>
-        <div className="mt-3 text-indigo-500 border-dashed border border-indigo-500 py-8 text-center rounded-lg w-full">
+        {cloudinaryId && <div className="relative">
+          <CloudinaryImage
+            className="object-cover w-full rounded shadow"
+            cloudName="irevdev"
+            publicId={cloudinaryId}
+            width="600"
+            crop="scale"
+          />
+        </div>}
+        {!cloudinaryId && <button className="absolute inset-0"></button>}
+        {!cloudinaryId && <div className="mt-3 text-indigo-500 border-dashed border border-indigo-500 py-8 text-center rounded-lg w-full">
             Drop files here ...
-            or <span className="group flex w-full items-center justify-center">
+            or <span className="group flex w-full items-center justify-center py-4">
               <span className="bg-indigo-500 shadow rounded text-gray-200 cursor-pointer p-2 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-150">upload</span>
             </span>
-        </div>
+        </div>}
       </div>
       <Dialog
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       >
         <div className="p-4">
-          <ReactCrop src={file} crop={crop} onChange={newCrop => setCrop(newCrop)} />
+          <ReactCrop src={file} crop={crop} onImageLoaded={(image) => setImageObj(image)} onChange={newCrop => setCrop(newCrop)} />
           <Button onClick={handleImageUpload} variant="outlined">Upload</Button>
         </div>
       </Dialog>
@@ -79,7 +94,6 @@ function getCroppedImg(image, crop, fileName) {
   canvas.width = crop.width;
   canvas.height = crop.height;
   const ctx = canvas.getContext('2d');
-
   ctx.drawImage(
     image,
     crop.x * scaleX,
@@ -89,7 +103,7 @@ function getCroppedImg(image, crop, fileName) {
     0,
     0,
     crop.width,
-    crop.height,
+    crop.height
   );
 
   // As Base64 string

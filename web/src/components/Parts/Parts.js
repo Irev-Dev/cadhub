@@ -1,5 +1,6 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
+import { Image as CloudinaryImage } from 'cloudinary-react'
 
 import avatar from 'src/assets/harold.jpg'
 
@@ -64,11 +65,19 @@ const PartsList = ({ parts }) => {
             <div className="rounded-t-2xl bg-gray-900">
               <div className="flex items-center p-2 text-indigo-200">
                 <div className="h-full absolute inset-0 text-6xl flex items-center justify-center text-indigo-700" ><span>?</span></div>
-                <div className="mr-4"><img src={avatar} className="rounded-full h-10 w-10" /></div>
+                <div className="mr-4">
+                  <img src={avatar} className="rounded-full h-10 w-10" />
+                </div>
                 <h3>{part.title}</h3>
               </div>
               <div className="relative z-10">
-                <img className="h-full" src={part.mainImage}/>
+                <CloudinaryImage
+                  className="object-cover w-full rounded shadow"
+                  cloudName="irevdev"
+                  publicId={part.mainImage}
+                  width="300"
+                  crop="scale"
+                />
               </div>
             </div>
           </Link>
