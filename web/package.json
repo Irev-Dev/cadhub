@@ -18,6 +18,7 @@
     "@redwoodjs/forms": "^0.19.2",
     "@redwoodjs/router": "^0.19.2",
     "@redwoodjs/web": "^0.19.2",
+    "cloudinary-react": "^1.6.7",
     "controlkit": "^0.1.9",
     "golden-layout": "^1.5.9",
     "jquery": "^3.5.1",
@@ -28,6 +29,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.2.1",
+    "react-image-crop": "^8.6.6",
     "rich-markdown-editor": "^11.0.2",
     "styled-components": "^5.2.0",
     "three": "^0.118.3"

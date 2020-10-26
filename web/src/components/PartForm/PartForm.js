@@ -4,23 +4,26 @@ import {
   FieldError,
   Label,
   TextField,
-  TextAreaField,
   Submit,
 } from '@redwoodjs/forms'
 import { useState } from 'react';
 import { navigate, routes } from '@redwoodjs/router'
 import { useFlash } from '@redwoodjs/web'
+import ImageUploader from './ImageUploader.js'
+
 
 import Editor from "rich-markdown-editor";
 
 const PartForm = (props) => {
   const { addMessage } = useFlash()
   const [description, setDescription] = useState(props?.part?.description)
+  const [imageUrl, setImageUrl] = useState(props?.part?.mainImage)
   const onSubmit = async (data, e) => {
 
     await props.onSave({
       ...data,
       description,
+      mainImage: imageUrl
     }, props?.part?.id)
     const shouldOpenIde = e?.nativeEvent?.submitter?.dataset?.openIde
     if(shouldOpenIde) {
@@ -57,21 +60,8 @@ const PartForm = (props) => {
         />
         <FieldError name="title" className="rw-field-error" />
 
-        <Label
-          name="mainImage"
-          className="p-0"
-          errorClassName="rw-label rw-label-error"
-        >
-          Main image
-        </Label>
-        <TextField
-          name="mainImage"
-          defaultValue={props.part?.mainImage}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: false }}
-        />
-        <FieldError name="mainImage" className="rw-field-error" />
+        <ImageUploader onImageUpload={({cloudinaryPublicId}) => setImageUrl(cloudinaryPublicId)} />
+
 
         <Label
           name="description"
