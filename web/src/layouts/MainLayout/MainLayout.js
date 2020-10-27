@@ -22,9 +22,9 @@ const MainLayout = ({ children }) => {
             </li>
             <li>
               <Tooltip title="Very alpha, there's lots of work todo" >
-                <div className="ml-8 flex">
-                  <h2 className="text-indigo-200 text-4xl font-ropa-sans tracking-widest">CadHub</h2>
-                  <div className="text-pink-500 pb-4 text-sm font-ropa-sans" >pre-alpha</div>
+                <div className="ml-12 flex">
+                  <h2 className="text-indigo-300 text-5xl font-ropa-sans py-1 tracking-wider" style={{letterSpacing: '0.3em'}}>CadHub</h2>
+                  <div className="text-pink-400 text-sm font-bold font-ropa-sans" style={{paddingBottom: '2rem', marginLeft: '-1.8rem'}}>pre-alpha</div>
                 </div>
               </Tooltip>
             </li>
