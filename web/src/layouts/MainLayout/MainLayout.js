@@ -11,7 +11,7 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <header>
-        <nav className="flex justify-between h-20 bg-gray-900">
+        <nav className="flex justify-between h-20 bg-gray-900" style={{background: 'linear-gradient(90.01deg, #1A202E 8.79%, #3C366B 94.85%)' }}>
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
@@ -35,10 +35,10 @@ const MainLayout = ({ children }) => {
                 <Svg name="plus" className="text-indigo-300" />
               </Link>
             </li>
-            <li className="mr-12 p-px border-2 rounded-full border-indigo-300 text-indigo-200">
+            <li className={isAuthenticated? 'mr-12 p-px border-2 rounded-full border-indigo-300 text-indigo-200':'mr-12 p-px text-indigo-200'}>
               <a href="#" onClick={isAuthenticated ? logOut : logIn}>
-                {isAuthenticated ? 'Log Out' : 'Log In'}
-                <img src={avatar} className="rounded-full h-10 w-10" />
+                {isAuthenticated ? '' : 'Sign In/Up'}
+                <img src={avatar} className="rounded-full h-10 w-10" hidden={!isAuthenticated} />
               </a>
             </li>
           </ul>
