@@ -16,7 +16,10 @@ module.exports = {
       minHeight: {
         'md': '28rem'
       },
-
+      fontFamily: {
+        'ropa-sans': 'Ropa Sans',
+        'roboto': 'Roboto'
+      },
     }
   },
   variants: {},
