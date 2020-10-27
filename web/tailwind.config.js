@@ -17,8 +17,8 @@ module.exports = {
         'md': '28rem'
       },
       fontFamily: {
-        'ropa-sans': 'Ropa Sans',
-        'roboto': 'Roboto'
+        'ropa-sans': ['Ropa Sans', 'Arial', 'sans-serif'],
+        'roboto': ['Roboto', 'Arial', 'sans-serif'],
       },
     }
   },
