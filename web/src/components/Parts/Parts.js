@@ -53,7 +53,7 @@ const PartsList = ({ parts }) => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto grid gap-8 grid-cols-4">
+    <div className="max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid- cols-4">
       {parts.map((part) => {
         return (
           <Link
