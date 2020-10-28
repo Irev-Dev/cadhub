@@ -1,7 +1,6 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
 import { Image as CloudinaryImage } from 'cloudinary-react'
-import EmojiiReaction from 'src/components/EmojiReaction/EmojiReaction'
 
 import avatar from 'src/assets/harold.jpg'
 
@@ -54,17 +53,6 @@ const PartsList = ({ parts }) => {
   }
 
   return (
-    <>
-      <EmojiiReaction emotes={[
-      {
-         emoji: '❤️',
-         count: 3,
-      },
-      {
-         emoji: '😁',
-         count: 2,
-      },
-   ]} callback={(e) => console.log(e)} />
     <div className="max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid- cols-4">
       {parts.map((part) => {
         return (
@@ -94,7 +82,7 @@ const PartsList = ({ parts }) => {
             </div>
           </Link>
       )})}
-    </div></>
+    </div>
   )
 }
 
