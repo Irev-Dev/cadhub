@@ -23,6 +23,7 @@ const MainLayout = ({ children }) => {
             <li>
               <Tooltip title="Very alpha, there's lots of work todo" >
                 <div className="ml-12 flex">
+                  {/* Because of how specific these styles are to this heading/logo and it doesn't need to be replicated else where as well as it's very precise with the placement of "pre-alpha" I think it's appropriate. */}
                   <h2 className="text-indigo-300 text-5xl font-ropa-sans py-1 tracking-wider" style={{letterSpacing: '0.3em'}}>CadHub</h2>
                   <div className="text-pink-400 text-sm font-bold font-ropa-sans" style={{paddingBottom: '2rem', marginLeft: '-1.8rem'}}>pre-alpha</div>
                 </div>

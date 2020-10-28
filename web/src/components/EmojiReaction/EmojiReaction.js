@@ -38,12 +38,15 @@ const EmojiReaction = ({ emotes, callback = () => {} }) => {
 
   return [
     <div className="flex justify-between">
-      <Fab variant="round" aria-describedby={popoverId} onClick={togglePopover}>
-        <Svg name="dots-vertical" />
-      </Fab>
+        <Fab size="medium" variant="round" aria-describedby={popoverId} onClick={togglePopover}>
+          <div className="bg-gray-200 border-2 m-px border-gray-300 text-gray-500 absolute inset-0 rounded-full flex justify-center items-center">
+            <Svg name="dots-vertical" />
+          </div>
+        </Fab>
+
       <div>
-        {emotes.map((emote) => (
-          <IconButton onClick={() => handleEmojiClick(emote.emoji)}>
+        {emotes.map((emote, i) => (
+          <IconButton key={`${emote.emoji}--${i}`} onClick={() => handleEmojiClick(emote.emoji)}>
             {emote.emoji} <span>{emote.count}</span>
           </IconButton>
         ))}
@@ -63,8 +66,8 @@ const EmojiReaction = ({ emotes, callback = () => {} }) => {
         horizontal: 'center',
       }}
     >
-      {emojiMenu.map((emoji) => (
-        <IconButton onClick={() => handleEmojiClick(emoji)}>{emoji}</IconButton>
+      {emojiMenu.map((emoji, i) => (
+        <IconButton key={`${emoji}-${i}}`} onClick={() => handleEmojiClick(emoji)}>{emoji}</IconButton>
       ))}
     </Popover>,
   ]

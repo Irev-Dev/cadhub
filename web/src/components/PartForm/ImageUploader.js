@@ -9,7 +9,7 @@ import 'react-image-crop/dist/ReactCrop.css'
 import Svg from 'src/components/Svg/Svg.js'
 
 const CLOUDINARY_UPLOAD_PRESET = "CadHub_project_images";
-const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/irevdev/upload/?custom_coordinates=10,10,20,20";
+const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/irevdev/upload";
 
 export default function ImageUploader({ onImageUpload, imageUrl }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
