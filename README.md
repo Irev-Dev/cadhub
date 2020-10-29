@@ -38,7 +38,7 @@ You may need to register a account depending on what issue you are trying to tac
 (some routes are protected, but permissions is a big area that needs a lot of work in the near future, so it's in a very incomplete state atm)
 
 ### Note:
-We're using [RedwoodJS](https://redwoodjs.com/), this is perhaps unwise since they haven't reached 1.0 yet, however with their aim to release 1.0 by the end of the year, it shouldn't be too difficult to port changes over the coming months.
+We're using [RedwoodJS](https://redwoodjs.com/), this is perhaps unwise since they haven't reached 1.0 yet. However, with their aim to release 1.0 by the end of the year, it shouldn't be too difficult to port changes over the coming months.
 If you not familiar with Redwood, never fear the main bit of tech it uses is React, Graphql(apollo) and serverless/lamdas, depending on what part of the app you want to help with, so long as you know you way around these bits of tech you should be fine with some light referencing of the RedWood docs
 
 ### Extra Redwood docs, i.e. getting familiar with the frame work.
