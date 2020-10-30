@@ -1,7 +1,11 @@
 # CadHub
 
-CadHub aims to be a community website for javascript based code-cad. Currently trying to integrate [cascadeStudio](https://zalo.github.io/CascadeStudio/), but if successful plan to also integrate [jsCad](https://openjscad.org/).
+CadHub aims to be a community website for javascript based code-cad. Currently trying to integrate [cascadeStudio](https://zalo.github.io/CascadeStudio/), but if successful plan to also integrate [JSCAD](https://openjscad.org/).
 OpenScad has proven code-cad a much loved formate for cad-modeling. Joining code-cad to a mature language like javascript that has a package manager (npm) plus a community hub for sharing cad models like CadHub, we're going to build a thriving community.
+
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Parts%20Page.jpg">
+
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20IDE%20-%20export%20expand%20state.jpg">
 
 ## Getting Started
 
@@ -18,6 +22,11 @@ Install dependencies
 yarn install
 ```
 
+Initialise the db
+``` terminal
+yarn rw db up
+```
+
 ### Fire up dev
 ```terminal
 yarn rw dev
@@ -25,7 +34,7 @@ yarn rw dev
 
 Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`.
 
-You may need to register a account depending on what issue you are trying to tackle, This can be done by clicking the login button on the top right.
+You may need to register a account depending on what issue you are trying to tackle, This can be done by clicking the login button on the top right. This will open up netlify's idenitiy modal asking for the websites url, since it will notice you developing locally. Enter `https://cadhub.xyz/` than use you email, verify your email and you should be set.
 (some routes are protected, but permissions is a big area that needs a lot of work in the near future, so it's in a very incomplete state atm)
 
 ### Note:
@@ -40,3 +49,11 @@ If you not familiar with Redwood, never fear the main bit of tech it uses is Rea
 ## Styles
 
 We're using tailwind utility classes so please try and use them as much as possible. Again if you not familiar, the [tailwind search](https://tailwindcss.com/) is fantastic, so searching for the css property you want to use will lead you to the correct class 99% of the time.
+
+## Designs
+
+In progress, though can be [seen on Figma](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/CadHub?node-id=0%3A1)
+
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20Page(1).jpg">
+
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/User%20Page%20Edit.jpg">
