@@ -1,6 +1,6 @@
 datasource DS {
   provider = ["sqlite", "postgresql"]
-  url      = env("DATABASE_URL")
+  url      = "***"
 }
 
 generator client {
@@ -20,7 +20,7 @@ generator client {
 // }
 
 model User {
-  userName String @id
+  userName String @id @default(uuid())
   email    String @unique
   // role should probably be a list [] and also use enums, neither are supported by sqllight, so we need to set up postgresql in dev
   // maybe let netlify handle roles for now.
