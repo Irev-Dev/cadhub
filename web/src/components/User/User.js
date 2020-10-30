@@ -1,6 +1,6 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes, navigate } from '@redwoodjs/router'
-
+import { Image as CloudinaryImage } from 'cloudinary-react'
 const DELETE_USER_MUTATION = gql`
   mutation DeleteUserMutation($id: Int!) {
     deleteUser(id: $id) {
@@ -72,7 +72,13 @@ const User = ({ user }) => {
             </tr>
             <tr>
               <th>Image</th>
-              <td>{user.image}</td>
+              <td><CloudinaryImage
+                  className="object-cover w-full rounded shadow"
+                  cloudName="irevdev"
+                  publicId={user.image}
+                  width="300"
+                  crop="scale"
+                /></td>
             </tr>
             <tr>
               <th>Bio</th>

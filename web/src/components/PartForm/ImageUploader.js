@@ -117,3 +117,4 @@ function getCroppedImg(image, crop, fileName) {
     }, 'image/jpeg', 1);
   });
 }
+

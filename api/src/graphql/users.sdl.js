@@ -15,14 +15,14 @@ export const schema = gql`
 
   input CreateUserInput {
     email: String!
-    issuer: String!
+    # issuer: String!
     image: String
     bio: String
   }
 
   input UpdateUserInput {
     email: String
-    issuer: String
+    # issuer: String
     image: String
     bio: String
   }
