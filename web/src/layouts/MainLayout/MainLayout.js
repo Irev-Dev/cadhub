@@ -5,6 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import avatar from 'src/assets/harold.jpg'
 import Svg from 'src/components/Svg'
+import logo from 'src/layouts/MainLayout/Logo_2.jpg'
 
 const MainLayout = ({ children }) => {
   const { logIn, logOut, isAuthenticated } = useAuth()
@@ -16,7 +17,9 @@ const MainLayout = ({ children }) => {
             <li>
               <Link to={routes.home()}>
                 <Tooltip title="We need a logo!" >
-                  <div className="h-10 w-10 bg-indigo-500 rounded-full" data-tip="hello world" data-place="bottom"></div>
+
+                <img src={logo} style={{marginLeft : '50px'}}/>            
+
                 </Tooltip>
               </Link>
             </li>
