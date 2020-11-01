@@ -1,11 +1,11 @@
-import CommentsLayout from 'src/layouts/CommentsLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import EditCommentCell from 'src/components/EditCommentCell'
 
 const EditCommentPage = ({ id }) => {
   return (
-    <CommentsLayout>
+    <MainLayout>
       <EditCommentCell id={id} />
-    </CommentsLayout>
+    </MainLayout>
   )
 }
 

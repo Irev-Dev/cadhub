@@ -1,11 +1,11 @@
-import CommentsLayout from 'src/layouts/CommentsLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import CommentsCell from 'src/components/CommentsCell'
 
 const CommentsPage = () => {
   return (
-    <CommentsLayout>
+    <MainLayout>
       <CommentsCell />
-    </CommentsLayout>
+    </MainLayout>
   )
 }
 

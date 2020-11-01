@@ -1,11 +1,11 @@
-import PartReactionsLayout from 'src/layouts/PartReactionsLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import EditPartReactionCell from 'src/components/EditPartReactionCell'
 
 const EditPartReactionPage = ({ id }) => {
   return (
-    <PartReactionsLayout>
+    <MainLayout>
       <EditPartReactionCell id={id} />
-    </PartReactionsLayout>
+    </MainLayout>
   )
 }
 

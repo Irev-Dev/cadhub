@@ -1,11 +1,11 @@
-import PartReactionsLayout from 'src/layouts/PartReactionsLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import NewPartReaction from 'src/components/NewPartReaction'
 
 const NewPartReactionPage = () => {
   return (
-    <PartReactionsLayout>
+    <MainLayout>
       <NewPartReaction />
-    </PartReactionsLayout>
+    </MainLayout>
   )
 }
 

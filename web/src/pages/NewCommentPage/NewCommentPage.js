@@ -1,11 +1,11 @@
-import CommentsLayout from 'src/layouts/CommentsLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import NewComment from 'src/components/NewComment'
 
 const NewCommentPage = () => {
   return (
-    <CommentsLayout>
+    <MainLayout>
       <NewComment />
-    </CommentsLayout>
+    </MainLayout>
   )
 }
 

@@ -1,11 +1,11 @@
-import UsersLayout from 'src/layouts/UsersLayout'
+import MainLayout from 'src/layouts/MainLayout'
 import EditUserCell from 'src/components/EditUserCell'
 
 const EditUserPage = ({ id }) => {
   return (
-    <UsersLayout>
+    <MainLayout>
       <EditUserCell id={id} />
-    </UsersLayout>
+    </MainLayout>
   )
 }
 
