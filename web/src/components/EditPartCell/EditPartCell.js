@@ -1,9 +1,9 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
-// import Part from 'src/components/Part'
+import PartForm from 'src/components/PartForm'
 
 export const QUERY = gql`
-  query FIND_PART_BY_ID($id: Int!) {
+  query FIND_PART_BY_ID($id: String!) {
     part: part(id: $id) {
       id
       title
@@ -11,12 +11,13 @@ export const QUERY = gql`
       code
       mainImage
       createdAt
+      updatedAt
+      userId
     }
   }
 `
-
 const UPDATE_PART_MUTATION = gql`
-  mutation UpdatePartMutation($id: Int!, $input: UpdatePartInput!) {
+  mutation UpdatePartMutation($id: String!, $input: UpdatePartInput!) {
     updatePart(id: $id, input: $input) {
       id
     }
@@ -25,23 +26,27 @@ const UPDATE_PART_MUTATION = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>Part not found</div>
-
 export const Success = ({ part }) => {
   const { addMessage } = useFlash()
   const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: () => {
-      // navigate(routes.part({id: updatePart.id}))
+      navigate(routes.parts())
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
-  console.log({updatePart})
 
-
-  const saveCode = (input, id) => {
-    console.log(id, input, 'wowow')
+  const onSave = (input, id) => {
     updatePart({ variables: { id, input } })
   }
-  return <div>TODO part</div>
-  // return <Part part={{...part, code: part.code}} saveCode={saveCode} loading={loading} error={error} />
+
+  return (
+    <div className="rw-segment">
+      <header className="rw-segment-header">
+        <h2 className="rw-heading rw-heading-secondary">Edit Part {part.id}</h2>
+      </header>
+      <div className="rw-segment-main">
+        <PartForm part={part} onSave={onSave} error={error} loading={loading} />
+      </div>
+    </div>
+  )
 }

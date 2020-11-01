@@ -1,5 +1,5 @@
 import MainLayout from 'src/layouts/MainLayout'
-import BlogPostsCell from 'src/components/BlogPostsCell'
+// import BlogPostsCell from 'src/components/BlogPostsCell'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
 import { useEffect, useState } from 'react'
 
@@ -27,7 +27,7 @@ Translate([-100, 0, 100], Text3D("cadhub.xyz"));
 // Don't forget to push imported or oc-defined shapes into sceneShapes to add them to the workspace!
 `;
 
-const HomePage = () => {
+const HomePage1 = () => {
   const [code, setCode] = useState(starterCode)
   useEffect(() => {
     const sickCallback = (code) => setCode(code)
@@ -69,6 +69,14 @@ const HomePage = () => {
         </div>
         <footer>footer</footer>
       </div>
+    </MainLayout>
+  )
+}
+
+const HomePage = () => {
+  return (
+    <MainLayout>
+      hi
     </MainLayout>
   )
 }

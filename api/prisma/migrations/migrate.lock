@@ -1,11 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20201009213512-create-posts
-20201011043647-create-parts
-20201011052155-add-code-to-part
-20201011082558-add-code-not-needed-upon-create
-20201011095227-create-contact
-20201018233330-add-simple-user-model
-20201019072122-add-simplify-user-model
-20201029214206-rejig-schema
-20201030061957-rejig-schema
+20201101183848-db-init

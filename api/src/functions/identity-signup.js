@@ -1,4 +1,4 @@
-import { createUserInsecure } from 'src/services/users/users.js'
+// import { createUserInsecure } from 'src/services/users/users.js'
 
 export const handler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -66,7 +66,7 @@ export const handler = async (req, _context) => {
       bio: 'default bio'
       // full_name: user.user_metadata.full_name
     }
-    await createUserInsecure({input})
+    // await createUserInsecure({input})
 
     return {
       statusCode: 200,

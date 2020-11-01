@@ -18,7 +18,7 @@ const MainLayout = ({ children }) => {
               <Link to={routes.home()}>
                 <Tooltip title="We need a logo!" >
 
-                <img src={logo} style={{marginLeft : '50px'}}/>            
+                <img src={logo} style={{marginLeft : '50px'}}/>
 
                 </Tooltip>
               </Link>
@@ -35,9 +35,9 @@ const MainLayout = ({ children }) => {
           </ul>
           <ul className="flex items-center">
             <li className="mr-8 h-10 w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center">
-              <Link to={routes.newPart()}>
+              {/* <Link to={routes.newPart()}> */}
                 <Svg name="plus" className="text-indigo-300" />
-              </Link>
+              {/* </Link> */}
             </li>
             {
               isAuthenticated ?
