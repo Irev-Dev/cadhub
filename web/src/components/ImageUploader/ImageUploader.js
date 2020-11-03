@@ -51,15 +51,15 @@ export default function ImageUploader({ onImageUpload, imageUrl, aspectRatio, cl
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
-    <div className={'relative border-dashed overflow-hidden border-indigo-500 '+ (!imageUrl ? 'border ' : '') + className} style={{paddingBottom: `${1/aspectRatio*100}%`}}>
+    <div className={'relative overflow-hidden '+ (!imageUrl && isEditable ? 'border ' : '') + className} style={{paddingBottom: `${1/aspectRatio*100}%`}}>
       <div className="absolute w-full h-full" {...getRootProps()}>
         {cloudinaryId && isEditable && <button className="absolute z-10 w-full inset-0 bg-indigo-900 opacity-50 flex justify-center items-center">
           <Svg name="pencil" strokeWidth={2} className="text-gray-300 h-48 w-48" />
         </button>}
         {isEditable && <input {...getInputProps()} />}
-        {(cloudinaryId || !isEditable) && <div className="relative overflow-hidden">
+        {(cloudinaryId || !isEditable) && <div className="relative overflow-hidden w-full h-full">
           <CloudinaryImage
-            className="object-cover w-full h-full mt-px rounded shadow overflow-hidden"
+            className="object-cover w-full h-full rounded shadow overflow-hidden"
             cloudName="irevdev"
             publicId={cloudinaryId || 'CadHub/eia1kwru54g2kf02s2xx'}
             width="600"

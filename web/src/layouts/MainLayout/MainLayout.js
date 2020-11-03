@@ -16,11 +16,9 @@ const MainLayout = ({ children }) => {
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
-                <Tooltip title="We need a logo!" >
-
-                <img src={logo} style={{marginLeft : '50px'}}/>
-
-                </Tooltip>
+                <div className="rounded-full overflow-hidden ml-12">
+                  <img src={logo}/>
+                </div>
               </Link>
             </li>
             <li>

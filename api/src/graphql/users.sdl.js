@@ -15,6 +15,7 @@ export const schema = gql`
   type Query {
     users: [User!]!
     user(id: String!): User
+    userName(userName: String!): User
   }
 
   input CreateUserInput {

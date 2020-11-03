@@ -10,6 +10,12 @@ export const user = ({ id }) => {
   })
 }
 
+export const userName = ({ userName }) => {
+  return db.user.findOne({
+    where: { userName },
+  })
+}
+
 export const createUser = ({ input }) => {
   return db.user.create({
     data: input,

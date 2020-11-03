@@ -12,6 +12,13 @@ import { Router, Route, Private } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/" page={HomePage} name="home" />
+      {/* <Route path="/blah/*" page={PartsPage} name="home" /> */}
+      <Route notfound page={NotFoundPage} />
+
+      <Route path="/u/{userName}" page={UserPage2} name="user" />
+
+      {/* GENERATED ROUTES BELOW, probably going to clean these up and delete most of them, but the CRUD functionality is useful for now */}
       <Route path="/part-reactions/new" page={NewPartReactionPage} name="newPartReaction" />
       <Route path="/part-reactions/{id}/edit" page={EditPartReactionPage} name="editPartReaction" />
       <Route path="/part-reactions/{id}" page={PartReactionPage} name="partReaction" />
@@ -28,9 +35,6 @@ const Routes = () => {
       <Route path="/users/{id}/edit" page={EditUserPage} name="editUser" />
       <Route path="/users/{id}" page={UserPage} name="user" />
       <Route path="/users" page={UsersPage} name="users" />
-      <Route path="/" page={HomePage} name="home" />
-      {/* <Route path="/blah/*" page={PartsPage} name="home" /> */}
-      <Route notfound page={NotFoundPage} />
     </Router>
   )
 }

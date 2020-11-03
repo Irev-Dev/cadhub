@@ -15,7 +15,7 @@ const Svg = ({name, className: className2, strokeWidth = 2}) => {
     </svg>
   }
 
-  return <div className={"h-10 w-10 " + className2}>
+  return <div className={className2 || "h-10 w-10"}>
     {svgs[name]}
   </div>
 }
