@@ -15,5 +15,8 @@
     "./web/src/pages",
     "./web/src/index.js",
     "./web/src/Routes.js",
+  ],
+  "cSpell.words": [
+    "Uploader"
   ]
 }
