@@ -36,7 +36,7 @@
 
 body {
   /* TODO can I use a tailwind class here? */
-  background-color: #E5E5E5;
+  background-color: #f7fafc;
 }
 
 button, input, label, textarea {

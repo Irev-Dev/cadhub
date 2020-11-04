@@ -1,6 +1,6 @@
 import Svg from 'src/components/Svg'
 
-const Button = ({onClick, children}) => {
+const Button = ({onClick, iconName, children}) => {
   return (
     <div>
       <button
@@ -8,7 +8,7 @@ const Button = ({onClick, children}) => {
         onClick={onClick}
       >
         {children}
-        <Svg className="w-6 ml-4" name="pencil" />
+        <Svg className="w-6 ml-4" name={iconName} />
       </button>
     </div>
   )

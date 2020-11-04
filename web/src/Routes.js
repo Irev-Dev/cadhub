@@ -16,7 +16,8 @@ const Routes = () => {
       {/* <Route path="/blah/*" page={PartsPage} name="home" /> */}
       <Route notfound page={NotFoundPage} />
 
-      <Route path="/u/{userName}" page={UserPage2} name="user" />
+      <Route path="/u/{userName}" page={User2Page} name="user2" />
+      <Route path="/u/{userName}/edit" page={EditUser2Page} name="editUser2" />
 
       {/* GENERATED ROUTES BELOW, probably going to clean these up and delete most of them, but the CRUD functionality is useful for now */}
       <Route path="/part-reactions/new" page={NewPartReactionPage} name="newPartReaction" />

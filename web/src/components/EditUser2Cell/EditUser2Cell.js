@@ -16,8 +16,10 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>User not found</div>
+export const Empty = () => <div>Empty</div>
 
-export const Success = ({user}) => {
-  return <UserProfile user={user} />
+export const Failure = ({ error }) => <div>Error: {error.message}</div>
+
+export const Success = ({ user }) => {
+  return <UserProfile user={user} isEditable />
 }

@@ -68,9 +68,9 @@ export default function ImageUploader({ onImageUpload, imageUrl, aspectRatio, cl
         </div>}
         {!cloudinaryId && <button className="absolute inset-0"></button>}
         {!cloudinaryId && isEditable && <div className="text-indigo-500 flex items-center justify-center rounded-lg w-full h-full">
-          <div>
+          <div className="px-6 text-center">
             Drop files here ...
-            or <span className="group flex w-full items-center justify-center py-4">
+            or <span className="group flex w-full items-center justify-center py-2">
               <span className="bg-indigo-500 shadow rounded text-gray-200 cursor-pointer p-2 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-150">upload</span>
             </span>
           </div>
