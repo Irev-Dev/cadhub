@@ -20,6 +20,7 @@
     "@redwoodjs/web": "^0.19.2",
     "cloudinary-react": "^1.6.7",
     "controlkit": "^0.1.9",
+    "get-active-classes": "^0.0.11",
     "golden-layout": "^1.5.9",
     "jquery": "^3.5.1",
     "monaco-editor": "^0.20.0",

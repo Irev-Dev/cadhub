@@ -10,12 +10,12 @@ import ProfileTextInput from 'src/components/ProfileTextInput'
 const UserProfile = ({user, isEditable, loading, onSave, error}) => {
   const [input, setInput] = useState({
     userName: user.userName,
-    email: user.email,
+    name: user.name,
     bio: user.bio,
     image: user.image,
   })
-  const {userName, email} = input
-  const editableTextFields = {userName, email} // TODO add name field to user
+  const {userName, name} = input
+  const editableTextFields = {userName, name}
   return (
     <>
       <div className="max-w-2xl mx-auto mt-20 ">

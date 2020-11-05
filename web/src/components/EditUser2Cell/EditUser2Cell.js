@@ -7,7 +7,7 @@ export const QUERY = gql`
     user: userName(userName: $userName) {
       id
       userName
-      email
+      name
       createdAt
       updatedAt
       image
