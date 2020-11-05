@@ -23,7 +23,6 @@ export default function ImageUploader({ onImageUpload, imageUrl, aspectRatio, cl
   });
   async function handleImageUpload() {
     const croppedFile = await getCroppedImg(imageObj, crop, 'avatar')
-    console.log(croppedFile)
     const imageData = new FormData();
     imageData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
     imageData.append('file', croppedFile);
@@ -54,7 +53,7 @@ export default function ImageUploader({ onImageUpload, imageUrl, aspectRatio, cl
     <div className={'relative overflow-hidden '+ (!imageUrl && isEditable ? 'border ' : '') + className} style={{paddingBottom: `${1/aspectRatio*100}%`}}>
       <div className="absolute w-full h-full" {...getRootProps()}>
         {cloudinaryId && isEditable && <button className="absolute z-10 w-full inset-0 bg-indigo-900 opacity-50 flex justify-center items-center">
-          <Svg name="pencil" strokeWidth={2} className="text-gray-300 h-48 w-48" />
+          <Svg name="pencil" strokeWidth={2} className="text-gray-300 h-24 w-24" />
         </button>}
         {isEditable && <input {...getInputProps()} />}
         {(cloudinaryId || !isEditable) && <div className="relative overflow-hidden w-full h-full">

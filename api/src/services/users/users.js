@@ -29,6 +29,13 @@ export const updateUser = ({ id, input }) => {
   })
 }
 
+export const updateUserByUserName = ({ userName, input }) => {
+  return db.user.update({
+    data: input,
+    where: { userName },
+  })
+}
+
 export const deleteUser = ({ id }) => {
   return db.user.delete({
     where: { id },

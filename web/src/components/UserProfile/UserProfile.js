@@ -1,14 +1,21 @@
-import {Fragment} from 'react'
+import {useState, useEffect} from 'react'
+import { navigate, routes } from '@redwoodjs/router'
+import Editor from "rich-markdown-editor";
+
 import ImageUploader from 'src/components/ImageUploader'
 import Button from 'src/components/Button'
-import Editor from "rich-markdown-editor";
 import ProfileTextInput from 'src/components/ProfileTextInput'
 
 
-const UserProfile = ({user, isEditable}) => {
-  console.log(isEditable)
-  const {userName, email} = user
-  const editableTextFields = {userName, name: email} // TODO add name field to user
+const UserProfile = ({user, isEditable, loading, onSave, error}) => {
+  const [input, setInput] = useState({
+    userName: user.userName,
+    email: user.email,
+    bio: user.bio,
+    image: user.image,
+  })
+  const {userName, email} = input
+  const editableTextFields = {userName, email} // TODO add name field to user
   return (
     <>
       <div className="max-w-2xl mx-auto mt-20 ">
@@ -16,16 +23,23 @@ const UserProfile = ({user, isEditable}) => {
           <div className="w-40 flex-shrink-0">
             <ImageUploader
               className="rounded-half rounded-br-lg shadow-md border-2 border-gray-200 border-solid"
+              onImageUpload={({cloudinaryPublicId: image}) => setInput({
+                ...input,
+                image,
+              })}
               aspectRatio={1}
               isEditable={isEditable}
               imageUrl={user.image === 'abc' ? '': user.image}
             />
           </div>
           <div className="ml-6 flex flex-col justify-between">
-            <ProfileTextInput fields={editableTextFields} isEditable={isEditable}/>
+            <ProfileTextInput fields={editableTextFields} onChange={(textFields) => setInput({
+              ...input,
+              ...textFields,
+            })} isEditable={isEditable}/>
             {isEditable ?
-              <Button iconName="plus">Save Profile</Button> : // TODO replace pencil with a save icon
-              <Button iconName="pencil">Edit Profile</Button>
+              <Button iconName="plus" onClick={() => onSave(user.userName, input)}>Save Profile</Button> : // TODO replace pencil with a save icon
+              <Button iconName="pencil" onClick={() => navigate(routes.editUser2({userName: user.userName}))}>Edit Profile</Button>
             }
           </div>
         </div>
@@ -35,6 +49,10 @@ const UserProfile = ({user, isEditable}) => {
             <Editor
               defaultValue={user.bio}
               readOnly={!isEditable}
+              onChange={(bioFn) => setInput({
+                ...input,
+                bio: bioFn(),
+              })}
             />
           </div>
         </div>
