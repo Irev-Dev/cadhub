@@ -1,4 +1,5 @@
-// import { createUserInsecure } from 'src/services/users/users.js'
+import { createUserInsecure } from 'src/services/users/users.js'
+import { db } from 'src/lib/db'
 
 export const handler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -61,12 +62,27 @@ export const handler = async (req, _context) => {
     //   image: '',
     //   bio: ''
     // }
+
+    const generateUniqueUserName = async (seed, count = 0) => {
+      const isUnique = !(await db.user.findOne({
+        where: { userName: seed },
+      }))
+      if(isUnique) {
+        return seed
+      }
+      count += 1
+      const newSeed = count === 1 ? `${seed}_${count}` : seed.slice(0,-1) + count
+      return generateUniqueUserName(newSeed, count)
+    }
+    const userNameSeed = email.split('@')[0]
+    const userName = await generateUniqueUserName(userNameSeed) // TODO maybe come up with a better default userName?
     const input = {
       email,
-      bio: 'default bio'
-      // full_name: user.user_metadata.full_name
+      userName,
+      name: user.user_metadata && user.user_metadata.full_name,
+      id: user.id,
     }
-    // await createUserInsecure({input})
+    await createUserInsecure({input})
 
     return {
       statusCode: 200,

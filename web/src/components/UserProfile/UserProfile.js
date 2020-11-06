@@ -47,7 +47,7 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
           <h3 className="text-3xl text-gray-500 font-ropa-sans">Bio:</h3>
           <div name="description" className="markdown-overrides rounded-lg shadow-md bg-white p-12 my-6 min-h-md">
             <Editor
-              defaultValue={user.bio}
+              defaultValue={user.bio || ''}
               readOnly={!isEditable}
               onChange={(bioFn) => setInput({
                 ...input,
