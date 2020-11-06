@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
 import Editor from "rich-markdown-editor";
 
@@ -8,6 +9,12 @@ import ProfileTextInput from 'src/components/ProfileTextInput'
 
 
 const UserProfile = ({user, isEditable, loading, onSave, error}) => {
+  const { currentUser } = useAuth()
+  const canEdit = currentUser?.sub === user.id
+  useEffect(() => {isEditable &&
+    !canEdit &&
+    navigate(routes.user2({userName: user.userName}))},
+  [currentUser])
   const [input, setInput] = useState({
     userName: user.userName,
     name: user.name,
@@ -39,7 +46,9 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
             })} isEditable={isEditable}/>
             {isEditable ?
               <Button iconName="plus" onClick={() => onSave(user.userName, input)}>Save Profile</Button> : // TODO replace pencil with a save icon
-              <Button iconName="pencil" onClick={() => navigate(routes.editUser2({userName: user.userName}))}>Edit Profile</Button>
+              canEdit ?
+              <Button iconName="pencil" onClick={() => navigate(routes.editUser2({userName: user.userName}))}>Edit Profile</Button>:
+              null
             }
           </div>
         </div>

@@ -8,14 +8,12 @@ export const users = () => {
 }
 
 export const user = ({ id }) => {
-  requireAuth()
   return db.user.findOne({
     where: { id },
   })
 }
 
 export const userName = ({ userName }) => {
-  requireAuth()
   return db.user.findOne({
     where: { userName },
   })
