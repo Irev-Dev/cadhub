@@ -1,22 +1,36 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Editor from "rich-markdown-editor";
+import { navigate, routes } from '@redwoodjs/router'
 
 import ImageUploader from 'src/components/ImageUploader'
 import Breadcrumb from 'src/components/Breadcrumb'
 import EmojiReaction from 'src/components/EmojiReaction'
 import Button from 'src/components/Button'
 
-const PartProfile = ({userPart, isEditable}) => {
+const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
   const part = userPart?.Part
   const [input, setInput] = useState({
     title: part.title,
     mainImage: part.mainImage,
     description: part.description,
   })
-  const hi = () => {}
+  const setProperty = (property, value) => setInput({
+    ...input,
+    [property]: value,
+  })
+  const onTitleChange = ({target}) => setProperty('title', target.value)
+  const onDescriptionChange = (description) => setProperty('description', description())
+  const onImageUpload = ({cloudinaryPublicId}) => setProperty('mainImage', cloudinaryPublicId)
+  const onEditSaveClick = () => {
+    if (isEditable) {
+      onSave(part.id, input)
+      return
+    }
+    navigate(routes.editPart2({userName: userPart.userName, partTitle: part.title}))
+  }
   return (
     <>
-      <div className="grid mt-20 gap-8" style={{gridTemplateColumns: 'auto 12rem minmax(12rem, 42rem) 10rem auto'}}>
+      <div className="grid mt-20 gap-8" style={{gridTemplateColumns: 'auto 12rem minmax(12rem, 42rem) auto'}}>
 
         {/* Side column */}
         <aside className="col-start-2 relative">
@@ -55,7 +69,7 @@ const PartProfile = ({userPart, isEditable}) => {
             className="mt-4 ml-auto shadow-md hover:shadow-lg bg-indigo-200 relative z-20"
             shouldAnimateHover
             iconName={isEditable ? 'save' : 'pencil'}
-            onClick={() => {}}
+            onClick={onEditSaveClick}
           >
             {isEditable ? 'Save Details' : 'Edit Details'}
           </Button>}
@@ -64,10 +78,10 @@ const PartProfile = ({userPart, isEditable}) => {
 
         {/* main project center column */}
         <section className="col-start-3">
-          <Breadcrumb className="inline" onPartTitleChange={isEditable && hi} userName={userPart.userName} partTitle={input?.title}/>
+          <Breadcrumb className="inline" onPartTitleChange={isEditable && onTitleChange} userName={userPart.userName} partTitle={input?.title}/>
           { input?.mainImage && <ImageUploader
             className="rounded-lg shadow-md border-2 border-gray-200 border-solid mt-8"
-            onImageUpload={() => {}}
+            onImageUpload={onImageUpload}
             aspectRatio={16/9}
             isEditable={isEditable}
             imageUrl={input?.mainImage}
@@ -76,10 +90,7 @@ const PartProfile = ({userPart, isEditable}) => {
             <Editor
               defaultValue={part?.description || ''}
               readOnly={!isEditable}
-              // onChange={(bioFn) => setInput({
-              //   ...input,
-              //   bio: bioFn(),
-              // })}
+              onChange={onDescriptionChange}
             />
           </div>
         </section>
