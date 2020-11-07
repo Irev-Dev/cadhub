@@ -37,6 +37,7 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
               aspectRatio={1}
               isEditable={isEditable}
               imageUrl={user.image === 'abc' ? '': user.image}
+              width={300}
             />
           </div>
           <div className="ml-6 flex flex-col justify-between">

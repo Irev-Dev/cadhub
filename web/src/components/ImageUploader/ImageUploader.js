@@ -11,7 +11,14 @@ import Svg from 'src/components/Svg/Svg.js'
 const CLOUDINARY_UPLOAD_PRESET = "CadHub_project_images";
 const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/irevdev/upload";
 
-export default function ImageUploader({ onImageUpload, imageUrl, aspectRatio, className, isEditable }) {
+export default function ImageUploader({
+    onImageUpload,
+    imageUrl,
+    aspectRatio,
+    className,
+    isEditable,
+    width=600
+  }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [file, setFile] = useState()
   const [cloudinaryId, setCloudinaryId] = useState(imageUrl)
@@ -61,7 +68,7 @@ export default function ImageUploader({ onImageUpload, imageUrl, aspectRatio, cl
             className="object-cover w-full h-full rounded shadow overflow-hidden"
             cloudName="irevdev"
             publicId={cloudinaryId || 'CadHub/eia1kwru54g2kf02s2xx'}
-            width="600"
+            width={width}
             crop="scale"
           />
         </div>}

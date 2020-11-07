@@ -46,6 +46,7 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
             onImageUpload={() => {}}
             aspectRatio={1}
             imageUrl={userPart.image === 'abc' ? '': userPart.image}
+            width={300}
           />
           <h4 className="text-indigo-800 text-xl underline text-right py-4">{userPart?.name}</h4>
           <div className="h-px bg-indigo-200 mb-4" />
@@ -92,6 +93,7 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
             aspectRatio={16/9}
             isEditable={isEditable}
             imageUrl={input?.mainImage}
+            width={1010}
           />}
           <div name="description" className="markdown-overrides rounded-lg shadow-md bg-white p-12 my-8 min-h-md">
             <Editor
