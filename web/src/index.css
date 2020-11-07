@@ -18,14 +18,24 @@
 .markdown-overrides h4 {
   @apply text-lg font-bold;
 }
-.markdown-overrides h3 {
-  @apply text-xl;
+.markdown-overrides {
+  @apply bg-gray-200 border border-gray-300;
 }
-.markdown-overrides h2 {
-  @apply text-2xl;
+.markdown-overrides div {
+  @apply bg-gray-200 text-indigo-800;
 }
-.markdown-overrides h1 {
-  @apply text-3xl;
+.markdown-overrides div a {
+  @apply bg-gray-200 text-indigo-500;
+}
+
+.markdown-overrides div h3 {
+  @apply text-xl text-indigo-800;
+}
+.markdown-overrides div h2 {
+  @apply text-2xl text-indigo-800;
+}
+.markdown-overrides div h1 {
+  @apply text-3xl text-indigo-800;
 }
 .markdown-overrides ol {
   @apply list-decimal;
