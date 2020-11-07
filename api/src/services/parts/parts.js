@@ -1,5 +1,7 @@
 import { db } from 'src/lib/db'
 import { foreignKeyReplacement } from 'src/services/helpers'
+import { requireAuth } from 'src/lib/auth'
+import { requireOwnership } from 'src/lib/owner'
 import { user } from 'src/services/users/users'
 
 export const parts = () => {
@@ -28,12 +30,15 @@ export const partByUserAndTitle = async ({ userName, partTitle }) => {
 }
 
 export const createPart = async ({ input }) => {
+  requireAuth()
   return db.part.create({
     data: foreignKeyReplacement(input),
   })
 }
 
-export const updatePart = ({ id, input }) => {
+export const updatePart = async ({ id, input }) => {
+  requireAuth()
+  await requireOwnership({partId: id})
   return db.part.update({
     data: foreignKeyReplacement(input),
     where: { id },
@@ -41,6 +46,7 @@ export const updatePart = ({ id, input }) => {
 }
 
 export const deletePart = ({ id }) => {
+  requireAuth()
   return db.part.delete({
     where: { id },
   })

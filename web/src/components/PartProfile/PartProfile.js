@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
-import Editor from "rich-markdown-editor";
+import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
+import Editor from "rich-markdown-editor";
 
 import ImageUploader from 'src/components/ImageUploader'
 import Breadcrumb from 'src/components/Breadcrumb'
@@ -8,7 +9,13 @@ import EmojiReaction from 'src/components/EmojiReaction'
 import Button from 'src/components/Button'
 
 const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
+  const { currentUser } = useAuth()
+  const canEdit = currentUser?.sub === userPart.id
   const part = userPart?.Part
+  useEffect(() => {isEditable &&
+    !canEdit &&
+    navigate(routes.part2({userName: userPart.userName, partTitle: part.title}))},
+  [currentUser])
   const [input, setInput] = useState({
     title: part.title,
     mainImage: part.mainImage,
@@ -65,7 +72,7 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
           >
             Open IDE
           </Button>
-          {true && <Button
+          {canEdit && <Button
             className="mt-4 ml-auto shadow-md hover:shadow-lg bg-indigo-200 relative z-20"
             shouldAnimateHover
             iconName={isEditable ? 'save' : 'pencil'}
