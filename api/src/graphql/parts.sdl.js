@@ -16,6 +16,7 @@ export const schema = gql`
   type Query {
     parts: [Part!]!
     part(id: String!): Part
+    partByUserAndTitle(userName: String! partTitle: String!): Part
   }
 
   input CreatePartInput {

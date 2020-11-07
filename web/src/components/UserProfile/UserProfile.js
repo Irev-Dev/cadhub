@@ -45,9 +45,9 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
               ...textFields,
             })} isEditable={isEditable}/>
             {isEditable ?
-              <Button iconName="plus" onClick={() => onSave(user.userName, input)}>Save Profile</Button> : // TODO replace pencil with a save icon
+              <Button className="bg-indigo-200" iconName="plus" onClick={() => onSave(user.userName, input)}>Save Profile</Button> : // TODO replace pencil with a save icon
               canEdit ?
-              <Button iconName="pencil" onClick={() => navigate(routes.editUser2({userName: user.userName}))}>Edit Profile</Button>:
+              <Button className="bg-indigo-200" iconName="pencil" onClick={() => navigate(routes.editUser2({userName: user.userName}))}>Edit Profile</Button>:
               null
             }
           </div>

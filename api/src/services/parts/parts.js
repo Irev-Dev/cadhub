@@ -11,6 +11,21 @@ export const part = ({ id }) => {
     where: { id },
   })
 }
+export const partByUserAndTitle = async ({ userName, partTitle }) => {
+  const user = await db.user.findOne({
+    where: {
+      userName
+    }
+  })
+  return db.part.findOne({
+    where: {
+      title_userId: {
+        title: partTitle,
+        userId: user.id,
+      }
+    },
+  })
+}
 
 export const createPart = async ({ input }) => {
   return db.part.create({

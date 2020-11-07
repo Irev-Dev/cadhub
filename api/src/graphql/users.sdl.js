@@ -8,7 +8,8 @@ export const schema = gql`
     updatedAt: DateTime!
     image: String
     bio: String
-    Part: [Part]!
+    Parts: [Part]!
+    Part(partTitle: String!): Part
     Reaction: [PartReaction]!
     Comment: [Comment]!
   }
