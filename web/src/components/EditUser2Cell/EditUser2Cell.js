@@ -1,5 +1,6 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
+
 import UserProfile from 'src/components/UserProfile'
 
 export const QUERY = gql`
