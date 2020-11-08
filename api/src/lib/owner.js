@@ -1,4 +1,4 @@
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 
 export const requireOwnership = async ({ userId, userName, partId } = {}) => {
