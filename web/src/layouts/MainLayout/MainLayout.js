@@ -2,13 +2,26 @@ import { Link, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Flash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip';
+import { useQuery } from '@redwoodjs/web'
+import {getActiveClasses} from 'get-active-classes'
+
+export const QUERY = gql`
+  query FIND_USER_BY_ID($id: String!) {
+    user: user(id: $id) {
+      id
+      image
+    }
+  }
+`
 
 import avatar from 'src/assets/harold.jpg'
 import Svg from 'src/components/Svg'
+import ImageUploader from 'src/components/ImageUploader'
 import logo from 'src/layouts/MainLayout/Logo_2.jpg'
 
 const MainLayout = ({ children }) => {
-  const { logIn, logOut, isAuthenticated } = useAuth()
+  const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
+  const {data, loading} = useQuery(QUERY, {variables: {id: currentUser?.sub}})
   return (
     <>
       <header>
@@ -16,11 +29,9 @@ const MainLayout = ({ children }) => {
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
-                <Tooltip title="We need a logo!" >
-
-                <img src={logo} style={{marginLeft : '50px'}}/>            
-
-                </Tooltip>
+                <div className="rounded-full overflow-hidden ml-12">
+                  <img src={logo}/>
+                </div>
               </Link>
             </li>
             <li>
@@ -34,16 +45,22 @@ const MainLayout = ({ children }) => {
             </li>
           </ul>
           <ul className="flex items-center">
-            <li className="mr-8 h-10 w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center">
-              <Link to={routes.newPart()}>
-                <Svg name="plus" className="text-indigo-300" />
-              </Link>
+            <li className={getActiveClasses("mr-8 h-10 w-10 rounded-full border-2 border-gray-700 flex items-center justify-center", {'border-indigo-300': currentUser})}>
+              <button className="h-full w-full" onClick={() => currentUser && routes.newPart2({userName: data?.user?.userName})}>
+                <Svg name="plus" className={getActiveClasses("text-gray-700 w-full h-full",{'text-indigo-300': currentUser})} />
+              </button>
             </li>
             {
               isAuthenticated ?
               <li className="h-10 w-10 border-2 rounded-full border-indigo-300 text-indigo-200">
                 <a href="#" onClick={logOut}>
-                  <img src={avatar} className="rounded-full object-cover" />
+                  {!loading && <ImageUploader
+                    className="rounded-full object-cover"
+                    onImageUpload={() => {}}
+                    aspectRatio={1}
+                    imageUrl={data?.user?.image}
+                    width={80}
+                  />}
                 </a>
               </li>:
               <li>

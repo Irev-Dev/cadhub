@@ -6,6 +6,7 @@ export const QUERY = gql`
   query USERS {
     users {
       id
+      userName
       email
       createdAt
       updatedAt

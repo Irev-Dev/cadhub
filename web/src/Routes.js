@@ -12,31 +12,39 @@ import { Router, Route, Private } from '@redwoodjs/router'
 const Routes = () => {
   return (
     <Router>
-      {/* TODO add add min role to users and users/new  */}
-      <Private unauthenticated="home" role="admin">
-        <Route path="/users" page={UsersPage} name="users" />
-        <Route path="/users/new" page={NewUserPage} name="newUser" />
-      </Private>
-      <Private unauthenticated="home">
-        <Route path="/users/{id:Int}/edit" page={EditUserPage} name="editUser" />
-      </Private>
-      <Route path="/users/{id:Int}" page={UserPage} name="user" />
-      <Route path="/contact" page={ContactPage} name="contact" />
-      <Route path="/parts/new" page={NewPartPage} name="newPart" />
-      <Route path="/parts/{id:Int}/edit" page={EditPartPage} name="editPart" />
-      <Route path="/parts/{id:Int}/ide" page={IdePartPage} name="partIde" />
-      <Route path="/parts/{id:Int}" page={PartPage} name="part" />
-      <Route path="/parts" page={PartsPage} name="parts" />
-      <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />
-      <Private unauthenticated="home">
-        <Route path="/admin/posts/new" page={NewPostPage} name="newPost" />
-        <Route path="/admin/posts/{id:Int}/edit" page={EditPostPage} name="editPost" />
-        <Route path="/admin/posts/{id:Int}" page={PostPage} name="post" />
-        <Route path="/admin/posts" page={PostsPage} name="posts" />
-      </Private>
-      <Route path="/about" page={AboutPage} name="about" />
       <Route path="/" page={PartsPage} name="home" />
+      {/* <Route path="/blah/*" page={PartsPage} name="home" /> */}
       <Route notfound page={NotFoundPage} />
+
+      {/* Ownership enforced routes */}
+      <Route path="/u/{userName}/new" page={NewPart2Page} name="newPart2" />
+      <Route path="/u/{userName}/edit" page={EditUser2Page} name="editUser2" />
+      <Route path="/u/{userName}/{partTitle}/edit" page={EditPart2Page} name="editPart2" />
+      {/* End ownership enforced routes */}
+
+      <Route path="/u/{userName}" page={User2Page} name="user2" />
+      <Route path="/u/{userName}/{partTitle}" page={Part2Page} name="part2" />
+      {/* <Route path="/u/{userName}/{partTitle}/ide" page={Part2Page} name="part2" /> */}
+
+      {/* GENERATED ROUTES BELOW, probably going to clean these up and delete most of them, but the CRUD functionality is useful for now */}
+      {/* All private by default for safety and because the routes that are left after clean up will probably be admin pages */}
+      <Private unauthenticated="home" role="admin">
+        <Route path="/part-reactions/new" page={NewPartReactionPage} name="newPartReaction" />
+        <Route path="/part-reactions/{id}/edit" page={EditPartReactionPage} name="editPartReaction" />
+        <Route path="/part-reactions/{id}" page={PartReactionPage} name="partReaction" />
+        <Route path="/part-reactions" page={PartReactionsPage} name="partReactions" />
+        <Route path="/parts/new" page={NewPartPage} name="newPart" />
+        <Route path="/parts/{id}/edit" page={EditPartPage} name="editPart" />
+        <Route path="/parts/{id}" page={PartPage} name="part" />
+        <Route path="/comments/new" page={NewCommentPage} name="newComment" />
+        <Route path="/comments/{id}/edit" page={EditCommentPage} name="editComment" />
+        <Route path="/comments/{id}" page={CommentPage} name="comment" />
+        <Route path="/comments" page={CommentsPage} name="comments" />
+        <Route path="/users/new" page={NewUserPage} name="newUser" />
+        <Route path="/users/{id}/edit" page={EditUserPage} name="editUser" />
+        <Route path="/users/{id}" page={UserPage} name="user" />
+        <Route path="/users" page={UsersPage} name="users" />
+      </Private>
     </Router>
   )
 }

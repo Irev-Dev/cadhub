@@ -1,4 +1,8 @@
 import { db } from 'src/lib/db'
+import { foreignKeyReplacement } from 'src/services/helpers'
+import { requireAuth } from 'src/lib/auth'
+import { requireOwnership } from 'src/lib/owner'
+import { user } from 'src/services/users/users'
 
 export const parts = () => {
   return db.part.findMany()
@@ -9,22 +13,52 @@ export const part = ({ id }) => {
     where: { id },
   })
 }
-
-export const createPart = ({ input }) => {
-  return db.part.create({
-    data: input,
+export const partByUserAndTitle = async ({ userName, partTitle }) => {
+  const user = await db.user.findOne({
+    where: {
+      userName
+    }
+  })
+  return db.part.findOne({
+    where: {
+      title_userId: {
+        title: partTitle,
+        userId: user.id,
+      }
+    },
   })
 }
 
-export const updatePart = ({ id, input }) => {
+export const createPart = async ({ input }) => {
+  requireAuth()
+  return db.part.create({
+    data: foreignKeyReplacement(input),
+  })
+}
+
+export const updatePart = async ({ id, input }) => {
+  requireAuth()
+  await requireOwnership({partId: id})
+  if(input.title) {
+    input.title = input.title.replace(/([^a-zA-Z\d_:])/g, '-')
+  }
   return db.part.update({
-    data: input,
+    data: foreignKeyReplacement(input),
     where: { id },
   })
 }
 
 export const deletePart = ({ id }) => {
+  requireAuth()
   return db.part.delete({
     where: { id },
   })
+}
+
+export const Part = {
+  user: (_obj, { root }) => db.part.findOne({ where: { id: root.id } }).user(),
+  Comment: (_obj, { root }) =>
+    db.part.findOne({ where: { id: root.id } }).Comment(),
+  Reaction: (_obj, { root }) =>
+    db.part.findOne({ where: { id: root.id } }).Reaction({where: {userId: _obj.userId}}),
 }

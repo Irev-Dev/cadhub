@@ -1,23 +1,30 @@
 export const schema = gql`
   type Part {
-    id: Int!
+    id: String!
     title: String!
-    description: String!
-    code: String!
-    mainImage: String!
+    description: String
+    code: String
+    mainImage: String
     createdAt: DateTime!
+    updatedAt: DateTime!
+    user: User!
+    userId: String!
+    Comment: [Comment]!
+    Reaction(userId: String): [PartReaction]!
   }
 
   type Query {
     parts: [Part!]!
-    part(id: Int!): Part
+    part(id: String!): Part
+    partByUserAndTitle(userName: String! partTitle: String!): Part
   }
 
   input CreatePartInput {
     title: String!
-    description: String!
+    description: String
     code: String
     mainImage: String
+    userId: String!
   }
 
   input UpdatePartInput {
@@ -25,11 +32,12 @@ export const schema = gql`
     description: String
     code: String
     mainImage: String
+    userId: String
   }
 
   type Mutation {
     createPart(input: CreatePartInput!): Part!
-    updatePart(id: Int!, input: UpdatePartInput!): Part!
-    deletePart(id: Int!): Part!
+    updatePart(id: String!, input: UpdatePartInput!): Part!
+    deletePart(id: String!): Part!
   }
 `

@@ -8313,6 +8313,11 @@ gensync@^1.0.0-beta.1:
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.1.tgz#58f4361ff987e5ff6e1e7a210827aa371eaac269"
   integrity sha512-r8EC6NO1sngH/zdD9fiRDLdcgnbayXah+mLgManTaIZJqEC1MZstmnox8KpnI2/fxQwrp5OpCOYWLp4rBl4Jcg==
 
+get-active-classes@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/get-active-classes/-/get-active-classes-0.0.11.tgz#1ed78f7470141f9ea6e2c113728b990710316c1e"
+  integrity sha512-lLPN0fi3ospZ4pKQTVQ+/0K3HmxrSs09yuE9BrahjLUQvA0zYHHH4eBhwR1bhguy3+wNwzg85yWUz8oKQLCnYg==
+
 get-caller-file@^2.0.1, get-caller-file@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.5.tgz#4f94412a82db32f36e3b0b9741f8a97feb031f7e"

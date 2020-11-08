@@ -7,10 +7,16 @@ export const QUERY = gql`
     parts {
       id
       title
-      description
-      code
       mainImage
       createdAt
+      updatedAt
+      user {
+        image
+        userName
+      }
+      Reaction {
+        emote
+      }
     }
   }
 `

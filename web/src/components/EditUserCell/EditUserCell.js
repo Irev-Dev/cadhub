@@ -3,9 +3,10 @@ import { navigate, routes } from '@redwoodjs/router'
 import UserForm from 'src/components/UserForm'
 
 export const QUERY = gql`
-  query FIND_USER_BY_ID($id: Int!) {
+  query FIND_USER_BY_ID($id: String!) {
     user: user(id: $id) {
       id
+      userName
       email
       createdAt
       updatedAt
@@ -15,7 +16,7 @@ export const QUERY = gql`
   }
 `
 const UPDATE_USER_MUTATION = gql`
-  mutation UpdateUserMutation($id: Int!, $input: UpdateUserInput!) {
+  mutation UpdateUserMutation($id: String!, $input: UpdateUserInput!) {
     updateUser(id: $id, input: $input) {
       id
     }

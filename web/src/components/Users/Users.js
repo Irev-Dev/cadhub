@@ -2,7 +2,7 @@ import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
 
 const DELETE_USER_MUTATION = gql`
-  mutation DeleteUserMutation($id: Int!) {
+  mutation DeleteUserMutation($id: String!) {
     deleteUser(id: $id) {
       id
     }
@@ -55,6 +55,7 @@ const UsersList = ({ users }) => {
         <thead>
           <tr>
             <th>Id</th>
+            <th>User name</th>
             <th>Email</th>
             <th>Created at</th>
             <th>Updated at</th>
@@ -67,6 +68,7 @@ const UsersList = ({ users }) => {
           {users.map((user) => (
             <tr key={user.id}>
               <td>{truncate(user.id)}</td>
+              <td>{truncate(user.userName)}</td>
               <td>{truncate(user.email)}</td>
               <td>{timeTag(user.createdAt)}</td>
               <td>{timeTag(user.updatedAt)}</td>

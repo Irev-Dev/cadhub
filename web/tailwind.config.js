@@ -22,6 +22,9 @@ module.exports = {
       },
       skew: {
         '-20': "-20deg"
+      },
+      borderRadius: {
+        half: '50%',
       }
     }
   },

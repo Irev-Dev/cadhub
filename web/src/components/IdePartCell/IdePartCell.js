@@ -1,6 +1,6 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
-import Part from 'src/components/Part'
+// import Part from 'src/components/Part'
 
 export const QUERY = gql`
   query FIND_PART_BY_ID($id: Int!) {
@@ -42,5 +42,6 @@ export const Success = ({ part }) => {
     console.log(id, input, 'wowow')
     updatePart({ variables: { id, input } })
   }
-  return <Part part={{...part, code: part.code}} saveCode={saveCode} loading={loading} error={error} />
+  return <div>TODO part</div>
+  // return <Part part={{...part, code: part.code}} saveCode={saveCode} loading={loading} error={error} />
 }

@@ -1,0 +1,79 @@
+datasource DS {
+  provider = ["sqlite", "postgresql"]
+  url = "***"
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+// sqlLight does not suport enums so we can't use enums until we set up postgresql in dev mode
+// enum Role {
+//   USER
+//   ADMIN
+// }
+
+// enum PartType {
+//   CASCADESTUDIO
+//   JSCAD
+// }
+
+model User {
+  id       String @id @default(uuid())
+  userName String @unique // reffered to as userId in @relations
+  email    String @unique
+  // role should probably be a list [] and also use enums, neither are supported by sqllight, so we need to set up postgresql in dev
+  // maybe let netlify handle roles for now.
+  // role     String @default("user")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  image    String? // url maybe id or file storage service? cloudinary?
+  bio      String? //mark down
+  Part     Part[]
+  Reaction PartReaction[]
+  Comment  Comment[]
+}
+
+model Part {
+  id          String   @id @default(uuid())
+  title       String
+  description String? // markdown string
+  code        String?
+  mainImage   String? // link to cloudinary
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+
+  Comment  Comment[]
+  Reaction PartReaction[]
+  @@unique([title, userId])
+}
+
+model PartReaction {
+  id     String @id @default(uuid())
+  emote  String // an emoji
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  part   Part   @relation(fields: [partId], references: [id])
+  partId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([emote, userId, partId])
+}
+
+model Comment {
+  id     String @id @default(uuid())
+  text   String // the comment, should I allow mark down?
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  part   Part   @relation(fields: [partId], references: [id])
+  partId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

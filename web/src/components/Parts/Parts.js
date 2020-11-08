@@ -1,88 +1,55 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
-import { Image as CloudinaryImage } from 'cloudinary-react'
 
-import avatar from 'src/assets/harold.jpg'
-
-const DELETE_PART_MUTATION = gql`
-  mutation DeletePartMutation($id: Int!) {
-    deletePart(id: $id) {
-      id
-    }
-  }
-`
-
-const MAX_STRING_LENGTH = 150
-
-const truncate = (text) => {
-  let output = text
-  if (text && text.length > MAX_STRING_LENGTH) {
-    output = output.substring(0, MAX_STRING_LENGTH) + '...'
-  }
-  return output
-}
-
-const jsonTruncate = (obj) => {
-  return truncate(JSON.stringify(obj, null, 2))
-}
-
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
+import { countEmotes } from 'src/helpers/emote'
+import ImageUploader from 'src/components/ImageUploader'
 
 const PartsList = ({ parts }) => {
-  const { addMessage } = useFlash()
-  const [deletePart] = useMutation(DELETE_PART_MUTATION, {
-    onCompleted: () => {
-      addMessage('Part deleted.', { classes: 'rw-flash-success' })
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete part ' + id + '?')) {
-      deletePart({ variables: { id }, refetchQueries: ['PARTS'] })
-    }
-  }
 
   return (
-    <div className="max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid- cols-4">
-      {parts.map((part) => {
-        return (
-          <Link
-            to={routes.part({ id: part.id })}
-            title={'Show part ' + part.id + ' detail'}
-            key={part.id}
-            className="relative bg-gray-900 rounded-t-2xl"
-          >
-            <div className="rounded-t-2xl bg-gray-900">
-              <div className="flex items-center p-2 text-indigo-200">
-                <div className="h-full absolute inset-0 text-6xl flex items-center justify-center text-indigo-700" ><span>?</span></div>
-                <div className="mr-4">
-                  <img src={avatar} className="rounded-full h-10 w-10" />
+    <section className="max-w-6xl mx-auto mt-20">
+      <ul className="grid gap-x-8 gap-y-12 items-center mx-4 relative" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))'}}>
+        {parts.map(({title, mainImage, user, Reaction}) => (
+          <li className="rounded-lg shadow-md hover:shadow-lg mx-px transform hover:-translate-y-px transition-all duration-150" key={`${user?.userName}--${title}`}>
+            <Link
+              to={routes.part2({userName: user?.userName, partTitle: title})}
+            >
+              <div className="flex items-center p-2 bg-gray-200 border-gray-300 rounded-t-lg border-t border-l border-r">
+                <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow">
+                  <ImageUploader
+                    className=""
+                    onImageUpload={() => {}}
+                    aspectRatio={1}
+                    imageUrl={user?.image}
+                    width={50}
+                  />
                 </div>
-                <h3>{part.title}</h3>
+                <span className="font-ropa-sans ml-3 text-lg text-indigo-900">{title}</span>
               </div>
-              <div className="relative z-10">
-                <CloudinaryImage
-                  className="object-cover w-full rounded shadow"
-                  cloudName="irevdev"
-                  publicId={part.mainImage}
-                  width="300"
-                  crop="scale"
+              <div className="w-full overflow-hidden relative rounded-b-lg">
+                <ImageUploader
+                  className=""
+                  onImageUpload={() => {}}
+                  aspectRatio={1.4}
+                  imageUrl={mainImage}
+                  width={700}
                 />
+                <div className="absolute inset-0" style={{background: 'linear-gradient(19.04deg, rgba(62, 44, 118, 0.46) 10.52%, rgba(60, 54, 107, 0) 40.02%)'}} />
               </div>
-            </div>
-          </Link>
-      )})}
-    </div>
+              <div className="absolute inset-x-0 bottom-0 -mb-4 mr-4 flex justify-end">{countEmotes(Reaction).map(({emoji, count}) => (
+                <div key={emoji} className="h-8 w-8 overflow-hidden ml-2 p-1 rounded-full bg-opacity-75 bg-gray-200 border border-gray-300 shadow-md flex items-center justify-between">
+                  <div className="-ml-px text-sm w-1">
+                    {emoji}
+                  </div>
+                  <div className="text-sm pl-1 font-ropa-sans text-gray-800">
+                    {count}
+                  </div>
+                </div>
+              ))}</div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
