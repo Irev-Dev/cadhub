@@ -14,6 +14,9 @@ export const QUERY = gql`
         image
         userName
       }
+      Reaction {
+        emote
+      }
     }
   }
 `
