@@ -10,7 +10,7 @@ const Part2Page = ({userName, partTitle}) => {
       <Part2Cell
         userName={userName}
         partTitle={partTitle}
-        currentUserId={currentUser.sub}
+        currentUserId={currentUser?.sub}
       />
     </MainLayout>
   )
