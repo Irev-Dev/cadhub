@@ -17,6 +17,7 @@ const Routes = () => {
       <Route notfound page={NotFoundPage} />
 
       {/* Ownership enforced routes */}
+      <Route path="/u/{userName}/new" page={NewPart2Page} name="newPart2" />
       <Route path="/u/{userName}/edit" page={EditUser2Page} name="editUser2" />
       <Route path="/u/{userName}/{partTitle}/edit" page={EditPart2Page} name="editPart2" />
       {/* End ownership enforced routes */}

@@ -3,6 +3,7 @@ import { useAuth } from '@redwoodjs/auth'
 import { Flash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip';
 import { useQuery } from '@redwoodjs/web'
+import {getActiveClasses} from 'get-active-classes'
 
 export const QUERY = gql`
   query FIND_USER_BY_ID($id: String!) {
@@ -44,10 +45,10 @@ const MainLayout = ({ children }) => {
             </li>
           </ul>
           <ul className="flex items-center">
-            <li className="mr-8 h-10 w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center">
-              {/* <Link to={routes.newPart()}> */}
-                <Svg name="plus" className="text-indigo-300 w-full h-full" />
-              {/* </Link> */}
+            <li className={getActiveClasses("mr-8 h-10 w-10 rounded-full border-2 border-gray-700 flex items-center justify-center", {'border-indigo-300': currentUser})}>
+              <button className="h-full w-full" onClick={() => currentUser && routes.newPart2({userName: data?.user?.userName})}>
+                <Svg name="plus" className={getActiveClasses("text-gray-700 w-full h-full",{'text-indigo-300': currentUser})} />
+              </button>
             </li>
             {
               isAuthenticated ?
