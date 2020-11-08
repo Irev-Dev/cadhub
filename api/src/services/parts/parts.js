@@ -39,6 +39,9 @@ export const createPart = async ({ input }) => {
 export const updatePart = async ({ id, input }) => {
   requireAuth()
   await requireOwnership({partId: id})
+  if(input.title) {
+    input.title = input.title.replace(/([^a-zA-Z\d_:])/g, '-')
+  }
   return db.part.update({
     data: foreignKeyReplacement(input),
     where: { id },

@@ -40,6 +40,9 @@ export const updateUser = ({ id, input }) => {
 export const updateUserByUserName = async ({ userName, input }) => {
   requireAuth()
   await requireOwnership({userName})
+  if(input.userName) {
+    input.userName = input.userName.replace(/([^a-zA-Z\d_:])/g, '-')
+  }
   return db.user.update({
     data: input,
     where: { userName },

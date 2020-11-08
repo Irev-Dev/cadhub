@@ -64,7 +64,7 @@ const EmojiReaction = ({ emotes, userEmotes, onEmote = () => {}, className }) =>
             <span
               className={getActiveClasses(
                 "rounded-full tracking-wide hover:bg-indigo-100 p-1 mx-px transform hover:-translate-y-px transition-all duration-150 border-indigo-400",
-                {'border': currentUser && userEmotes.includes(emote.emoji)}
+                {'border': currentUser && userEmotes?.includes(emote.emoji)}
               )}
               style={textShadow}
               key={`${emote.emoji}--${i}`}

@@ -41,9 +41,10 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
             />
           </div>
           <div className="ml-6 flex flex-col justify-between">
-            <ProfileTextInput fields={editableTextFields} onChange={(textFields) => setInput({
+            <ProfileTextInput fields={editableTextFields} onChange={({userName, name}) => setInput({
               ...input,
-              ...textFields,
+              name,
+              userName: userName.replace(/([^a-zA-Z\d_:])/g, '-'),
             })} isEditable={isEditable}/>
             {isEditable ?
               <Button className="bg-indigo-200" iconName="plus" onClick={() => onSave(user.userName, input)}>Save Profile</Button> : // TODO replace pencil with a save icon

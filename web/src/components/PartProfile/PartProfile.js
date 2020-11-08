@@ -30,15 +30,15 @@ const PartProfile = ({
     navigate(routes.part2({userName: userPart.userName, partTitle: part.title}))},
   [currentUser])
   const [input, setInput] = useState({
-    title: part.title,
-    mainImage: part.mainImage,
-    description: part.description,
+    title: part?.title,
+    mainImage: part?.mainImage,
+    description: part?.description,
   })
   const setProperty = (property, value) => setInput({
     ...input,
     [property]: value,
   })
-  const onTitleChange = ({target}) => setProperty('title', target.value)
+  const onTitleChange = ({target}) => setProperty('title', target.value.replace(/([^a-zA-Z\d_:])/g, '-'))
   const onDescriptionChange = (description) => setProperty('description', description())
   const onImageUpload = ({cloudinaryPublicId}) => setProperty('mainImage', cloudinaryPublicId)
   const onEditSaveClick = () => {
@@ -122,7 +122,7 @@ const PartProfile = ({
             <h3 className="text-indigo-800 text-lg font-roboto tracking-wider mb-4" >Comments</h3>
 
             <ul>
-              {part.Comment.map(({text, user, id}) => (
+              {part?.Comment.map(({text, user, id}) => (
                 <li key={id} className="flex mb-6">
                   <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow flex-shrink-0">
                     <ImageUploader
