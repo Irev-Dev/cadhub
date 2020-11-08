@@ -25,7 +25,7 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
   const editableTextFields = {userName, name}
   return (
     <>
-      <div className="max-w-2xl mx-auto mt-20 ">
+      <section className="max-w-2xl mx-auto mt-20 ">
         <div className="flex" >
           <div className="w-40 flex-shrink-0">
             <ImageUploader
@@ -36,7 +36,7 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
               })}
               aspectRatio={1}
               isEditable={isEditable}
-              imageUrl={user.image === 'abc' ? '': user.image}
+              imageUrl={user.image}
               width={300}
             />
           </div>
@@ -66,7 +66,7 @@ const UserProfile = ({user, isEditable, loading, onSave, error}) => {
             />
           </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }

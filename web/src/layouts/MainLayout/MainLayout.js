@@ -57,7 +57,7 @@ const MainLayout = ({ children }) => {
                     className="rounded-full object-cover"
                     onImageUpload={() => {}}
                     aspectRatio={1}
-                    imageUrl={data?.user?.image === 'abc' ? '': data?.user?.image}
+                    imageUrl={data?.user?.image}
                     width={80}
                   />}
                 </a>

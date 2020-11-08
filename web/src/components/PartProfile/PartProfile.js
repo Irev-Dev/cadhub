@@ -45,7 +45,7 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
             className="rounded-half rounded-br-lg shadow-md border-2 border-gray-200 border-solid"
             onImageUpload={() => {}}
             aspectRatio={1}
-            imageUrl={userPart.image === 'abc' ? '': userPart.image}
+            imageUrl={userPart.image}
             width={300}
           />
           <h4 className="text-indigo-800 text-xl underline text-right py-4">{userPart?.name}</h4>

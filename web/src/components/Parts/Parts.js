@@ -1,112 +1,39 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes } from '@redwoodjs/router'
 
-const DELETE_PART_MUTATION = gql`
-  mutation DeletePartMutation($id: String!) {
-    deletePart(id: $id) {
-      id
-    }
-  }
-`
-
-const MAX_STRING_LENGTH = 150
-
-const truncate = (text) => {
-  let output = text
-  if (text && text.length > MAX_STRING_LENGTH) {
-    output = output.substring(0, MAX_STRING_LENGTH) + '...'
-  }
-  return output
-}
-
-const jsonTruncate = (obj) => {
-  return truncate(JSON.stringify(obj, null, 2))
-}
-
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
-
+import ImageUploader from 'src/components/ImageUploader'
 const PartsList = ({ parts }) => {
-  const { addMessage } = useFlash()
-  const [deletePart] = useMutation(DELETE_PART_MUTATION, {
-    onCompleted: () => {
-      addMessage('Part deleted.', { classes: 'rw-flash-success' })
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete part ' + id + '?')) {
-      deletePart({ variables: { id }, refetchQueries: ['PARTS'] })
-    }
-  }
-
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Code</th>
-            <th>Main image</th>
-            <th>Created at</th>
-            <th>Updated at</th>
-            <th>User id</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {parts.map((part) => (
-            <tr key={part.id}>
-              <td>{truncate(part.id)}</td>
-              <td>{truncate(part.title)}</td>
-              <td>{truncate(part.description)}</td>
-              <td>{truncate(part.code)}</td>
-              <td>{truncate(part.mainImage)}</td>
-              <td>{timeTag(part.createdAt)}</td>
-              <td>{timeTag(part.updatedAt)}</td>
-              <td>{truncate(part.userId)}</td>
-              <td>
-                <nav className="rw-table-actions">
-                  <Link
-                    to={routes.part({ id: part.id })}
-                    title={'Show part ' + part.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                  <Link
-                    to={routes.editPart({ id: part.id })}
-                    title={'Edit part ' + part.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <a
-                    href="#"
-                    title={'Delete part ' + part.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(part.id)}
-                  >
-                    Delete
-                  </a>
-                </nav>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <section className="max-w-6xl mx-auto mt-20">
+      <ul className="grid gap-8 items-center mx-4" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))'}}>
+        {parts.map(({title, mainImage, user}) => (
+          <li className="rounded-lg overflow-hidden shadow-md hover:shadow-lg mx-px transform hover:-translate-y-px transition-all duration-150" key={`${user?.userName}--${title}`}><button className="w-full">
+            <div className="flex items-center p-2 bg-gray-200 border-gray-300 rounded-t-lg border-t border-l border-r">
+              <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow max-w-xs">
+                <ImageUploader
+                  className=""
+                  onImageUpload={() => {}}
+                  aspectRatio={1}
+                  imageUrl={user?.image}
+                  width={50}
+                />
+              </div>
+              <span className="font-ropa-sans ml-3 text-lg text-indigo-900">{title}</span>
+            </div>
+            <div className="w-full overflow-hidden relative">
+              <ImageUploader
+                className=""
+                onImageUpload={() => {}}
+                aspectRatio={1.4}
+                imageUrl={mainImage}
+                width={700}
+              />
+              <div className="absolute inset-0" style={{background: 'linear-gradient(19.04deg, rgba(62, 44, 118, 0.46) 10.52%, rgba(60, 54, 107, 0) 40.02%)'}} />
+            </div>
+            </button></li>
+        ))}
+      </ul>
+    </section>
   )
 }
 

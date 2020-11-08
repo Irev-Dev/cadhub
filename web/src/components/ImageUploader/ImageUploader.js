@@ -65,7 +65,7 @@ export default function ImageUploader({
         {isEditable && <input {...getInputProps()} />}
         {(cloudinaryId || !isEditable) && <div className="relative overflow-hidden w-full h-full">
           <CloudinaryImage
-            className="object-cover w-full h-full rounded shadow overflow-hidden"
+            className="object-cover w-full h-full shadow overflow-hidden"
             cloudName="irevdev"
             publicId={cloudinaryId || 'CadHub/eia1kwru54g2kf02s2xx'}
             width={width}
