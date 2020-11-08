@@ -13,7 +13,7 @@ const noEmotes =[{
 
 const textShadow = {textShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'}
 
-const EmojiReaction = ({ emotes, onEmote = () => {}, className }) => {
+const EmojiReaction = ({ emotes, userEmotes, onEmote = () => {}, className }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [popoverId, setPopoverId] = useState(undefined)
@@ -59,7 +59,10 @@ const EmojiReaction = ({ emotes, onEmote = () => {}, className }) => {
         <div className="whitespace-no-wrap absolute right-0 inset-y-0 flex items-center flex-row-reverse">
           {(emotes.length ? emotes : noEmotes).map((emote, i) => (
             <span
-              className="rounded-full tracking-wide hover:bg-indigo-100 p-1 mx-px transform hover:-translate-y-px transition-all duration-150"
+              className={getActiveClasses(
+                "rounded-full tracking-wide hover:bg-indigo-100 p-1 mx-px transform hover:-translate-y-px transition-all duration-150 border-indigo-400",
+                {'border': userEmotes.includes(emote.emoji)}
+              )}
               style={textShadow}
               key={`${emote.emoji}--${i}`}
               onClick={() => handleEmojiClick(emote.emoji)}

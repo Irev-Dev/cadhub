@@ -1,17 +1,10 @@
-import { useMemo } from 'react'
 import { Link, routes } from '@redwoodjs/router'
 
+import { countEmotes } from 'src/helpers/emote'
 import ImageUploader from 'src/components/ImageUploader'
+
 const PartsList = ({ parts }) => {
-  const countEmotes = (reactions) => {
-    // would be good to do this sever side
-    // counting unique emojis, and limiting to the 5 largest
-    const emoteCounts = {}
-    reactions.forEach(({emote}) => {
-      emoteCounts[emote] = emoteCounts[emote] ? emoteCounts[emote] + 1 : 1
-    })
-    return Object.entries(emoteCounts).map(([emoji, count]) => ({emoji, count})).sort((a,b) => a.count-b.count).slice(-5)
-  }
+
   return (
     <section className="max-w-6xl mx-auto mt-20">
       <ul className="grid gap-x-8 gap-y-12 items-center mx-4 relative" style={{gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))'}}>

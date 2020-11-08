@@ -15,7 +15,7 @@ export const schema = gql`
     partReaction(id: String!): PartReaction
   }
 
-  input CreatePartReactionInput {
+  input TogglePartReactionInput {
     emote: String!
     userId: String!
     partId: String!
@@ -28,7 +28,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createPartReaction(input: CreatePartReactionInput!): PartReaction!
+    togglePartReaction(input: TogglePartReactionInput!): PartReaction!
     updatePartReaction(
       id: String!
       input: UpdatePartReactionInput!

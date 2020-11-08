@@ -7,11 +7,14 @@ import ImageUploader from 'src/components/ImageUploader'
 import Breadcrumb from 'src/components/Breadcrumb'
 import EmojiReaction from 'src/components/EmojiReaction'
 import Button from 'src/components/Button'
+import { countEmotes } from 'src/helpers/emote'
 
-const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
+const PartProfile = ({userPart, isEditable, onSave, loading, error, onReaction}) => {
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === userPart.id
   const part = userPart?.Part
+  const emotes = countEmotes(part?.Reaction)
+  const userEmotes = part?.userReactions.map(({emote}) => emote)
   useEffect(() => {isEditable &&
     !canEdit &&
     navigate(routes.part2({userName: userPart.userName, partTitle: part.title}))},
@@ -50,12 +53,10 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error}) => {
           />
           <h4 className="text-indigo-800 text-xl underline text-right py-4">{userPart?.name}</h4>
           <div className="h-px bg-indigo-200 mb-4" />
-          {/* TODO hook up to emoji data properly */}
           <EmojiReaction
-            // emotes={[{emoji: '❤️',count: 3},{emoji: '😁',count: 2},{emoji: '😜',count: 2},{emoji: '🤩',count: 2},{emoji: '🤣',count: 2},{emoji: '🙌',count: 2},{emoji: '🚀',count: 2}]}
-            emotes={[{emoji: '❤️',count: 3},{emoji: '😁',count: 2}]}
-            // emotes={[]}
-            onEmote={() => {}}
+            emotes={emotes}
+            userEmotes={userEmotes}
+            onEmote={onReaction}
           />
           <Button
             className="mt-6 ml-auto hover:shadow-lg bg-gradient-to-r from-transparent to-indigo-100"

@@ -57,5 +57,5 @@ export const Part = {
   Comment: (_obj, { root }) =>
     db.part.findOne({ where: { id: root.id } }).Comment(),
   Reaction: (_obj, { root }) =>
-    db.part.findOne({ where: { id: root.id } }).Reaction(),
+    db.part.findOne({ where: { id: root.id } }).Reaction({where: {userId: _obj.userId}}),
 }

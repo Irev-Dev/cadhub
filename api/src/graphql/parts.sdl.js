@@ -10,7 +10,7 @@ export const schema = gql`
     user: User!
     userId: String!
     Comment: [Comment]!
-    Reaction: [PartReaction]!
+    Reaction(userId: String): [PartReaction]!
   }
 
   type Query {

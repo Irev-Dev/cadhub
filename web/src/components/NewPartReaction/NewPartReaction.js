@@ -3,8 +3,8 @@ import { navigate, routes } from '@redwoodjs/router'
 import PartReactionForm from 'src/components/PartReactionForm'
 
 const CREATE_PART_REACTION_MUTATION = gql`
-  mutation CreatePartReactionMutation($input: CreatePartReactionInput!) {
-    createPartReaction(input: $input) {
+  mutation TogglePartReactionMutation($input: TogglePartReactionInput!) {
+    togglePartReaction(input: $input) {
       id
     }
   }
@@ -12,7 +12,7 @@ const CREATE_PART_REACTION_MUTATION = gql`
 
 const NewPartReaction = () => {
   const { addMessage } = useFlash()
-  const [createPartReaction, { loading, error }] = useMutation(
+  const [togglePartReaction, { loading, error }] = useMutation(
     CREATE_PART_REACTION_MUTATION,
     {
       onCompleted: () => {
@@ -23,7 +23,7 @@ const NewPartReaction = () => {
   )
 
   const onSave = (input) => {
-    createPartReaction({ variables: { input } })
+    togglePartReaction({ variables: { input } })
   }
 
   return (
