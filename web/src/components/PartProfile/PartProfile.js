@@ -33,6 +33,7 @@ const PartProfile = ({
     title: part?.title,
     mainImage: part?.mainImage,
     description: part?.description,
+    userId: userPart?.id,
   })
   const setProperty = (property, value) => setInput({
     ...input,
@@ -43,7 +44,7 @@ const PartProfile = ({
   const onImageUpload = ({cloudinaryPublicId}) => setProperty('mainImage', cloudinaryPublicId)
   const onEditSaveClick = () => {
     if (isEditable) {
-      onSave(part.id, input)
+      input.title && onSave(part?.id, input)
       return
     }
     navigate(routes.editPart2({userName: userPart.userName, partTitle: part.title}))
@@ -98,7 +99,7 @@ const PartProfile = ({
         {/* main project center column */}
         <section className="col-start-3">
           <Breadcrumb className="inline" onPartTitleChange={isEditable && onTitleChange} userName={userPart.userName} partTitle={input?.title}/>
-          { input?.mainImage && <ImageUploader
+          { !!(input?.mainImage || isEditable) && <ImageUploader
             className="rounded-lg shadow-md border-2 border-gray-200 border-solid mt-8"
             onImageUpload={onImageUpload}
             aspectRatio={16/9}

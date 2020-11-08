@@ -5,7 +5,7 @@ import { useAuth } from '@redwoodjs/auth'
 import PartProfile from 'src/components/PartProfile'
 
 export const QUERY = gql`
-  query FIND_PART_BY_USERNAME_TITLE($userName: String!, $partTitle: String!, $currentUserId: String) {
+  query FIND_PART_BY_USERNAME_TITLE($userName: String!, $partTitle: String, $currentUserId: String) {
     userPart: userName(userName: $userName) {
       id
       name
@@ -52,6 +52,18 @@ const UPDATE_PART_MUTATION = gql`
     }
   }
 `
+const CREATE_PART_MUTATION = gql`
+  mutation CreatePartMutation($input: CreatePartInput!) {
+    createPart(input: $input) {
+      id
+      title
+      user {
+        id
+        userName
+      }
+    }
+  }
+`
 const TOGGLE_REACTION_MUTATION = gql`
   mutation ToggleReactionMutation($input: TogglePartReactionInput!) {
     togglePartReaction(input: $input){
@@ -84,7 +96,17 @@ export const Success = ({ userPart, variables: {isEditable}, refetch}) => {
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
+  const [createUser] = useMutation(CREATE_PART_MUTATION, {
+    onCompleted: ({createPart}) => {
+      navigate(routes.part2({userName: createPart?.user?.userName, partTitle: createPart?.title}))
+      addMessage('Part Created.', { classes: 'rw-flash-success' })
+    },
+  })
   const onSave = (id, input) => {
+    if(!id) {
+      createUser({ variables: { input } })
+      return
+    }
     updateUser({ variables: { id, input } })
   }
 
