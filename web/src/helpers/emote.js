@@ -1,4 +1,4 @@
-export const countEmotes = (reactions) => {
+export const countEmotes = (reactions = []) => {
   // would be good to do this sever side
   // counting unique emojis, and limiting to the 5 largest
   const emoteCounts = {}
