@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import { useAuth } from '@redwoodjs/auth'
-import { navigate, routes } from '@redwoodjs/router'
+import { Link, navigate, routes } from '@redwoodjs/router'
 import Editor from "rich-markdown-editor";
 
 import ImageUploader from 'src/components/ImageUploader'
@@ -8,8 +8,18 @@ import Breadcrumb from 'src/components/Breadcrumb'
 import EmojiReaction from 'src/components/EmojiReaction'
 import Button from 'src/components/Button'
 import { countEmotes } from 'src/helpers/emote'
+import { getActiveClasses } from 'get-active-classes';
 
-const PartProfile = ({userPart, isEditable, onSave, loading, error, onReaction}) => {
+const PartProfile = ({
+    userPart,
+    isEditable,
+    onSave,
+    loading,
+    error,
+    onReaction,
+    onComment,
+  }) => {
+  const [comment, setComment] = useState('')
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === userPart.id
   const part = userPart?.Part
@@ -51,7 +61,7 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error, onReaction})
             imageUrl={userPart.image}
             width={300}
           />
-          <h4 className="text-indigo-800 text-xl underline text-right py-4">{userPart?.name}</h4>
+          <h4 className="text-indigo-800 text-xl underline text-right py-4"><Link to={routes.user2({userName: userPart.userName})}>{userPart?.name}</Link></h4>
           <div className="h-px bg-indigo-200 mb-4" />
           <EmojiReaction
             emotes={emotes}
@@ -103,6 +113,55 @@ const PartProfile = ({userPart, isEditable, onSave, loading, error, onReaction})
               onChange={onDescriptionChange}
             />
           </div>
+
+
+
+          {/* comments */}
+          { !isEditable && <>
+            <div className="h-px bg-indigo-200 mt-8" />
+            <h3 className="text-indigo-800 text-lg font-roboto tracking-wider mb-4" >Comments</h3>
+
+            <ul>
+              {part.Comment.map(({text, user, id}) => (
+                <li key={id} className="flex mb-6">
+                  <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow flex-shrink-0">
+                    <ImageUploader
+                      className=""
+                      onImageUpload={() => {}}
+                      aspectRatio={1}
+                      imageUrl={user?.image}
+                      width={50}
+                    />
+                  </div>
+                  <div className="ml-4 font-roboto">
+                    <div className="text-gray-800 font-bold text-lg mb-1"><Link to={routes.user2({userName: user.userName})}>
+                      {user.userName}
+                    </Link></div>
+                    <div className="text-gray-700 p-3 rounded bg-gray-200 shadow">
+                      {text}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {currentUser && <>
+              <div className="mt-12 ml-12">
+                <textarea
+                  className="w-full h-32 rounded-lg shadow-inner outline-none resize-none p-3"
+                  placeholder="Leave a comment"
+                  value={comment}
+                  onChange={({target}) => setComment(target.value)}
+                />
+              </div>
+              <Button
+                className={getActiveClasses("ml-auto hover:shadow-lg bg-gray-300 mt-4 mb-20", {'bg-indigo-200': currentUser})}
+                shouldAnimateHover
+                disabled={!currentUser}
+                iconName={'save'}
+                onClick={() => onComment(comment)}
+              >Comment</Button>
+            </>}
+          </>}
         </section>
 
       </div>

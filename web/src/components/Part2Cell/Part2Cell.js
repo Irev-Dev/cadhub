@@ -5,7 +5,7 @@ import { useAuth } from '@redwoodjs/auth'
 import PartProfile from 'src/components/PartProfile'
 
 export const QUERY = gql`
-  query FIND_PART_BY_USERNAME_TITLE($userName: String!, $partTitle: String!, $currentUserId: String!) {
+  query FIND_PART_BY_USERNAME_TITLE($userName: String!, $partTitle: String!, $currentUserId: String) {
     userPart: userName(userName: $userName) {
       id
       name
@@ -26,6 +26,14 @@ export const QUERY = gql`
         }
         userReactions: Reaction(userId: $currentUserId) {
           emote
+        }
+        Comment {
+          id
+          text
+          user {
+            userName
+            image
+          }
         }
       }
     }
@@ -52,6 +60,14 @@ const TOGGLE_REACTION_MUTATION = gql`
     }
   }
 `
+const CREATE_COMMENT_MUTATION = gql`
+  mutation CreateCommentMutation($input: CreateCommentInput!) {
+    createComment(input: $input) {
+      id
+      text
+    }
+  }
+`
 
 export const Loading = () => <div>Loading...</div>
 
@@ -73,10 +89,19 @@ export const Success = ({ userPart, variables: {isEditable}, refetch}) => {
   }
 
   const [toggleReaction] = useMutation(TOGGLE_REACTION_MUTATION, {
-    onCompleted: (hey) => refetch()
+    onCompleted: () => refetch()
   })
   const onReaction = (emote) => toggleReaction({variables: {input: {
     emote,
+    userId: currentUser.sub,
+    partId: userPart?.Part?.id,
+  }}})
+
+  const [createComment] = useMutation(CREATE_COMMENT_MUTATION, {
+    onCompleted: () => refetch()
+  })
+  const onComment = (text) => createComment({variables: {input: {
+    text,
     userId: currentUser.sub,
     partId: userPart?.Part?.id,
   }}})
@@ -88,5 +113,6 @@ export const Success = ({ userPart, variables: {isEditable}, refetch}) => {
     error={error}
     isEditable={isEditable}
     onReaction={onReaction}
+    onComment={onComment}
   />
 }

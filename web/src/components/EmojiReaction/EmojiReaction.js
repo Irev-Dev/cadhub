@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getActiveClasses } from "get-active-classes"
 import Popover from '@material-ui/core/Popover'
+import { useAuth } from '@redwoodjs/auth'
 
 import Svg from 'src/components/Svg'
 
@@ -14,6 +15,7 @@ const noEmotes =[{
 const textShadow = {textShadow: '0 4px 6px rgba(0, 0, 0, 0.3)'}
 
 const EmojiReaction = ({ emotes, userEmotes, onEmote = () => {}, className }) => {
+  const { currentUser } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [popoverId, setPopoverId] = useState(undefined)
@@ -39,7 +41,8 @@ const EmojiReaction = ({ emotes, userEmotes, onEmote = () => {}, className }) =>
   }
 
   const handleEmojiClick = (emoji) => {
-    onEmote(emoji)
+    // TODO handle user not signed in better, maybe open up a modal, I danno think about it.
+    currentUser && onEmote(emoji)
     closePopover()
   }
 
@@ -61,7 +64,7 @@ const EmojiReaction = ({ emotes, userEmotes, onEmote = () => {}, className }) =>
             <span
               className={getActiveClasses(
                 "rounded-full tracking-wide hover:bg-indigo-100 p-1 mx-px transform hover:-translate-y-px transition-all duration-150 border-indigo-400",
-                {'border': userEmotes.includes(emote.emoji)}
+                {'border': currentUser && userEmotes.includes(emote.emoji)}
               )}
               style={textShadow}
               key={`${emote.emoji}--${i}`}
