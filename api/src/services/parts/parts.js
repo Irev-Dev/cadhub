@@ -1,8 +1,7 @@
 import { db } from 'src/lib/db'
-import { foreignKeyReplacement } from 'src/services/helpers'
+import { foreignKeyReplacement, enforceAlphaNumeric } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
-import { user } from 'src/services/users/users'
 
 export const parts = () => {
   return db.part.findMany()
@@ -40,7 +39,7 @@ export const updatePart = async ({ id, input }) => {
   requireAuth()
   await requireOwnership({partId: id})
   if(input.title) {
-    input.title = input.title.replace(/([^a-zA-Z\d_:])/g, '-')
+    input.title = enforceAlphaNumeric(input.title)
   }
   return db.part.update({
     data: foreignKeyReplacement(input),

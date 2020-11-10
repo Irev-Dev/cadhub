@@ -1,5 +1,6 @@
 import { createUserInsecure } from 'src/services/users/users.js'
 import { db } from 'src/lib/db'
+import { enforceAlphaNumeric } from 'src/services/helpers'
 
 export const handler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -74,7 +75,7 @@ export const handler = async (req, _context) => {
       const newSeed = count === 1 ? `${seed}_${count}` : seed.slice(0,-1) + count
       return generateUniqueUserName(newSeed, count)
     }
-    const userNameSeed = email.split('@')[0]
+    const userNameSeed = enforceAlphaNumeric(email.split('@')[0])
     const userName = await generateUniqueUserName(userNameSeed) // TODO maybe come up with a better default userName?
     const input = {
       email,

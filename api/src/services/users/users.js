@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 import { UserInputError } from '@redwoodjs/api'
+import { enforceAlphaNumeric } from 'src/services/helpers'
 
 export const users = () => {
   requireAuth({ role: 'admin' })
@@ -42,7 +43,7 @@ export const updateUserByUserName = async ({ userName, input }) => {
   requireAuth()
   await requireOwnership({userName})
   if(input.userName) {
-    input.userName = input.userName.replace(/([^a-zA-Z\d_:])/g, '-')
+    input.userName = enforceAlphaNumeric(input.userName)
   }
   if(input.userName && ['new', 'edit', 'update'].includes(input.userName)) { //TODO complete this and use a regexp so that it's not case sensitive, don't want someone with the userName eDiT
     throw new UserInputError(`You've tried to used a protected word as you userName, try something other than `)

@@ -11,3 +11,5 @@ export const foreignKeyReplacement = (input) => {
   })
   return output
 }
+
+export const enforceAlphaNumeric = (string) => string.replace(/([^a-zA-Z\d_:])/g, '-')
