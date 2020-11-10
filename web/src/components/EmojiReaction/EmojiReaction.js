@@ -89,7 +89,7 @@ const EmojiReaction = ({ emotes, userEmotes, onEmote = () => {}, className }) =>
           horizontal: 'left',
         }}
       >
-        <div className="py-2 mt-2">
+        <div className="p-2 pr-3 flex">
           {emojiMenu.map((emoji, i) => (
             <button
               className="p-2"
