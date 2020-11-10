@@ -35,8 +35,8 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 export const Success = ({ user }) => {
   const { addMessage } = useFlash()
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
-    onCompleted: ({updateUserByUserName}) => {
-      navigate(routes.user2({userName: updateUserByUserName.userName}))
+    onCompleted: ({ updateUserByUserName }) => {
+      navigate(routes.user2({ userName: updateUserByUserName.userName }))
       addMessage('User updated.', { classes: 'rw-flash-success' })
     },
   })
@@ -45,11 +45,13 @@ export const Success = ({ user }) => {
     updateUser({ variables: { userName, input } })
   }
 
-  return <UserProfile
-    user={user}
-    onSave={onSave}
-    loading={loading}
-    error={error}
-    isEditable
-  />
+  return (
+    <UserProfile
+      user={user}
+      onSave={onSave}
+      loading={loading}
+      error={error}
+      isEditable
+    />
+  )
 }

@@ -1,5 +1,8 @@
 import { db } from 'src/lib/db'
-import { foreignKeyReplacement, enforceAlphaNumeric } from 'src/services/helpers'
+import {
+  foreignKeyReplacement,
+  enforceAlphaNumeric,
+} from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 
@@ -15,15 +18,15 @@ export const part = ({ id }) => {
 export const partByUserAndTitle = async ({ userName, partTitle }) => {
   const user = await db.user.findOne({
     where: {
-      userName
-    }
+      userName,
+    },
   })
   return db.part.findOne({
     where: {
       title_userId: {
         title: partTitle,
         userId: user.id,
-      }
+      },
     },
   })
 }
@@ -37,8 +40,8 @@ export const createPart = async ({ input }) => {
 
 export const updatePart = async ({ id, input }) => {
   requireAuth()
-  await requireOwnership({partId: id})
-  if(input.title) {
+  await requireOwnership({ partId: id })
+  if (input.title) {
     input.title = enforceAlphaNumeric(input.title)
   }
   return db.part.update({
@@ -59,5 +62,7 @@ export const Part = {
   Comment: (_obj, { root }) =>
     db.part.findOne({ where: { id: root.id } }).Comment(),
   Reaction: (_obj, { root }) =>
-    db.part.findOne({ where: { id: root.id } }).Reaction({where: {userId: _obj.userId}}),
+    db.part
+      .findOne({ where: { id: root.id } })
+      .Reaction({ where: { userId: _obj.userId } }),
 }

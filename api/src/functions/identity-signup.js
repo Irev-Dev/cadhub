@@ -68,11 +68,12 @@ export const handler = async (req, _context) => {
       const isUnique = !(await db.user.findOne({
         where: { userName: seed },
       }))
-      if(isUnique) {
+      if (isUnique) {
         return seed
       }
       count += 1
-      const newSeed = count === 1 ? `${seed}_${count}` : seed.slice(0,-1) + count
+      const newSeed =
+        count === 1 ? `${seed}_${count}` : seed.slice(0, -1) + count
       return generateUniqueUserName(newSeed, count)
     }
     const userNameSeed = enforceAlphaNumeric(email.split('@')[0])
@@ -83,7 +84,7 @@ export const handler = async (req, _context) => {
       name: user.user_metadata && user.user_metadata.full_name,
       id: user.id,
     }
-    await createUserInsecure({input})
+    await createUserInsecure({ input })
 
     return {
       statusCode: 200,
