@@ -25,7 +25,6 @@ import logo from 'src/layouts/MainLayout/Logo_2.jpg'
 const MainLayout = ({ children}) => {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   const {data, loading} = useQuery(QUERY, {variables: {id: currentUser?.sub}})
-  console.log(data?.user?.name);
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [popoverId, setPopoverId] = useState(undefined)
@@ -98,11 +97,11 @@ const MainLayout = ({ children}) => {
             onClose={closePopover}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'right',
             }}
             transformOrigin={{
               vertical: 'top',
-              horizontal: 'left',
+              horizontal: 'right',
             }}
           >
           {
