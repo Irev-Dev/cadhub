@@ -1,8 +1,10 @@
-import { Link, routes } from '@redwoodjs/router'
+import { useState, useEffect } from 'react'
+import { Link, navigate ,routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Flash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip';
 import { useQuery } from '@redwoodjs/web'
+import Popover from '@material-ui/core/Popover'
 import {getActiveClasses} from 'get-active-classes'
 
 export const QUERY = gql`
@@ -10,18 +12,42 @@ export const QUERY = gql`
     user: user(id: $id) {
       id
       image
+      userName
+      name
     }
   }
 `
-
 import avatar from 'src/assets/harold.jpg'
 import Svg from 'src/components/Svg'
 import ImageUploader from 'src/components/ImageUploader'
 import logo from 'src/layouts/MainLayout/Logo_2.jpg'
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children}) => {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   const {data, loading} = useQuery(QUERY, {variables: {id: currentUser?.sub}})
+  console.log(data?.user?.name);
+  const [isOpen, setIsOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [popoverId, setPopoverId] = useState(undefined)
+  const openPopover = (target) => {
+    setAnchorEl(target)
+    setPopoverId('simple-popover')
+    setIsOpen(true)
+  }
+
+  const closePopover = () => {
+    setAnchorEl(null)
+    setPopoverId(undefined)
+    setIsOpen(false)
+  }
+
+  const togglePopover = ({ currentTarget }) => {
+    if (isOpen) {
+      return closePopover()
+    }
+
+    openPopover(currentTarget)
+  }
   return (
     <>
       <header>
@@ -47,27 +73,53 @@ const MainLayout = ({ children }) => {
           <ul className="flex items-center">
             <li className={getActiveClasses("mr-8 h-10 w-10 rounded-full border-2 border-gray-700 flex items-center justify-center", {'border-indigo-300': currentUser})}>
               <button className="h-full w-full" onClick={() => currentUser && routes.newPart2({userName: data?.user?.userName})}>
-                <Svg name="plus" className={getActiveClasses("text-gray-700 w-full h-full",{'text-indigo-300': currentUser})} />
+              <Svg name="plus" className={getActiveClasses("text-gray-700 w-full h-full",{'text-indigo-300': currentUser})} />
               </button>
             </li>
-            {
-              isAuthenticated ?
-              <li className="h-10 w-10 border-2 rounded-full border-indigo-300 text-indigo-200">
-                <a href="#" onClick={logOut}>
-                  {!loading && <ImageUploader
-                    className="rounded-full object-cover"
-                    onImageUpload={() => {}}
-                    aspectRatio={1}
-                    imageUrl={data?.user?.image}
-                    width={80}
-                  />}
-                </a>
-              </li>:
-              <li>
-                <a href="#" className='text-indigo-200 font-semibold underline' onClick={logIn}>Sign in/up</a>
-              </li>
-            }
+            <li className="h-10 w-10 border-1 rounded-full border-indigo-300 text-indigo-200">
+            <div aria-describedby={popoverId} onMouseOver={togglePopover}>
+                {!loading && <ImageUploader
+                  className="rounded-full object-cover"
+                  onImageUpload={() => {}}
+                  aspectRatio={1}
+                  imageUrl={data?.user?.image}
+                  width={80}
+                />}
+              </div>
+            </li>
           </ul>
+          <Popover
+            id={popoverId}
+            open={isOpen}
+            anchorEl={anchorEl}
+            onClose={closePopover}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+          {
+            isAuthenticated && currentUser?
+             <div style={{padding: '1em', width: '15em'}} >
+             <Link to={routes.user2({userName: data?.user?.userName})}>
+                    <h3 className="text-indigo-800" style={{fontWeight: '500'}} >Hello {data?.user?.name}</h3>
+              </Link>
+              <hr/>
+              <br/>
+              <Link to={routes.editUser2({userName: data?.user?.userName})}>
+                  <div className="text-indigo-800" >Edit Profile</div>
+              </Link>
+              <a href="#" className="text-indigo-800" onClick={logOut}>Logout</a>
+             </div>:
+             <div style={{padding: '1em', width: '15em'}} >
+             <a href="#" className="text-indigo-800 text-indigo-800"  onClick={logIn}>LOGIN/SIGNUP</a>
+             </div>
+            }
+          </Popover>
         </nav>
       </header>
       <Flash timeout={1000} />
