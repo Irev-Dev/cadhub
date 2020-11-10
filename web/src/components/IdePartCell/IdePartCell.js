@@ -35,8 +35,7 @@ export const Success = ({ part }) => {
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
-  console.log({updatePart})
-
+  console.log({ updatePart })
 
   const saveCode = (input, id) => {
     console.log(id, input, 'wowow')

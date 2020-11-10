@@ -18,20 +18,24 @@ export const partReaction = ({ id }) => {
 export const togglePartReaction = async ({ input }) => {
   // if write fails emote_userId_partId @@unique constraint, then delete it instead
   requireAuth()
-  await requireOwnership({userId: input?.userId})
+  await requireOwnership({ userId: input?.userId })
   const legalReactions = ['❤️', '👍', '😄', '🙌'] // TODO figure out a way of sharing code between FE and BE, so this is consistent with web/src/components/EmojiReaction/EmojiReaction.js
-  if(!legalReactions.includes(input.emote)) {
-    throw new UserInputError(`You can't react with '${input.emote}', only the following are allowed: ${legalReactions.join(', ')}`)
+  if (!legalReactions.includes(input.emote)) {
+    throw new UserInputError(
+      `You can't react with '${
+        input.emote
+      }', only the following are allowed: ${legalReactions.join(', ')}`
+    )
   }
   let dbPromise
-  const inputClone = {...input} // TODO foreignKeyReplacement mutates input, which I should fix but am lazy right now
-  try{
+  const inputClone = { ...input } // TODO foreignKeyReplacement mutates input, which I should fix but am lazy right now
+  try {
     dbPromise = await db.partReaction.create({
       data: foreignKeyReplacement(input),
     })
-  } catch(e) {
+  } catch (e) {
     dbPromise = db.partReaction.delete({
-      where: { emote_userId_partId: inputClone},
+      where: { emote_userId_partId: inputClone },
     })
   }
   return dbPromise
