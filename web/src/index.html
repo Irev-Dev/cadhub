@@ -11,6 +11,7 @@
       // Install Cascade Studio as a Progressive Web App for Offline Access
       // This needs to be put before ANY HTTP Requests are made, so it can cache them.
       var messageHandlers = {};
+      messageHandlers["resetWorking"] = () => { workerWorking = false; }
       var cascadeStudioWorker
       var workerWorking = false
       var galleryProject = undefined

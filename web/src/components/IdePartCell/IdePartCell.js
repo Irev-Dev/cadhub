@@ -36,10 +36,8 @@ export const Success = ({ part, refetch }) => {
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
-  console.log({ updatePart })
 
   const saveCode = (input, id) => {
-    console.log(id, input, 'wowow')
     updatePart({ variables: { id, input } })
     refetch()
   }
