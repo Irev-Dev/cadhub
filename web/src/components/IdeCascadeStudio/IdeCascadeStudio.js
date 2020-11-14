@@ -1,4 +1,5 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
+import { useAuth } from '@redwoodjs/auth'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
 import CascadeController from 'src/helpers/cascadeController'
@@ -16,6 +17,8 @@ const domNode = document.createElement('div').setAttribute('id', 'sickId')
 
 const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
   const [code, setCode] = useState(part.code)
+  const { currentUser } = useAuth()
+  const canEdit = currentUser?.sub === part?.user?.id
   useEffect(() => {
     const onCodeChange = (code) => setCode(code)
     CascadeController.initialise(onCodeChange, part.code, domNode)
@@ -25,7 +28,7 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
       element.setAttribute('style',  'display: none; overflow: hidden; height: calc(100vh - 8rem)') // eslint-disable-line
     }
   }, [])
-  const hasChanges = code !== part.code
+  const isChanges = code !== part.code
   const { addMessage } = useFlash()
   const [deletePart] = useMutation(DELETE_PART_MUTATION, {
     onCompleted: () => {
@@ -44,7 +47,7 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
     <>
       <nav className="rw-button-group hidden">
         {loading && 'Loading...'}
-        {hasChanges && !loading && (
+        {isChanges && !loading && (
           <button
             onClick={() => saveCode({ code }, part.id)}
             className="rw-button rw-button-blue"
@@ -54,7 +57,12 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
         )}
       </nav>
       <div>
-        <IdeToolbar />
+        <IdeToolbar
+          canEdit={canEdit}
+          isChanges={isChanges && !loading}
+          onSave={() => {}}
+          onExport={() => {}}
+        />
         <div id="topnav" className="topnav hidden">
           <a href="https://github.com/zalo/CascadeStudio">
             Cascade Studio 0.0.6

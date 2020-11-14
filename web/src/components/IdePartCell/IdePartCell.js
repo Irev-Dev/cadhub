@@ -12,6 +12,9 @@ export const QUERY = gql`
       code
       mainImage
       createdAt
+      user {
+        id
+      }
     }
   }
 `
