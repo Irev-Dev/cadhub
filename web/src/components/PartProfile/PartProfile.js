@@ -92,14 +92,21 @@ const PartProfile = ({
           >
             Comments 11
           </Button>
-          <Button
-            className="mt-4 ml-auto shadow-md hover:shadow-lg bg-indigo-200"
-            shouldAnimateHover
-            iconName="terminal"
-            onClick={() => {}}
+          <Link
+            to={routes.ide({
+              userName: userPart.userName,
+              partTitle: part.title,
+            })}
           >
-            Open IDE
-          </Button>
+            <Button
+              className="mt-4 ml-auto shadow-md hover:shadow-lg bg-indigo-200"
+              shouldAnimateHover
+              iconName="terminal"
+              onClick={() => {}}
+            >
+              Open IDE
+            </Button>
+          </Link>
           {canEdit && (
             <Button
               className="mt-4 ml-auto shadow-md hover:shadow-lg bg-indigo-200 relative z-20"

@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import HomePage from './HomePage'
+import IdeCascadeStudio from './IdeCascadeStudio'
 
-describe('HomePage', () => {
+describe('IdeCascadeStudio', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<HomePage />)
+      render(<IdeCascadeStudio />)
     }).not.toThrow()
   })
 })

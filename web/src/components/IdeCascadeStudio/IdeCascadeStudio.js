@@ -1,41 +1,57 @@
-import MainLayout from 'src/layouts/MainLayout'
-// import BlogPostsCell from 'src/components/BlogPostsCell'
+import { useMutation, useFlash } from '@redwoodjs/web'
+import { Link, routes, navigate } from '@redwoodjs/router'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
+import CascadeController from 'src/helpers/cascadeController'
 import { useEffect, useState } from 'react'
 
-const starterCode = `// Welcome to Cascade Studio!   Here are some useful functions:
-//  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
-//  Box(), Sphere(), Cylinder(), Cone(), Text3D(), Polygon()
-//  Offset(), Extrude(), RotatedExtrude(), Revolve(), Pipe(), Loft(),
-//  FilletEdges(), ChamferEdges(),
-//  Slider(), Button(), Checkbox()
-
-// Uncomment and hover over them to see their apis
-
-let holeRadius = Slider("Radius", 30 , 20 , 40);
-
-let sphere     = Sphere(50);
-let cylinderZ  =                     Cylinder(holeRadius, 200, true);
-let cylinderY  = Rotate([0,1,0], 90, Cylinder(holeRadius, 200, true));
-let cylinderX  = Rotate([1,0,0], 90, Cylinder(holeRadius, 200, true));
-
-Translate([0, 0, 50], Difference(sphere, [cylinderX, cylinderY, cylinderZ]));
-
-Translate([-100, 0, 100], Text3D("cadhub.xyz"));
-
-// Don't forget to push imported or oc-defined shapes into sceneShapes to add them to the workspace!
+const DELETE_PART_MUTATION = gql`
+  mutation DeletePartMutation($id: Int!) {
+    deletePart(id: $id) {
+      id
+    }
+  }
 `
+const domNode = document.createElement('div').setAttribute('id', 'sickId')
 
-const HomePage1 = () => {
-  const [code, setCode] = useState(starterCode)
+const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
+  const [code, setCode] = useState(part.code)
   useEffect(() => {
-    const sickCallback = (code) => setCode(code)
-    new initialize(sickCallback, starterCode)
+    const onCodeChange = (code) => setCode(code)
+    CascadeController.initialise(onCodeChange, part.code, domNode)
+    const element = document.getElementById('cascade-container')
+    element.setAttribute('style', 'height: auto; display: block; opacity: 100%') // eslint-disable-line
+    return () => {
+      element.setAttribute('style', 'height: auto; display: none;') // eslint-disable-line
+    }
   }, [])
+  const hasChanges = code !== part.code
+  const { addMessage } = useFlash()
+  const [deletePart] = useMutation(DELETE_PART_MUTATION, {
+    onCompleted: () => {
+      // navigate(routes.parts())
+      addMessage('Part deleted.', { classes: 'rw-flash-success' })
+    },
+  })
+
+  const onDeleteClick = (id) => {
+    if (confirm('Are you sure you want to delete part ' + id + '?')) {
+      deletePart({ variables: { id } })
+    }
+  }
+
   return (
-    <MainLayout>
-      <div>current code {code}</div>
-      <BlogPostsCell />
+    <>
+      <nav className="rw-button-group">
+        {loading && 'Loading...'}
+        {hasChanges && !loading && (
+          <button
+            onClick={() => saveCode({ code }, part.id)}
+            className="rw-button rw-button-blue"
+          >
+            Save Changes
+          </button>
+        )}
+      </nav>
       <div>
         <div id="topnav" className="topnav">
           <a href="https://github.com/zalo/CascadeStudio">
@@ -109,15 +125,14 @@ const HomePage1 = () => {
             Reset Project
           </a>
         </div>
-        <div id="cascade-container" style={{ height: 'auto' }}></div>
-        <footer>footer</footer>
+        {/* <div
+          id="cascade-container"
+          style={{ height: 'auto' }}
+          // dangerouslySetInnerHTML={domNode}
+        ></div> */}
       </div>
-    </MainLayout>
+    </>
   )
 }
 
-const HomePage = () => {
-  return <MainLayout>hi</MainLayout>
-}
-
-export default HomePage
+export default IdeCascadeStudio

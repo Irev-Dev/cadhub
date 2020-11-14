@@ -14,16 +14,16 @@
       var cascadeStudioWorker
       var workerWorking = false
       var galleryProject = undefined
-      function coolGuy() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-                registration.update(); // Always update the registration for the latest assets
-            }, function() {
-                console.log('Could not register Cascade Studio for offline use!');
-            });
-        } else {
-            console.log('Browser does not support offline access!');
-        }
+      function initCascadeStudio() {
+        // if ('serviceWorker' in navigator) {
+        //     navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+        //         registration.update(); // Always update the registration for the latest assets
+        //     }, function() {
+        //         console.log('Could not register Cascade Studio for offline use!');
+        //     });
+        // } else {
+        //     console.log('Browser does not support offline access!');
+        // }
 
         // Begins loading the CAD Kernel Web Worker
         if (window.Worker) {
@@ -38,10 +38,14 @@
             }
         }
       }
-      // coolGuy()
+      initCascadeStudio()
     </script>
   </head>
   <body>
     <div id="redwood-app"></div>
+    <div
+      id="cascade-container"
+      style="height: auto; opacity: 0;"
+    ></div>
   </body>
 </html>

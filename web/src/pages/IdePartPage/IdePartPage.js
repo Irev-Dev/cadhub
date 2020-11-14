@@ -1,11 +1,10 @@
-import { Link, routes } from '@redwoodjs/router'
 import MainLayout from 'src/layouts/MainLayout'
 import IdePartCell from 'src/components/IdePartCell'
 
-const IdePartPage = ({ id }) => {
+const IdePartPage = ({ userName, partTitle }) => {
   return (
     <MainLayout>
-      <IdePartCell id={id} />
+      <IdePartCell userName={userName} partTitle={partTitle} />
     </MainLayout>
   )
 }
