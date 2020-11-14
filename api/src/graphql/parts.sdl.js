@@ -37,6 +37,7 @@ export const schema = gql`
 
   type Mutation {
     createPart(input: CreatePartInput!): Part!
+    forkPart(input: CreatePartInput!): Part!
     updatePart(id: String!, input: UpdatePartInput!): Part!
     deletePart(id: String!): Part!
   }

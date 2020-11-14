@@ -26,6 +26,17 @@ const UPDATE_PART_MUTATION = gql`
     }
   }
 `
+const FORK_PART_MUTATION = gql`
+  mutation ForkPartMutation($input: CreatePartInput!) {
+    forkPart(input: $input) {
+      id
+      title
+      user {
+        userName
+      }
+    }
+  }
+`
 
 export const Loading = () => <div>Loading...</div>
 
@@ -39,10 +50,25 @@ export const Success = ({ part, refetch }) => {
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
+  const [forkPart] = useMutation(FORK_PART_MUTATION, {
+    onCompleted: ({ forkPart }) => {
+      navigate(
+        routes.ide({
+          userName: forkPart?.user?.userName,
+          partTitle: forkPart?.title,
+        })
+      )
+      addMessage('Part Forked.', { classes: 'rw-flash-success' })
+    },
+  })
 
-  const saveCode = (input, id) => {
-    updatePart({ variables: { id, input } })
-    refetch()
+  const saveCode = ({ input, id, isFork }) => {
+    if (!isFork) {
+      updatePart({ variables: { id, input } })
+      refetch()
+      return
+    }
+    forkPart({ variables: { input } })
   }
   return (
     <IdeCascadeStudio

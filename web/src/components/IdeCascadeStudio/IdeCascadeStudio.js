@@ -60,7 +60,18 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
         <IdeToolbar
           canEdit={canEdit}
           isChanges={isChanges && !loading}
-          onSave={() => {}}
+          onSave={() => {
+            saveCode({
+              input: {
+                code,
+                title: part?.title,
+                userId: currentUser?.sub,
+                description: part?.description,
+              },
+              id: part.id,
+              isFork: !canEdit,
+            })
+          }}
           onExport={(type) => threejsViewport[`saveShape${type}`]()}
         />
         <div id="topnav" className="topnav hidden">

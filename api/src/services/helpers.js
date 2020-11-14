@@ -14,3 +14,17 @@ export const foreignKeyReplacement = (input) => {
 
 export const enforceAlphaNumeric = (string) =>
   string.replace(/([^a-zA-Z\d_:])/g, '-')
+
+export const generateUniqueString = async (
+  seed,
+  isUniqueCallback,
+  count = 0
+) => {
+  const isUnique = !(await isUniqueCallback(seed))
+  if (isUnique) {
+    return seed
+  }
+  count += 1
+  const newSeed = count === 1 ? `${seed}_${count}` : seed.slice(0, -1) + count
+  return generateUniqueString(newSeed, isUniqueCallback, count)
+}

@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import {
   foreignKeyReplacement,
   enforceAlphaNumeric,
+  generateUniqueString,
 } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
@@ -35,6 +36,25 @@ export const createPart = async ({ input }) => {
   requireAuth()
   return db.part.create({
     data: foreignKeyReplacement(input),
+  })
+}
+
+export const forkPart = async ({ input }) => {
+  // Only difference between create nda clone part is that clone part will generate a unique title
+  // (for the user) if there is a conflict
+  const isUniqueCallback = async (seed) =>
+    db.part.findOne({
+      where: {
+        title_userId: {
+          title: seed,
+          userId: input.userId,
+        },
+      },
+    })
+  const title = await generateUniqueString(input.title, isUniqueCallback)
+  // TODO change the description to `forked from userName/partName ${rest of description}`
+  return db.part.create({
+    data: foreignKeyReplacement({ ...input, title }),
   })
 }
 
