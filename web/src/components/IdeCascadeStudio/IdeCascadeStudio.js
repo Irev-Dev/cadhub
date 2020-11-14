@@ -61,7 +61,7 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
           canEdit={canEdit}
           isChanges={isChanges && !loading}
           onSave={() => {}}
-          onExport={() => {}}
+          onExport={(type) => threejsViewport[`saveShape${type}`]()}
         />
         <div id="topnav" className="topnav hidden">
           <a href="https://github.com/zalo/CascadeStudio">
