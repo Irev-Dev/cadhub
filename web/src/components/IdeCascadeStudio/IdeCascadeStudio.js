@@ -2,6 +2,7 @@ import { useMutation, useFlash } from '@redwoodjs/web'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
 import CascadeController from 'src/helpers/cascadeController'
+import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 
 const DELETE_PART_MUTATION = gql`
@@ -19,9 +20,9 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
     const onCodeChange = (code) => setCode(code)
     CascadeController.initialise(onCodeChange, part.code, domNode)
     const element = document.getElementById('cascade-container')
-    element.setAttribute('style', 'height: auto; display: block; opacity: 100%') // eslint-disable-line
+    element.setAttribute('style', 'display: block; opacity: 100%; overflow: hidden; height: calc(100vh - 8rem)') // eslint-disable-line
     return () => {
-      element.setAttribute('style', 'height: auto; display: none;') // eslint-disable-line
+      element.setAttribute('style',  'display: none; overflow: hidden; height: calc(100vh - 8rem)') // eslint-disable-line
     }
   }, [])
   const hasChanges = code !== part.code
@@ -41,7 +42,7 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
 
   return (
     <>
-      <nav className="rw-button-group">
+      <nav className="rw-button-group hidden">
         {loading && 'Loading...'}
         {hasChanges && !loading && (
           <button
@@ -53,7 +54,8 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
         )}
       </nav>
       <div>
-        <div id="topnav" className="topnav">
+        <IdeToolbar />
+        <div id="topnav" className="topnav hidden">
           <a href="https://github.com/zalo/CascadeStudio">
             Cascade Studio 0.0.6
           </a>

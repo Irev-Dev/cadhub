@@ -44,6 +44,11 @@
   @apply list-disc;
 }
 
+.material-ui-overrides,.MuiPopover-paper {
+  /* stop pop over from scrolling */
+  overflow: visible !important;
+}
+
 body {
   /* TODO can I use a tailwind class here? */
   background-color: #f7fafc;
