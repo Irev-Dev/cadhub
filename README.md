@@ -1,4 +1,6 @@
-# CadHub
+# [C a d H u b](https://cadhub.xyz)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/77f37543-e54a-4723-8136-157c0221ec27/deploy-status)](https://app.netlify.com/sites/cadhubxyz/deploys)
 
 CadHub aims to be a community website for javascript based code-cad. Currently trying to integrate [cascadeStudio](https://zalo.github.io/CascadeStudio/), but if successful plan to also integrate [JSCAD](https://openjscad.org/).
 OpenScad has proven code-cad a much loved formate for cad-modeling. Joining code-cad to a mature language like javascript that has a package manager (npm) plus a community hub for sharing cad models like CadHub, we're going to build a thriving community.
@@ -25,7 +27,14 @@ yarn install
 Initialise the db
 ``` terminal
 yarn rw db up
+yarn rw db seed
 ```
+
+Move some files to the public directory
+```
+yarn move-cad-worker
+```
+The above step should be repeated whenever you modify anything in the git submodule `web/src/cascade/*`
 
 ### Fire up dev
 ```terminal
@@ -33,6 +42,14 @@ yarn rw dev
 ```
 
 Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`.
+
+you can sign in to the following accounts locally
+
+localUser1@kurthutten.com: `abc123`
+
+localUser2@kurthutten.com: `abc123`
+
+localAdmin@kurthutten.com: `abc123`
 
 You may need to register a account depending on what issue you are trying to tackle, This can be done by clicking the login button on the top right. This will open up netlify's idenitiy modal asking for the websites url, since it will notice you developing locally. Enter `https://cadhub.xyz/` than use you email, verify your email and you should be set.
 (some routes are protected, but permissions is a big area that needs a lot of work in the near future, so it's in a very incomplete state atm)

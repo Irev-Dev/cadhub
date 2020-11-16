@@ -5,7 +5,11 @@ import { useAuth } from '@redwoodjs/auth'
 import PartProfile from 'src/components/PartProfile'
 
 export const QUERY = gql`
-  query FIND_PART_BY_USERNAME_TITLE($userName: String!, $partTitle: String, $currentUserId: String) {
+  query FIND_PART_BY_USERNAME_TITLE(
+    $userName: String!
+    $partTitle: String
+    $currentUserId: String
+  ) {
     userPart: userName(userName: $userName) {
       id
       name
@@ -42,7 +46,7 @@ export const QUERY = gql`
 
 const UPDATE_PART_MUTATION = gql`
   mutation UpdatePartMutation($id: String!, $input: UpdatePartInput!) {
-    updatePart:updatePart(id: $id, input: $input) {
+    updatePart: updatePart(id: $id, input: $input) {
       id
       title
       user {
@@ -66,7 +70,7 @@ const CREATE_PART_MUTATION = gql`
 `
 const TOGGLE_REACTION_MUTATION = gql`
   mutation ToggleReactionMutation($input: TogglePartReactionInput!) {
-    togglePartReaction(input: $input){
+    togglePartReaction(input: $input) {
       id
       emote
     }
@@ -87,23 +91,33 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ userPart, variables: {isEditable}, refetch}) => {
+export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
   const { currentUser } = useAuth()
   const { addMessage } = useFlash()
   const [updateUser, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
-    onCompleted: ({updatePart}) => {
-      navigate(routes.part2({userName: updatePart.user.userName, partTitle: updatePart.title}))
+    onCompleted: ({ updatePart }) => {
+      navigate(
+        routes.part2({
+          userName: updatePart.user.userName,
+          partTitle: updatePart.title,
+        })
+      )
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
   const [createUser] = useMutation(CREATE_PART_MUTATION, {
-    onCompleted: ({createPart}) => {
-      navigate(routes.part2({userName: createPart?.user?.userName, partTitle: createPart?.title}))
+    onCompleted: ({ createPart }) => {
+      navigate(
+        routes.part2({
+          userName: createPart?.user?.userName,
+          partTitle: createPart?.title,
+        })
+      )
       addMessage('Part Created.', { classes: 'rw-flash-success' })
     },
   })
   const onSave = (id, input) => {
-    if(!id) {
+    if (!id) {
       createUser({ variables: { input } })
       return
     }
@@ -111,30 +125,42 @@ export const Success = ({ userPart, variables: {isEditable}, refetch}) => {
   }
 
   const [toggleReaction] = useMutation(TOGGLE_REACTION_MUTATION, {
-    onCompleted: () => refetch()
+    onCompleted: () => refetch(),
   })
-  const onReaction = (emote) => toggleReaction({variables: {input: {
-    emote,
-    userId: currentUser.sub,
-    partId: userPart?.Part?.id,
-  }}})
+  const onReaction = (emote) =>
+    toggleReaction({
+      variables: {
+        input: {
+          emote,
+          userId: currentUser.sub,
+          partId: userPart?.Part?.id,
+        },
+      },
+    })
 
   const [createComment] = useMutation(CREATE_COMMENT_MUTATION, {
-    onCompleted: () => refetch()
+    onCompleted: () => refetch(),
   })
-  const onComment = (text) => createComment({variables: {input: {
-    text,
-    userId: currentUser.sub,
-    partId: userPart?.Part?.id,
-  }}})
+  const onComment = (text) =>
+    createComment({
+      variables: {
+        input: {
+          text,
+          userId: currentUser.sub,
+          partId: userPart?.Part?.id,
+        },
+      },
+    })
 
-  return <PartProfile
-    userPart={userPart}
-    onSave={onSave}
-    loading={loading}
-    error={error}
-    isEditable={isEditable}
-    onReaction={onReaction}
-    onComment={onComment}
-  />
+  return (
+    <PartProfile
+      userPart={userPart}
+      onSave={onSave}
+      loading={loading}
+      error={error}
+      isEditable={isEditable}
+      onReaction={onReaction}
+      onComment={onComment}
+    />
+  )
 }

@@ -7,37 +7,38 @@ export const requireOwnership = async ({ userId, userName, partId } = {}) => {
   if (!context.currentUser) {
     throw new AuthenticationError("You don't have permission to do that.")
   }
-  if(!userId && !userName && !partId) {
+  if (!userId && !userName && !partId) {
     throw new ForbiddenError("You don't have access to do that.")
   }
 
-  if(context.currentUser.roles?.includes('admin')) {
+  if (context.currentUser.roles?.includes('admin')) {
     return
   }
 
   const netlifyUserId = context.currentUser?.sub
-  if(userId && userId !== netlifyUserId) {
+  if (userId && userId !== netlifyUserId) {
     throw new ForbiddenError("You don't own this resource.")
   }
 
-  if(userName) {
+  if (userName) {
     const user = await db.user.findOne({
       where: { userName },
     })
 
-    if(!user || user.id !== netlifyUserId) {
+    if (!user || user.id !== netlifyUserId) {
       throw new ForbiddenError("You don't own this resource.")
     }
   }
 
-  if(partId) {
-    const user = await db.part.findOne({
-      where: { id: partId },
-    }).user()
+  if (partId) {
+    const user = await db.part
+      .findOne({
+        where: { id: partId },
+      })
+      .user()
 
-    if(!user || user.id !== netlifyUserId) {
+    if (!user || user.id !== netlifyUserId) {
       throw new ForbiddenError("You don't own this resource.")
     }
   }
-
 }

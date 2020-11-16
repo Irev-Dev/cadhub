@@ -17,7 +17,9 @@
     "./web/src/Routes.js",
   ],
   "cSpell.words": [
+    "Initialised",
     "Uploader",
+    "initialise",
     "redwoodjs"
   ]
 }

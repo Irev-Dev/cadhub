@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 import { UserInputError } from '@redwoodjs/api'
+import { enforceAlphaNumeric } from 'src/services/helpers'
 
 export const users = () => {
   requireAuth({ role: 'admin' })
@@ -22,7 +23,7 @@ export const userName = ({ userName }) => {
 
 export const createUser = ({ input }) => {
   requireAuth({ role: 'admin' })
-  createUserInsecure({input})
+  createUserInsecure({ input })
 }
 export const createUserInsecure = ({ input }) => {
   return db.user.create({
@@ -40,12 +41,15 @@ export const updateUser = ({ id, input }) => {
 
 export const updateUserByUserName = async ({ userName, input }) => {
   requireAuth()
-  await requireOwnership({userName})
-  if(input.userName) {
-    input.userName = input.userName.replace(/([^a-zA-Z\d_:])/g, '-')
+  await requireOwnership({ userName })
+  if (input.userName) {
+    input.userName = enforceAlphaNumeric(input.userName)
   }
-  if(input.userName && ['new', 'edit', 'update'].includes(input.userName)) { //TODO complete this and use a regexp so that it's not case sensitive, don't want someone with the userName eDiT
-    throw new UserInputError(`You've tried to used a protected word as you userName, try something other than `)
+  if (input.userName && ['new', 'edit', 'update'].includes(input.userName)) {
+    //TODO complete this and use a regexp so that it's not case sensitive, don't want someone with the userName eDiT
+    throw new UserInputError(
+      `You've tried to used a protected word as you userName, try something other than `
+    )
   }
   return db.user.update({
     data: input,
@@ -62,10 +66,16 @@ export const deleteUser = ({ id }) => {
 
 export const User = {
   Parts: (_obj, { root }) => db.user.findOne({ where: { id: root.id } }).Part(),
-  Part: (_obj, { root, ...rest }) => _obj.partTitle && db.part.findOne({where: { title_userId: {
-    title: _obj.partTitle,
-    userId: root.id,
-  }}}),
+  Part: (_obj, { root, ...rest }) =>
+    _obj.partTitle &&
+    db.part.findOne({
+      where: {
+        title_userId: {
+          title: _obj.partTitle,
+          userId: root.id,
+        },
+      },
+    }),
   Reaction: (_obj, { root }) =>
     db.user.findOne({ where: { id: root.id } }).Reaction(),
   Comment: (_obj, { root }) =>

@@ -1,5 +1,6 @@
 import { createUserInsecure } from 'src/services/users/users.js'
 import { db } from 'src/lib/db'
+import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'
 
 export const handler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -57,32 +58,19 @@ export const handler = async (req, _context) => {
 
   if (eventType === 'signup') {
     roles.push('user')
-    // const hi = {
-    //   email: 'kurt.hutten@gmail.com',
-    //   image: '',
-    //   bio: ''
-    // }
-
-    const generateUniqueUserName = async (seed, count = 0) => {
-      const isUnique = !(await db.user.findOne({
+    const isUniqueCallback = async (seed) =>
+      db.user.findOne({
         where: { userName: seed },
-      }))
-      if(isUnique) {
-        return seed
-      }
-      count += 1
-      const newSeed = count === 1 ? `${seed}_${count}` : seed.slice(0,-1) + count
-      return generateUniqueUserName(newSeed, count)
-    }
-    const userNameSeed = email.split('@')[0]
-    const userName = await generateUniqueUserName(userNameSeed) // TODO maybe come up with a better default userName?
+      })
+    const userNameSeed = enforceAlphaNumeric(email.split('@')[0])
+    const userName = await generateUniqueString(userNameSeed, isUniqueCallback) // TODO maybe come up with a better default userName?
     const input = {
       email,
       userName,
       name: user.user_metadata && user.user_metadata.full_name,
       id: user.id,
     }
-    await createUserInsecure({input})
+    await createUserInsecure({ input })
 
     return {
       statusCode: 200,
