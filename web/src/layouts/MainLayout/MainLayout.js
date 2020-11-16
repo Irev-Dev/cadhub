@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { useState } from 'react'
+import { Link, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Flash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -24,6 +24,7 @@ import logo from 'src/layouts/MainLayout/Logo_2.jpg'
 const MainLayout = ({ children }) => {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   const { data, loading } = useQuery(QUERY, {
+    skip: !currentUser?.sub,
     variables: { id: currentUser?.sub },
   })
   const [isOpen, setIsOpen] = useState(false)
