@@ -1,18 +1,9 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
 import { useAuth } from '@redwoodjs/auth'
-import { Link, routes, navigate } from '@redwoodjs/router'
-import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
+import { Link, routes } from '@redwoodjs/router'
 import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 
-const DELETE_PART_MUTATION = gql`
-  mutation DeletePartMutation($id: Int!) {
-    deletePart(id: $id) {
-      id
-    }
-  }
-`
 const domNode = document.createElement('div').setAttribute('id', 'sickId')
 
 const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
@@ -20,6 +11,9 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === part?.user?.id
   useEffect(() => {
+    // Cascade studio attaches "cascade-container" a div outside the react app in 'web/src/index.html', and so we are
+    // "opening" and "closing" it for the ide part of the app by displaying none or block. Which is why this useEffect
+    // returns a clean up function that hides the div again.
     const onCodeChange = (code) => setCode(code)
     CascadeController.initialise(onCodeChange, part.code, domNode)
     const element = document.getElementById('cascade-container')
@@ -27,35 +21,11 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
     return () => {
       element.setAttribute('style',  'display: none; overflow: hidden; height: calc(100vh - 8rem)') // eslint-disable-line
     }
-  }, [])
+  }, [part.code])
   const isChanges = code !== part.code
-  const { addMessage } = useFlash()
-  const [deletePart] = useMutation(DELETE_PART_MUTATION, {
-    onCompleted: () => {
-      // navigate(routes.parts())
-      addMessage('Part deleted.', { classes: 'rw-flash-success' })
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete part ' + id + '?')) {
-      deletePart({ variables: { id } })
-    }
-  }
 
   return (
     <>
-      <nav className="rw-button-group hidden">
-        {loading && 'Loading...'}
-        {isChanges && !loading && (
-          <button
-            onClick={() => saveCode({ code }, part.id)}
-            className="rw-button rw-button-blue"
-          >
-            Save Changes
-          </button>
-        )}
-      </nav>
       <div>
         <IdeToolbar
           canEdit={canEdit}
@@ -74,83 +44,6 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
           }}
           onExport={(type) => threejsViewport[`saveShape${type}`]()}
         />
-        <div id="topnav" className="topnav hidden">
-          <a href="https://github.com/zalo/CascadeStudio">
-            Cascade Studio 0.0.6
-          </a>
-          <a
-            href="#"
-            id="main-proj-button"
-            title="Sets this project to save in local storage."
-            onClick={() => makeMainProject()}
-          >
-            Make Main Project
-          </a>
-          <a
-            href="#"
-            title="Save Project to .json"
-            onClick={() => saveProject()}
-          >
-            Save Project
-          </a>
-          <label htmlFor="project-file" title="Load Project from .json">
-            Load Project
-            <input
-              id="project-file"
-              name="project-file"
-              type="file"
-              accept=".json"
-              style={{ display: 'none' }}
-              onInput={() => loadProject()}
-            />
-          </label>
-          <a href="#" onClick={() => threejsViewport.saveShapeSTEP()}>
-            Save STEP
-          </a>
-          <a href="#" onClick={() => threejsViewport.saveShapeSTL()}>
-            Save STL
-          </a>
-          <a href="#" onClick={() => threejsViewport.saveShapeOBJ()}>
-            Save OBJ
-          </a>
-          <label
-            htmlFor="files"
-            title="Import STEP, IGES, or (ASCII) STL from File"
-          >
-            Import STEP/IGES/STL
-            <input
-              id="files"
-              name="files"
-              type="file"
-              accept=".iges,.step,.igs,.stp,.stl"
-              multiple
-              style={{ display: 'none' }}
-              onInput={() => loadFiles()}
-            />
-          </label>
-          <a
-            href="#"
-            title="Clears the external step/iges/stl files stored in the project."
-            onClick={() => clearExternalFiles()}
-          >
-            Clear Imported Files
-          </a>
-          <a
-            href=""
-            title="Resets the project and localstorage."
-            onClick={() => {
-              window.localStorage.clear()
-              window.history.replaceState({}, 'Cascade Studio', '?')
-            }}
-          >
-            Reset Project
-          </a>
-        </div>
-        {/* <div
-          id="cascade-container"
-          style={{ height: 'auto' }}
-          // dangerouslySetInnerHTML={domNode}
-        ></div> */}
       </div>
     </>
   )

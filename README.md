@@ -30,6 +30,12 @@ yarn rw db up
 yarn rw db seed
 ```
 
+Move some files to the public directory
+```
+yarn move-cad-worker
+```
+The above step should be repeated whenever you modify anything in the git submodule `web/src/cascade/*`
+
 ### Fire up dev
 ```terminal
 yarn rw dev

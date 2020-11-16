@@ -1,7 +1,6 @@
 import { useMutation, useFlash } from '@redwoodjs/web'
 import { navigate, routes } from '@redwoodjs/router'
 import IdeCascadeStudio from 'src/components/IdeCascadeStudio'
-// import Part from 'src/components/Part'a
 
 export const QUERY = gql`
   query FIND_PART_BY_USENAME_TITLE($partTitle: String!, $userName: String!) {
@@ -46,7 +45,6 @@ export const Success = ({ part, refetch }) => {
   const { addMessage } = useFlash()
   const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: () => {
-      // navigate(routes.part({id: updatePart.id}))
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
