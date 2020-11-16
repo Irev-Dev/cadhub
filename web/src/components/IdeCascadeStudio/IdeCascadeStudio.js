@@ -43,6 +43,11 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
             })
           }}
           onExport={(type) => threejsViewport[`saveShape${type}`]()}
+          userNamePart={{
+            userName: part.user.userName,
+            partTitle: part.title,
+            image: part?.user?.image,
+          }}
         />
       </div>
     </>

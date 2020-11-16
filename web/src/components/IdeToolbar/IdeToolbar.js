@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Popover from '@material-ui/core/Popover'
+import { Link, routes, navigate } from '@redwoodjs/router'
 
 import Button from 'src/components/Button'
+import ImageUploader from 'src/components/ImageUploader'
 
-const IdeToolbar = ({ canEdit, isChanges, onSave, onExport }) => {
+const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
@@ -22,6 +24,32 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport }) => {
       id="cadhub-ide-toolbar"
       className="flex bg-gradient-to-r from-gray-900 to-indigo-900 pt-1"
     >
+      <div className="flex items-center">
+        <div className="h-8 w-8 ml-4">
+          <ImageUploader
+            className="rounded-full object-cover"
+            onImageUpload={() => {}}
+            aspectRatio={1}
+            imageUrl={userNamePart?.image}
+            width={80}
+          />
+        </div>
+        <div className="text-indigo-400 ml-2 mr-8">
+          <Link to={routes.user2({ userName: userNamePart?.userName })}>
+            {userNamePart?.userName}
+          </Link>
+        </div>
+      </div>
+      <Button
+        iconName="arrow-left"
+        className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
+        shouldAnimateHover
+        onClick={() => {
+          navigate(routes.part2(userNamePart))
+        }}
+      >
+        Part Profile
+      </Button>
       <Button
         iconName={canEdit ? 'save' : 'fork'}
         className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
