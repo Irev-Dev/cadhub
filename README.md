@@ -7,6 +7,8 @@
 CadHub aims to be a community website for javascript based code-cad. Currently trying to integrate the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/), but if successful plan to also integrate [JSCAD](https://openjscad.org/).
 OpenScad has proven code-cad a much loved formate for cad-modeling. Joining code-cad to a mature language like javascript that has a package manager (npm) plus a community hub for sharing cad models like CadHub, we're going to build a thriving community.
 
+If you want to be involved in anyway, swing by the [discord channel](https://discord.gg/SD7zFRNjGH).
+
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Parts%20Page.jpg">
 
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20IDE%20-%20export%20expand%20state.jpg">
