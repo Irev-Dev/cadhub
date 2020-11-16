@@ -13,7 +13,6 @@ const Routes = () => {
   return (
     <Router>
       <Route path="/" page={PartsPage} name="home" />
-      {/* <Route path="/blah/*" page={PartsPage} name="home" /> */}
       <Route notfound page={NotFoundPage} />
 
       {/* Ownership enforced routes */}
@@ -24,7 +23,7 @@ const Routes = () => {
 
       <Route path="/u/{userName}" page={User2Page} name="user2" />
       <Route path="/u/{userName}/{partTitle}" page={Part2Page} name="part2" />
-      {/* <Route path="/u/{userName}/{partTitle}/ide" page={Part2Page} name="part2" /> */}
+      <Route path="/u/{userName}/{partTitle}/ide" page={IdePartPage} name="ide" />
 
       {/* GENERATED ROUTES BELOW, probably going to clean these up and delete most of them, but the CRUD functionality is useful for now */}
       {/* All private by default for safety and because the routes that are left after clean up will probably be admin pages */}

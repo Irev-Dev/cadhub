@@ -51,7 +51,7 @@ const MainLayout = ({ children }) => {
   }
   return (
     <>
-      <header>
+      <header id="cadhub-main-header">
         <nav className="flex justify-between h-20 px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
           <ul className="flex items-center">
             <li>
@@ -128,7 +128,7 @@ const MainLayout = ({ children }) => {
             }}
           >
             {isAuthenticated && currentUser ? (
-              <div style={{ padding: '1em', width: '15em' }}>
+              <div className="p-4 w-40">
                 <Link to={routes.user2({ userName: data?.user?.userName })}>
                   <h3 className="text-indigo-800" style={{ fontWeight: '500' }}>
                     Hello {data?.user?.name}
