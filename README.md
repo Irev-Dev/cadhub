@@ -4,8 +4,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/77f37543-e54a-4723-8136-157c0221ec27/deploy-status)](https://app.netlify.com/sites/cadhubxyz/deploys)
 
-CadHub aims to be a community website for javascript based code-cad. Currently trying to integrate the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/), but if successful plan to also integrate [JSCAD](https://openjscad.org/).
-OpenScad has proven code-cad a much loved formate for cad-modeling. Joining code-cad to a mature language like javascript that has a package manager (npm) plus a community hub for sharing cad models like CadHub, we're going to build a thriving community.
+CadHub aims to be a community website for code-cad. Currently trying to integrate the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/), but maybe more in future.
+OpenScad has proven that code-cad is a much loved format for cad-modeling. We're going to build a thriving community.
 
 If you want to be involved in anyway, swing by the [discord channel](https://discord.gg/SD7zFRNjGH).
 
