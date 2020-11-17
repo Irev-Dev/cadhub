@@ -4,8 +4,6 @@ import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 
-const domNode = document.createElement('div').setAttribute('id', 'sickId')
-
 const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
   const [code, setCode] = useState(part.code)
   const { currentUser } = useAuth()
@@ -15,7 +13,7 @@ const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
     // "opening" and "closing" it for the ide part of the app by displaying none or block. Which is why this useEffect
     // returns a clean up function that hides the div again.
     const onCodeChange = (code) => setCode(code)
-    CascadeController.initialise(onCodeChange, part.code, domNode)
+    CascadeController.initialise(onCodeChange, part.code)
     const element = document.getElementById('cascade-container')
     element.setAttribute('style', 'display: block; opacity: 100%; overflow: hidden; height: calc(100vh - 8rem)') // eslint-disable-line
     return () => {
