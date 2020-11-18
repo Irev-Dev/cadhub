@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "autoprefixer": "9.8.6",
+    "html-webpack-plugin": "^4.5.0",
     "postcss-loader": "4.0.2",
     "tailwindcss": "^1.9.1"
   }
