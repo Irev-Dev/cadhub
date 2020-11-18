@@ -48,12 +48,13 @@
   /* stop pop over from scrolling */
   overflow: visible !important;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 body {
   /* TODO can I use a tailwind class here? */
   background-color: #f7fafc;
 }
-
 button, input, label, textarea {
   display: block;
   outline: none;
