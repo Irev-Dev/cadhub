@@ -6,9 +6,12 @@
 // avoid the possibility that it will cause its own error. If it does, Redwood will
 // still render a generic error page, but your users will prefer something a bit more
 // thoughtful. =)
+import Seo from 'src/components/Seo/Seo'
 
 export default () => (
   <main>
+    <Seo title="Fatal error" description="Fatal error" lang="en-US" />
+
     <style
       dangerouslySetInnerHTML={{
         __html: `

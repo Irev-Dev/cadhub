@@ -1,7 +1,10 @@
 import MainLayout from 'src/layouts/MainLayout'
+import Seo from 'src/components/Seo/Seo'
 
 export default () => (
   <MainLayout>
+    <Seo title="Page not found" description="404 page not found" lang="en-US" />
+
     <style
       dangerouslySetInnerHTML={{
         __html: `
