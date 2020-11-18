@@ -6,10 +6,30 @@
 //
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
-
+import { useEffect } from 'react'
 import { Router, Route, Private } from '@redwoodjs/router'
 
+const welcomeMessage = `
+%cHey, 👋.
+%c______________________________________________________________________________
+
+%cCadHub is in active development - Want to lend a hand?
+%chttps://github.com/Irev-Dev/cadhub
+
+`
+
 const Routes = () => {
+  useEffect(
+    () =>
+      console.log(
+        welcomeMessage,
+        'font-family: Georgia, serif; font-weight:bold; line-height: 2rem; font-size: 32px; color: #3c366b; padding-left: 5rem;',
+        'font-size: 10px; color:#D3D3D3; padding-left: 5rem;',
+        'font-family: "Ropa Sans",Georgia, serif; font-size: 16px;line-height:3rem; padding-left: 5rem;',
+        'font-family: Helvetica Neue, sans-serif; font-size: 16px; line-height: 1.5rem; color:#gray;padding-left: 5rem'
+      ),
+    []
+  )
   return (
     <Router>
       <Route path="/" page={PartsPage} name="home" />
