@@ -31,6 +31,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.2.1",
+    "react-helmet": "^6.1.0",
     "react-image-crop": "^8.6.6",
     "rich-markdown-editor": "^11.0.2",
     "styled-components": "^5.2.0",
