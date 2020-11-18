@@ -19,7 +19,6 @@ export const QUERY = gql`
 `
 import Svg from 'src/components/Svg'
 import ImageUploader from 'src/components/ImageUploader'
-import logo from 'src/layouts/MainLayout/Logo_2.jpg'
 
 const MainLayout = ({ children }) => {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
@@ -56,8 +55,8 @@ const MainLayout = ({ children }) => {
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
-                <div className="rounded-full overflow-hidden ml-12">
-                  <img src={logo} />
+                <div className="rounded-full overflow-hidden ml-8">
+                  <Svg className="w-16" name="favicon" />
                 </div>
               </Link>
             </li>
@@ -99,19 +98,34 @@ const MainLayout = ({ children }) => {
                 <Svg name="plus" className="text-gray-700 w-full h-full" />
               )}
             </li>
-            <li className="h-10 w-10 border-1 rounded-full border-indigo-300 text-indigo-200">
-              <div aria-describedby={popoverId} onMouseOver={togglePopover}>
-                {!loading && (
-                  <ImageUploader
-                    className="rounded-full object-cover"
-                    onImageUpload={() => {}}
-                    aspectRatio={1}
-                    imageUrl={data?.user?.image}
-                    width={80}
-                  />
-                )}
-              </div>
-            </li>
+            {isAuthenticated ? (
+              <li
+                className="h-10 w-10 border-2 rounded-full border-indigo-300 text-indigo-200"
+                aria-describedby={popoverId}
+              >
+                <button className="w-full h-full" onClick={togglePopover}>
+                  {!loading && (
+                    <ImageUploader
+                      className="rounded-full object-cover"
+                      onImageUpload={() => {}}
+                      aspectRatio={1}
+                      imageUrl={data?.user?.image}
+                      width={80}
+                    />
+                  )}
+                </button>
+              </li>
+            ) : (
+              <li>
+                <a
+                  href="#"
+                  className="text-indigo-200 font-semibold underline"
+                  onClick={logIn}
+                >
+                  Sign in/up
+                </a>
+              </li>
+            )}
           </ul>
           <Popover
             id={popoverId}
