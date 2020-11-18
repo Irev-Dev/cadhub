@@ -89,10 +89,10 @@ const PartProfile = ({
             shouldAnimateHover
             iconName="chevron-down"
             onClick={() => {
-              document.getElementById('section').scrollIntoView()
+              document.getElementById('comment-section').scrollIntoView()
             }}
           >
-            {userPart.Part.Comment.length}
+            {userPart.Part.Comment.length} Comments
           </Button>
           <Link
             to={routes.ide({
@@ -159,7 +159,7 @@ const PartProfile = ({
               <div className="h-px bg-indigo-200 mt-8" />
               <h3
                 className="text-indigo-800 text-lg font-roboto tracking-wider mb-4"
-                id="section"
+                id="comment-section"
               >
                 Comments
               </h3>
