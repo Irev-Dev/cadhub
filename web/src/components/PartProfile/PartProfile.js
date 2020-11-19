@@ -88,9 +88,11 @@ const PartProfile = ({
             className="mt-6 ml-auto hover:shadow-lg bg-gradient-to-r from-transparent to-indigo-100"
             shouldAnimateHover
             iconName="chevron-down"
-            onClick={() => {}}
+            onClick={() => {
+              document.getElementById('comment-section').scrollIntoView()
+            }}
           >
-            Comments 11
+            {userPart.Part.Comment.length} Comments
           </Button>
           <Link
             to={routes.ide({
@@ -155,7 +157,10 @@ const PartProfile = ({
           {!isEditable && (
             <>
               <div className="h-px bg-indigo-200 mt-8" />
-              <h3 className="text-indigo-800 text-lg font-roboto tracking-wider mb-4">
+              <h3
+                className="text-indigo-800 text-lg font-roboto tracking-wider mb-4"
+                id="comment-section"
+              >
                 Comments
               </h3>
 
