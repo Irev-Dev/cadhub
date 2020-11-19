@@ -13,7 +13,7 @@
     "move-statics": "yarn move-ts-defs && yarn move-cad-worker"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.19.2"
+    "@redwoodjs/core": "^0.20.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config"

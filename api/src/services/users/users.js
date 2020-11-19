@@ -66,7 +66,7 @@ export const deleteUser = ({ id }) => {
 
 export const User = {
   Parts: (_obj, { root }) => db.user.findOne({ where: { id: root.id } }).Part(),
-  Part: (_obj, { root, ...rest }) =>
+  Part: (_obj, { root }) =>
     _obj.partTitle &&
     db.part.findOne({
       where: {
