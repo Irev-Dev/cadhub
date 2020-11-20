@@ -16,31 +16,13 @@
       var cascadeStudioWorker
       var workerWorking = false
       var galleryProject = undefined
-      function initCascadeStudio() {
-        // if ('serviceWorker' in navigator) {
-        //     navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-        //         registration.update(); // Always update the registration for the latest assets
-        //     }, function() {
-        //         console.log('Could not register Cascade Studio for offline use!');
-        //     });
-        // } else {
-        //     console.log('Browser does not support offline access!');
-        // }
-
-        // Begins loading the CAD Kernel Web Worker
-        if (window.Worker) {
-            cascadeStudioWorker = new Worker('/CADWorker/CascadeStudioMainWorker.js');
-            // Ping Pong Messages Back and Forth based on their registration in messageHandlers
-            // var messageHandlers = {};
-            cascadeStudioWorker.onmessage = function (e) {
-                if(e.data.type in messageHandlers){
-                    let response = messageHandlers[e.data.type](e.data.payload);
-                    if (response) { cascadeStudioWorker.postMessage({ "type": e.data.type, payload: response }) };
-                }
-            }
-        }
-      }
-      initCascadeStudio()
+      var myLayout, monacoEditor,
+        consoleContainer, consoleGolden, codeContainer, gui,
+        guiPanel, GUIState, count = 0, //focused = true,
+        mainProject = false,
+        // messageHandlers = {},
+        startup,
+        isInitialized = false;
     </script>
   </head>
   <body>
