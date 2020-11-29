@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Flash } from '@redwoodjs/web'
@@ -6,6 +6,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { useQuery } from '@redwoodjs/web'
 import Popover from '@material-ui/core/Popover'
 import { getActiveClasses } from 'get-active-classes'
+import { useLocation } from '@redwoodjs/router'
+import ReactGA from 'react-ga'
 
 export const QUERY = gql`
   query FIND_USER_BY_ID($id: String!) {
@@ -19,6 +21,9 @@ export const QUERY = gql`
 `
 import Svg from 'src/components/Svg'
 import ImageUploader from 'src/components/ImageUploader'
+
+let previousSubmission = ''
+let previousUserID = ''
 
 const MainLayout = ({ children }) => {
   const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
@@ -48,6 +53,38 @@ const MainLayout = ({ children }) => {
 
     openPopover(currentTarget)
   }
+
+  const recordedLogin = () => {
+    ReactGA.event({
+      category: 'login',
+      action: 'navbar login',
+    })
+    logIn()
+  }
+
+  const { pathname, params } = useLocation()
+
+  useEffect(() => {
+    const newSubmission = `${pathname || ''}${params || ''}`
+    // not the "React" way of doing think, but otherwise it will submit twice
+    // it's because the old page submits it and when the new page loads it happens again
+    if (previousSubmission !== newSubmission) {
+      ReactGA.pageview(newSubmission)
+      previousSubmission = newSubmission
+    }
+  }, [pathname, params])
+  useEffect(() => {
+    // not the "React" way of doing think, but otherwise it will submit twice
+    // it's because the old page submits it and when the new page loads it happens again
+    if (
+      isAuthenticated &&
+      previousUserID !== currentUser &&
+      data?.user?.userName
+    ) {
+      ReactGA.set({ userName: data.user.userName, userId: currentUser })
+      previousUserID = currentUser
+    }
+  }, [data, currentUser, isAuthenticated])
   return (
     <>
       <header id="cadhub-main-header">
@@ -120,7 +157,7 @@ const MainLayout = ({ children }) => {
                 <a
                   href="#"
                   className="text-indigo-200 font-semibold underline"
-                  onClick={logIn}
+                  onClick={recordedLogin}
                 >
                   Sign in/up
                 </a>
