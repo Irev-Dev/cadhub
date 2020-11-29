@@ -8,6 +8,7 @@
 [web]
   port = 8910
   apiProxyPath = "/.netlify/functions"
+  includeEnvironmentVariables = ['GOOGLE_ANALYTICS_ID']
 [api]
   port = 8911
 [browser]
