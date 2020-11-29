@@ -44,6 +44,30 @@
   @apply list-disc;
 }
 
+
+/* Used for LandingSection.js, if it's gone or these class isn't used there you can probably delete it */
+.svg-shadow {
+  filter: drop-shadow(0 15px 10px #00000036) drop-shadow(0 4px 6px #00000036);
+}
+
+/* Used for LandingSection.js, if it's gone or these class isn't used there you can probably delete it */
+.landing-bg-clip-path {
+  clip-path: polygon(0 0, 100% 62%, 100% 100%, 0% 100%);
+}
+
+/* Used for LandingSection.js, if it's gone or these class isn't used there you can probably delete it */
+@media only screen and (max-width: 1600px) {
+  .landing-bg-clip-path {
+    clip-path: polygon(0 10%, 100% 55%, 100% 100%, 0% 100%);
+  }
+}
+/* Used for LandingSection.js, if it's gone or these class isn't used there you can probably delete it */
+@media only screen and (max-width: 800px) {
+  .landing-bg-clip-path {
+    clip-path: polygon(0 12%, 100% 70%, 100% 100%, 0% 100%);
+  }
+}
+
 .material-ui-overrides,.MuiPopover-paper {
   /* stop pop over from scrolling */
   overflow: visible !important;

@@ -127,21 +127,21 @@ const MainLayout = ({ children }) => {
               </li>
             )}
           </ul>
-          <Popover
-            id={popoverId}
-            open={isOpen}
-            anchorEl={anchorEl}
-            onClose={closePopover}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            {isAuthenticated && currentUser ? (
+          {isAuthenticated && currentUser && (
+            <Popover
+              id={popoverId}
+              open={isOpen}
+              anchorEl={anchorEl}
+              onClose={closePopover}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
               <div className="p-4 w-40">
                 <Link to={routes.user2({ userName: data?.user?.userName })}>
                   <h3 className="text-indigo-800" style={{ fontWeight: '500' }}>
@@ -157,18 +157,8 @@ const MainLayout = ({ children }) => {
                   Logout
                 </a>
               </div>
-            ) : (
-              <div style={{ padding: '1em', width: '15em' }}>
-                <a
-                  href="#"
-                  className="text-indigo-800 text-indigo-800"
-                  onClick={logIn}
-                >
-                  LOGIN/SIGNUP
-                </a>
-              </div>
-            )}
-          </Popover>
+            </Popover>
+          )}
         </nav>
       </header>
       <Flash timeout={1000} />

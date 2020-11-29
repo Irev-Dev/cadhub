@@ -21,6 +21,9 @@
     "Uploader",
     "describedby",
     "initialise",
-    "redwoodjs"
+    "redwoodjs",
+    "resizer",
+    "roboto",
+    "ropa"
   ]
 }
