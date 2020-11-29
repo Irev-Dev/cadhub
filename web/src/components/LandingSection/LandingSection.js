@@ -10,7 +10,7 @@ import { Link } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
 const LandingSection = () => {
-  const { logIn, isAuthenticated } = useAuth()
+  const { logIn } = useAuth()
   return (
     <div className="mt-16">
       <div className="relative p-4 shadow-md">
@@ -43,7 +43,7 @@ const LandingSection = () => {
             <div className="col-start-2 col-span-4 row-start-2 row-span-4 pt-8 animate-bounce-sm-slow">
               {abstractCode}
             </div>
-            <div className="col-end-11 col-span-4 row-end-5 row-span-5 pt-12">
+            <div className="col-end-11 col-span-4 row-end-5 row-span-5 pt-12 animate-twist-sm-slow">
               {involuteDonut}
             </div>
             <div className="col-start-5 col-span-2 row-start-2 row-span-4">
@@ -61,17 +61,17 @@ const LandingSection = () => {
         </h2>
         <MarketingPoint
           leadingPoint="Communication"
-          title="Tech-drawing and CAD as communication medium."
+          title="Tech-drawing and CAD as communication medium"
         >
-          <p>
+          <p className="max-w-2xl">
             Have you ever started frantically reaching for a pen when trying to
             explain an idea?
           </p>
-          <p>
-            Engineers love drawings and CAD extends that. Only now communicating
-            with machines is just as important as with colleagues, and what
-            better way to do that than with a deterministic, expressive and
-            auditable script.
+          <p className="pt-4">
+            Engineers love drawings and CAD extends that, though now
+            communicating with machines is just as important as with colleagues.
+            What better way to do that than with a deterministic, expressive and
+            auditable script?
           </p>
         </MarketingPoint>
         <div className="mt-24">
@@ -85,9 +85,30 @@ const LandingSection = () => {
           <div className="text-gray-600 max-w-3xl text-2xl font-light mt-4">
             <ul className="list-disc pl-6">
               <li>Build your own helper functions and abstractions</li>
-              <li>Trigger FEM or regenerate tool paths with a CI/CD process</li>
-              <li>Auto-generate a BOM</li>
-              <li>Integrate it into your PLM tools</li>
+              <li>
+                Trigger{' '}
+                <QuickLink to="https://en.wikipedia.org/wiki/Finite_element_method">
+                  FEM
+                </QuickLink>{' '}
+                or regenerate tool paths with a{' '}
+                <QuickLink to="https://www.redhat.com/en/topics/devops/what-is-ci-cd">
+                  CI/CD
+                </QuickLink>{' '}
+                process
+              </li>
+              <li>
+                Auto-generate a{' '}
+                <QuickLink to="https://en.wikipedia.org/wiki/Bill_of_materials">
+                  BOM
+                </QuickLink>
+              </li>
+              <li>
+                Integrate it into your{' '}
+                <QuickLink to="https://www.ptc.com/en/technologies/plm">
+                  PLM
+                </QuickLink>{' '}
+                tools
+              </li>
             </ul>
           </div>
         </div>
@@ -97,8 +118,8 @@ const LandingSection = () => {
         >
           <p>
             Team coordination doesn't get any better than git. Multiple people
-            working on a complex assembly without treading on each other. What
-            else is there to say.
+            working on a complex assembly without treading on each other -- what
+            else is there to say?
           </p>
         </MarketingPoint>
         <MarketingPoint
@@ -108,12 +129,9 @@ const LandingSection = () => {
           <p>
             Software is taking over the world, and so are developers. In the
             U.S. developers are 1.4M strong and are predicted to increase their{' '}
-            <Link
-              className="text-gray-500 font-medium"
-              to="https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"
-            >
+            <QuickLink to="https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm">
               ranks by 22%
-            </Link>{' '}
+            </QuickLink>{' '}
             over the next 10 years. As coders proliferate, so will the number of
             areas in which they operate, including CAD.
           </p>
@@ -170,5 +188,13 @@ function MarketingPoint({ leadingPoint, title, children }) {
         {children}
       </div>
     </div>
+  )
+}
+
+function QuickLink({ to, children }) {
+  return (
+    <Link className="text-gray-500 font-medium" to={to}>
+      {children}
+    </Link>
   )
 }
