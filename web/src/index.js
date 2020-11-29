@@ -3,6 +3,9 @@ import netlifyIdentity from 'netlify-identity-widget'
 import ReactDOM from 'react-dom'
 import { RedwoodProvider, FatalErrorBoundary } from '@redwoodjs/web'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
+import ReactGA from 'react-ga'
+
+ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID)
 
 import Routes from 'src/Routes'
 

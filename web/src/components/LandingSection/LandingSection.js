@@ -6,11 +6,19 @@ import {
   involuteDonut,
 } from './mockEditorParts'
 import Svg from 'src/components/Svg'
-import { Link } from '@redwoodjs/router'
+import OutBound from 'src/components/OutBound'
 import { useAuth } from '@redwoodjs/auth'
+import ReactGA from 'react-ga'
 
 const LandingSection = () => {
   const { logIn } = useAuth()
+  const recordedLogin = () => {
+    ReactGA.event({
+      category: 'login',
+      action: 'landing section CTA',
+    })
+    logIn()
+  }
   return (
     <div className="mt-16">
       <div className="relative p-4 shadow-md">
@@ -146,17 +154,17 @@ const LandingSection = () => {
         <div className="rounded-md shadow-md max-w-lg mx-auto border border-gray-300 mt-16">
           <p className="text-2xl font-medium text-gray-600 p-8">
             Projects use the excellent{' '}
-            <Link
+            <OutBound
               className="text-gray-600 underline"
               to="https://github.com/zalo/CascadeStudio"
             >
               CascadeStudio
-            </Link>{' '}
+            </OutBound>{' '}
             with more integrations coming soon.
           </p>
           <button
             className="font-bold text-2xl bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl"
-            onClick={logIn}
+            onClick={recordedLogin}
           >
             <span className="text-indigo-200">Start Hacking Now</span>
           </button>
@@ -193,8 +201,8 @@ function MarketingPoint({ leadingPoint, title, children }) {
 
 function QuickLink({ to, children }) {
   return (
-    <Link className="text-gray-500 font-medium" to={to}>
+    <OutBound className="text-gray-500 font-medium" to={to}>
       {children}
-    </Link>
+    </OutBound>
   )
 }
