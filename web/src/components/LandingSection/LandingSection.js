@@ -7,17 +7,18 @@ import {
 } from './mockEditorParts'
 import Svg from 'src/components/Svg'
 import OutBound from 'src/components/OutBound'
-import { useAuth } from '@redwoodjs/auth'
 import ReactGA from 'react-ga'
+import LoginModal from 'src/components/LoginModal'
+import { useState } from 'react'
 
 const LandingSection = () => {
-  const { logIn } = useAuth()
-  const recordedLogin = () => {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const recordedLogin = async () => {
     ReactGA.event({
       category: 'login',
       action: 'landing section CTA',
     })
-    logIn()
+    setIsLoginModalOpen(true)
   }
   return (
     <div className="mt-16">
@@ -163,10 +164,12 @@ const LandingSection = () => {
             with more integrations coming soon.
           </p>
           <button
-            className="font-bold text-2xl bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl"
+            className="bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl"
             onClick={recordedLogin}
           >
-            <span className="text-indigo-200">Start Hacking Now</span>
+            <span className="font-bold text-2xl text-indigo-200">
+              Start Hacking Now
+            </span>
           </button>
         </div>
       </div>
@@ -179,6 +182,11 @@ const LandingSection = () => {
           />
         </div>
       </div>
+      <LoginModal
+        open={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        shouldStartWithSignup
+      />
     </div>
   )
 }

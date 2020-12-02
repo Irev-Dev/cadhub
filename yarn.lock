@@ -2366,10 +2366,10 @@
     lodash.omitby "^4.6.0"
     merge-graphql-schemas "^1.7.6"
 
-"@redwoodjs/auth@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@redwoodjs/auth/-/auth-0.20.0.tgz#c08c0b735a0b09ef84dc6d357fa2803d61f1d389"
-  integrity sha512-M1rPtiXzU7YagQ120zEkp5qvJruWRcFLUfBhgexGYgnEkqFIKFGLQL9pBywoZ6kxNjI7x/pbghz6FS7H/lzw/g==
+"@redwoodjs/auth@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@redwoodjs/auth/-/auth-0.21.0.tgz#967deef0d0421ea9f6bc205857ad9265d2f5df55"
+  integrity sha512-o3HuRTs79BqmnZX2zvK6+ffebxJE+T/nqwDDdOmCjXUitSsYbLSJkG4ffUuMtSWCFCxf/ytaFB245nS8Vin3XQ==
 
 "@redwoodjs/cli@^0.20.0":
   version "0.20.0"
@@ -8671,6 +8671,13 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
+gotrue-js@^0.9.27:
+  version "0.9.27"
+  resolved "https://registry.yarnpkg.com/gotrue-js/-/gotrue-js-0.9.27.tgz#ed01b47e97781f10f26458ff77d83d97bcc65e08"
+  integrity sha512-XSQ9XGELrnf6bKYaGk+2z1E6aW6+wZ3S6ns3JQz9tXesBuwVPDv/xOTTZ/Qrtu85GJgxTjhJH447w09a73Tneg==
+  dependencies:
+    micro-api-client "^3.2.1"
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0, graceful-fs@^4.2.2, graceful-fs@^4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
@@ -11330,6 +11337,11 @@ methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
+
+micro-api-client@^3.2.1:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/micro-api-client/-/micro-api-client-3.3.0.tgz#52dd567d322f10faffe63d19d4feeac4e4ffd215"
+  integrity sha512-y0y6CUB9RLVsy3kfgayU28746QrNMpSm9O/AYGNsBgOkJr/X/Jk0VLGoO8Ude7Bpa8adywzF+MzXNZRFRsNPhg==
 
 microevent.ts@~0.1.1:
   version "0.1.1"
