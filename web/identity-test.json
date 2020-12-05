@@ -1,0 +1,15 @@
+{
+  "event": "signup",
+  "instance_id": "403b7d63-17f9-48f1-a85f-3d6b41c7dad1",
+  "user": {
+    "id": "641222ee-3e61-4253-8c11-9f764779bcc5",
+    "aud": "",
+    "role": "",
+    "email": "k.hutten2@protonmail.ch",
+    "confirmation_sent_at": "2020-10-19T18:09:01Z",
+    "app_metadata": { "provider": "email" },
+    "user_metadata": { "full_name": "sick_dog", "userName": "hi bob" },
+    "created_at": "2020-10-19T18:09:01Z",
+    "updated_at": "2020-10-19T18:09:01Z"
+  }
+}
