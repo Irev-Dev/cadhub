@@ -1,6 +1,5 @@
 import { AuthProvider } from '@redwoodjs/auth'
-import GoTrue from 'gotrue-js'
-
+import netlifyIdentity from 'netlify-identity-widget'
 import ReactDOM from 'react-dom'
 import { RedwoodProvider, FatalErrorBoundary } from '@redwoodjs/web'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
@@ -16,6 +15,8 @@ import 'golden-layout/src/css/goldenlayout-dark-theme.css'
 import './cascade/css/main.css'
 import 'monaco-editor/min/vs/editor/editor.main.css'
 import './index.css'
+
+netlifyIdentity.init()
 
 function initCascadeStudio() {
   // if ('serviceWorker' in navigator) {
@@ -48,14 +49,9 @@ function initCascadeStudio() {
 }
 initCascadeStudio()
 
-const goTrueClient = new GoTrue({
-  APIUrl: 'https://cadhub.xyz/.netlify/identity',
-  setCookie: true,
-})
-
 ReactDOM.render(
   <FatalErrorBoundary page={FatalErrorPage}>
-    <AuthProvider client={goTrueClient} type="goTrue">
+    <AuthProvider client={netlifyIdentity} type="netlify">
       <RedwoodProvider>
         <Routes />
       </RedwoodProvider>

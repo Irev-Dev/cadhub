@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { Link, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { Flash, useQuery, useFlash } from '@redwoodjs/web'
+import { Flash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip'
+import { useQuery } from '@redwoodjs/web'
 import Popover from '@material-ui/core/Popover'
 import { getActiveClasses } from 'get-active-classes'
 import { useLocation } from '@redwoodjs/router'
-import LoginModal from 'src/components/LoginModal'
 import ReactGA from 'react-ga'
 
 export const QUERY = gql`
@@ -26,13 +26,11 @@ let previousSubmission = ''
 let previousUserID = ''
 
 const MainLayout = ({ children }) => {
-  const { logOut, isAuthenticated, currentUser, client } = useAuth()
-  const { addMessage } = useFlash()
+  const { logIn, logOut, isAuthenticated, currentUser } = useAuth()
   const { data, loading } = useQuery(QUERY, {
     skip: !currentUser?.sub,
     variables: { id: currentUser?.sub },
   })
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [popoverId, setPopoverId] = useState(undefined)
@@ -61,7 +59,7 @@ const MainLayout = ({ children }) => {
       category: 'login',
       action: 'navbar login',
     })
-    setIsLoginModalOpen(true)
+    logIn()
   }
 
   const { pathname, params } = useLocation()
@@ -87,38 +85,6 @@ const MainLayout = ({ children }) => {
       previousUserID = currentUser
     }
   }, [data, currentUser, isAuthenticated])
-  const hash = window.location.hash
-  useEffect(() => {
-    const [key, token] = hash.slice(1).split('=')
-    if (key === 'confirmation_token') {
-      console.log('confirming with', token)
-      client
-        .confirm(token, true)
-        .then(() => {
-          addMessage('Email confirmed', { classes: 'rw-flash-success' })
-        })
-        .catch(() => {
-          addMessage('Problem confirming email', {
-            classes: 'bg-red-300 text-red-900',
-          })
-        })
-    } else if (key === 'recovery_token') {
-      // http://localhost:8910/#recovery_token=LwsC-KpgmiDwGo-ZcGH0tA
-      // https://mandrillapp.com/track/click/31128206/cadhub.xyz?p=eyJzIjoiWFlFbDk5YTVYU0FOSmEtZ3ZtUXlDSW13QURrIiwidiI6MSwicCI6IntcInVcIjozMTEyODIwNixcInZcIjoxLFwidXJsXCI6XCJodHRwczpcXFwvXFxcL2NhZGh1Yi54eXpcXFwvI3JlY292ZXJ5X3Rva2VuPUx3c0MtS3BnbWlEd0dvLVpjR0gwdEFcIixcImlkXCI6XCJjODU1ZWM1MjZiZmQ0Y2JmYmUyNmM4OTk2ZGU4ODczOFwiLFwidXJsX2lkc1wiOltcIjJkMjljMDI0NTY5MzcxODcxMmI0ODA0M2U3MDYyOTA1ZDc1NzVkNjlcIl19In0
-      // #recovery_token=LwsC-KpgmiDwGo-ZcGH0tA
-      // navigate(routes.updatePassword({ recoveryToken: token }))
-      client
-        .recover(token, true)
-        .then(() => {
-          navigate(routes.updatePassword())
-        })
-        .catch(() => {
-          addMessage('Problem recovering account', {
-            classes: 'bg-red-300 text-red-900',
-          })
-        })
-    }
-  }, [hash, client]) // complaining about not having addMessage, however adding it puts useEffect into a loop
   return (
     <>
       <header id="cadhub-main-header">
@@ -232,11 +198,7 @@ const MainLayout = ({ children }) => {
           )}
         </nav>
       </header>
-      <Flash timeout={1500} />
-      <LoginModal
-        open={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-      />
+      <Flash timeout={1000} />
       <main>{children}</main>
     </>
   )
