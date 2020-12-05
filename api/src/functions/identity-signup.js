@@ -18,7 +18,7 @@ export const handler = async (req, _context) => {
       email: 'k.hutten@protonmail.ch',
       confirmation_sent_at: '2020-10-19T18:09:01Z',
       app_metadata: { provider: 'email' },
-      user_metadata: { full_name: 'sick_dog' },
+      user_metadata: { full_name: 'sick_dog', userName: 'hi bob' },
       created_at: '2020-10-19T18:09:01Z',
       updated_at: '2020-10-19T18:09:01Z'
     }
