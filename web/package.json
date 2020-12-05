@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
-    "@redwoodjs/auth": "^0.20.0",
+    "@redwoodjs/auth": "^0.21.0",
     "@redwoodjs/forms": "^0.20.0",
     "@redwoodjs/router": "^0.20.0",
     "@redwoodjs/web": "^0.20.0",
@@ -22,6 +22,7 @@
     "controlkit": "^0.1.9",
     "get-active-classes": "^0.0.11",
     "golden-layout": "^1.5.9",
+    "gotrue-js": "^0.9.27",
     "jquery": "^3.5.1",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
