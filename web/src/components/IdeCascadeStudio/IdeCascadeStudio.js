@@ -4,7 +4,7 @@ import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 
-const IdeCascadeStudio = ({ part, saveCode, loading, error }) => {
+const IdeCascadeStudio = ({ part, saveCode, loading }) => {
   const [code, setCode] = useState(part.code)
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === part?.user?.id
