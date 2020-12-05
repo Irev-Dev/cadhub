@@ -62,12 +62,12 @@ export const handler = async (req, _context) => {
       db.user.findOne({
         where: { userName: seed },
       })
-    const userNameSeed = enforceAlphaNumeric(email.split('@')[0])
+    const userNameSeed = enforceAlphaNumeric(user?.user_metadata?.userName)
     const userName = await generateUniqueString(userNameSeed, isUniqueCallback) // TODO maybe come up with a better default userName?
     const input = {
       email,
       userName,
-      name: user.user_metadata && user.user_metadata.full_name,
+      name: user?.user_metadata?.full_name,
       id: user.id,
     }
     await createUserInsecure({ input })
