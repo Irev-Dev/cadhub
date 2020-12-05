@@ -33,6 +33,7 @@ const Routes = () => {
   return (
     <Router>
       <Route path="/account-recovery/update-password" page={UpdatePasswordPage} name="updatePassword" />
+      {/* <Route path="/account-recovery/update-password/{recoveryToken}" page={UpdatePasswordPage} name="updatePassword" /> */}
       <Route path="/account-recovery" page={AccountRecoveryPage} name="accountRecovery" />
       <Route path="/" page={PartsPage} name="home" />
       <Route notfound page={NotFoundPage} />

@@ -103,6 +103,10 @@ const MainLayout = ({ children }) => {
           })
         })
     } else if (key === 'recovery_token') {
+      // http://localhost:8910/#recovery_token=LwsC-KpgmiDwGo-ZcGH0tA
+      // https://mandrillapp.com/track/click/31128206/cadhub.xyz?p=eyJzIjoiWFlFbDk5YTVYU0FOSmEtZ3ZtUXlDSW13QURrIiwidiI6MSwicCI6IntcInVcIjozMTEyODIwNixcInZcIjoxLFwidXJsXCI6XCJodHRwczpcXFwvXFxcL2NhZGh1Yi54eXpcXFwvI3JlY292ZXJ5X3Rva2VuPUx3c0MtS3BnbWlEd0dvLVpjR0gwdEFcIixcImlkXCI6XCJjODU1ZWM1MjZiZmQ0Y2JmYmUyNmM4OTk2ZGU4ODczOFwiLFwidXJsX2lkc1wiOltcIjJkMjljMDI0NTY5MzcxODcxMmI0ODA0M2U3MDYyOTA1ZDc1NzVkNjlcIl19In0
+      // #recovery_token=LwsC-KpgmiDwGo-ZcGH0tA
+      // navigate(routes.updatePassword({ recoveryToken: token }))
       client
         .recover(token, true)
         .then(() => {

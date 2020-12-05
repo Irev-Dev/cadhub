@@ -10,7 +10,7 @@ const InputText = ({ value, isEditable, onChange, className }) => {
           className
         )}
       >
-        <div className="absolute inset-0 mb-2 rounded bg-gray-200 shadow-inner" />
+        <div className="absolute inset-0 mb-2 rounded bg-gray-200 shadow-inners" />
         <input
           className="pl-2 pt-1 text-indigo-800 font-medium mb-px pb-px bg-transparent relative"
           onChange={onChange}

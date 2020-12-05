@@ -11,7 +11,7 @@ const UpdatePasswordPage = () => {
   const { addMessage } = useFlash()
   const { client } = useAuth()
   const onSubmit = ({ password, confirm }) => {
-    if (password !== confirm || !password) {
+    if (password !== confirm) {
       addMessage("Passwords don't match, try again", {
         classes: 'bg-red-300 text-red-900',
       })
@@ -21,20 +21,24 @@ const UpdatePasswordPage = () => {
       .currentUser()
       .update({ password })
       .then(() => {
-        addMessage('Password updated', { classes: 'rw-flash-success' })
+        addMessage('Email updated', { classes: 'rw-flash-success' })
         setTimeout(() => {
           navigate(routes.home())
         }, 500)
       })
       .catch(() => {
-        addMessage('Problem updating password', {
+        addMessage('Problem updating email', {
           classes: 'bg-red-300 text-red-900',
         })
       })
   }
   return (
     <MainLayout>
-      <Seo title="Update Password" description="Update Password" lang="en-US" />
+      <Seo
+        title="Account recovery"
+        description="Send recovery email"
+        lang="en-US"
+      />
 
       <section className="max-w-md mx-auto mt-20">
         <h2 className="text-xl text-indigo-500 pb-4">Reset Password</h2>
@@ -48,7 +52,7 @@ const UpdatePasswordPage = () => {
             </span>
             <InputTextForm
               className="text-xl"
-              name="password"
+              name="email"
               type="password"
               validation={{
                 required: true,
@@ -59,7 +63,7 @@ const UpdatePasswordPage = () => {
             </span>
             <InputTextForm
               className="text-xl"
-              name="confirm"
+              name="email"
               type="password"
               validation={{
                 required: true,
