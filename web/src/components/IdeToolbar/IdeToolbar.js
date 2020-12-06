@@ -1,22 +1,35 @@
 import { useState } from 'react'
 import Popover from '@material-ui/core/Popover'
+import OutBound from 'src/components/OutBound'
 import { Link, routes, navigate } from '@redwoodjs/router'
 
 import Button from 'src/components/Button'
 import ImageUploader from 'src/components/ImageUploader'
+import Svg from '../Svg/Svg'
 
 const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const [whichPopup, setWhichPopup] = useState(null)
 
-  const handleClick = (event) => {
+  const handleClick = ({ event, whichPopup }) => {
     setAnchorEl(event.currentTarget)
+    setWhichPopup(whichPopup)
   }
 
   const handleClose = () => {
     setAnchorEl(null)
+    setWhichPopup(null)
   }
 
-  const open = Boolean(anchorEl)
+  const anchorOrigin = {
+    vertical: 'bottom',
+    horizontal: 'center',
+  }
+  const transformOrigin = {
+    vertical: 'top',
+    horizontal: 'center',
+  }
+
   const id = open ? 'simple-popover' : undefined
 
   return (
@@ -71,23 +84,17 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
           className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
           shouldAnimateHover
           aria-describedby={id}
-          onClick={handleClick}
+          onClick={(event) => handleClick({ event, whichPopup: 'export' })}
         >
           Export
         </Button>
         <Popover
           id={id}
-          open={open}
+          open={whichPopup === 'export'}
           anchorEl={anchorEl}
           onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
+          anchorOrigin={anchorOrigin}
+          transformOrigin={transformOrigin}
           className="material-ui-overrides transform translate-y-4"
         >
           <ul className="text-sm py-2 text-gray-500">
@@ -103,6 +110,106 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
             ))}
           </ul>
         </Popover>
+      </div>
+      <div className="ml-auto flex items-center">
+        <div>
+          <button
+            onClick={(event) => handleClick({ event, whichPopup: 'tips' })}
+            className="text-indigo-300 flex items-center pr-6"
+          >
+            Tips <Svg name="lightbulb" className="pl-2 w-8" />
+          </button>
+          <Popover
+            id={id}
+            open={whichPopup === 'tips'}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+            className="material-ui-overrides transform translate-y-4"
+          >
+            <div className="text-sm p-2 text-gray-500">
+              Press F5 to regenerate model
+            </div>
+          </Popover>
+        </div>
+        <div>
+          <button
+            onClick={(event) => handleClick({ event, whichPopup: 'feedback' })}
+            className="text-indigo-300 flex items-center pr-6"
+          >
+            Feedback <Svg name="flag" className="pl-2 w-8" />
+          </button>
+          <Popover
+            id={id}
+            open={whichPopup === 'feedback'}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+            className="material-ui-overrides transform translate-y-4"
+          >
+            <div className="text-sm p-2 text-gray-500 max-w-md">
+              If there's a feature you really want or you found a bug, either
+              make a{' '}
+              <OutBound
+                className="text-gray-600 underline"
+                to="https://github.com/Irev-Dev/cadhub/issues"
+              >
+                github issue
+              </OutBound>{' '}
+              or swing by the{' '}
+              <OutBound
+                className="text-gray-600 underline"
+                to="https://discord.gg/SD7zFRNjGH"
+              >
+                discord server
+              </OutBound>
+              .
+            </div>
+          </Popover>
+        </div>
+        <div>
+          <button
+            onClick={(event) => handleClick({ event, whichPopup: 'issues' })}
+            className="text-indigo-300 flex items-center pr-6"
+          >
+            Known issues <Svg name="exclamation-circle" className="pl-2 w-8" />
+          </button>
+          <Popover
+            id={id}
+            open={whichPopup === 'issues'}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+            className="material-ui-overrides transform translate-y-4"
+          >
+            <div className="text-sm p-2 text-gray-500 max-w-md">
+              <div className="text-base text-gray-700 py-2">
+                Model never generating?
+              </div>
+              Due to the current integration with CascadeStudio and the order in
+              which the code initialise sometimes the 3d model never generates
+              <div className="text-base text-gray-700 py-2">Work around</div>
+              <p>
+                Usually going to the <a href="/">homepage</a>, then refreshing,
+                waiting a good 10 seconds before navigating back to the part
+                your interested in should fix the issue.
+              </p>
+              <p>
+                If this problem is frustrating to you, leave a comment on its{' '}
+                <OutBound
+                  className="text-gray-600 underline"
+                  to="https://github.com/Irev-Dev/cadhub/issues/139"
+                >
+                  github issue
+                </OutBound>{' '}
+                to help prioritize it.
+              </p>
+            </div>
+          </Popover>
+        </div>
       </div>
     </div>
   )

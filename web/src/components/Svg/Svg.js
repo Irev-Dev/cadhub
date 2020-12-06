@@ -60,6 +60,21 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         />
       </svg>
     ),
+    'exclamation-circle': (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
     favicon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2667 2667">
         <defs>
@@ -159,6 +174,21 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         </g>
       </svg>
     ),
+    flag: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"
+        />
+      </svg>
+    ),
     fork: (
       <svg
         viewBox="-3 -3 32 32" // TODO size this properly, or get a better icon
@@ -169,6 +199,21 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         <path
           d="M7.5 21C7.5 20.1719 6.82812 19.5 6 19.5C5.17188 19.5 4.5 20.1719 4.5 21C4.5 21.8281 5.17188 22.5 6 22.5C6.82812 22.5 7.5 21.8281 7.5 21ZM7.5 3C7.5 2.17188 6.82812 1.5 6 1.5C5.17188 1.5 4.5 2.17188 4.5 3C4.5 3.82812 5.17188 4.5 6 4.5C6.82812 4.5 7.5 3.82812 7.5 3ZM20.5 5C20.5 4.17188 19.8281 3.5 19 3.5C18.1719 3.5 17.5 4.17188 17.5 5C17.5 5.82812 18.1719 6.5 19 6.5C19.8281 6.5 20.5 5.82812 20.5 5ZM22 5C22 6.10938 21.3906 7.07812 20.5 7.59375C20.4531 13.2344 13.4531 14.4844 10.7969 15.3281C8.3125 16.1094 7.5 16.4844 7.5 18V18.4062C8.39062 18.9219 9 19.8906 9 21C9 22.6562 7.65625 24 6 24C4.34375 24 3 22.6562 3 21C3 19.8906 3.60938 18.9219 4.5 18.4062V5.59375C3.60938 5.07812 3 4.10938 3 3C3 1.34375 4.34375 0 6 0C7.65625 0 9 1.34375 9 3C9 4.10938 8.39062 5.07812 7.5 5.59375V13.3594C8.29688 12.9688 9.14062 12.7031 9.90625 12.4688C12.8125 11.5469 17.4688 10.8594 17.5 7.59375C16.6094 7.07812 16 6.10938 16 5C16 3.34375 17.3438 2 19 2C20.6562 2 22 3.34375 22 5Z"
           fill="currentColor"
+        />
+      </svg>
+    ),
+    lightbulb: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
         />
       </svg>
     ),
