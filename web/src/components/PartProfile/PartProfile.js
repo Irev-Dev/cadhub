@@ -14,8 +14,6 @@ const PartProfile = ({
   userPart,
   isEditable,
   onSave,
-  loading,
-  error,
   onReaction,
   onComment,
 }) => {
@@ -23,13 +21,14 @@ const PartProfile = ({
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === userPart.id
   const part = userPart?.Part
+  console.log(part)
   const emotes = countEmotes(part?.Reaction)
   const userEmotes = part?.userReactions.map(({ emote }) => emote)
   useEffect(() => {
     isEditable &&
       !canEdit &&
       navigate(
-        routes.part2({ userName: userPart.userName, partTitle: part.title })
+        routes.part2({ userName: userPart.userName, partTitle: part?.title })
       )
   }, [currentUser])
   const [input, setInput] = useState({
@@ -55,7 +54,7 @@ const PartProfile = ({
       return
     }
     navigate(
-      routes.editPart2({ userName: userPart.userName, partTitle: part.title })
+      routes.editPart2({ userName: userPart?.userName, partTitle: part?.title })
     )
   }
   return (
@@ -70,11 +69,11 @@ const PartProfile = ({
             className="rounded-half rounded-br-lg shadow-md border-2 border-gray-200 border-solid"
             onImageUpload={() => {}}
             aspectRatio={1}
-            imageUrl={userPart.image}
+            imageUrl={userPart?.image}
             width={300}
           />
           <h4 className="text-indigo-800 text-xl underline text-right py-4">
-            <Link to={routes.user2({ userName: userPart.userName })}>
+            <Link to={routes.user2({ userName: userPart?.userName })}>
               {userPart?.name}
             </Link>
           </h4>
@@ -92,12 +91,12 @@ const PartProfile = ({
               document.getElementById('comment-section').scrollIntoView()
             }}
           >
-            {userPart.Part.Comment.length} Comments
+            {userPart?.Part?.Comment.length} Comments
           </Button>
           <Link
             to={routes.ide({
-              userName: userPart.userName,
-              partTitle: part.title,
+              userName: userPart?.userName,
+              partTitle: part?.title,
             })}
           >
             <Button
@@ -129,7 +128,7 @@ const PartProfile = ({
           <Breadcrumb
             className="inline"
             onPartTitleChange={isEditable && onTitleChange}
-            userName={userPart.userName}
+            userName={userPart?.userName}
             partTitle={input?.title}
           />
           {!!(input?.mainImage || isEditable) && (
@@ -178,8 +177,8 @@ const PartProfile = ({
                     </div>
                     <div className="ml-4 font-roboto">
                       <div className="text-gray-800 font-bold text-lg mb-1">
-                        <Link to={routes.user2({ userName: user.userName })}>
-                          {user.userName}
+                        <Link to={routes.user2({ userName: user?.userName })}>
+                          {user?.userName}
                         </Link>
                       </div>
                       <div className="text-gray-700 p-3 rounded bg-gray-200 shadow">
