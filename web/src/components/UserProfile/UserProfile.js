@@ -11,9 +11,7 @@ const UserProfile = ({ user, isEditable, loading, onSave, error }) => {
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === user.id
   useEffect(() => {
-    isEditable &&
-      !canEdit &&
-      navigate(routes.user2({ userName: user.userName }))
+    isEditable && !canEdit && navigate(routes.user({ userName: user.userName }))
   }, [currentUser])
   const [input, setInput] = useState({
     userName: user.userName,
@@ -67,7 +65,7 @@ const UserProfile = ({ user, isEditable, loading, onSave, error }) => {
                 className="bg-indigo-200"
                 iconName="pencil"
                 onClick={() =>
-                  navigate(routes.editUser2({ userName: user.userName }))
+                  navigate(routes.editUser({ userName: user.userName }))
                 }
               >
                 Edit Profile

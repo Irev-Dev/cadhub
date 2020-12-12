@@ -1,8 +1,8 @@
 import { render, screen } from '@redwoodjs/testing'
-import { Loading, Empty, Failure, Success } from './Part2Cell'
-import { standard } from './Part2Cell.mock'
+import { Loading, Empty, Failure, Success } from './PartCell'
+import { standard } from './PartCell.mock'
 
-describe('Part2Cell', () => {
+describe('PartCell', () => {
   test('Loading renders successfully', () => {
     render(<Loading />)
     // Use screen.debug() to see output
@@ -20,7 +20,7 @@ describe('Part2Cell', () => {
   })
 
   test('Success renders successfully', async () => {
-    render(<Success part2={standard().part2} />)
+    render(<Success part={standard().part} />)
     expect(screen.getByText(/42/i)).toBeInTheDocument()
   })
 })

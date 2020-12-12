@@ -34,19 +34,19 @@ const Routes = () => {
     <Router>
       <Route path="/account-recovery/update-password" page={UpdatePasswordPage} name="updatePassword" />
       <Route path="/account-recovery" page={AccountRecoveryPage} name="accountRecovery" />
-      <Route path="/" page={PartsPage} name="home" />
+      <Route path="/" page={HomePage} name="home" />
       <Route notfound page={NotFoundPage} />
 
       {/* Ownership enforced routes */}
-      <Route path="/u/{userName}/new" page={NewPart2Page} name="newPart2" />
+      <Route path="/u/{userName}/new" page={NewPartPage} name="newPart" />
       <Private unauthenticated="home" role="user">
-        <Route path="/u/{userName}/edit" page={EditUser2Page} name="editUser2" />
-        <Route path="/u/{userName}/{partTitle}/edit" page={EditPart2Page} name="editPart2" />
+        <Route path="/u/{userName}/edit" page={EditUserPage} name="editUser" />
+        <Route path="/u/{userName}/{partTitle}/edit" page={EditPartPage} name="editPart" />
       </Private>
       {/* End ownership enforced routes */}
 
-      <Route path="/u/{userName}" page={User2Page} name="user2" />
-      <Route path="/u/{userName}/{partTitle}" page={Part2Page} name="part2" />
+      <Route path="/u/{userName}" page={UserPage} name="user" />
+      <Route path="/u/{userName}/{partTitle}" page={PartPage} name="part" />
       <Route path="/u/{userName}/{partTitle}/ide" page={IdePartPage} name="ide" />
 
       <Private unauthenticated="home" role="admin">

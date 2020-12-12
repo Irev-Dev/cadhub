@@ -28,7 +28,7 @@ const PartProfile = ({
     isEditable &&
       !canEdit &&
       navigate(
-        routes.part2({ userName: userPart.userName, partTitle: part?.title })
+        routes.part({ userName: userPart.userName, partTitle: part?.title })
       )
   }, [currentUser])
   const [input, setInput] = useState({
@@ -54,7 +54,7 @@ const PartProfile = ({
       return
     }
     navigate(
-      routes.editPart2({ userName: userPart?.userName, partTitle: part?.title })
+      routes.editPart({ userName: userPart?.userName, partTitle: part?.title })
     )
   }
   return (
@@ -73,7 +73,7 @@ const PartProfile = ({
             width={300}
           />
           <h4 className="text-indigo-800 text-xl underline text-right py-4">
-            <Link to={routes.user2({ userName: userPart?.userName })}>
+            <Link to={routes.user({ userName: userPart?.userName })}>
               {userPart?.name}
             </Link>
           </h4>
@@ -177,7 +177,7 @@ const PartProfile = ({
                     </div>
                     <div className="ml-4 font-roboto">
                       <div className="text-gray-800 font-bold text-lg mb-1">
-                        <Link to={routes.user2({ userName: user?.userName })}>
+                        <Link to={routes.user({ userName: user?.userName })}>
                           {user?.userName}
                         </Link>
                       </div>
