@@ -36,7 +36,7 @@ export const Success = ({ user }) => {
   const { addMessage } = useFlash()
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: ({ updateUserByUserName }) => {
-      navigate(routes.user2({ userName: updateUserByUserName.userName }))
+      navigate(routes.user({ userName: updateUserByUserName.userName }))
       addMessage('User updated.', { classes: 'rw-flash-success' })
     },
   })

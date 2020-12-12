@@ -48,7 +48,7 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
           />
         </div>
         <div className="text-indigo-400 ml-2 mr-8">
-          <Link to={routes.user2({ userName: userNamePart?.userName })}>
+          <Link to={routes.user({ userName: userNamePart?.userName })}>
             {userNamePart?.userName}
           </Link>
         </div>
@@ -58,7 +58,7 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
         className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
         shouldAnimateHover
         onClick={() => {
-          navigate(routes.part2(userNamePart))
+          navigate(routes.part(userNamePart))
         }}
       >
         Part Profile

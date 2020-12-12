@@ -1,16 +1,16 @@
 import { useAuth } from '@redwoodjs/auth'
 
 import MainLayout from 'src/layouts/MainLayout'
-import Part2Cell from 'src/components/Part2Cell'
+import PartCell from 'src/components/PartCell'
 import Seo from 'src/components/Seo/Seo'
 
-const Part2Page = ({ userName, partTitle }) => {
+const PartPage = ({ userName, partTitle }) => {
   const { currentUser } = useAuth()
   return (
     <MainLayout>
       <Seo title={partTitle} description={partTitle} lang="en-US" />
 
-      <Part2Cell
+      <PartCell
         userName={userName}
         partTitle={partTitle}
         currentUserId={currentUser?.sub}
@@ -19,4 +19,4 @@ const Part2Page = ({ userName, partTitle }) => {
   )
 }
 
-export default Part2Page
+export default PartPage

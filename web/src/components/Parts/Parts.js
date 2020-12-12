@@ -16,7 +16,7 @@ const PartsList = ({ parts }) => {
             key={`${user?.userName}--${title}`}
           >
             <Link
-              to={routes.part2({ userName: user?.userName, partTitle: title })}
+              to={routes.part({ userName: user?.userName, partTitle: title })}
             >
               <div className="flex items-center p-2 bg-gray-200 border-gray-300 rounded-t-lg border-t border-l border-r">
                 <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow">

@@ -3,10 +3,10 @@ import { useAuth } from '@redwoodjs/auth'
 import { navigate, routes } from '@redwoodjs/router'
 
 import MainLayout from 'src/layouts/MainLayout'
-import Part2Cell from 'src/components/Part2Cell'
+import PartCell from 'src/components/PartCell'
 import Seo from 'src/components/Seo/Seo'
 
-const NewPart2Page = ({ userName }) => {
+const NewPartPage = ({ userName }) => {
   const { isAuthenticated, currentUser } = useAuth()
   useEffect(() => {
     !isAuthenticated && navigate(routes.home())
@@ -15,7 +15,7 @@ const NewPart2Page = ({ userName }) => {
     <MainLayout>
       <Seo title="New part" description="Add new part page" lang="en-US" />
 
-      <Part2Cell
+      <PartCell
         userName={userName}
         currentUserId={currentUser?.sub}
         isEditable
@@ -24,4 +24,4 @@ const NewPart2Page = ({ userName }) => {
   )
 }
 
-export default NewPart2Page
+export default NewPartPage

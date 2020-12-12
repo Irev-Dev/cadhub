@@ -1,8 +1,8 @@
 import { render, screen } from '@redwoodjs/testing'
-import { Loading, Empty, Failure, Success } from './EditUser2Cell'
-import { standard } from './EditUser2Cell.mock'
+import { Loading, Empty, Failure, Success } from './EditUserCell'
+import { standard } from './EditUserCell.mock'
 
-describe('EditUser2Cell', () => {
+describe('EditUserCell', () => {
   test('Loading renders successfully', () => {
     render(<Loading />)
     // Use screen.debug() to see output
@@ -20,7 +20,7 @@ describe('EditUser2Cell', () => {
   })
 
   test('Success renders successfully', async () => {
-    render(<Success editUser2={standard().editUser2} />)
+    render(<Success editUser={standard().editUser} />)
     expect(screen.getByText(/42/i)).toBeInTheDocument()
   })
 })

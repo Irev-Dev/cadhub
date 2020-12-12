@@ -1,5 +1,5 @@
 import MainLayout from 'src/layouts/MainLayout'
-import User2Cell from 'src/components/User2Cell'
+import UserCell from 'src/components/UserCell'
 import Seo from 'src/components/Seo/Seo'
 
 const UserPage = ({ userName }) => {
@@ -7,7 +7,7 @@ const UserPage = ({ userName }) => {
     <MainLayout>
       <Seo title={userName} description="User page" lang="en-US" />
 
-      <User2Cell userName={userName} />
+      <UserCell userName={userName} />
     </MainLayout>
   )
 }

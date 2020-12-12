@@ -1,11 +1,11 @@
 import { render } from '@redwoodjs/testing'
 
-import Part2Page from './Part2Page'
+import NewPartPage from './NewPartPage'
 
-describe('Part2Page', () => {
+describe('NewPartPage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Part2Page />)
+      render(<NewPartPage />)
     }).not.toThrow()
   })
 })
