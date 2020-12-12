@@ -34,7 +34,7 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
   const recordedLogin = async () => {
     ReactGA.event({
       category: 'login',
-      action: 'ideToolbar login when no user is signed in',
+      action: 'ideToolbar signup prompt from fork',
     })
     setIsLoginModalOpen(true)
   }
