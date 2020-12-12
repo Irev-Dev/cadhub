@@ -1,15 +1,20 @@
 import { useState } from 'react'
 import Popover from '@material-ui/core/Popover'
 import OutBound from 'src/components/OutBound'
+import ReactGA from 'react-ga'
 import { Link, routes, navigate } from '@redwoodjs/router'
+import { useAuth } from '@redwoodjs/auth'
 
 import Button from 'src/components/Button'
 import ImageUploader from 'src/components/ImageUploader'
 import Svg from '../Svg/Svg'
+import LoginModal from '../LoginModal/LoginModal'
 
 const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [whichPopup, setWhichPopup] = useState(null)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const { isAuthenticated } = useAuth()
 
   const handleClick = ({ event, whichPopup }) => {
     setAnchorEl(event.currentTarget)
@@ -19,6 +24,19 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
   const handleClose = () => {
     setAnchorEl(null)
     setWhichPopup(null)
+  }
+
+  const handleSave = () => {
+    if (isAuthenticated) onSave()
+    else recordedLogin()
+  }
+
+  const recordedLogin = async () => {
+    ReactGA.event({
+      category: 'login',
+      action: 'ideToolbar login when no user is signed in',
+    })
+    setIsLoginModalOpen(true)
   }
 
   const anchorOrigin = {
@@ -67,7 +85,7 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
         iconName={canEdit ? 'save' : 'fork'}
         className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
         shouldAnimateHover
-        onClick={onSave}
+        onClick={handleSave}
       >
         {canEdit ? 'Save' : 'Fork'}
         {isChanges && (
@@ -211,6 +229,11 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
           </Popover>
         </div>
       </div>
+      <LoginModal
+        open={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        shouldStartWithSignup
+      />
     </div>
   )
 }
