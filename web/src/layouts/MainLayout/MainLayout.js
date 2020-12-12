@@ -91,7 +91,6 @@ const MainLayout = ({ children }) => {
   useEffect(() => {
     const [key, token] = hash.slice(1).split('=')
     if (key === 'confirmation_token') {
-      console.log('confirming with', token)
       client
         .confirm(token, true)
         .then(() => {

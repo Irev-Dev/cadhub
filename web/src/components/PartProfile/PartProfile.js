@@ -21,7 +21,6 @@ const PartProfile = ({
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === userPart.id
   const part = userPart?.Part
-  console.log(part)
   const emotes = countEmotes(part?.Reaction)
   const userEmotes = part?.userReactions.map(({ emote }) => emote)
   useEffect(() => {
