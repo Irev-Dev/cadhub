@@ -5,7 +5,7 @@ import ImageUploader from 'src/components/ImageUploader'
 
 const PartsList = ({ parts }) => {
   return (
-    <section className="max-w-6xl mx-auto mt-20">
+    <section className="max-w-6xl mx-auto mt-8">
       <ul
         className="grid gap-x-8 gap-y-12 items-center mx-4 relative"
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))' }}
