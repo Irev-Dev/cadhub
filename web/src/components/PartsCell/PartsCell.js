@@ -34,6 +34,14 @@ export const Empty = () => {
   )
 }
 
-export const Success = ({ parts }) => {
-  return <Parts parts={parts} />
+export const Success = ({
+  parts,
+  variables: { shouldFilterPartsWithoutImage },
+}) => {
+  return (
+    <Parts
+      parts={parts}
+      shouldFilterPartsWithoutImage={shouldFilterPartsWithoutImage}
+    />
+  )
 }

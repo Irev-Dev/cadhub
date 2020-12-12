@@ -1,16 +1,29 @@
+import { useMemo } from 'react'
 import { Link, routes } from '@redwoodjs/router'
 
 import { countEmotes } from 'src/helpers/emote'
 import ImageUploader from 'src/components/ImageUploader'
 
-const PartsList = ({ parts }) => {
+const PartsList = ({ parts, shouldFilterPartsWithoutImage = false }) => {
+  // temporary filtering parts that don't have images until some kind of search is added and there are more things on the website
+  // it helps avoid the look of the website just being filled with dumby data.
+  // related issue-104
+  const filteredParts = useMemo(
+    () =>
+      shouldFilterPartsWithoutImage
+        ? parts.filter(({ mainImage }) => mainImage)
+        : [...parts]
+            // sort should probably be done on the service, but the filtering is temp too
+            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
+    [parts, shouldFilterPartsWithoutImage]
+  )
   return (
     <section className="max-w-6xl mx-auto mt-8">
       <ul
         className="grid gap-x-8 gap-y-12 items-center mx-4 relative"
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))' }}
       >
-        {parts.map(({ title, mainImage, user, Reaction }) => (
+        {filteredParts.map(({ title, mainImage, user, Reaction }) => (
           <li
             className="rounded-lg shadow-md hover:shadow-lg mx-px transform hover:-translate-y-px transition-all duration-150"
             key={`${user?.userName}--${title}`}
