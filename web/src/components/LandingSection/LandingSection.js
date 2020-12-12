@@ -173,7 +173,7 @@ const LandingSection = () => {
           </button>
         </div>
       </div>
-      <div className="flex justify-center mt-64 pt-20 mb-20">
+      <div className="flex justify-center mt-64 pt-20 mb-32">
         <div className="flex text-2xl text-gray-500">
           See what other's have created
           <Svg
