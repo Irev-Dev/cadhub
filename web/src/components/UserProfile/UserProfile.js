@@ -5,7 +5,7 @@ import Editor from 'rich-markdown-editor'
 import ImageUploader from 'src/components/ImageUploader'
 import Button from 'src/components/Button'
 import ProfileTextInput from 'src/components/ProfileTextInput'
-import PartsCell from 'src/components/PartsCell'
+import PartsOfUser from 'src/components/PartsOfUserCell'
 
 const UserProfile = ({ user, isEditable, loading, onSave, error, parts }) => {
   const { currentUser } = useAuth()
@@ -93,7 +93,7 @@ const UserProfile = ({ user, isEditable, loading, onSave, error, parts }) => {
         </div>
         <div className="mt-10">
           <h3 className="text-3xl text-gray-500 font-ropa-sans">Parts:</h3>
-          <PartsCell />
+          <PartsOfUser userName={user?.userName} />
         </div>
       </section>
     </>

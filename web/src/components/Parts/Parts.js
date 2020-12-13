@@ -10,11 +10,12 @@ const PartsList = ({ parts, shouldFilterPartsWithoutImage = false }) => {
   // related issue-104
   const filteredParts = useMemo(
     () =>
-      shouldFilterPartsWithoutImage
+      (shouldFilterPartsWithoutImage
         ? parts.filter(({ mainImage }) => mainImage)
         : [...parts]
-            // sort should probably be done on the service, but the filtering is temp too
-            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
+      )
+        // sort should probably be done on the service, but the filtering is temp too
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
     [parts, shouldFilterPartsWithoutImage]
   )
   return (

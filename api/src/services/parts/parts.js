@@ -7,8 +7,18 @@ import {
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 
-export const parts = () => {
-  return db.part.findMany({ where: { deleted: false } })
+export const parts = ({ userName }) => {
+  if (!userName) {
+    return db.part.findMany({ where: { deleted: false } })
+  }
+  return db.part.findMany({
+    where: {
+      deleted: false,
+      user: {
+        userName,
+      },
+    },
+  })
 }
 
 export const part = ({ id }) => {

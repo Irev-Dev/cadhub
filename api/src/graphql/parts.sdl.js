@@ -14,7 +14,7 @@ export const schema = gql`
   }
 
   type Query {
-    parts: [Part!]!
+    parts(userName: String): [Part!]!
     part(id: String!): Part
     partByUserAndTitle(userName: String!, partTitle: String!): Part
   }
