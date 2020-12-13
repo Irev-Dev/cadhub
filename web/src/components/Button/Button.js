@@ -8,18 +8,23 @@ const Button = ({
   className,
   shouldAnimateHover,
   disabled,
+  type,
 }) => {
   return (
     <button
       disabled={disabled}
       className={getActiveClasses(
-        'flex items-center bg-opacity-50 rounded-xl p-2 px-6 text-indigo-600',
+        {
+          'bg-gray-300 shadow-none hover:shadow-none': disabled,
+          'text-red-600 bg-red-200 border border-red-600': type === 'danger',
+          'text-indigo-600': !type,
+        },
+        'flex items-center bg-opacity-50 rounded-xl p-2 px-6',
         {
           'mx-px transform hover:-translate-y-px transition-all duration-150':
             shouldAnimateHover && !disabled,
         },
-        className,
-        { 'bg-gray-300 shadow-none hover:shadow-none': disabled }
+        className
       )}
       onClick={onClick}
     >
