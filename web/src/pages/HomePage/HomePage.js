@@ -8,7 +8,7 @@ const PartsPage = () => {
     <MainLayout>
       <Seo title="Parts page" description="Cadhub parts page" lang="en-US" />
       <LandingSection />
-      <PartsCell />
+      <PartsCell shouldFilterPartsWithoutImage />
     </MainLayout>
   )
 }
