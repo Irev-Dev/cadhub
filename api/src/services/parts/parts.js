@@ -8,7 +8,7 @@ import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 
 export const parts = () => {
-  return db.part.findMany()
+  return db.part.findMany({ where: { deleted: false } })
 }
 
 export const part = ({ id }) => {
@@ -70,9 +70,13 @@ export const updatePart = async ({ id, input }) => {
   })
 }
 
-export const deletePart = ({ id }) => {
+export const deletePart = async ({ id }) => {
   requireAuth()
-  return db.part.delete({
+  await requireOwnership({ partId: id })
+  return db.part.update({
+    data: {
+      deleted: true,
+    },
     where: { id },
   })
 }

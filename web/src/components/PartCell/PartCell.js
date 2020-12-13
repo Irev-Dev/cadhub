@@ -84,6 +84,18 @@ const CREATE_COMMENT_MUTATION = gql`
     }
   }
 `
+const DELETE_PART_MUTATION = gql`
+  mutation DeletePartMutation($id: String!) {
+    deletePart(id: $id) {
+      id
+      title
+      user {
+        id
+        userName
+      }
+    }
+  }
+`
 
 export const Loading = () => <div>Loading...</div>
 
@@ -123,6 +135,16 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
     }
     updateUser({ variables: { id, input } })
   }
+  const [deletePart] = useMutation(DELETE_PART_MUTATION, {
+    onCompleted: ({ deletePart }) => {
+      navigate(routes.home())
+      addMessage('Part deleted.', { classes: 'rw-flash-success' })
+    },
+  })
+
+  const onDelete = () => {
+    userPart?.Part?.id && deletePart({ variables: { id: userPart?.Part?.id } })
+  }
 
   const [toggleReaction] = useMutation(TOGGLE_REACTION_MUTATION, {
     onCompleted: () => refetch(),
@@ -156,6 +178,7 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
     <PartProfile
       userPart={userPart}
       onSave={onSave}
+      onDelete={onDelete}
       loading={loading}
       error={error}
       isEditable={isEditable}
