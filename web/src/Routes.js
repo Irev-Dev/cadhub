@@ -51,7 +51,8 @@ const Routes = () => {
       <Route path="/u/{userName}/{partTitle}/ide" page={IdePartPage} name="ide" />
 
       <Private unauthenticated="home" role="admin">
-        <Route path="/users" page={UsersPage} name="users" />
+        <Route path="/admin/users" page={UsersPage} name="users" />
+        <Route path="/admin/parts" page={AdminPartsPage} name="parts" />
       </Private>
     </Router>
   )

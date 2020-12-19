@@ -7,6 +7,7 @@ export const schema = gql`
     mainImage: String
     createdAt: DateTime!
     updatedAt: DateTime!
+    deleted: Boolean!
     user: User!
     userId: String!
     Comment: [Comment]!
