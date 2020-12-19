@@ -222,6 +222,9 @@ const MainLayout = ({ children }) => {
                 <a href="#" className="text-indigo-800" onClick={logOut}>
                   Logout
                 </a>
+                <Link to={routes.codeOfConduct()}>
+                  <div className="text-indigo-400 pt-8">Code of Conduct</div>
+                </Link>
               </div>
             </Popover>
           )}

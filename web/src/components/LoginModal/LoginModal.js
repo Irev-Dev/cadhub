@@ -70,6 +70,7 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
             onSubmitSignUp={onSubmitSignUp}
             checkBox={checkBox}
             setCheckBox={setCheckBox}
+            onClose={onClose}
           />
         ) : (
           <SignInForm onSubmitSignIn={onSubmitSignIn} />
@@ -133,7 +134,7 @@ const SignInForm = ({ onSubmitSignIn }) => (
   </Form>
 )
 
-const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox }) => (
+const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox, onClose }) => (
   <Form className="w-full" onSubmit={onSubmitSignUp}>
     <div className="p-8">
       <div
@@ -181,6 +182,16 @@ const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox }) => (
           ) newsletter
         </span>
       </div>
+      <span className="text-sm text-gray-500 block text-center pt-4">
+        Use of CadHub requires you to abide by our{' '}
+        <Link
+          onClick={onClose}
+          to={routes.codeOfConduct()}
+          className="underline"
+        >
+          Code of Conduct
+        </Link>
+      </span>
     </div>
     <HeroButton text="Sign Up" />
   </Form>
