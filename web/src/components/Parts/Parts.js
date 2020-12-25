@@ -36,7 +36,6 @@ const PartsList = ({ parts, shouldFilterPartsWithoutImage = false }) => {
                 <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow">
                   <ImageUploader
                     className=""
-                    onImageUpload={() => {}}
                     aspectRatio={1}
                     imageUrl={user?.image}
                     width={50}
@@ -49,7 +48,6 @@ const PartsList = ({ parts, shouldFilterPartsWithoutImage = false }) => {
               <div className="w-full overflow-hidden relative rounded-b-lg">
                 <ImageUploader
                   className=""
-                  onImageUpload={() => {}}
                   aspectRatio={1.4}
                   imageUrl={mainImage}
                   width={700}

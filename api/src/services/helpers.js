@@ -1,3 +1,10 @@
+import { v2 as cloudinary } from 'cloudinary'
+cloudinary.config({
+  cloud_name: 'irevdev',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
 export const foreignKeyReplacement = (input) => {
   let output = input
   const foreignKeys = Object.keys(input).filter((k) => k.match(/Id$/))
@@ -28,3 +35,14 @@ export const generateUniqueString = async (
   const newSeed = count === 1 ? `${seed}_${count}` : seed.slice(0, -1) + count
   return generateUniqueString(newSeed, isUniqueCallback, count)
 }
+
+export const destroyImage = ({ publicId }) =>
+  new Promise((resolve, reject) => {
+    cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) {
+        reject(error)
+        return
+      }
+      resolve(result)
+    })
+  })

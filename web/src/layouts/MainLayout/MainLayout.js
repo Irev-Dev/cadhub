@@ -5,6 +5,7 @@ import { Flash, useQuery, useFlash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip'
 import Popover from '@material-ui/core/Popover'
 import { getActiveClasses } from 'get-active-classes'
+import Footer from 'src/components/Footer'
 import { useLocation } from '@redwoodjs/router'
 import LoginModal from 'src/components/LoginModal'
 import ReactGA from 'react-ga'
@@ -23,9 +24,8 @@ import Svg from 'src/components/Svg'
 import ImageUploader from 'src/components/ImageUploader'
 
 let previousSubmission = ''
-let previousUserID = ''
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()
   const { addMessage } = useFlash()
   const { data, loading } = useQuery(QUERY, {
@@ -75,18 +75,6 @@ const MainLayout = ({ children }) => {
       previousSubmission = newSubmission
     }
   }, [pathname, params])
-  useEffect(() => {
-    // not the "React" way of doing think, but otherwise it will submit twice
-    // it's because the old page submits it and when the new page loads it happens again
-    if (
-      isAuthenticated &&
-      previousUserID !== currentUser &&
-      data?.user?.userName
-    ) {
-      ReactGA.set({ userName: data.user.userName, userId: currentUser })
-      previousUserID = currentUser
-    }
-  }, [data, currentUser, isAuthenticated])
   const hash = window.location.hash
   useEffect(() => {
     const [key, token] = hash.slice(1).split('=')
@@ -115,7 +103,7 @@ const MainLayout = ({ children }) => {
     }
   }, [hash, client]) // complaining about not having addMessage, however adding it puts useEffect into a loop
   return (
-    <>
+    <div className="h-full">
       <header id="cadhub-main-header">
         <nav className="flex justify-between h-20 px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
           <ul className="flex items-center">
@@ -173,7 +161,6 @@ const MainLayout = ({ children }) => {
                   {!loading && (
                     <ImageUploader
                       className="rounded-full object-cover"
-                      onImageUpload={() => {}}
                       aspectRatio={1}
                       imageUrl={data?.user?.image}
                       width={80}
@@ -222,9 +209,6 @@ const MainLayout = ({ children }) => {
                 <a href="#" className="text-indigo-800" onClick={logOut}>
                   Logout
                 </a>
-                <Link to={routes.codeOfConduct()}>
-                  <div className="text-indigo-400 pt-8">Code of Conduct</div>
-                </Link>
               </div>
             </Popover>
           )}
@@ -236,7 +220,8 @@ const MainLayout = ({ children }) => {
         onClose={() => setIsLoginModalOpen(false)}
       />
       <main>{children}</main>
-    </>
+      {!shouldRemoveFooterInIde && <Footer />}
+    </div>
   )
 }
 

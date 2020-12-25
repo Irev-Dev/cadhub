@@ -4,7 +4,7 @@ import Seo from 'src/components/Seo/Seo'
 
 const IdePartPage = ({ userName, partTitle }) => {
   return (
-    <MainLayout>
+    <MainLayout shouldRemoveFooterInIde>
       <Seo title={partTitle} description={partTitle} lang="en-US" />
 
       <IdePartCell userName={userName} partTitle={partTitle} />

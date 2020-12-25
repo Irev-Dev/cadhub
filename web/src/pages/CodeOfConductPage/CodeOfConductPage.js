@@ -18,6 +18,7 @@ const CodeOfConductPage = () => {
         lang="en-US"
       />
       <div className="max-w-5xl mx-auto mt-20">
+        <h1 className="text-3xl">Code of Conduct</h1>
         <h2 className="text-2xl font-ropa-sans py-4">What's Required</h2>
         <ul className="list-disc pl-4">
           <Li>

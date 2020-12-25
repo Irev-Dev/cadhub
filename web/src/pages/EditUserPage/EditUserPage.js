@@ -7,7 +7,7 @@ const UserPage = ({ userName }) => {
     <MainLayout>
       <Seo title={userName} description="Add new part page" lang="en-US" />
 
-      <EditUserCell userName={userName} />
+      <EditUserCell userName={userName} isEditable />
     </MainLayout>
   )
 }

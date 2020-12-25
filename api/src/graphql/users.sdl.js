@@ -12,6 +12,7 @@ export const schema = gql`
     Part(partTitle: String): Part
     Reaction: [PartReaction]!
     Comment: [Comment]!
+    SubjectAccessRequest: [SubjectAccessRequest]!
   }
 
   type Query {

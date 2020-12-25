@@ -59,7 +59,6 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
         <div className="h-8 w-8 ml-4">
           <ImageUploader
             className="rounded-full object-cover"
-            onImageUpload={() => {}}
             aspectRatio={1}
             imageUrl={userNamePart?.image}
             width={80}

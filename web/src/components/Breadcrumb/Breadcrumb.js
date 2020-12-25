@@ -2,7 +2,13 @@ import { getActiveClasses } from 'get-active-classes'
 
 import InputText from 'src/components/InputText'
 
-const Breadcrumb = ({ userName, partTitle, onPartTitleChange, className }) => {
+const Breadcrumb = ({
+  userName,
+  partTitle,
+  onPartTitleChange,
+  className,
+  isInvalid,
+}) => {
   return (
     <h3 className={getActiveClasses('text-2xl font-roboto', className)}>
       <div className="w-1 inline-block text-indigo-800 bg-indigo-800 mr-2">
@@ -26,6 +32,7 @@ const Breadcrumb = ({ userName, partTitle, onPartTitleChange, className }) => {
         className={getActiveClasses('text-indigo-800 text-2xl', {
           '-ml-2': !onPartTitleChange,
         })}
+        isInvalid={isInvalid}
       />
     </h3>
   )
