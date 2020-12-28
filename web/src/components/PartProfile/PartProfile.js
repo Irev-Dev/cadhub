@@ -155,7 +155,7 @@ const PartProfile = ({
             partTitle={input?.title}
             isInvalid={isInvalid}
           />
-          {!!input?.mainImage && !isEditable && part?.id && (
+          {!isEditable && part?.id && (
             <ImageUploader
               className="rounded-lg shadow-md border-2 border-gray-200 border-solid mt-8"
               onImageUpload={onImageUpload}
