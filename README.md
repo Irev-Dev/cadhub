@@ -4,12 +4,11 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/77f37543-e54a-4723-8136-157c0221ec27/deploy-status)](https://app.netlify.com/sites/cadhubxyz/deploys)
 
-CadHub aims to be a community website for code-cad. Currently trying to integrate the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/), but maybe more in future.
-OpenScad has proven that code-cad is a much loved format for cad-modeling. We're going to build a thriving community.
+Let's help Code-CAD reach its [full potential!](https://cadhub.xyz) CadHub is a ~~cad~~hub for the Code-CAD community, think of it as model-repository crossed with a live editor. We have an integration with the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/) with [more coming soon](https://github.com/Irev-Dev/curated-code-cad).
 
-If you want to be involved in anyway, swing by the [discord channel](https://discord.gg/SD7zFRNjGH).
+If you want to be involved in anyway, get in touch via, [twitter](https://twitter.com/IrevDev), [discord](https://discord.gg/SD7zFRNjGH) or [discussions](https://github.com/Irev-Dev/cadhub/discussions).
 
-<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Parts%20Page.jpg">
+<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/fullcadhubshot.jpg">
 
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20IDE%20-%20export%20expand%20state.jpg">
 
