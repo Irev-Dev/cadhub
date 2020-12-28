@@ -191,6 +191,14 @@ const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox, onClose }) => (
         >
           Code of Conduct
         </Link>
+        , and agree with our{' '}
+        <Link
+          onClick={onClose}
+          to={routes.privacyPolicy()}
+          className="underline"
+        >
+          Privacy Policy
+        </Link>
       </span>
     </div>
     <HeroButton text="Sign Up" />

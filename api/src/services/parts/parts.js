@@ -3,6 +3,7 @@ import {
   foreignKeyReplacement,
   enforceAlphaNumeric,
   generateUniqueString,
+  destroyImage,
 } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
@@ -74,10 +75,18 @@ export const updatePart = async ({ id, input }) => {
   if (input.title) {
     input.title = enforceAlphaNumeric(input.title)
   }
-  return db.part.update({
+  const originalPart = await db.part.findOne({ where: { id } })
+  const imageToDestroy =
+    originalPart.mainImage !== input.mainImage && originalPart.mainImage
+  const update = await db.part.update({
     data: foreignKeyReplacement(input),
     where: { id },
   })
+  if (imageToDestroy) {
+    // destroy after the db has been updated
+    destroyImage({ publicId: imageToDestroy })
+  }
+  return update
 }
 
 export const deletePart = async ({ id }) => {

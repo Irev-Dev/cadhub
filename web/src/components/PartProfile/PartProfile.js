@@ -21,8 +21,10 @@ const PartProfile = ({
 }) => {
   const [comment, setComment] = useState('')
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
+  const [isInvalid, setIsInvalid] = useState(false)
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === userPart.id
+  const isImageEditable = !isEditable && canEdit // image is editable when not in profile edit mode in order to separate them as it's too hard too to upload an image to cloudinary temporarily until the use saves (and maybe have to clean up) for the time being
   const part = userPart?.Part
   const emotes = countEmotes(part?.Reaction)
   const userEmotes = part?.userReactions.map(({ emote }) => emote)
@@ -48,11 +50,19 @@ const PartProfile = ({
     setProperty('title', target.value.replace(/([^a-zA-Z\d_:])/g, '-'))
   const onDescriptionChange = (description) =>
     setProperty('description', description())
-  const onImageUpload = ({ cloudinaryPublicId }) =>
-    setProperty('mainImage', cloudinaryPublicId)
-  const onEditSaveClick = () => {
+  const onImageUpload = ({ cloudinaryPublicId }) => {
+    onSave(part?.id, { ...input, mainImage: cloudinaryPublicId })
+  }
+  // setProperty('mainImage', cloudinaryPublicId)
+  const onEditSaveClick = (hi) => {
+    // do a thing
     if (isEditable) {
-      input.title && onSave(part?.id, input)
+      if (!input.title) {
+        setIsInvalid(true)
+        return
+      }
+      setIsInvalid(false)
+      onSave(part?.id, input)
       return
     }
     navigate(
@@ -69,7 +79,6 @@ const PartProfile = ({
         <aside className="col-start-2 relative">
           <ImageUploader
             className="rounded-half rounded-br-lg shadow-md border-2 border-gray-200 border-solid"
-            onImageUpload={() => {}}
             aspectRatio={1}
             imageUrl={userPart?.image}
             width={300}
@@ -144,13 +153,14 @@ const PartProfile = ({
             onPartTitleChange={isEditable && onTitleChange}
             userName={userPart?.userName}
             partTitle={input?.title}
+            isInvalid={isInvalid}
           />
-          {!!(input?.mainImage || isEditable) && (
+          {!!input?.mainImage && !isEditable && part?.id && (
             <ImageUploader
               className="rounded-lg shadow-md border-2 border-gray-200 border-solid mt-8"
               onImageUpload={onImageUpload}
               aspectRatio={16 / 9}
-              isEditable={isEditable}
+              isEditable={isImageEditable}
               imageUrl={input?.mainImage}
               width={1010}
             />
@@ -183,7 +193,6 @@ const PartProfile = ({
                     <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow flex-shrink-0">
                       <ImageUploader
                         className=""
-                        onImageUpload={() => {}}
                         aspectRatio={1}
                         imageUrl={user?.image}
                         width={50}

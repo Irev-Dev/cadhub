@@ -10,6 +10,7 @@ import PartsOfUser from 'src/components/PartsOfUserCell'
 const UserProfile = ({ user, isEditable, loading, onSave, error, parts }) => {
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === user.id
+  const isImageEditable = !isEditable && canEdit // image is editable when not in profile edit mode in order to separate them as it's too hard too to upload an image to cloudinary temporarily until the use saves (and maybe have to clean up) for the time being
   useEffect(() => {
     isEditable && !canEdit && navigate(routes.user({ userName: user.userName }))
   }, [currentUser])
@@ -25,21 +26,23 @@ const UserProfile = ({ user, isEditable, loading, onSave, error, parts }) => {
     <>
       <section className="max-w-2xl mx-auto mt-20 ">
         <div className="flex">
-          <div className="w-40 flex-shrink-0">
-            <ImageUploader
-              className="rounded-half rounded-br-lg shadow-md border-2 border-gray-200 border-solid"
-              onImageUpload={({ cloudinaryPublicId: image }) =>
-                setInput({
-                  ...input,
-                  image,
-                })
-              }
-              aspectRatio={1}
-              isEditable={isEditable}
-              imageUrl={user.image}
-              width={300}
-            />
-          </div>
+          {!isEditable && (
+            <div className="w-40 flex-shrink-0">
+              <ImageUploader
+                className="rounded-half rounded-br-lg shadow-md border-2 border-gray-200 border-solid"
+                onImageUpload={({ cloudinaryPublicId: image }) => {
+                  onSave(user.userName, {
+                    ...input,
+                    image,
+                  })
+                }}
+                aspectRatio={1}
+                isEditable={isImageEditable}
+                imageUrl={user.image}
+                width={300}
+              />
+            </div>
+          )}
           <div className="ml-6 flex flex-col justify-between">
             <ProfileTextInput
               fields={editableTextFields}

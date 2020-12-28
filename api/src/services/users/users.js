@@ -2,7 +2,7 @@ import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 import { UserInputError } from '@redwoodjs/api'
-import { enforceAlphaNumeric } from 'src/services/helpers'
+import { enforceAlphaNumeric, destroyImage } from 'src/services/helpers'
 
 export const users = () => {
   requireAuth({ role: 'admin' })
@@ -51,10 +51,18 @@ export const updateUserByUserName = async ({ userName, input }) => {
       `You've tried to used a protected word as you userName, try something other than `
     )
   }
-  return db.user.update({
+  const originalPart = await db.user.findOne({ where: { userName } })
+  const imageToDestroy =
+    originalPart.image !== input.image && originalPart.image
+  const update = await db.user.update({
     data: input,
     where: { userName },
   })
+  if (imageToDestroy) {
+    // destroy after the db has been updated
+    destroyImage({ publicId: imageToDestroy })
+  }
+  return update
 }
 
 export const deleteUser = ({ id }) => {
@@ -80,4 +88,6 @@ export const User = {
     db.user.findOne({ where: { id: root.id } }).Reaction(),
   Comment: (_obj, { root }) =>
     db.user.findOne({ where: { id: root.id } }).Comment(),
+  SubjectAccessRequest: (_obj, { root }) =>
+    db.user.findOne({ where: { id: root.id } }).SubjectAccessRequest(),
 }

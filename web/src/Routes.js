@@ -32,6 +32,7 @@ const Routes = () => {
   )
   return (
     <Router>
+      <Route path="/policies/privacy-policy" page={PrivacyPolicyPage} name="privacyPolicy" />
       <Route path="/policies/code-of-conduct" page={CodeOfConductPage} name="codeOfConduct" />
       <Route path="/account-recovery/update-password" page={UpdatePasswordPage} name="updatePassword" />
       <Route path="/account-recovery" page={AccountRecoveryPage} name="accountRecovery" />
@@ -53,6 +54,9 @@ const Routes = () => {
       <Private unauthenticated="home" role="admin">
         <Route path="/admin/users" page={UsersPage} name="users" />
         <Route path="/admin/parts" page={AdminPartsPage} name="parts" />
+        <Route path="/admin/subject-access-requests/{id}/edit" page={EditSubjectAccessRequestPage} name="editSubjectAccessRequest" />
+        <Route path="/admin/subject-access-requests/{id}" page={SubjectAccessRequestPage} name="subjectAccessRequest" />
+        <Route path="/admin/subject-access-requests" page={SubjectAccessRequestsPage} name="subjectAccessRequests" />
       </Private>
     </Router>
   )

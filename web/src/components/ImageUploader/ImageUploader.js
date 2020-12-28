@@ -12,7 +12,7 @@ const CLOUDINARY_UPLOAD_PRESET = 'CadHub_project_images'
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/irevdev/upload'
 
 export default function ImageUploader({
-  onImageUpload,
+  onImageUpload = () => {},
   imageUrl,
   aspectRatio,
   className,
@@ -67,11 +67,12 @@ export default function ImageUploader({
     >
       <div className="absolute w-full h-full" {...getRootProps()}>
         {cloudinaryId && isEditable && (
-          <button className="absolute z-10 w-full inset-0 bg-indigo-900 opacity-50 flex justify-center items-center">
+          <button className="absolute z-10 bg-indigo-900 opacity-75 bottom-0 right-0 flex items-center p-1 mb-6 mr-2 rounded-lg">
+            <span className="text-gray-100 pr-2">Update</span>
             <Svg
               name="pencil"
               strokeWidth={2}
-              className="text-gray-300 h-24 w-24"
+              className=" text-gray-100 h-6 w-6"
             />
           </button>
         )}

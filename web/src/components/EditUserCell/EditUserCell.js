@@ -32,7 +32,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ user }) => {
+export const Success = ({ user, variables: { isEditable } }) => {
   const { addMessage } = useFlash()
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: ({ updateUserByUserName }) => {
@@ -51,7 +51,7 @@ export const Success = ({ user }) => {
       onSave={onSave}
       loading={loading}
       error={error}
-      isEditable
+      isEditable={isEditable}
     />
   )
 }
