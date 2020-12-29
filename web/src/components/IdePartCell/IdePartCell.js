@@ -27,7 +27,7 @@ const UPDATE_PART_MUTATION = gql`
     }
   }
 `
-const FORK_PART_MUTATION = gql`
+export const FORK_PART_MUTATION = gql`
   mutation ForkPartMutation($input: CreatePartInput!) {
     forkPart(input: $input) {
       id
@@ -62,9 +62,9 @@ export const Success = ({ part, refetch }) => {
     },
   })
 
-  const saveCode = ({ input, id, isFork }) => {
+  const saveCode = async ({ input, id, isFork }) => {
     if (!isFork) {
-      updatePart({ variables: { id, input } })
+      await updatePart({ variables: { id, input } })
       refetch()
       return
     }

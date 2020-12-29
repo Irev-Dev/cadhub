@@ -137,20 +137,12 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           <ul className="flex items-center">
             <li
               className={getActiveClasses(
-                'mr-8 h-10 w-10 rounded-full border-2 border-gray-700 flex items-center justify-center',
-                { 'border-indigo-300': currentUser }
+                'mr-8 h-10 w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center'
               )}
             >
-              {isAuthenticated && data?.user?.userName ? (
-                <Link
-                  className="h-full w-full"
-                  to={routes.newPart({ userName: data?.user?.userName })}
-                >
-                  <Svg name="plus" className="text-indigo-300 w-full h-full" />
-                </Link>
-              ) : (
-                <Svg name="plus" className="text-gray-700 w-full h-full" />
-              )}
+              <Link className="h-full w-full" to={routes.draftPart()}>
+                <Svg name="plus" className="text-indigo-300 w-full h-full" />
+              </Link>
             </li>
             {isAuthenticated ? (
               <li
