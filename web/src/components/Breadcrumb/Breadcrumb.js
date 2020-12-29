@@ -1,4 +1,5 @@
 import { getActiveClasses } from 'get-active-classes'
+import { Link, routes } from '@redwoodjs/router'
 
 import InputText from 'src/components/InputText'
 
@@ -20,7 +21,7 @@ const Breadcrumb = ({
           'text-gray-400': onPartTitleChange,
         })}
       >
-        {userName}
+        <Link to={routes.user({ userName })}>{userName}</Link>
       </span>
       <div className="w-1 inline-block bg-gray-400 text-gray-400 mx-3 transform -skew-x-20">
         .
