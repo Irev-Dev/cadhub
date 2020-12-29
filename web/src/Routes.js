@@ -47,6 +47,7 @@ const Routes = () => {
       </Private>
       {/* End ownership enforced routes */}
 
+      <Route path="/draft" page={DraftPartPage} name="draftPart" />
       <Route path="/u/{userName}" page={UserPage} name="user" />
       <Route path="/u/{userName}/{partTitle}" page={PartPage} name="part" />
       <Route path="/u/{userName}/{partTitle}/ide" page={IdePartPage} name="ide" />

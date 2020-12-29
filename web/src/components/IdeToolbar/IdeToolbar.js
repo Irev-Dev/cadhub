@@ -4,17 +4,43 @@ import OutBound from 'src/components/OutBound'
 import ReactGA from 'react-ga'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+import { useMutation, useFlash } from '@redwoodjs/web'
 
 import Button from 'src/components/Button'
 import ImageUploader from 'src/components/ImageUploader'
 import Svg from '../Svg/Svg'
-import LoginModal from '../LoginModal/LoginModal'
+import LoginModal from 'src/components/LoginModal'
+import { FORK_PART_MUTATION } from 'src/components/IdePartCell'
 
-const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
+const IdeToolbar = ({
+  canEdit,
+  isChanges,
+  onSave,
+  onExport,
+  userNamePart,
+  isDraft,
+  code,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [whichPopup, setWhichPopup] = useState(null)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
+  const showForkButton = !(canEdit || isDraft)
+
+  const { addMessage } = useFlash()
+  const [forkPart] = useMutation(FORK_PART_MUTATION, {
+    onCompleted: ({ forkPart }) => {
+      navigate(
+        routes.ide({
+          userName: forkPart?.user?.userName,
+          partTitle: forkPart?.title,
+        })
+      )
+      addMessage(`Part created with title: ${forkPart?.title}.`, {
+        classes: 'rw-flash-success',
+      })
+    },
+  })
 
   const handleClick = ({ event, whichPopup }) => {
     setAnchorEl(event.currentTarget)
@@ -27,7 +53,17 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
   }
 
   const handleSave = () => {
-    if (isAuthenticated) onSave()
+    if (isDraft && isAuthenticated)
+      forkPart({
+        variables: {
+          input: {
+            userId: currentUser.sub,
+            title: 'draft',
+            code,
+          },
+        },
+      })
+    else if (isAuthenticated) onSave()
     else recordedLogin()
   }
 
@@ -55,39 +91,43 @@ const IdeToolbar = ({ canEdit, isChanges, onSave, onExport, userNamePart }) => {
       id="cadhub-ide-toolbar"
       className="flex bg-gradient-to-r from-gray-900 to-indigo-900 pt-1"
     >
-      <div className="flex items-center">
-        <div className="h-8 w-8 ml-4">
-          <ImageUploader
-            className="rounded-full object-cover"
-            aspectRatio={1}
-            imageUrl={userNamePart?.image}
-            width={80}
-          />
-        </div>
-        <div className="text-indigo-400 ml-2 mr-8">
-          <Link to={routes.user({ userName: userNamePart?.userName })}>
-            {userNamePart?.userName}
-          </Link>
-        </div>
-      </div>
+      {!isDraft && (
+        <>
+          <div className="flex items-center">
+            <div className="h-8 w-8 ml-4">
+              <ImageUploader
+                className="rounded-full object-cover"
+                aspectRatio={1}
+                imageUrl={userNamePart?.image}
+                width={80}
+              />
+            </div>
+            <div className="text-indigo-400 ml-2 mr-8">
+              <Link to={routes.user({ userName: userNamePart?.userName })}>
+                {userNamePart?.userName}
+              </Link>
+            </div>
+          </div>
+          <Button
+            iconName="arrow-left"
+            className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
+            shouldAnimateHover
+            onClick={() => {
+              navigate(routes.part(userNamePart))
+            }}
+          >
+            Part Profile
+          </Button>
+        </>
+      )}
       <Button
-        iconName="arrow-left"
-        className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
-        shouldAnimateHover
-        onClick={() => {
-          navigate(routes.part(userNamePart))
-        }}
-      >
-        Part Profile
-      </Button>
-      <Button
-        iconName={canEdit ? 'save' : 'fork'}
+        iconName={showForkButton ? 'fork' : 'save'}
         className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200"
         shouldAnimateHover
         onClick={handleSave}
       >
-        {canEdit ? 'Save' : 'Fork'}
-        {isChanges && (
+        {showForkButton ? 'Fork' : 'Save'}
+        {isChanges && !isDraft && (
           <span className="relative h-4">
             <span className="text-pink-400 text-2xl absolute transform -translate-y-3">
               *

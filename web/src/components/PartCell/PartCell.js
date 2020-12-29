@@ -117,7 +117,7 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
       addMessage('Part updated.', { classes: 'rw-flash-success' })
     },
   })
-  const [createUser] = useMutation(CREATE_PART_MUTATION, {
+  const [createPart] = useMutation(CREATE_PART_MUTATION, {
     onCompleted: ({ createPart }) => {
       navigate(
         routes.part({
@@ -130,7 +130,7 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
   })
   const onSave = (id, input) => {
     if (!id) {
-      createUser({ variables: { input } })
+      createPart({ variables: { input } })
       return
     }
     updateUser({ variables: { id, input } })
