@@ -27,7 +27,7 @@ export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No parts yet. '}
-      <Link to={routes.newPart()} className="rw-link">
+      <Link to={routes.draftPart()} className="rw-link">
         {'Create one?'}
       </Link>
     </div>
