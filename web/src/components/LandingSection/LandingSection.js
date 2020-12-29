@@ -7,19 +7,12 @@ import {
 } from './mockEditorParts'
 import Svg from 'src/components/Svg'
 import OutBound from 'src/components/OutBound'
-import ReactGA from 'react-ga'
 import LoginModal from 'src/components/LoginModal'
 import { useState } from 'react'
+import { routes, Link } from '@redwoodjs/router'
 
 const LandingSection = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const recordedLogin = async () => {
-    ReactGA.event({
-      category: 'login',
-      action: 'landing section CTA',
-    })
-    setIsLoginModalOpen(true)
-  }
   return (
     <div className="mt-16">
       <div className="relative p-4 shadow-md">
@@ -163,14 +156,13 @@ const LandingSection = () => {
             </OutBound>{' '}
             with more integrations coming soon.
           </p>
-          <button
-            className="bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl"
-            onClick={recordedLogin}
-          >
-            <span className="font-bold text-2xl text-indigo-200">
-              Start Hacking Now
-            </span>
-          </button>
+          <Link to={routes.draftPart()}>
+            <div className="bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl">
+              <span className="font-bold text-2xl text-indigo-200">
+                Start Hacking Now
+              </span>
+            </div>
+          </Link>
         </div>
       </div>
       <div className="flex justify-center mt-64 pt-20 mb-32">
