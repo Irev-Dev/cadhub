@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import Editor from 'rich-markdown-editor'
@@ -23,6 +23,7 @@ const PartProfile = ({
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
   const [isInvalid, setIsInvalid] = useState(false)
   const { currentUser } = useAuth()
+  const editorRef = useRef(null)
   const canEdit = currentUser?.sub === userPart.id
   const isImageEditable = !isEditable && canEdit // image is editable when not in profile edit mode in order to separate them as it's too hard too to upload an image to cloudinary temporarily until the use saves (and maybe have to clean up) for the time being
   const part = userPart?.Part
@@ -165,11 +166,16 @@ const PartProfile = ({
               width={1010}
             />
           )}
+          <div className="text-gray-500 text-sm font-ropa-sans pt-8">
+            {isEditable ? 'Markdown supported' : ''}
+          </div>
           <div
             name="description"
-            className="markdown-overrides rounded-lg shadow-md bg-white p-12 my-8 min-h-md"
+            className="markdown-overrides rounded-lg shadow-md bg-white px-12 py-6 min-h-md"
+            onClick={() => editorRef?.current?.focusAtEnd()}
           >
             <Editor
+              ref={editorRef}
               defaultValue={part?.description || ''}
               readOnly={!isEditable}
               onChange={onDescriptionChange}
