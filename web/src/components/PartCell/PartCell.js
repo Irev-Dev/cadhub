@@ -106,7 +106,7 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
   const { currentUser } = useAuth()
   const { addMessage } = useFlash()
-  const [updateUser, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
+  const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: ({ updatePart }) => {
       navigate(
         routes.part({
@@ -128,12 +128,13 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
       addMessage('Part Created.', { classes: 'rw-flash-success' })
     },
   })
-  const onSave = (id, input) => {
+  const onSave = async (id, input) => {
     if (!id) {
-      createPart({ variables: { input } })
-      return
+      await createPart({ variables: { input } })
+    } else {
+      await updatePart({ variables: { id, input } })
     }
-    updateUser({ variables: { id, input } })
+    refetch()
   }
   const [deletePart] = useMutation(DELETE_PART_MUTATION, {
     onCompleted: ({ deletePart }) => {

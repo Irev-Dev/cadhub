@@ -32,7 +32,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({ user, variables: { isEditable } }) => {
+export const Success = ({ user, refetch, variables: { isEditable } }) => {
   const { addMessage } = useFlash()
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: ({ updateUserByUserName }) => {
@@ -41,8 +41,9 @@ export const Success = ({ user, variables: { isEditable } }) => {
     },
   })
 
-  const onSave = (userName, input) => {
-    updateUser({ variables: { userName, input } })
+  const onSave = async (userName, input) => {
+    await updateUser({ variables: { userName, input } })
+    refetch()
   }
 
   return (
