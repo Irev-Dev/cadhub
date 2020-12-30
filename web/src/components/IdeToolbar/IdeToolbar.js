@@ -26,21 +26,10 @@ const IdeToolbar = ({
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const { isAuthenticated, currentUser } = useAuth()
   const showForkButton = !(canEdit || isDraft)
+  const [title, setTitle] = useState('untitled-part')
 
   const { addMessage } = useFlash()
-  const [forkPart] = useMutation(FORK_PART_MUTATION, {
-    onCompleted: ({ forkPart }) => {
-      navigate(
-        routes.ide({
-          userName: forkPart?.user?.userName,
-          partTitle: forkPart?.title,
-        })
-      )
-      addMessage(`Part created with title: ${forkPart?.title}.`, {
-        classes: 'rw-flash-success',
-      })
-    },
-  })
+  const [forkPart] = useMutation(FORK_PART_MUTATION)
 
   const handleClick = ({ event, whichPopup }) => {
     setAnchorEl(event.currentTarget)
@@ -52,19 +41,40 @@ const IdeToolbar = ({
     setWhichPopup(null)
   }
 
-  const handleSave = () => {
-    if (isDraft && isAuthenticated)
-      forkPart({
-        variables: {
-          input: {
-            userId: currentUser.sub,
-            title: 'draft',
-            code,
-          },
+  const saveFork = () =>
+    forkPart({
+      variables: {
+        input: {
+          userId: currentUser.sub,
+          title,
+          code,
         },
+      },
+    })
+
+  const handleSave = async () => {
+    if (isDraft && isAuthenticated) {
+      const { data } = await saveFork()
+      navigate(
+        routes.ide({
+          userName: data?.forkPart?.user?.userName,
+          partTitle: data?.forkPart?.title,
+        })
+      )
+      addMessage(`Part created with title: ${data?.forkPart?.title}.`, {
+        classes: 'rw-flash-success',
       })
-    else if (isAuthenticated) onSave()
+    } else if (isAuthenticated) onSave()
     else recordedLogin()
+  }
+
+  const handleSaveAndEdit = async () => {
+    const { data } = await saveFork()
+    const {
+      user: { userName },
+      title: partTitle,
+    } = data?.forkPart || { user: {} }
+    navigate(routes.part({ userName, partTitle }))
   }
 
   const recordedLogin = async () => {
@@ -135,6 +145,27 @@ const IdeToolbar = ({
           </span>
         )}
       </Button>
+      {isDraft && (
+        <div className="flex items-center">
+          <Button
+            iconName={'save'}
+            className="ml-3 shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-200 mr-"
+            shouldAnimateHover
+            onClick={handleSaveAndEdit}
+          >
+            Save & Edit Profile
+          </Button>
+          <div className="ml-4 text-indigo-300">title:</div>
+          <input
+            className="rounded ml-4 px-2"
+            value={title}
+            onChange={({ target }) =>
+              setTitle(target?.value.replace(/([^a-zA-Z\d_:])/g, '-'))
+            }
+          />
+          <div className="w-px ml-4 bg-pink-400 h-10"></div>
+        </div>
+      )}
       <div>
         <Button
           iconName="logout"
