@@ -130,6 +130,23 @@ const PartProfile = ({
               >
                 {isEditable ? 'Save Details' : 'Edit Details'}
               </Button>
+              {isEditable && (
+                <Button
+                  className="mt-4 ml-auto shadow-md hover:shadow-lg bg-indigo-200 relative z-20 w-full justify-end"
+                  shouldAnimateHover
+                  iconName="x"
+                  onClick={() =>
+                    navigate(
+                      routes.part({
+                        userName: userPart.userName,
+                        partTitle: part?.title,
+                      })
+                    )
+                  }
+                >
+                  Cancel
+                </Button>
+              )}
               <Button
                 className="mt-4 ml-auto shadow-md hover:shadow-lg bg-red-200 relative z-20 w-full justify-end"
                 shouldAnimateHover
