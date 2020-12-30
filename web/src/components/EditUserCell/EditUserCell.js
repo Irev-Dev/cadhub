@@ -26,9 +26,9 @@ const UPDATE_USER_MUTATION = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <div className="h-screen">Loading...</div>
 
-export const Empty = () => <div>Empty</div>
+export const Empty = () => <div className="h-full">Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 

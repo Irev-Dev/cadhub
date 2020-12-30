@@ -24,14 +24,7 @@ export const QUERY = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
-  return (
-    <div className="rw-text-center">
-      {'No parts yet. '}
-      <Link to={routes.draftPart()} className="rw-link">
-        {'Create one?'}
-      </Link>
-    </div>
-  )
+  return <div className="rw-text-center">No parts yet.</div>
 }
 
 export const Success = ({
