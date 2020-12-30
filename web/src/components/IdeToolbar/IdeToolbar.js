@@ -11,6 +11,8 @@ import ImageUploader from 'src/components/ImageUploader'
 import Svg from '../Svg/Svg'
 import LoginModal from 'src/components/LoginModal'
 import { FORK_PART_MUTATION } from 'src/components/IdePartCell'
+import { QUERY as UsersPartsQuery } from 'src/components/PartsOfUserCell'
+import useUser from 'src/helpers/hooks/useUser'
 
 const IdeToolbar = ({
   canEdit,
@@ -27,9 +29,17 @@ const IdeToolbar = ({
   const { isAuthenticated, currentUser } = useAuth()
   const showForkButton = !(canEdit || isDraft)
   const [title, setTitle] = useState('untitled-part')
+  const { user } = useUser()
 
   const { addMessage } = useFlash()
-  const [forkPart] = useMutation(FORK_PART_MUTATION)
+  const [forkPart] = useMutation(FORK_PART_MUTATION, {
+    refetchQueries: [
+      {
+        query: UsersPartsQuery,
+        variables: { userName: userNamePart?.userName || user?.userName },
+      },
+    ],
+  })
 
   const handleClick = ({ event, whichPopup }) => {
     setAnchorEl(event.currentTarget)
@@ -145,7 +155,7 @@ const IdeToolbar = ({
           </span>
         )}
       </Button>
-      {isDraft && (
+      {isDraft && isAuthenticated && (
         <div className="flex items-center">
           <Button
             iconName={'save'}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { Flash, useQuery, useFlash } from '@redwoodjs/web'
+import { Flash, useFlash } from '@redwoodjs/web'
 import Tooltip from '@material-ui/core/Tooltip'
 import Popover from '@material-ui/core/Popover'
 import { getActiveClasses } from 'get-active-classes'
@@ -10,28 +10,16 @@ import { useLocation } from '@redwoodjs/router'
 import LoginModal from 'src/components/LoginModal'
 import ReactGA from 'react-ga'
 
-export const QUERY = gql`
-  query FIND_USER_BY_ID($id: String!) {
-    user: user(id: $id) {
-      id
-      image
-      userName
-      name
-    }
-  }
-`
 import Svg from 'src/components/Svg'
 import ImageUploader from 'src/components/ImageUploader'
+import useUser from 'src/helpers/hooks/useUser'
 
 let previousSubmission = ''
 
 const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()
   const { addMessage } = useFlash()
-  const { data, loading } = useQuery(QUERY, {
-    skip: !currentUser?.sub,
-    variables: { id: currentUser?.sub },
-  })
+  const { user, loading } = useUser()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -154,7 +142,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                     <ImageUploader
                       className="rounded-full object-cover"
                       aspectRatio={1}
-                      imageUrl={data?.user?.image}
+                      imageUrl={user?.image}
                       width={80}
                     />
                   )}
@@ -188,14 +176,14 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               }}
             >
               <div className="p-4 w-48">
-                <Link to={routes.user({ userName: data?.user?.userName })}>
+                <Link to={routes.user({ userName: user?.userName })}>
                   <h3 className="text-indigo-800" style={{ fontWeight: '500' }}>
-                    Hello {data?.user?.name}
+                    Hello {user?.name}
                   </h3>
                 </Link>
                 <hr />
                 <br />
-                <Link to={routes.user({ userName: data?.user?.userName })}>
+                <Link to={routes.user({ userName: user?.userName })}>
                   <div className="text-indigo-800">Your Profile</div>
                 </Link>
                 <a href="#" className="text-indigo-800" onClick={logOut}>
