@@ -13,6 +13,7 @@ import LoginModal from 'src/components/LoginModal'
 import { FORK_PART_MUTATION } from 'src/components/IdePartCell'
 import { QUERY as UsersPartsQuery } from 'src/components/PartsOfUserCell'
 import useUser from 'src/helpers/hooks/useUser'
+import useKeyPress from 'src/helpers/hooks/useKeyPress'
 
 const IdeToolbar = ({
   canEdit,
@@ -30,6 +31,14 @@ const IdeToolbar = ({
   const showForkButton = !(canEdit || isDraft)
   const [title, setTitle] = useState('untitled-part')
   const { user } = useUser()
+  useKeyPress((e) => {
+    const rx = /INPUT|SELECT|TEXTAREA/i
+    const didPressBackspaceOutsideOfInput =
+      (e.key == 'Backspace' || e.keyCode == 8) && !rx.test(e.target.tagName)
+    if (didPressBackspaceOutsideOfInput) {
+      e.preventDefault()
+    }
+  })
 
   const { addMessage } = useFlash()
   const [forkPart] = useMutation(FORK_PART_MUTATION, {
