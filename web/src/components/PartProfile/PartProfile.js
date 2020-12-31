@@ -187,9 +187,13 @@ const PartProfile = ({
             {isEditable ? 'Markdown supported' : ''}
           </div>
           <div
+            id="description-wrap"
             name="description"
             className="markdown-overrides rounded-lg shadow-md bg-white px-12 py-6 min-h-md"
-            onClick={() => editorRef?.current?.focusAtEnd()}
+            onClick={(e) =>
+              e?.target?.id === 'description-wrap' &&
+              editorRef?.current?.focusAtEnd()
+            }
           >
             <Editor
               ref={editorRef}
