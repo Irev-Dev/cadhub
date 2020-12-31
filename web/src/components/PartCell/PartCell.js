@@ -49,6 +49,13 @@ const UPDATE_PART_MUTATION = gql`
     updatePart: updatePart(id: $id, input: $input) {
       id
       title
+      description
+      code
+      mainImage
+      userId
+      Reaction {
+        emote
+      }
       user {
         id
         userName
