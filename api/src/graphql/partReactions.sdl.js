@@ -13,6 +13,7 @@ export const schema = gql`
   type Query {
     partReactions: [PartReaction!]!
     partReaction(id: String!): PartReaction
+    partReactionsByPartId(partId: String!): [PartReaction!]!
   }
 
   input TogglePartReactionInput {
