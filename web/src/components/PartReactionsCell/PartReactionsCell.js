@@ -22,5 +22,5 @@ export const Empty = () => <div>Empty</div>
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ partReactionsByPartId }) => {
-  return <PartReactions reactions={partReactionsByPartId} /> //JSON.stringify(partReactions)
+  return <PartReactions reactions={partReactionsByPartId} />
 }

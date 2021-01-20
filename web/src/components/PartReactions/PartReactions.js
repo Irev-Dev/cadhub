@@ -13,32 +13,35 @@ const PartReactions = ({ reactions }) => {
   }
 
   return (
-    <>
-      <div className="bg-gray-100 p-4 min-h-md rounded-lg shadow-lg">
-        <Tabs
-          value={tab}
-          onChange={onTabChange}
-          variant="scrollable"
-          scrollButtons="off"
-          textColor="primary"
-          indicatorColor="primary"
-        >
-          {emotes.map((emote, i) => (
-            <Tab
-              label={`${emote.emoji} ${emote.count}`}
-              key={`${emote.emoji}-${i}}`}
-              style={{ minWidth: 100 }}
-            />
-          ))}
-        </Tabs>
-        <ul>
-          {reactions
-            .filter((reaction) => reaction.emote === emotes[tab].emoji)
-            .map((reactionPart, i) => (
-              <li
-                className="flex flex-row p-2 items-center"
-                key={`${reactionPart.emote}-${i}}`}
-              >
+    <div className="bg-gray-100 p-4 min-h-md rounded-lg shadow-lg">
+      <Tabs
+        value={tab}
+        onChange={onTabChange}
+        variant="scrollable"
+        scrollButtons="off"
+        textColor="primary"
+        indicatorColor="primary"
+      >
+        <Tab label="All" style={{ minWidth: 100 }} />
+        {emotes.map((emote, i) => (
+          <Tab
+            label={`${emote.emoji} ${emote.count}`}
+            key={`${emote.emoji}-${i}}`}
+            style={{ minWidth: 100 }}
+          />
+        ))}
+      </Tabs>
+      <ul>
+        {reactions
+          .filter((reaction) =>
+            tab === 0 ? true : reaction.emote === emotes[tab - 1].emoji
+          )
+          .map((reactionPart, i) => (
+            <li
+              className="flex flex-row justify-between p-3 items-center"
+              key={`${reactionPart.emote}-${i}}`}
+            >
+              <div className="flex items-center justify-center">
                 <div className="w-8 h-8 overflow-hidden rounded-full border border-indigo-300 shadow flex-shrink-0">
                   <ImageUploader
                     className=""
@@ -48,7 +51,7 @@ const PartReactions = ({ reactions }) => {
                   />
                 </div>
                 <div className="ml-4 font-roboto">
-                  <div className="text-gray-800 font-bold text-md mb-1">
+                  <div className="text-gray-800 font-normal text-md mb-1">
                     <Link
                       to={routes.user({
                         userName: reactionPart.user?.userName,
@@ -58,11 +61,14 @@ const PartReactions = ({ reactions }) => {
                     </Link>
                   </div>
                 </div>
-              </li>
-            ))}
-        </ul>
-      </div>
-    </>
+              </div>
+              <div>
+                <span>{reactionPart.emote}</span>
+              </div>
+            </li>
+          ))}
+      </ul>
+    </div>
   )
 }
 
