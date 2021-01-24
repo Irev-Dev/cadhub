@@ -3,6 +3,7 @@ import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
 import PartProfile from 'src/components/PartProfile'
+import { QUERY as PART_REACTION_QUERY } from 'src/components/PartReactionsCell/PartReactionsCell'
 
 export const QUERY = gql`
   query FIND_PART_BY_USERNAME_TITLE(
@@ -156,6 +157,12 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
 
   const [toggleReaction] = useMutation(TOGGLE_REACTION_MUTATION, {
     onCompleted: () => refetch(),
+    refetchQueries: [
+      {
+        query: PART_REACTION_QUERY,
+        variables: { partId: userPart?.Part?.id },
+      },
+    ],
   })
   const onReaction = (emote) =>
     toggleReaction({

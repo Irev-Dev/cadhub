@@ -121,7 +121,9 @@ const EmojiReaction = ({
               </button>
             ))}
           </div>
-          <button onClick={onShowPartReactions}>View Reactions</button>
+          <button className="text-gray-700" onClick={onShowPartReactions}>
+            View Reactions
+          </button>
         </div>
       </Popover>
     </>
