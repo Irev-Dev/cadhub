@@ -15,6 +15,12 @@ export const partReaction = ({ id }) => {
   })
 }
 
+export const partReactionsByPartId = ({ partId }) => {
+  return db.partReaction.findMany({
+    where: { partId: partId },
+  })
+}
+
 export const togglePartReaction = async ({ input }) => {
   // if write fails emote_userId_partId @@unique constraint, then delete it instead
   requireAuth()

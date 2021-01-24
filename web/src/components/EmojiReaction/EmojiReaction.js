@@ -20,6 +20,7 @@ const EmojiReaction = ({
   emotes,
   userEmotes,
   onEmote = () => {},
+  onShowPartReactions,
   className,
 }) => {
   const { currentUser } = useAuth()
@@ -107,17 +108,20 @@ const EmojiReaction = ({
           horizontal: 'left',
         }}
       >
-        <div className="p-2 pr-3 flex">
-          {emojiMenu.map((emoji, i) => (
-            <button
-              className="p-2"
-              style={textShadow}
-              key={`${emoji}-${i}}`}
-              onClick={() => handleEmojiClick(emoji)}
-            >
-              {emoji}
-            </button>
-          ))}
+        <div className="p-2 pr-3 flex flex-col">
+          <div className="inline-flex">
+            {emojiMenu.map((emoji, i) => (
+              <button
+                className="p-2"
+                style={textShadow}
+                key={`${emoji}-${i}}`}
+                onClick={() => handleEmojiClick(emoji)}
+              >
+                {emoji}
+              </button>
+            ))}
+          </div>
+          <button onClick={onShowPartReactions}>View Reactions</button>
         </div>
       </Popover>
     </>

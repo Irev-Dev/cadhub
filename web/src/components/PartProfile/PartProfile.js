@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import Editor from 'rich-markdown-editor'
+import Dialog from '@material-ui/core/Dialog'
 
 import ImageUploader from 'src/components/ImageUploader'
 import ConfirmDialog from 'src/components/ConfirmDialog'
 import Breadcrumb from 'src/components/Breadcrumb'
 import EmojiReaction from 'src/components/EmojiReaction'
 import Button from 'src/components/Button'
+import PartReactionsCell from '../PartReactionsCell'
 import { countEmotes } from 'src/helpers/emote'
 import { getActiveClasses } from 'get-active-classes'
 
@@ -21,6 +23,7 @@ const PartProfile = ({
 }) => {
   const [comment, setComment] = useState('')
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
+  const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false)
   const [isInvalid, setIsInvalid] = useState(false)
   const { currentUser } = useAuth()
   const editorRef = useRef(null)
@@ -94,6 +97,7 @@ const PartProfile = ({
             emotes={emotes}
             userEmotes={userEmotes}
             onEmote={onReaction}
+            onShowPartReactions={() => setIsReactionsModalOpen(true)}
           />
           <Button
             className="mt-6 ml-auto hover:shadow-lg bg-gradient-to-r from-transparent to-indigo-100"
@@ -272,6 +276,14 @@ const PartProfile = ({
         onConfirm={onDelete}
         message="Are you sure you want to delete? This action cannot be undone."
       />
+      <Dialog
+        open={isReactionsModalOpen}
+        onClose={() => setIsReactionsModalOpen(false)}
+        fullWidth={true}
+        maxWidth={'sm'}
+      >
+        <PartReactionsCell partId={userPart?.Part?.id} />
+      </Dialog>
     </>
   )
 }
