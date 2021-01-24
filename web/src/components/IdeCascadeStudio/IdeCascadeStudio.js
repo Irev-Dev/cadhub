@@ -2,6 +2,7 @@ import { useAuth } from '@redwoodjs/auth'
 import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
+import { threejsViewport } from 'src/cascade/js/MainPage/CascadeState'
 
 const defaultExampleCode = `// Welcome to Cascade Studio!   Here are some useful functions:
 //  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
