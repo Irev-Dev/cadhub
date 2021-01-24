@@ -292,23 +292,16 @@ const IdeToolbar = ({
             transformOrigin={transformOrigin}
             className="material-ui-overrides transform translate-y-4"
           >
-            <div className="text-sm p-2 text-gray-500 max-w-md">
+            <div className="text-sm p-4 text-gray-500 max-w-md">
               <div className="text-base text-gray-700 py-2">
-                Model never generating?
+                Can't export stl/obj/STEP?
               </div>
-              Due to the current integration with CascadeStudio and the order in
-              which the code initialise sometimes the 3d model never generates
-              <div className="text-base text-gray-700 py-2">Work around</div>
-              <p>
-                Usually going to the <a href="/">homepage</a>, then refreshing,
-                waiting a good 10 seconds before navigating back to the part
-                your interested in should fix the issue.
-              </p>
+              Currently exports are only working for chrome and edge browsers
               <p>
                 If this problem is frustrating to you, leave a comment on its{' '}
                 <OutBound
                   className="text-gray-600 underline"
-                  to="https://github.com/Irev-Dev/cadhub/issues/139"
+                  to="https://github.com/zalo/CascadeStudio/pull/39#issuecomment-766206091"
                 >
                   github issue
                 </OutBound>{' '}
