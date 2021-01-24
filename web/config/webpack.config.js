@@ -33,6 +33,9 @@ module.exports = (config, { env }) => {
     type: 'javascript/auto',
     loader: 'file-loader',
   })
+  config.node = {
+    fs: 'empty',
+  }
 
   return config
 }
