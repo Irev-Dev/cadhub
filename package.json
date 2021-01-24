@@ -7,10 +7,6 @@
     ]
   },
   "scripts": {
-    "comment": "Rather crude approach to move ts definitions into the public folder so the browser can grab them later in CascadeMain.js",
-    "move-ts-defs": "cp ./web/src/cascade/js/StandardLibraryIntellisense.ts ./web/public",
-    "move-cad-worker": "rm -r web/public/CADWorker || true && mkdir web/public/CADWorker && mkdir web/public/CADWorker/node_modules && cp -r ./web/src/cascade/js/CADWorker ./web/public && cp -r ./web/src/cascade/node_modules ./web/public/CADWorker && cp -r ./web/src/cascade/fonts ./web/public/CADWorker",
-    "move-statics": "yarn move-ts-defs && yarn move-cad-worker"
   },
   "devDependencies": {
     "@redwoodjs/core": "^0.20.0"

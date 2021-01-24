@@ -1,10 +1,10 @@
 [build]
-command = "yarn move-statics && yarn rw build && yarn rw db up --no-db-client --auto-approve && yarn rw dataMigrate up"
+command = "yarn rw build && yarn rw db up --no-db-client --auto-approve && yarn rw dataMigrate up"
 publish = "web/dist"
 functions = "api/dist/functions"
 
 [dev]
-  command = "yarn move-statics && yarn rw dev"
+  command = "yarn rw dev"
 
 [[redirects]]
   from = "/*"
