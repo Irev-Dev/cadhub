@@ -311,6 +311,18 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         />
       </svg>
     ),
+    refresh: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 14 17"
+        fill="none">
+        <path
+          d="M13 9.9271C13 13.189 10.3137 15.8333 7 15.8333C3.68629 15.8333 1 13.189 1 9.9271C1 6.66517 3.68629 4.02085 7 4.02085C9 4.02085 10.986 4.99917 12 5.77084M12 5.77084L8.33333 7.08334M12 5.77084L10.6667 1.83334"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"/>
+      </svg>
+    ),
     save: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

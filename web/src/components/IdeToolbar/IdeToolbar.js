@@ -106,11 +106,6 @@ const IdeToolbar = ({
     setIsLoginModalOpen(true)
   }
 
-  const captureScreenshot = async () => {
-    setCaptureState(await onCapture())
-    // console.log({ onCapture: onCapture() })
-  }
-
   const handleDownload = (imgBlob) => {
     const aTag = document.createElement('a')
     document.body.appendChild(aTag)
@@ -260,16 +255,27 @@ const IdeToolbar = ({
               { !captureState
                 ? 'Loading...'
                 : <div className="grid grid-cols-2">
-                  <img src={ window.URL.createObjectURL(captureState) } className="w-32" />
-                  <div className="p-2">
-                    <div className="flex justify-center mb-4">
-                      <Svg name="checkmark" className="mr-2 w-6"/> Part Image Set
-                    </div>
+                  <div className="rounded m-auto" style={{width: 'fit-content', overflow: 'hidden'}}>
+                    <img src={ window.URL.createObjectURL(captureState.image) } className="w-32" />
+                  </div>
+                  <div className="p-2 text-indigo-800">
+                    { (captureState.mainImage && !captureState.updated)
+                      ? <button className="flex m-auto mb-4"
+                          onClick={ async () => {
+                            const cloudinaryImg = await captureState.callback()
+                            setCaptureState({...captureState, mainImage: cloudinaryImg.public_id, updated: true })
+                          }}>
+                          <Svg name="refresh" className="mr-2 w-4 text-indigo-600"/> Set Part Image
+                        </button>
+                      : <div className="flex m-auto mb-4">
+                          <Svg name="checkmark" className="mr-2 w-6 text-indigo-600"/> Part Image Set
+                        </div>
+                    }
                     <Button
                       iconName="save"
-                      className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-100 bg-opacity-100"
+                      className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-100 text-opacity-100 bg-opacity-100"
                       shouldAnimateHover
-                      onClick={() => handleDownload(captureState)}>
+                      onClick={() => handleDownload(captureState.image)}>
                       Download
                     </Button>
                   </div>
