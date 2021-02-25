@@ -8,5 +8,7 @@ dist
 dist-babel
 node_modules
 yarn-error.log
-web/public/mockServiceWorker.js
-web/public/CADWorker/*
+
+# serverless related ignores, see api/src/docker/openscad/Dockerfile for aws-lambda-rie info
+.serverless
+aws-lambda-rie
