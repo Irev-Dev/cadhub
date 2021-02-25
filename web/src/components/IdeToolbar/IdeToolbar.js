@@ -23,6 +23,7 @@ const IdeToolbar = ({
   userNamePart,
   isDraft,
   code,
+  onCapture,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [whichPopup, setWhichPopup] = useState(null)
@@ -102,6 +103,10 @@ const IdeToolbar = ({
       action: 'ideToolbar signup prompt from fork',
     })
     setIsLoginModalOpen(true)
+  }
+
+  const captureScreenshot = async () => {
+    console.log({ forkPart, onCapture: onCapture() })
   }
 
   const anchorOrigin = {
@@ -219,6 +224,31 @@ const IdeToolbar = ({
         </Popover>
       </div>
       <div className="ml-auto flex items-center">
+        {/* Capture Screenshot link. Should only appear if part has been saved and is editable. */}
+        { !isDraft && canEdit && <div>
+          <button
+            onClick={(event) => {
+              captureScreenshot()
+              handleClick({ event, whichPopup: 'capture' })
+            }}
+            className="text-indigo-300 flex items-center pr-6"
+          >
+            Capture <Svg name="camera" className="pl-2 w-8" />
+          </button>
+          <Popover
+            id={id}
+            open={whichPopup === 'capture'}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+            className="material-ui-overrides transform translate-y-4"
+          >
+            <div className="text-sm p-2 text-gray-500">
+              Saving...
+            </div>
+          </Popover>
+        </div> }
         <div>
           <button
             onClick={(event) => handleClick({ event, whichPopup: 'tips' })}

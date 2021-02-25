@@ -30,6 +30,29 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         />
       </svg>
     ),
+    'camera': (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 21">
+        <path
+          d="M6 5H4C2.34315 5 1 6.34315 1 8V17C1 18.6569 2.34315 20 4 20H20C21.6569 20 23 18.6569 23 17V8C23 6.34315 21.6569 5 20 5H18"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"/>
+        <circle
+          cx="12"
+          cy="11"
+          r="5"
+          stroke="currentColor"
+          stroke-width="2"/>
+        <path
+          d="M16 2.68641C14.8716 1.61443 13.5582 1 12.1563 1C10.6229 1 9.19532 1.7351 8 3"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"/>
+      </svg>
+    ),
     'chevron-down': (
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -3,6 +3,8 @@ import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 import { threejsViewport } from 'src/cascade/js/MainPage/CascadeState'
+import { element } from 'prop-types'
+import { uploadToCloudinary } from 'src/helpers/cloudinary'
 
 const defaultExampleCode = `// Welcome to Cascade Studio!   Here are some useful functions:
 //  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
@@ -69,6 +71,18 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
             userName: part?.user?.userName,
             partTitle: part?.title,
             image: part?.user?.image,
+          }}
+          onCapture={ async () => {
+            // Get the canvas image as a Data URL
+            const imgBlob = await CascadeController.capture(threejsViewport.environment)
+            const imgURL = window.URL.createObjectURL(imgBlob)
+
+            // TODO: Upload the image to Cloudinary
+            // uploadToCloudinary(imgBlob)
+
+            // TODO: Save the screenshot as the mainImage if none has been set
+            // If it has been set, pass along the Blob without uploading
+            // onSave(part?.id, { ...input, mainImage: cloudinaryPublicId })
           }}
         />
       </div>
