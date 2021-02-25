@@ -31,6 +31,7 @@ const IdeToolbar = ({
   const { isAuthenticated, currentUser } = useAuth()
   const showForkButton = !(canEdit || isDraft)
   const [title, setTitle] = useState('untitled-part')
+  const [captureState, setCaptureState] = useState(false)
   const { user } = useUser()
   useKeyPress((e) => {
     const rx = /INPUT|SELECT|TEXTAREA/i
@@ -106,7 +107,18 @@ const IdeToolbar = ({
   }
 
   const captureScreenshot = async () => {
-    console.log({ forkPart, onCapture: onCapture() })
+    setCaptureState(await onCapture())
+    // console.log({ onCapture: onCapture() })
+  }
+
+  const handleDownload = (imgBlob) => {
+    const aTag = document.createElement('a')
+    document.body.appendChild(aTag)
+    const url = URL.createObjectURL(imgBlob)
+    aTag.href= url
+    aTag.style.display = 'none'
+    aTag.download = `CodeCad_${ Date.now() }.jpg`
+    aTag.click()
   }
 
   const anchorOrigin = {
@@ -227,9 +239,9 @@ const IdeToolbar = ({
         {/* Capture Screenshot link. Should only appear if part has been saved and is editable. */}
         { !isDraft && canEdit && <div>
           <button
-            onClick={(event) => {
-              captureScreenshot()
+            onClick={async event => {
               handleClick({ event, whichPopup: 'capture' })
+              setCaptureState(await onCapture())
             }}
             className="text-indigo-300 flex items-center pr-6"
           >
@@ -245,7 +257,24 @@ const IdeToolbar = ({
             className="material-ui-overrides transform translate-y-4"
           >
             <div className="text-sm p-2 text-gray-500">
-              Saving...
+              { !captureState
+                ? 'Loading...'
+                : <div className="grid grid-cols-2">
+                  <img src={ window.URL.createObjectURL(captureState) } className="w-32" />
+                  <div className="p-2">
+                    <div className="flex justify-center mb-4">
+                      <Svg name="checkmark" className="mr-2 w-6"/> Part Image Set
+                    </div>
+                    <Button
+                      iconName="save"
+                      className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-100 bg-opacity-100"
+                      shouldAnimateHover
+                      onClick={() => handleDownload(captureState)}>
+                      Download
+                    </Button>
+                  </div>
+                </div>
+              }
             </div>
           </Popover>
         </div> }
