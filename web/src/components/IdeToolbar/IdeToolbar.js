@@ -114,6 +114,7 @@ const IdeToolbar = ({
     aTag.style.display = 'none'
     aTag.download = `CadHub_${ Date.now() }.jpg`
     aTag.click()
+    document.body.removeChild(aTag)
   }
 
   const anchorOrigin = {

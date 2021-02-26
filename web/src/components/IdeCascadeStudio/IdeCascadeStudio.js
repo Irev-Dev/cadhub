@@ -3,7 +3,6 @@ import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 import { threejsViewport } from 'src/cascade/js/MainPage/CascadeState'
-import { element } from 'prop-types'
 import { uploadToCloudinary } from 'src/helpers/cloudinary'
 
 const defaultExampleCode = `// Welcome to Cascade Studio!   Here are some useful functions:
@@ -82,10 +81,6 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
             // Save the screenshot as the mainImage
             saveCode({
               input: {
-                code,
-                title: part?.title,
-                userId: currentUser?.sub,
-                description: part?.description,
                 mainImage: cloudinaryImg.public_id,
               },
               id: part?.id,
