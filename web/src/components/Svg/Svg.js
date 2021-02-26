@@ -38,19 +38,19 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         <path
           d="M6 5H4C2.34315 5 1 6.34315 1 8V17C1 18.6569 2.34315 20 4 20H20C21.6569 20 23 18.6569 23 17V8C23 6.34315 21.6569 5 20 5H18"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"/>
+          strokeWidth="2"
+          strokeLinecap="round"/>
         <circle
           cx="12"
           cy="11"
           r="5"
           stroke="currentColor"
-          stroke-width="2"/>
+          strokeWidth="2"/>
         <path
           d="M16 2.68641C14.8716 1.61443 13.5582 1 12.1563 1C10.6229 1 9.19532 1.7351 8 3"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"/>
+          strokeWidth="2"
+          strokeLinecap="round"/>
       </svg>
     ),
     'checkmark': (
@@ -59,8 +59,8 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         viewBox="0 0 21 20"
         fill="none">
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M10.3438 19.6875C15.7803 19.6875 20.1875 15.2803 20.1875 9.84375C20.1875 4.4072 15.7803 0 10.3438 0C4.9072 0 0.5 4.4072 0.5 9.84375C0.5 15.2803 4.9072 19.6875 10.3438 19.6875ZM15.3321 6.5547C15.6384 6.09517 15.5142 5.4743 15.0547 5.16795C14.5952 4.8616 13.9743 4.98577 13.6679 5.4453L9.34457 11.9304L7.20711 9.79289C6.81658 9.40237 6.18342 9.40237 5.79289 9.79289C5.40237 10.1834 5.40237 10.8166 5.79289 11.2071L8.79289 14.2071C9.00474 14.419 9.3004 14.5247 9.59854 14.4951C9.89667 14.4656 10.1659 14.304 10.3321 14.0547L15.3321 6.5547Z"
             fill="currentColor"/>
     </svg>),
@@ -319,8 +319,8 @@ const Svg = ({ name, className: className2, strokeWidth = 2 }) => {
         <path
           d="M13 9.9271C13 13.189 10.3137 15.8333 7 15.8333C3.68629 15.8333 1 13.189 1 9.9271C1 6.66517 3.68629 4.02085 7 4.02085C9 4.02085 10.986 4.99917 12 5.77084M12 5.77084L8.33333 7.08334M12 5.77084L10.6667 1.83334"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"/>
+          strokeWidth="2"
+          strokeLinecap="round"/>
       </svg>
     ),
     save: (
