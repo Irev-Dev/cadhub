@@ -3,7 +3,10 @@ import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 import { threejsViewport } from 'src/cascade/js/MainPage/CascadeState'
-import { uploadToCloudinary } from 'src/helpers/cloudinary'
+import {
+  uploadToCloudinary,
+  captureAndSaveViewport,
+} from 'src/helpers/cloudinary'
 
 const defaultExampleCode = `// Welcome to Cascade Studio!   Here are some useful functions:
 //  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
@@ -53,16 +56,22 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
           isChanges={isChanges && !loading}
           isDraft={isDraft}
           code={code}
-          onSave={() => {
+          onSave={async () => {
+            const input = {
+              code,
+              title: part?.title,
+              userId: currentUser?.sub,
+              description: part?.description,
+            }
+            const isFork = !canEdit
+            if (isFork) {
+              const { publicId } = await captureAndSaveViewport()
+              input.mainImage = publicId
+            }
             saveCode({
-              input: {
-                code,
-                title: part?.title,
-                userId: currentUser?.sub,
-                description: part?.description,
-              },
+              input,
               id: part.id,
-              isFork: !canEdit,
+              isFork,
             })
           }}
           onExport={(type) => threejsViewport[`saveShape${type}`]()}
@@ -71,7 +80,7 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
             partTitle: part?.title,
             image: part?.user?.image,
           }}
-          onCapture={ async () => {
+          onCapture={async () => {
             const config = {
               currImage: part?.mainImage,
               callback: uploadAndUpdateImage,
@@ -79,10 +88,12 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
               updated: false,
             }
             // Get the canvas image as a Data URL
-            config.image = await CascadeController.capture(threejsViewport.environment)
+            config.image = await CascadeController.capture(
+              threejsViewport.environment
+            )
             config.imageObjectURL = window.URL.createObjectURL(config.image)
 
-            async function uploadAndUpdateImage(){
+            async function uploadAndUpdateImage() {
               // Upload the image to Cloudinary
               const cloudinaryImgURL = await uploadToCloudinary(config.image)
 
