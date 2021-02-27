@@ -51,7 +51,7 @@ export const createPart = async ({ input }) => {
 }
 
 export const forkPart = async ({ input }) => {
-  // Only difference between create nda clone part is that clone part will generate a unique title
+  // Only difference between create and fork part is that fork part will generate a unique title
   // (for the user) if there is a conflict
   const isUniqueCallback = async (seed) =>
     db.part.findOne({
@@ -83,6 +83,7 @@ export const updatePart = async ({ id, input }) => {
     where: { id },
   })
   if (imageToDestroy) {
+    console.log(`image destroyed, publicId: ${imageToDestroy}, partId: ${id}`)
     // destroy after the db has been updated
     destroyImage({ publicId: imageToDestroy })
   }
