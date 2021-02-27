@@ -50,7 +50,7 @@ export const Success = ({ part, refetch }) => {
   const { user } = useUser()
   const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: () => {
-      addMessage('Part updated.', { classes: 'rw-flash-success' })
+      addMessage('Part updated.', { classes: 'rw-flash-success fixed w-screen z-10' })
     },
   })
   const [forkPart] = useMutation(FORK_PART_MUTATION, {

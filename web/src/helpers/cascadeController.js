@@ -23,6 +23,28 @@ class CascadeController {
     }
     onInit()
   }
+
+  capture(environment, width = 512, height = 384) {
+    environment.camera.aspect = width / height;
+    environment.camera.updateProjectionMatrix();
+    environment.renderer.setSize(width, height);
+    environment.renderer.render(environment.scene, environment.camera, null, false);
+    let imgBlob = new Promise((resolve, reject) => {
+      environment.renderer.domElement.toBlob(
+        (blob) => {
+          blob.name = `part_capture-${ Date.now() }`
+          resolve(blob)
+        },
+        'image/jpeg',
+        1
+      );
+    })
+
+    // Return to original dimensions
+    environment.onWindowResize();
+
+    return imgBlob
+  }
 }
 
 export default new CascadeController()

@@ -3,6 +3,7 @@ import CascadeController from 'src/helpers/cascadeController'
 import IdeToolbar from 'src/components/IdeToolbar'
 import { useEffect, useState } from 'react'
 import { threejsViewport } from 'src/cascade/js/MainPage/CascadeState'
+import { uploadToCloudinary } from 'src/helpers/cloudinary'
 
 const defaultExampleCode = `// Welcome to Cascade Studio!   Here are some useful functions:
 //  Translate(), Rotate(), Scale(), Union(), Difference(), Intersection()
@@ -69,6 +70,41 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
             userName: part?.user?.userName,
             partTitle: part?.title,
             image: part?.user?.image,
+          }}
+          onCapture={ async () => {
+            const config = {
+              currImage: part?.mainImage,
+              callback: uploadAndUpdateImage,
+              cloudinaryImgURL: '',
+              updated: false,
+            }
+            // Get the canvas image as a Data URL
+            config.image = await CascadeController.capture(threejsViewport.environment)
+            config.imageObjectURL = window.URL.createObjectURL(config.image)
+
+            async function uploadAndUpdateImage(){
+              // Upload the image to Cloudinary
+              const cloudinaryImgURL = await uploadToCloudinary(config.image)
+
+              // Save the screenshot as the mainImage
+              saveCode({
+                input: {
+                  mainImage: cloudinaryImgURL.public_id,
+                },
+                id: part?.id,
+                isFork: !canEdit,
+              })
+
+              return cloudinaryImgURL
+            }
+
+            // if there isn't a screenshot saved yet, just go ahead and save right away
+            if (!part || !part.mainImage) {
+              config.cloudinaryImgURL = await uploadAndUpdateImage().public_id
+              config.updated = true
+            }
+
+            return config
           }}
         />
       </div>

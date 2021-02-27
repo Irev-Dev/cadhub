@@ -23,6 +23,7 @@ const IdeToolbar = ({
   userNamePart,
   isDraft,
   code,
+  onCapture,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [whichPopup, setWhichPopup] = useState(null)
@@ -30,6 +31,7 @@ const IdeToolbar = ({
   const { isAuthenticated, currentUser } = useAuth()
   const showForkButton = !(canEdit || isDraft)
   const [title, setTitle] = useState('untitled-part')
+  const [captureState, setCaptureState] = useState(false)
   const { user } = useUser()
   useKeyPress((e) => {
     const rx = /INPUT|SELECT|TEXTAREA/i
@@ -102,6 +104,16 @@ const IdeToolbar = ({
       action: 'ideToolbar signup prompt from fork',
     })
     setIsLoginModalOpen(true)
+  }
+
+  const handleDownload = (url) => {
+    const aTag = document.createElement('a')
+    document.body.appendChild(aTag)
+    aTag.href= url
+    aTag.style.display = 'none'
+    aTag.download = `CadHub_${ Date.now() }.jpg`
+    aTag.click()
+    document.body.removeChild(aTag)
   }
 
   const anchorOrigin = {
@@ -219,6 +231,59 @@ const IdeToolbar = ({
         </Popover>
       </div>
       <div className="ml-auto flex items-center">
+        {/* Capture Screenshot link. Should only appear if part has been saved and is editable. */}
+        { !isDraft && canEdit && <div>
+          <button
+            onClick={async event => {
+              handleClick({ event, whichPopup: 'capture' })
+              setCaptureState(await onCapture())
+            }}
+            className="text-indigo-300 flex items-center pr-6"
+          >
+            Save Part Image <Svg name="camera" className="pl-2 w-8" />
+          </button>
+          <Popover
+            id={id}
+            open={whichPopup === 'capture'}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+            className="material-ui-overrides transform translate-y-4"
+          >
+            <div className="text-sm p-2 text-gray-500">
+              { !captureState
+                ? 'Loading...'
+                : <div className="grid grid-cols-2">
+                  <div className="rounded m-auto" style={{width: 'fit-content', overflow: 'hidden'}}>
+                    <img src={ captureState.imageObjectURL } className="w-32" />
+                  </div>
+                  <div className="p-2 text-indigo-800">
+                    { (captureState.currImage && !captureState.updated)
+                      ? <button className="flex justify-center mb-4"
+                          onClick={ async () => {
+                            const cloudinaryImg = await captureState.callback()
+                            setCaptureState({...captureState, currImage: cloudinaryImg.public_id, updated: true })
+                          }}>
+                          <Svg name="refresh" className="mr-2 w-4 text-indigo-600"/> Update Part Image
+                        </button>
+                      : <div className="flex justify-center mb-4">
+                          <Svg name="checkmark" className="mr-2 w-6 text-indigo-600"/> Part Image Updated
+                        </div>
+                    }
+                    <Button
+                      iconName="save"
+                      className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-100 text-opacity-100 bg-opacity-80"
+                      shouldAnimateHover
+                      onClick={() => handleDownload(captureState.imageObjectURL)}>
+                      Download
+                    </Button>
+                  </div>
+                </div>
+              }
+            </div>
+          </Popover>
+        </div> }
         <div>
           <button
             onClick={(event) => handleClick({ event, whichPopup: 'tips' })}
