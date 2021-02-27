@@ -72,22 +72,39 @@ const IdeCascadeStudio = ({ part, saveCode, loading }) => {
             image: part?.user?.image,
           }}
           onCapture={ async () => {
+            const config = {
+              currImage: part?.mainImage,
+              callback: uploadAndUpdateImage,
+              cloudinaryImgURL: '',
+              updated: false,
+            }
             // Get the canvas image as a Data URL
-            const imgBlob = await CascadeController.capture(threejsViewport.environment)
+            config.image = await CascadeController.capture(threejsViewport.environment)
+            config.imageObjectURL = window.URL.createObjectURL(config.image)
 
-            // Upload the image to Cloudinary
-            const cloudinaryImg = await uploadToCloudinary(imgBlob)
+            async function uploadAndUpdateImage(){
+              // Upload the image to Cloudinary
+              const cloudinaryImgURL = await uploadToCloudinary(config.image)
 
-            // Save the screenshot as the mainImage
-            saveCode({
-              input: {
-                mainImage: cloudinaryImg.public_id,
-              },
-              id: part?.id,
-              isFork: !canEdit,
-            })
+              // Save the screenshot as the mainImage
+              saveCode({
+                input: {
+                  mainImage: cloudinaryImgURL.public_id,
+                },
+                id: part?.id,
+                isFork: !canEdit,
+              })
 
-            return { imgBlob, cloudinaryImg }
+              return cloudinaryImgURL
+            }
+
+            // if there isn't a screenshot saved yet, just go ahead and save right away
+            if (!part || !part.mainImage) {
+              config.cloudinaryImgURL = await uploadAndUpdateImage().public_id
+              config.updated = true
+            }
+
+            return config
           }}
         />
       </div>

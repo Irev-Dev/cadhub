@@ -24,8 +24,7 @@ class CascadeController {
     onInit()
   }
 
-  capture(environment) {
-    let width = 512, height = 384; // These can be adjusted to the best size for the Part Profile.
+  capture(environment, width = 512, height = 384) {
     environment.camera.aspect = width / height;
     environment.camera.updateProjectionMatrix();
     environment.renderer.setSize(width, height);

@@ -106,10 +106,9 @@ const IdeToolbar = ({
     setIsLoginModalOpen(true)
   }
 
-  const handleDownload = (imgBlob) => {
+  const handleDownload = (url) => {
     const aTag = document.createElement('a')
     document.body.appendChild(aTag)
-    const url = URL.createObjectURL(imgBlob)
     aTag.href= url
     aTag.style.display = 'none'
     aTag.download = `CadHub_${ Date.now() }.jpg`
@@ -241,7 +240,7 @@ const IdeToolbar = ({
             }}
             className="text-indigo-300 flex items-center pr-6"
           >
-            Set Part Image <Svg name="camera" className="pl-2 w-8" />
+            Save Part Image <Svg name="camera" className="pl-2 w-8" />
           </button>
           <Popover
             id={id}
@@ -257,17 +256,26 @@ const IdeToolbar = ({
                 ? 'Loading...'
                 : <div className="grid grid-cols-2">
                   <div className="rounded m-auto" style={{width: 'fit-content', overflow: 'hidden'}}>
-                    <img src={ window.URL.createObjectURL(captureState.imgBlob) } className="w-32" />
+                    <img src={ captureState.imageObjectURL } className="w-32" />
                   </div>
                   <div className="p-2 text-indigo-800">
-                    <div className="flex justify-center mb-4">
-                      <Svg name="checkmark" className="mr-2 w-6 text-indigo-600"/> Part Image Set
-                    </div>
+                    { (captureState.currImage && !captureState.updated)
+                      ? <button className="flex justify-center mb-4"
+                          onClick={ async () => {
+                            const cloudinaryImg = await captureState.callback()
+                            setCaptureState({...captureState, currImage: cloudinaryImg.public_id, updated: true })
+                          }}>
+                          <Svg name="refresh" className="mr-2 w-4 text-indigo-600"/> Update Part Image
+                        </button>
+                      : <div className="flex justify-center mb-4">
+                          <Svg name="checkmark" className="mr-2 w-6 text-indigo-600"/> Part Image Updated
+                        </div>
+                    }
                     <Button
                       iconName="save"
-                      className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-100 text-opacity-100 bg-opacity-100"
+                      className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-800 text-indigo-100 text-opacity-100 bg-opacity-80"
                       shouldAnimateHover
-                      onClick={() => handleDownload(captureState.imgBlob)}>
+                      onClick={() => handleDownload(captureState.imageObjectURL)}>
                       Download
                     </Button>
                   </div>
