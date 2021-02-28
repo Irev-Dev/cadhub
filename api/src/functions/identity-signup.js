@@ -59,7 +59,7 @@ export const handler = async (req, _context) => {
   if (eventType === 'signup') {
     roles.push('user')
     const isUniqueCallback = async (seed) =>
-      db.user.findOne({
+      db.user.findUnique({
         where: { userName: seed },
       })
     const userNameSeed = enforceAlphaNumeric(user?.user_metadata?.userName)

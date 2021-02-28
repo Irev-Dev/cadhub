@@ -6,10 +6,9 @@
       "web"
     ]
   },
-  "scripts": {
-  },
+  "scripts": {},
   "devDependencies": {
-    "@redwoodjs/core": "^0.20.0"
+    "@redwoodjs/core": "^0.26.2"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config"

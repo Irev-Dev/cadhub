@@ -9,7 +9,7 @@ export const subjectAccessRequests = () => {
 
 export const subjectAccessRequest = ({ id }) => {
   requireAuth({ role: 'admin' })
-  return db.subjectAccessRequest.findOne({
+  return db.subjectAccessRequest.findUnique({
     where: { id },
   })
 }
@@ -38,5 +38,5 @@ export const deleteSubjectAccessRequest = ({ id }) => {
 
 export const SubjectAccessRequest = {
   user: (_obj, { root }) =>
-    db.subjectAccessRequest.findOne({ where: { id: root.id } }).user(),
+    db.subjectAccessRequest.findUnique({ where: { id: root.id } }).user(),
 }

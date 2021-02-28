@@ -10,13 +10,13 @@ export const users = () => {
 }
 
 export const user = ({ id }) => {
-  return db.user.findOne({
+  return db.user.findUnique({
     where: { id },
   })
 }
 
 export const userName = ({ userName }) => {
-  return db.user.findOne({
+  return db.user.findUnique({
     where: { userName },
   })
 }
@@ -51,7 +51,7 @@ export const updateUserByUserName = async ({ userName, input }) => {
       `You've tried to used a protected word as you userName, try something other than `
     )
   }
-  const originalPart = await db.user.findOne({ where: { userName } })
+  const originalPart = await db.user.findUnique({ where: { userName } })
   const imageToDestroy =
     originalPart.image !== input.image && originalPart.image
   const update = await db.user.update({
@@ -73,10 +73,11 @@ export const deleteUser = ({ id }) => {
 }
 
 export const User = {
-  Parts: (_obj, { root }) => db.user.findOne({ where: { id: root.id } }).Part(),
+  Parts: (_obj, { root }) =>
+    db.user.findUnique({ where: { id: root.id } }).Part(),
   Part: (_obj, { root }) =>
     _obj.partTitle &&
-    db.part.findOne({
+    db.part.findUnique({
       where: {
         title_userId: {
           title: _obj.partTitle,
@@ -85,9 +86,9 @@ export const User = {
       },
     }),
   Reaction: (_obj, { root }) =>
-    db.user.findOne({ where: { id: root.id } }).Reaction(),
+    db.user.findUnique({ where: { id: root.id } }).Reaction(),
   Comment: (_obj, { root }) =>
-    db.user.findOne({ where: { id: root.id } }).Comment(),
+    db.user.findUnique({ where: { id: root.id } }).Comment(),
   SubjectAccessRequest: (_obj, { root }) =>
-    db.user.findOne({ where: { id: root.id } }).SubjectAccessRequest(),
+    db.user.findUnique({ where: { id: root.id } }).SubjectAccessRequest(),
 }

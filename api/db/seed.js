@@ -87,7 +87,7 @@ async function main() {
 
 
 
-  const aPart = await db.part.findOne({where: {
+  const aPart = await db.part.findUnique({where: {
     title_userId: {
       title: parts[0].title,
       userId: users[0].id,
