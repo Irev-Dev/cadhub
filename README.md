@@ -6,7 +6,7 @@
 
 Let's help Code-CAD reach its [full potential!](https://cadhub.xyz) We're making a ~~cad~~hub for the Code-CAD community, think of it as model-repository crossed with a live editor. We have an integration with the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/) with [more coming soon](https://github.com/Irev-Dev/curated-code-cad).
 
-If you want to be involved in anyway, get in touch via, [twitter](https://twitter.com/IrevDev), [discord](https://discord.gg/SD7zFRNjGH) or [discussions](https://github.com/Irev-Dev/cadhub/discussions).
+If you want to be involved in anyway, checkout the [Road Map](https://github.com/Irev-Dev/cadhub/discussions/212) and get in touch via, [twitter](https://twitter.com/IrevDev), [discord](https://discord.gg/SD7zFRNjGH) or [discussions](https://github.com/Irev-Dev/cadhub/discussions).
 
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/fullcadhubshot.jpg">
 

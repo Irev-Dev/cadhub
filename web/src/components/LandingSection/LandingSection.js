@@ -154,7 +154,14 @@ const LandingSection = () => {
             >
               CascadeStudio
             </OutBound>{' '}
-            with more integrations coming soon.
+            with more integrations{' '}
+            <OutBound
+              className="text-gray-600 underline"
+              to="https://github.com/Irev-Dev/cadhub/discussions/212"
+            >
+              coming soon
+            </OutBound>
+            .
           </p>
           <Link to={routes.draftPart()}>
             <div className="bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl">

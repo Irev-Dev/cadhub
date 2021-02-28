@@ -4,6 +4,7 @@ const OutBound = ({ className, children, to }) => {
   return (
     <a
       className={className}
+      target="_blank"
       href={to}
       onClick={() => {
         ReactGA.event({
