@@ -9,6 +9,7 @@ import Footer from 'src/components/Footer'
 import { useLocation } from '@redwoodjs/router'
 import LoginModal from 'src/components/LoginModal'
 import ReactGA from 'react-ga'
+import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import Svg from 'src/components/Svg'
 import ImageUploader from 'src/components/ImageUploader'
@@ -63,7 +64,10 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
       previousSubmission = newSubmission
     }
   }, [pathname, params])
-  const hash = window.location.hash
+  let hash
+  if (isBrowser) {
+    hash = window.location.hash
+  }
   useEffect(() => {
     const [key, token] = hash.slice(1).split('=')
     if (key === 'confirmation_token') {

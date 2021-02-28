@@ -36,7 +36,7 @@ const Routes = () => {
       <Route path="/policies/code-of-conduct" page={CodeOfConductPage} name="codeOfConduct" />
       <Route path="/account-recovery/update-password" page={UpdatePasswordPage} name="updatePassword" />
       <Route path="/account-recovery" page={AccountRecoveryPage} name="accountRecovery" />
-      <Route path="/" page={HomePage} name="home" />
+      <Route path="/" page={HomePage} name="home" prerender />
       <Route notfound page={NotFoundPage} />
 
       {/* Ownership enforced routes */}

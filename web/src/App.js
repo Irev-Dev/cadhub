@@ -1,7 +1,6 @@
 import { AuthProvider } from '@redwoodjs/auth'
 import GoTrue from 'gotrue-js'
 
-import ReactDOM from 'react-dom'
 import { FatalErrorBoundary } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
@@ -19,13 +18,14 @@ const goTrueClient = new GoTrue({
   setCookie: true,
 })
 
-ReactDOM.render(
+const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <AuthProvider client={goTrueClient} type="goTrue">
       <RedwoodApolloProvider>
         <Routes />
       </RedwoodApolloProvider>
     </AuthProvider>
-  </FatalErrorBoundary>,
-  document.getElementById('redwood-app')
+  </FatalErrorBoundary>
 )
+
+export default App
