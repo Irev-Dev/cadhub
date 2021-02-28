@@ -9,7 +9,7 @@
   port = 8910
   apiProxyPath = "/.netlify/functions"
   includeEnvironmentVariables = ['GOOGLE_ANALYTICS_ID', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET']
-  experimentalFastRefresh = true
+  # experimentalFastRefresh = true # this seems to break cascadeStudio
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
