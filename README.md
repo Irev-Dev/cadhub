@@ -27,17 +27,16 @@ Install dependencies
 yarn install
 ```
 
-Initialise the db
-``` terminal
-yarn rw db up
-yarn rw db seed
-```
+Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup) with a couple of exceptions:
+- Run `yarn rw prisma migrate dev` instead of `yarn rw db up` in the guide.
+- Don't worry about changing the `schema.prisma` file.
+- You will need to add a `DATABASE_URL` and test url to you `.env` file at the root of the project.
 
-Move some files to the public directory
+Run the following
+``` terminal
+yarn rw prisma migrate dev
+yarn rw prisma db seed
 ```
-yarn move-cad-worker
-```
-The above step should be repeated whenever you modify anything in the git submodule `web/src/cascade/*`
 
 ### Fire up dev
 ```terminal
