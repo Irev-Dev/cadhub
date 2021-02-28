@@ -10,7 +10,7 @@ export const partReactions = () => {
 }
 
 export const partReaction = ({ id }) => {
-  return db.partReaction.findOne({
+  return db.partReaction.findUnique({
     where: { id },
   })
 }
@@ -62,7 +62,7 @@ export const deletePartReaction = ({ id }) => {
 
 export const PartReaction = {
   user: (_obj, { root }) =>
-    db.partReaction.findOne({ where: { id: root.id } }).user(),
+    db.partReaction.findUnique({ where: { id: root.id } }).user(),
   part: (_obj, { root }) =>
-    db.partReaction.findOne({ where: { id: root.id } }).part(),
+    db.partReaction.findUnique({ where: { id: root.id } }).part(),
 }

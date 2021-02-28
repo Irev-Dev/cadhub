@@ -21,7 +21,7 @@ export const requireOwnership = async ({ userId, userName, partId } = {}) => {
   }
 
   if (userName) {
-    const user = await db.user.findOne({
+    const user = await db.user.findUnique({
       where: { userName },
     })
 
@@ -32,7 +32,7 @@ export const requireOwnership = async ({ userId, userName, partId } = {}) => {
 
   if (partId) {
     const user = await db.part
-      .findOne({
+      .findUnique({
         where: { id: partId },
       })
       .user()

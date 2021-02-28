@@ -6,7 +6,7 @@ export const comments = () => {
 }
 
 export const comment = ({ id }) => {
-  return db.comment.findOne({
+  return db.comment.findUnique({
     where: { id },
   })
 }
@@ -32,7 +32,7 @@ export const deleteComment = ({ id }) => {
 
 export const Comment = {
   user: (_obj, { root }) =>
-    db.comment.findOne({ where: { id: root.id } }).user(),
+    db.comment.findUnique({ where: { id: root.id } }).user(),
   part: (_obj, { root }) =>
-    db.comment.findOne({ where: { id: root.id } }).part(),
+    db.comment.findUnique({ where: { id: root.id } }).part(),
 }

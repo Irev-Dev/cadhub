@@ -9,7 +9,7 @@
   "scripts": {
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.24.0"
+    "@redwoodjs/core": "^0.25.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config"

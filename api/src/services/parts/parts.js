@@ -23,17 +23,17 @@ export const parts = ({ userName }) => {
 }
 
 export const part = ({ id }) => {
-  return db.part.findOne({
+  return db.part.findUnique({
     where: { id },
   })
 }
 export const partByUserAndTitle = async ({ userName, partTitle }) => {
-  const user = await db.user.findOne({
+  const user = await db.user.findUnique({
     where: {
       userName,
     },
   })
-  return db.part.findOne({
+  return db.part.findUnique({
     where: {
       title_userId: {
         title: partTitle,
@@ -54,7 +54,7 @@ export const forkPart = async ({ input }) => {
   // Only difference between create and fork part is that fork part will generate a unique title
   // (for the user) if there is a conflict
   const isUniqueCallback = async (seed) =>
-    db.part.findOne({
+    db.part.findUnique({
       where: {
         title_userId: {
           title: seed,
@@ -75,7 +75,7 @@ export const updatePart = async ({ id, input }) => {
   if (input.title) {
     input.title = enforceAlphaNumeric(input.title)
   }
-  const originalPart = await db.part.findOne({ where: { id } })
+  const originalPart = await db.part.findUnique({ where: { id } })
   const imageToDestroy =
     originalPart.mainImage !== input.mainImage && originalPart.mainImage
   const update = await db.part.update({
@@ -102,11 +102,12 @@ export const deletePart = async ({ id }) => {
 }
 
 export const Part = {
-  user: (_obj, { root }) => db.part.findOne({ where: { id: root.id } }).user(),
+  user: (_obj, { root }) =>
+    db.part.findUnique({ where: { id: root.id } }).user(),
   Comment: (_obj, { root }) =>
-    db.part.findOne({ where: { id: root.id } }).Comment(),
+    db.part.findUnique({ where: { id: root.id } }).Comment(),
   Reaction: (_obj, { root }) =>
     db.part
-      .findOne({ where: { id: root.id } })
+      .findUnique({ where: { id: root.id } })
       .Reaction({ where: { userId: _obj.userId } }),
 }
