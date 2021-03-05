@@ -9,7 +9,8 @@ const IdeViewer = () => {
       <div>
         I should be showing an{' '}
         <span className="font-mono uppercase">{state.objectData?.type}</span>{' '}
-        right now
+        right now with the data{' '}
+        <span className="font-mono uppercase">{state.objectData?.data}</span>{' '}
       </div>
     </div>
   )

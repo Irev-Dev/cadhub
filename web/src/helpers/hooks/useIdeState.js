@@ -1,9 +1,9 @@
 import { useReducer } from 'react'
-import { renderOpenScad } from 'src/helpers/openScadController'
+import { cadPackages } from 'src/helpers/cadPackages'
 
 export const useIdeState = () => {
   const initialState = {
-    ideType: 'openscad',
+    ideType: 'openScad',
     consoleMessages: [
       { type: 'error', message: 'line 15 is being very naughty' },
       { type: 'message', message: '5 bodies produced' },
@@ -36,14 +36,19 @@ export const useIdeState = () => {
             ? [...state.consoleMessages, payload.message]
             : payload.message,
         }
+      case 'setIdeType':
+        return {
+          ...state,
+          ideType: payload.message,
+        }
     }
   }
 
-  function dispatchMiddleware(dispatch) {
+  function dispatchMiddleware(dispatch, state) {
     return ({ type, payload }) => {
       switch (type) {
         case 'render':
-          renderOpenScad({ code: payload.code })
+          cadPackages[state.ideType].render({ code: payload.code })
             .then(({ objectData, message }) =>
               dispatch({
                 type: 'healthyRender',
@@ -65,5 +70,5 @@ export const useIdeState = () => {
   }
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  return [state, dispatchMiddleware(dispatch)]
+  return [state, dispatchMiddleware(dispatch, state)]
 }
