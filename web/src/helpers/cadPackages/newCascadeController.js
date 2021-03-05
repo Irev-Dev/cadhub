@@ -8,7 +8,7 @@ export const render = async ({ code, settings }) => {
         resolve({
           objectData: {
             type: 'stl',
-            data: ((Math.random() * 256 + 1) >>> 0).toString(2),
+            data: ((Math.random() * 256 + 1) >>> 0).toString(2), // Randomized 8-bit numbers for funzies
           },
           message: {
             type: 'message',
