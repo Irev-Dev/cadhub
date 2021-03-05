@@ -1,12 +1,12 @@
-export const renderOpenScad = async ({ code, settings }) => {
+export const render = async ({ code, settings }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const shouldReject = Math.random() < 0.7
       if (shouldReject) {
         resolve({
           objectData: {
-            type: Math.random() > 0.6 ? 'stl' : 'jpg',
-            data: 'some binary',
+            type: 'jpg',
+            data: ((Math.random() * 256 + 1) >>> 0).toString(2),
           },
           message: {
             type: 'message',
@@ -24,3 +24,10 @@ export const renderOpenScad = async ({ code, settings }) => {
     }, 700)
   })
 }
+
+
+const openScad = {
+  render,
+}
+
+export default openScad
