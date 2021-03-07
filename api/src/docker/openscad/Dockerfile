@@ -10,8 +10,9 @@ RUN apt-get update -qq
 RUN apt-get install -y -qq openscad
 RUN apt-get install -y curl
 
-# install node 14, (maybe I should put the .sh file into version control?)
-RUN curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+# install node14, see comment at the to of node14source_setup.sh
+ADD node14source_setup.sh /nodesource_setup.sh
+RUN ["chmod", "+x", "/nodesource_setup.sh"]
 RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 

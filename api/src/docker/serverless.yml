@@ -1,16 +1,3 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 service: cad-lambdas
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
@@ -27,16 +14,17 @@ provider:
   name: aws
   lambdaHashingVersion: 20201221
   ecr:
-    # In this section you can define images that will be built locally and uploaded to ECR
     images:
+      # this image is built locally and push to ECR
       openscadimage:
         path: ./openscad/
   apiGateway:
     metrics: true
     binaryMediaTypes:
+      # we need to allow binary types to be able to send back images and stls, but it would be better to be more specific
+      # ie image/png etc. as */* treats everything as binary including the json body as the input the lambdas
+      # which mean we need to decode the input bode from base64, but the images break with anything other than */* :(
       - '*/*'
-      # - 'image/png'
-      # - 'application/stl'
 
 # you can overwrite defaults here
 #  stage: dev
@@ -63,6 +51,7 @@ provider:
 #    variable1: value1
 
 functions:
+  # see preflightoptions comment in openscad.js
   preflightrender:
     image:
       name: openscadimage
