@@ -1,18 +1,31 @@
+import { useContext } from 'react'
+import { Mosaic, MosaicWindow } from 'react-mosaic-component'
+import { IdeContext } from 'src/components/IdeToolbarNew'
 import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
+import 'react-mosaic-component/react-mosaic-component.css'
+
+const ELEMENT_MAP = {
+  Editor: <IdeEditor/>,
+  Viewer: <IdeViewer/>,
+  Console: <IdeConsole/>,
+}
 
 const IdeContainer = () => {
-  return (
-    <div className="p-8 border-2">
-      <h2>hi I'm IDE container</h2>
-      <div className="flex">
-        <IdeEditor />
-        <IdeViewer />
-        <IdeConsole />
-      </div>
-    </div>
-  )
+  const { state, dispatch } = useContext(IdeContext)
+
+  return (<div className='h-screen'>
+    <Mosaic
+      renderTile={ (id, path) => (
+        <MosaicWindow path={path} title={id}>
+          { ELEMENT_MAP[id] }
+        </MosaicWindow>
+      )}
+      value={state.layout}
+      onChange={newLayout => dispatch({ type: 'updateLayout', payload: { message: newLayout } })}
+    />
+  </div>)
 }
 
 export default IdeContainer
