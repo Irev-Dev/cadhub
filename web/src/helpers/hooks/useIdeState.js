@@ -13,6 +13,16 @@ export const useIdeState = () => {
       type: 'stl',
       data: 'some binary',
     },
+    layout: {
+      direction: 'row',
+      first: 'Editor',
+      second: {
+        direction: 'column',
+        first: 'Viewer',
+        second: 'Console',
+        splitPercentage: 70,
+      },
+    }
   }
   const reducer = (state, { type, payload }) => {
     switch (type) {
@@ -40,6 +50,11 @@ export const useIdeState = () => {
         return {
           ...state,
           ideType: payload.message,
+        }
+      case 'updateLayout':
+        return {
+          ...state,
+          layout: payload.message,
         }
     }
   }
