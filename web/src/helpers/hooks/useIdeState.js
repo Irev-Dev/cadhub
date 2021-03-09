@@ -8,7 +8,7 @@ export const useIdeState = () => {
       { type: 'error', message: 'line 15 is being very naughty' },
       { type: 'message', message: '5 bodies produced' },
     ],
-    code: 'cubie(60);',
+    code: 'cube(60);sphere(25);',
     objectData: {
       type: 'stl',
       data: 'some binary',
@@ -63,19 +63,21 @@ export const useIdeState = () => {
     return ({ type, payload }) => {
       switch (type) {
         case 'render':
-          cadPackages[state.ideType].render({ code: payload.code })
-            .then(({ objectData, message }) =>
-              dispatch({
-                type: 'healthyRender',
-                payload: { objectData, message },
-              })
-            )
-            .catch(({ message }) =>
-              dispatch({
-                type: 'errorRender',
-                payload: { message },
-              })
-            )
+          cadPackages[state.ideType]
+            .render({ code: payload.code })
+            .then(({ objectData, message, isError }) => {
+              if (isError) {
+                dispatch({
+                  type: 'errorRender',
+                  payload: { message },
+                })
+              } else {
+                dispatch({
+                  type: 'healthyRender',
+                  payload: { objectData, message },
+                })
+              }
+            })
           break
 
         default:
