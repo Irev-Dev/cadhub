@@ -1,0 +1,20 @@
+services:
+  openscad-health:
+    build: ./openscad/.
+    image: openscad
+    command: openscad.health
+    ports:
+      - "5051:8080"
+  openscad-render:
+    image: openscad
+    # build: ./openscad/.
+    command: openscad.render
+    ports:
+      - "5052:8080"
+  openscad-export:
+    image: openscad
+    # build: ./openscad/.
+    command: openscad.exportstl
+    ports:
+      - "5053:8080"
+
