@@ -15,10 +15,10 @@ const ELEMENT_MAP = {
 const IdeContainer = () => {
   const { state, dispatch } = useContext(IdeContext)
 
-  return (<div className='h-screen'>
+  return (<div id='cadhub-ide' className='h-screen'>
     <Mosaic
       renderTile={ (id, path) => (
-        <MosaicWindow path={path} title={id}>
+        <MosaicWindow path={path} title={id} className={id.toLowerCase()}>
           { ELEMENT_MAP[id] }
         </MosaicWindow>
       )}

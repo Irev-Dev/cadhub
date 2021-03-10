@@ -96,3 +96,8 @@ label {
 input.error, textarea.error {
   border: 1px solid red;
 }
+
+/* used in IdeContainer component */
+#cadhub-ide .mosaic-window.console .mosaic-window-body {
+  overflow-y: auto;
+}

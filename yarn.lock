@@ -2102,6 +2102,22 @@
     prop-types "^15.7.2"
     react-is "^16.8.0"
 
+"@monaco-editor/loader@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.0.0.tgz#c7ea78ef07cebcae83d92bbfe2bddab563468102"
+  integrity sha512-CA35bf5Y7wFWfeJZfkLslOxiatln3oTBKkfbdo+TF5H+UdPP96qHvhOUjjd1DeQ2NWsRkVPSnoSYek7NE5B26w==
+  dependencies:
+    state-local "^1.0.6"
+
+"@monaco-editor/react@^4.0.11":
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.0.11.tgz#e5f9f651988f2f73ac776ffb8391e81d121d5c32"
+  integrity sha512-IxGpfvCx9p5bTI+T8i7KPbvqsNppUYMT6xA6u65BKmI3/mrlRVFdDyzZTcd+SAAs+5n7n0m/gzAoeglUL+lWDQ==
+  dependencies:
+    "@monaco-editor/loader" "^1.0.0"
+    prop-types "^15.7.2"
+    state-local "^1.0.7"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -15483,6 +15499,11 @@ stackframe@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.2.0.tgz#52429492d63c62eb989804c11552e3d22e779303"
   integrity sha512-GrdeshiRmS1YLMYgzF16olf2jJ/IzxXY9lhKOskuVziubpTYcYqyOwYeJKzQkwy7uN0fYSsbsC4RQaXf9LCrYA==
+
+state-local@^1.0.6, state-local@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
+  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
 
 static-extend@^0.1.1:
   version "0.1.2"
