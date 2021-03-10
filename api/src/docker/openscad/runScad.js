@@ -5,15 +5,23 @@ const { nanoid } = require('nanoid')
 
 module.exports.runScad = async ({
   file,
-  settings: { size: { x = 500, y = 500 } = {} } = {}, // TODO add view settings
+  settings: {
+    size: { x = 500, y = 500 } = {},
+    camera: {
+      position = { x: 40, y: 40, z: 40 },
+      rotation = { x: 55, y: 0, z: 25 },
+    } = {},
+  } = {}, // TODO add view settings
 } = {}) => {
   const tempFile = await makeFile(file)
+  const { x: rx, y: ry, z: rz } = rotation
+  const { x: px, y: py, z: pz } = position
+  const cameraArg = `--camera=${px},${py},${pz},${rx},${ry},${rz},300`
+  const command = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o /tmp/${tempFile}/output.png ${cameraArg} --imgsize=${x},${y} /tmp/${tempFile}/main.scad`
+  console.log('command', command)
 
   try {
-    const result = await runCommand(
-      `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o /tmp/${tempFile}/output.png --imgsize=${x},${y} /tmp/${tempFile}/main.scad`,
-      10000
-    )
+    const result = await runCommand(command, 10000)
     return { result, tempFile }
   } catch (error) {
     return { error, tempFile }

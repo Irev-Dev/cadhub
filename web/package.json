@@ -37,6 +37,7 @@
     "react-helmet": "^6.1.0",
     "react-image-crop": "^8.6.6",
     "react-mosaic-component": "^4.1.1",
+    "react-three-fiber": "^5.3.19",
     "rich-markdown-editor": "^11.0.2",
     "styled-components": "^5.2.0",
     "three": "^0.118.3"
