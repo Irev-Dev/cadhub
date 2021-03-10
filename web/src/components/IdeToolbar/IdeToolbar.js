@@ -328,8 +328,16 @@ const IdeToolbar = ({
             transformOrigin={transformOrigin}
             className="material-ui-overrides transform translate-y-4"
           >
-            <div className="text-sm p-2 text-gray-500">
-              Press F5 to regenerate model
+            <div className="p-4">
+              <div className="text-sm p-2 text-gray-500">
+                Press F5 to regenerate model
+              </div>
+              <OutBound
+                className="text-gray-600 underline p-2"
+                to="https://ronie.medium.com/cascade-studio-tutorial-ee2f1c42c829"
+              >
+                See the tutorial
+              </OutBound>
             </div>
           </Popover>
         </div>

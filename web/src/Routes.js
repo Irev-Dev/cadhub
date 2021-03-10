@@ -13,8 +13,9 @@ const welcomeMessage = `
 %cHey, 👋.
 %c______________________________________________________________________________
 
-%cCadHub is in active development - Want to lend a hand?
-%chttps://github.com/Irev-Dev/cadhub
+%cCadHub is in active development - Want to lend a hand?          %chttps://github.com/Irev-Dev/cadhub
+
+%cOr get a sneak peak of work under construction?          %chttps://cadhub.xyz/dev-ide
 
 `
 
@@ -23,10 +24,12 @@ const Routes = () => {
     () =>
       console.log(
         welcomeMessage,
-        'font-family: Georgia, serif; font-weight:bold; line-height: 2rem; font-size: 32px; color: #3c366b; padding-left: 5rem;',
-        'font-size: 10px; color:#D3D3D3; padding-left: 5rem;',
-        'font-family: "Ropa Sans",Georgia, serif; font-size: 16px;line-height:3rem; padding-left: 5rem;',
-        'font-family: Helvetica Neue, sans-serif; font-size: 16px; line-height: 1.5rem; color:#gray;padding-left: 5rem'
+        'font-family: Georgia, serif; font-weight:bold; line-height: 2rem; font-size: 32px; color: #3c366b',
+        'font-size: 10px; color:#D3D3D3',
+        'font-family: "Ropa Sans",Georgia, serif; font-size: 16px; line-height:3rem',
+        'font-family: Helvetica Neue, sans-serif; font-size: 16px; line-height: 1.5rem; color:#gray',
+        'font-family: "Ropa Sans",Georgia, serif; font-size: 16px; line-height:3rem',
+        'font-family: Helvetica Neue, sans-serif; font-size: 16px; line-height: 1.5rem'
       ),
     []
   )

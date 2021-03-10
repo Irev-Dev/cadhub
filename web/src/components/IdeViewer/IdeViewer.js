@@ -31,7 +31,8 @@ function Controls({ onCameraChange }) {
         })
       }
       controls.current.addEventListener('end', callback)
-      return () => controls.current.removeEventListener('end', callback)
+      const oldCurrent = controls.current
+      return () => oldCurrent.removeEventListener('end', callback)
     }
   }, [])
 
@@ -69,7 +70,7 @@ function Box(props) {
     </mesh>
   )
 }
-
+let currentCode // I have no idea why this works and using state.code is the dispatch doesn't but it was always stale
 const IdeViewer = () => {
   const { state, dispatch } = useContext(IdeContext)
   const [isDragging, setIsDragging] = useState(false)
@@ -81,6 +82,7 @@ const IdeViewer = () => {
       window.URL.createObjectURL(state.objectData?.data),
     [state.objectData]
   )
+  currentCode = state.code
   return (
     <div className="p-8 border-2 m-2">
       <div className="pb-4">
@@ -113,7 +115,7 @@ const IdeViewer = () => {
                 dispatch({
                   type: 'render',
                   payload: {
-                    code: state.code,
+                    code: currentCode,
                     camera: {
                       position,
                       rotation,
