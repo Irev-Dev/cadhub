@@ -6,14 +6,14 @@ const IdeEditor = () => {
   const { state, dispatch } = useContext(IdeContext)
 
   function handleCodeChange(value, _event) {
-    dispatch({ type: 'updateCode', payload: target.value })
+    dispatch({ type: 'updateCode', payload: value })
   }
 
   return (
     <Editor
-      defaultValue={ state.code }
-      defaultLanguage='javascript'
-      onChange={ handleCodeChange }
+      defaultValue={state.code}
+      defaultLanguage="javascript"
+      onChange={handleCodeChange}
     />
   )
 }
