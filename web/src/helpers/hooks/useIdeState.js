@@ -22,7 +22,7 @@ export const useIdeState = () => {
         second: 'Console',
         splitPercentage: 70,
       },
-    }
+    },
   }
   const reducer = (state, { type, payload }) => {
     switch (type) {
@@ -56,6 +56,8 @@ export const useIdeState = () => {
           ...state,
           layout: payload.message,
         }
+      default:
+        return state
     }
   }
 
@@ -64,7 +66,10 @@ export const useIdeState = () => {
       switch (type) {
         case 'render':
           cadPackages[state.ideType]
-            .render({ code: payload.code })
+            .render({
+              code: payload.code,
+              settings: { camera: payload.camera },
+            })
             .then(({ objectData, message, isError }) => {
               if (isError) {
                 dispatch({

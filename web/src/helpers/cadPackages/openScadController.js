@@ -1,19 +1,24 @@
+// const openScadBaseURL = 'http://localhost:8080' // for local development
 const openScadBaseURL =
   'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
 
 export const render = async ({ code, settings }) => {
+  const body = JSON.stringify({
+    settings: {
+      size: {
+        x: 500,
+        y: 500,
+      },
+      camera: settings.camera,
+    },
+    file: code,
+  })
   const response = await fetch(openScadBaseURL + '/render', {
     method: 'POST',
-    headers: new Headers().append('Content-Type', 'application/json'),
-    body: JSON.stringify({
-      settings: {
-        size: {
-          x: 700,
-          y: 300,
-        },
-      },
-      file: code,
-    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
   })
   if (response.status === 400) {
     const { error } = await response.json()

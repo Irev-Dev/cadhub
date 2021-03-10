@@ -1,16 +1,27 @@
 services:
+  # aws-emulator:
+  #   build: .
+  #   networks:
+  #     - awsland
+  #   ports:
+  #     - "5050:8080"
+
   openscad-health:
     build: ./openscad/.
     image: openscad
     command: openscad.health
     ports:
       - "5051:8080"
+
   openscad-render:
     image: openscad
     # build: ./openscad/.
     command: openscad.render
+    # networks:
+    #   - awsland
     ports:
       - "5052:8080"
+
   openscad-export:
     image: openscad
     # build: ./openscad/.
@@ -18,3 +29,6 @@ services:
     ports:
       - "5053:8080"
 
+# networks:
+#   awsland:
+#     name: awsland
