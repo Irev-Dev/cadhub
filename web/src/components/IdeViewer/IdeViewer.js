@@ -2,7 +2,6 @@ import { IdeContext } from 'src/components/IdeToolbarNew'
 import { useRef, useState, useEffect, useContext, useMemo } from 'react'
 import { Canvas, extend, useFrame, useThree } from 'react-three-fiber'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { Vector3 } from 'three'
 
 extend({ OrbitControls })
 
@@ -13,21 +12,33 @@ function Controls({ onCameraChange }) {
     // init camera position
     camera.position.x = 12
     camera.position.y = 12
+    // Euler rotation can be problematic since order matters
+    // We want it to rotate around the z or vertical axis first then the x axis
+    // in Three Y is the vertical axis (Z for openscad)
+    camera.rotation._order = 'YXZ'
 
     if (controls.current) {
       const callback = ({ target }) => {
-        // TODO figure out Three's rotations to make it match openscad's camera
-        const vector = new Vector3()
-        camera.getWorldDirection(vector)
-        console.log(Object.values(vector).map((val) => (val * 180) / Math.PI))
-        const { _x, _y, _z } = target.object.rotation
-        const rad2Deg = 180 / Math.PI
-        const [x, y, z] = [_x * rad2Deg, -_y * rad2Deg, _z * rad2Deg]
-        console.log({ y, z, x })
-        console.log(target, 'target')
+        const getRotations = () => {
+          const { x, y, z } = target.object.rotation
+          const rad2Deg = 180 / Math.PI
+          const scadX = (x + Math.PI / 2) * rad2Deg
+          const scadZ = y * rad2Deg
+          const scadY = z * rad2Deg
+          return [scadX, scadY, scadZ]
+        }
+        const getPositions = () => {
+          const { x: scadX, y: scadZ, z: negScadY } = target.object.position
+          const scale = 10 // I'm not sure why this is exactly 10
+          const scadY = -negScadY
+          return [scadX * scale, scadY * scale, scadZ * scale]
+        }
+        const [rx, ry, rz] = getRotations()
+        const [x, y, z] = getPositions()
+
         onCameraChange({
-          position: target.object.position,
-          rotation: { x, y, z },
+          position: { x, y, z },
+          rotation: { x: rx, y: ry, z: rz },
         })
       }
       controls.current.addEventListener('end', callback)
@@ -52,21 +63,10 @@ function Box(props) {
   // This reference will give us direct access to the mesh
   const mesh = useRef()
 
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
-
   return (
-    <mesh
-      {...props}
-      ref={mesh}
-      scale={[1, 1, 1]}
-      onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}
-    >
-      <boxBufferGeometry args={[10, 10, 10]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+    <mesh {...props} ref={mesh} scale={[1, 1, 1]}>
+      <boxBufferGeometry args={[props.size, props.size, props.size]} />
+      <meshStandardMaterial color={props.color} />
     </mesh>
   )
 }
@@ -126,7 +126,10 @@ const IdeViewer = () => {
             />
             <ambientLight />
             <pointLight position={[15, 5, 10]} />
-            <Box position={[0, 0, 0]} />
+            <Box position={[0, 0, 0]} size={10} color="orange" />
+            <Box position={[0, 5, 0]} size={1} color="cyan" />
+            <Box position={[0, 0, 5]} size={1} color="magenta" />
+            <Box position={[5, 0, 0]} size={1} color="hotpink" />
           </Canvas>
         </div>
       </div>
