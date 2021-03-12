@@ -6,7 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 extend({ OrbitControls })
 
 let debounceTimeoutId
-function Controls({ onCameraChange }) {
+function Controls({ onCameraChange, onDragStart }) {
   const controls = useRef()
   const { scene, camera, gl } = useThree()
   useEffect(() => {
@@ -47,7 +47,10 @@ function Controls({ onCameraChange }) {
           })
         }, 400)
       }
-      const dragStart = () => clearTimeout(debounceTimeoutId)
+      const dragStart = () => {
+        onDragStart()
+        clearTimeout(debounceTimeoutId)
+      }
       controls.current.addEventListener('end', dragCallback)
       controls.current.addEventListener('start', dragStart)
       const oldCurrent = controls.current
@@ -120,6 +123,7 @@ const IdeViewer = () => {
         >
           <Canvas>
             <Controls
+              onDragStart={() => setIsDragging(true)}
               onCameraChange={({ position, rotation }) => {
                 dispatch({
                   type: 'render',
