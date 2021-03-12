@@ -51,6 +51,7 @@ function Controls({ onCameraChange }) {
       controls.current.addEventListener('end', dragCallback)
       controls.current.addEventListener('start', dragStart)
       const oldCurrent = controls.current
+      dragCallback()
       return () => {
         oldCurrent.removeEventListener('end', dragCallback)
         oldCurrent.removeEventListener('start', dragStart)
