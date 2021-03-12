@@ -10,11 +10,14 @@ function Controls({ onCameraChange }) {
   const { scene, camera, gl } = useThree()
   useEffect(() => {
     // init camera position
-    camera.position.x = 12
+    camera.position.x = 16
     camera.position.y = 12
-    // Euler rotation can be problematic since order matters
-    // We want it to rotate around the z or vertical axis first then the x axis
-    // in Three Y is the vertical axis (Z for openscad)
+    console.log(camera)
+    camera.fov = 22.5 // matches default openscad fov
+
+    // Order matters with Euler rotations
+    // We want it to rotate around the z or vertical axis first then the x axis to match openscad
+    // in Three.js Y is the vertical axis (Z for openscad)
     camera.rotation._order = 'YXZ'
 
     if (controls.current) {
@@ -29,7 +32,7 @@ function Controls({ onCameraChange }) {
         }
         const getPositions = () => {
           const { x: scadX, y: scadZ, z: negScadY } = target.object.position
-          const scale = 10 // I'm not sure why this is exactly 10
+          const scale = 10
           const scadY = -negScadY
           return [scadX * scale, scadY * scale, scadZ * scale]
         }
@@ -65,7 +68,7 @@ function Box(props) {
 
   return (
     <mesh {...props} ref={mesh} scale={[1, 1, 1]}>
-      <boxBufferGeometry args={[props.size, props.size, props.size]} />
+      <boxBufferGeometry args={props.size} />
       <meshStandardMaterial color={props.color} />
     </mesh>
   )
@@ -85,14 +88,6 @@ const IdeViewer = () => {
   currentCode = state.code
   return (
     <div className="p-8 border-2 m-2">
-      <div className="pb-4">
-        Rotating the Three.js Cube should than update the openscad camera to
-        view the CAD object from the same angle. But having trouble translating
-        between the two coordinate systems. OpenScad's camera only changes X and
-        Z angles and Y is always 0. Where as rotation values from Three seem to
-        change all x, y and z. I probably need to learn a bit more about 3d
-        math.
-      </div>
       <div className="relative" style={{ height: '500px', width: '500px' }}>
         {image && (
           <div
@@ -126,10 +121,9 @@ const IdeViewer = () => {
             />
             <ambientLight />
             <pointLight position={[15, 5, 10]} />
-            <Box position={[0, 0, 0]} size={10} color="orange" />
-            <Box position={[0, 5, 0]} size={1} color="cyan" />
-            <Box position={[0, 0, 5]} size={1} color="magenta" />
-            <Box position={[5, 0, 0]} size={1} color="hotpink" />
+            <Box position={[0, 5, 0]} size={[0.1, 10, 0.1]} color="cyan" />
+            <Box position={[0, 0, -5]} size={[0.1, 0.1, 10]} color="orange" />
+            <Box position={[5, 0, 0]} size={[10, 0.1, 0.1]} color="hotpink" />
           </Canvas>
         </div>
       </div>
