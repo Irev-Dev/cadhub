@@ -23,6 +23,7 @@ export const useIdeState = () => {
         splitPercentage: 70,
       },
     },
+    isLoading: false,
   }
   const reducer = (state, { type, payload }) => {
     switch (type) {
@@ -38,6 +39,7 @@ export const useIdeState = () => {
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
+          isLoading: false,
         }
       case 'errorRender':
         return {
@@ -45,6 +47,7 @@ export const useIdeState = () => {
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
+          isLoading: false,
         }
       case 'setIdeType':
         return {
@@ -55,6 +58,11 @@ export const useIdeState = () => {
         return {
           ...state,
           layout: payload.message,
+        }
+      case 'setLoading':
+        return {
+          ...state,
+          isLoading: true,
         }
       default:
         return state
@@ -83,6 +91,7 @@ export const useIdeState = () => {
                 })
               }
             })
+          dispatch({ type: 'setLoading' })
           break
 
         default:
