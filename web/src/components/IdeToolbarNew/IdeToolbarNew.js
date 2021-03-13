@@ -10,7 +10,13 @@ const IdeToolbarNew = () => {
     dispatch({ type: 'setIdeType', payload: { message: ide } })
   }
   function handleRender() {
-    dispatch({ type: 'render', payload: { code: state.code } })
+    dispatch({
+      type: 'render',
+      payload: {
+        code: state.code,
+        camera: state.settings.camera,
+      },
+    })
   }
 
   return (

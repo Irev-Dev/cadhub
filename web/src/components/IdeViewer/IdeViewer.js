@@ -146,11 +146,6 @@ const IdeViewer = () => {
           backgroundColor: openSCADDeepOceanThemeBackground,
         }}
       >
-        {state.isLoading && (
-          <div className="inset-0 absolute flex items-center justify-center">
-            <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-          </div>
-        )}
         {image && (
           <div
             className={`absolute inset-0 transition-opacity duration-500 ${
@@ -158,6 +153,11 @@ const IdeViewer = () => {
             }`}
           >
             <img src={image} className="" />
+          </div>
+        )}
+        {state.isLoading && (
+          <div className="inset-0 absolute flex items-center justify-center">
+            <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
           </div>
         )}
         <div
