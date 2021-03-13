@@ -4,11 +4,14 @@ import { cadPackages } from 'src/helpers/cadPackages'
 export const useIdeState = () => {
   const initialState = {
     ideType: 'openScad',
-    consoleMessages: [
-      { type: 'error', message: 'line 15 is being very naughty' },
-      { type: 'message', message: '5 bodies produced' },
-    ],
-    code: 'cube(60);sphere(25);',
+    consoleMessages: [{ type: 'message', message: 'Initialising OpenSCAD' }],
+    code: `difference(){
+  union(){
+    cube(60);
+    sphere(25);
+  }
+  translate([30,30,30])cylinder(r=25,h=100);
+}`,
     objectData: {
       type: 'stl',
       data: 'some binary',
@@ -23,6 +26,7 @@ export const useIdeState = () => {
         splitPercentage: 70,
       },
     },
+    isLoading: false,
   }
   const reducer = (state, { type, payload }) => {
     switch (type) {
@@ -38,6 +42,7 @@ export const useIdeState = () => {
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
+          isLoading: false,
         }
       case 'errorRender':
         return {
@@ -45,6 +50,7 @@ export const useIdeState = () => {
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
+          isLoading: false,
         }
       case 'setIdeType':
         return {
@@ -55,6 +61,11 @@ export const useIdeState = () => {
         return {
           ...state,
           layout: payload.message,
+        }
+      case 'setLoading':
+        return {
+          ...state,
+          isLoading: true,
         }
       default:
         return state
@@ -83,6 +94,7 @@ export const useIdeState = () => {
                 })
               }
             })
+          dispatch({ type: 'setLoading' })
           break
 
         default:
