@@ -5,7 +5,6 @@ const IdeConsole = () => {
   const { state } = useContext(IdeContext)
   return (
     <div className="p-8 border-2 m-2 overflow-y-auto">
-      <div className="pb-4">hi I'm console</div>
       <div>
         {state.consoleMessages?.map(({ type, message }, index) => (
           <div
