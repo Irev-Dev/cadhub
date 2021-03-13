@@ -21,7 +21,6 @@ export const useIdeState = () => {
     ideType: 'openScad',
     consoleMessages: [{ type: 'message', message: 'Initialising OpenSCAD' }],
     code: donutInitCode,
-    settings: {},
     objectData: {
       type: 'stl',
       data: 'some binary',
@@ -77,11 +76,6 @@ export const useIdeState = () => {
           ...state,
           isLoading: true,
         }
-      case 'setSettings':
-        return {
-          ...state,
-          settings: payload,
-        }
       default:
         return state
     }
@@ -109,7 +103,6 @@ export const useIdeState = () => {
                 })
               }
             })
-          dispatch({ type: 'setSettings', payload: { camera: payload.camera } })
           dispatch({ type: 'setLoading' })
           break
 

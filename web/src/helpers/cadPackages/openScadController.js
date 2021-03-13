@@ -2,6 +2,8 @@ let openScadBaseURL =
   process.env.OPENSCAD_BASE_URL ||
   'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
 
+let lastCameraSettings
+
 export const render = async ({ code, settings }) => {
   const body = JSON.stringify({
     settings: {
@@ -9,10 +11,13 @@ export const render = async ({ code, settings }) => {
         x: 500,
         y: 500,
       },
-      camera: settings.camera,
+      camera: settings.camera || lastCameraSettings,
     },
     file: code,
   })
+  if (settings.camera) {
+    lastCameraSettings = settings.camera
+  }
   try {
     const response = await fetch(openScadBaseURL + '/render', {
       method: 'POST',

@@ -13,13 +13,7 @@ const IdeEditor = () => {
     const { key, ctrlKey, metaKey } = event
     if (key === 's' && (ctrlKey || metaKey)) {
       event.preventDefault()
-      dispatch({
-        type: 'render',
-        payload: {
-          code: state.code,
-          camera: state.settings.camera,
-        },
-      })
+      dispatch({ type: 'render', payload: { code: state.code } })
     }
   }
 
