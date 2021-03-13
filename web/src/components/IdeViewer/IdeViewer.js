@@ -116,7 +116,7 @@ const IdeViewer = () => {
           </div>
         )}
         <div
-          className={`opacity-0 opacity- absolute inset-0 transition-opacity duration-500 ${
+          className={`opacity-0 absolute inset-0 transition-opacity duration-500 ${
             isDragging ? 'opacity-100' : 'hover:opacity-50'
           }`}
           onMouseDown={() => setIsDragging(true)}
