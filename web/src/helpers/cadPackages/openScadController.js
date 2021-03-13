@@ -1,5 +1,5 @@
-// const openScadBaseURL = 'http://localhost:8080' // for local development
-const openScadBaseURL =
+let openScadBaseURL =
+  process.env.OPENSCAD_BASE_URL ||
   'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
 
 export const render = async ({ code, settings }) => {
