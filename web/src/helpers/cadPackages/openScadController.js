@@ -2,7 +2,19 @@ let openScadBaseURL =
   process.env.OPENSCAD_BASE_URL ||
   'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
 
-let lastCameraSettings
+let lastCameraSettings = {
+  position: {
+    x: 200,
+    y: -20,
+    z: 140,
+  },
+  rotation: {
+    x: 55,
+    y: 3.8,
+    z: 84,
+  },
+  dist: 245,
+}
 
 export const render = async ({ code, settings }) => {
   const body = JSON.stringify({
