@@ -2,17 +2,19 @@ import { IdeContext } from 'src/components/IdeToolbarNew'
 import { useRef, useState, useEffect, useContext } from 'react'
 import { Canvas, extend, useFrame, useThree } from 'react-three-fiber'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { Vector3 } from 'three'
 
 extend({ OrbitControls })
 
 let debounceTimeoutId
 function Controls({ onCameraChange, onDragStart }) {
   const controls = useRef()
-  const { scene, camera, gl } = useThree()
+  const { camera, gl } = useThree()
   useEffect(() => {
     // init camera position
-    camera.position.x = 16
-    camera.position.y = 12
+    camera.position.x = 200
+    camera.position.y = 140
+    camera.position.z = 20
     camera.fov = 22.5 // matches default openscad fov
 
     // Order matters with Euler rotations
@@ -28,22 +30,42 @@ function Controls({ onCameraChange, onDragStart }) {
       return [scadX, scadY, scadZ]
     }
     const getPositions = () => {
-      const { x: scadX, y: scadZ, z: negScadY } = camera.position
-      const scale = 10
-      const scadY = -negScadY
-      return [scadX * scale, scadY * scale, scadZ * scale]
+      // Difficult to make this clean since I'm not sure why it works
+      // The OpenSCAD camera seems hard to work with but maybe it's just me
+
+      // this gives us a vector the same length as the camera.position
+      const cameraViewVector = new Vector3(0, 0, 1)
+        .applyQuaternion(camera.quaternion) // make unit vector of the camera
+        .multiplyScalar(camera.position.length()) // make it the same length as the position vector
+
+      // make a vector from the position vector to the cameraView vector
+      const head2Head = new Vector3().subVectors(
+        camera.position,
+        cameraViewVector
+      )
+      return {
+        // I can't seem to get normal vector addition to work
+        // but this works
+        position: {
+          x: camera.position.x + head2Head.x,
+          y: -camera.position.z - head2Head.z,
+          z: camera.position.y + head2Head.y,
+        },
+        dist: camera.position.length(),
+      }
     }
 
     if (controls.current) {
       const dragCallback = () => {
         clearTimeout(debounceTimeoutId)
         debounceTimeoutId = setTimeout(() => {
-          const [rx, ry, rz] = getRotations()
-          const [x, y, z] = getPositions()
+          const [x, y, z] = getRotations()
+          const { position, dist } = getPositions()
 
           onCameraChange({
-            position: { x, y, z },
-            rotation: { x: rx, y: ry, z: rz },
+            position,
+            rotation: { x, y, z },
+            dist,
           })
         }, 400)
       }
@@ -124,32 +146,21 @@ const IdeViewer = () => {
           <Canvas>
             <Controls
               onDragStart={() => setIsDragging(true)}
-              onCameraChange={({ position, rotation }) => {
+              onCameraChange={(camera) => {
                 dispatch({
                   type: 'render',
                   payload: {
                     code: currentCode,
-                    camera: {
-                      position,
-                      rotation,
-                    },
+                    camera,
                   },
                 })
               }}
             />
             <ambientLight />
             <pointLight position={[15, 5, 10]} />
-            <Box position={[0, 4.95, 0]} size={[0.1, 10, 0.1]} color="cyan" />
-            <Box
-              position={[0, 0, -5.05]}
-              size={[0.1, 0.1, 10]}
-              color="orange"
-            />
-            <Box
-              position={[5.05, 0, 0]}
-              size={[10, 0.1, 0.1]}
-              color="hotpink"
-            />
+            <Box position={[0, 49.5, 0]} size={[1, 100, 1]} color="cyan" />
+            <Box position={[0, 0, -50.5]} size={[1, 1, 100]} color="orange" />
+            <Box position={[50.5, 0, 0]} size={[100, 1, 1]} color="hotpink" />
           </Canvas>
         </div>
       </div>

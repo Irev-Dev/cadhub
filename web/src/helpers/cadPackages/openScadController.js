@@ -13,37 +13,51 @@ export const render = async ({ code, settings }) => {
     },
     file: code,
   })
-  const response = await fetch(openScadBaseURL + '/render', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body,
-  })
-  if (response.status === 400) {
-    const { error } = await response.json()
-    const cleanedErrorMessage = error.replace(
-      /["|']\/tmp\/.+\/main.scad["|']/g,
-      "'main.scad'"
-    )
+  try {
+    const response = await fetch(openScadBaseURL + '/render', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body,
+    })
+    if (response.status === 400) {
+      const { error } = await response.json()
+      const cleanedErrorMessage = error.replace(
+        /["|']\/tmp\/.+\/main.scad["|']/g,
+        "'main.scad'"
+      )
+      return {
+        isError: true,
+        message: {
+          type: 'error',
+          message: cleanedErrorMessage,
+        },
+      }
+    }
+    const data = await response.blob()
+    return {
+      objectData: {
+        type: 'png',
+        data,
+      },
+      message: {
+        type: 'message',
+        message: 'successful render',
+      },
+    }
+  } catch (e) {
+    // TODO handle errors better
+    // I think we should display something overlayed on the viewer window something like "network issue try again"
+    // and in future I think we need timeouts differently as they maybe from a user trying to render something too complex
+    // or something with minkowski in it :/ either way something like "render timed out, try again or here are tips to reduce part complexity" with a link talking about $fn and minkowski etc
     return {
       isError: true,
       message: {
         type: 'error',
-        message: cleanedErrorMessage,
+        message: 'network issue',
       },
     }
-  }
-  const data = await response.blob()
-  return {
-    objectData: {
-      type: 'png',
-      data,
-    },
-    message: {
-      type: 'message',
-      message: 'successful render',
-    },
   }
 }
 
