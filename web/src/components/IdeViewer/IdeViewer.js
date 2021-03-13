@@ -15,6 +15,7 @@ function Controls({ onCameraChange, onDragStart }) {
     camera.position.x = 200
     camera.position.y = 140
     camera.position.z = 20
+    camera.far = 10000
     camera.fov = 22.5 // matches default openscad fov
 
     // Order matters with Euler rotations
@@ -105,6 +106,15 @@ function Box(props) {
     </mesh>
   )
 }
+function Sphere(props) {
+  const mesh = useRef()
+  return (
+    <mesh {...props} ref={mesh} scale={[1, 1, 1]}>
+      <sphereBufferGeometry args={[2, 30, 30]} />
+      <meshStandardMaterial color={props.color} />
+    </mesh>
+  )
+}
 let currentCode // I have no idea why this works and using state.code is the dispatch doesn't but it was always stale
 const IdeViewer = () => {
   const { state, dispatch } = useContext(IdeContext)
@@ -120,14 +130,22 @@ const IdeViewer = () => {
     setIsDragging(false)
   }, [state.objectData])
   currentCode = state.code
+
+  const openSCADDeepOceanThemeBackground = '#323232'
+  // the following are tailwind colors in hex, can't use these classes to color three.js meshes.
+  const pink400 = '#F472B6'
+  const indigo300 = '#A5B4FC'
+  const indigo900 = '#312E81'
   return (
     <div className="p-8 border-2 m-2">
-      <div className="relative" style={{ height: '500px', width: '500px' }}>
-        {state.isLoading && (
-          <div className="inset-0 absolute flex items-center justify-center">
-            <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-          </div>
-        )}
+      <div
+        className="relative"
+        style={{
+          height: '500px',
+          width: '500px',
+          backgroundColor: openSCADDeepOceanThemeBackground,
+        }}
+      >
         {image && (
           <div
             className={`absolute inset-0 transition-opacity duration-500 ${
@@ -135,6 +153,11 @@ const IdeViewer = () => {
             }`}
           >
             <img src={image} className="" />
+          </div>
+        )}
+        {state.isLoading && (
+          <div className="inset-0 absolute flex items-center justify-center">
+            <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
           </div>
         )}
         <div
@@ -158,9 +181,10 @@ const IdeViewer = () => {
             />
             <ambientLight />
             <pointLight position={[15, 5, 10]} />
-            <Box position={[0, 49.5, 0]} size={[1, 100, 1]} color="cyan" />
-            <Box position={[0, 0, -50.5]} size={[1, 1, 100]} color="orange" />
-            <Box position={[50.5, 0, 0]} size={[100, 1, 1]} color="hotpink" />
+            <Sphere position={[0, 0, 0]} color={pink400} />
+            <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
+            <Box position={[0, 0, -50]} size={[1, 1, 100]} color={indigo300} />
+            <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
           </Canvas>
         </div>
       </div>

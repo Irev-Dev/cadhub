@@ -8,13 +8,24 @@ const IdeEditor = () => {
   function handleCodeChange(value, _event) {
     dispatch({ type: 'updateCode', payload: value })
   }
+  function handleSaveHotkey(event) {
+    //ctrl|meta + s is very intuitive for most devs
+    const { key, ctrlKey, metaKey } = event
+    if (key === 's' && (ctrlKey || metaKey)) {
+      event.preventDefault()
+      dispatch({ type: 'render', payload: { code: state.code } })
+    }
+  }
 
   return (
-    <Editor
-      defaultValue={state.code}
-      defaultLanguage="javascript"
-      onChange={handleCodeChange}
-    />
+    <div className="h-full" onKeyDown={handleSaveHotkey}>
+      <Editor
+        defaultValue={state.code}
+        // TODO #247 cpp seems better than js for the time being
+        defaultLanguage="cpp"
+        onChange={handleCodeChange}
+      />
+    </div>
   )
 }
 

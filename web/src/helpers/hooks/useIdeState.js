@@ -1,17 +1,26 @@
 import { useReducer } from 'react'
 import { cadPackages } from 'src/helpers/cadPackages'
 
+const donutInitCode = `
+color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
+donut();
+module donut() {
+    for(i=[1:360]){
+        rotate(i*13.751)stick(20,i*1.351);
+    }
+}
+module stick(basewid, angl){
+    translate([basewid,0,0])rotate([angl,angl,angl*2])color(c="hotpink")hull(){
+        sphere(7);
+        translate([0,0,10])sphere(9);
+    }
+}`
+
 export const useIdeState = () => {
   const initialState = {
     ideType: 'openScad',
     consoleMessages: [{ type: 'message', message: 'Initialising OpenSCAD' }],
-    code: `difference(){
-  union(){
-    cube(60);
-    sphere(25);
-  }
-  translate([30,30,30])cylinder(r=25,h=100);
-}`,
+    code: donutInitCode,
     objectData: {
       type: 'stl',
       data: 'some binary',
