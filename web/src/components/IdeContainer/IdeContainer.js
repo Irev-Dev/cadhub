@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef, useEffect } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
 import { IdeContext } from 'src/components/IdeToolbarNew'
 import IdeEditor from 'src/components/IdeEditor'
@@ -14,16 +14,31 @@ const ELEMENT_MAP = {
 
 const IdeContainer = () => {
   const { state, dispatch } = useContext(IdeContext)
+  const viewerDOM = useRef(null)
+
+  useEffect(handleViewerSizeUpdate, [viewerDOM])
+
+  function handleViewerSizeUpdate() {
+    if (viewerDOM !== null && viewerDOM.current) {
+      const { width, height } = viewerDOM.current.getBoundingClientRect()
+      console.log({width, height})
+      dispatch({ type: 'setViewerSize', payload: { message: { width, height } }})
+    }
+  }
 
   return (<div id='cadhub-ide' className='h-screen'>
     <Mosaic
       renderTile={ (id, path) => (
         <MosaicWindow path={path} title={id} className={id.toLowerCase()}>
-          { ELEMENT_MAP[id] }
+          {(id === 'Viewer')
+            ? <div id='view-wrapper'className='h-full' ref={viewerDOM}>{ ELEMENT_MAP[id] }</div>
+            : ELEMENT_MAP[id]
+          }
         </MosaicWindow>
       )}
       value={state.layout}
-      onChange={newLayout => dispatch({ type: 'updateLayout', payload: { message: newLayout } })}
+      onChange={newLayout => dispatch({ type: 'setLayout', payload: { message: newLayout } })}
+      onRelease={handleViewerSizeUpdate}
     />
   </div>)
 }

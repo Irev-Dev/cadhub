@@ -137,22 +137,20 @@ const IdeViewer = () => {
   const indigo300 = '#A5B4FC'
   const indigo900 = '#312E81'
   return (
-    <div className="p-8 border-2 m-2">
-      <div
-        className="relative"
-        style={{
-          height: '500px',
-          width: '500px',
-          backgroundColor: openSCADDeepOceanThemeBackground,
-        }}
-      >
+    <div>
+      <div className="relative" className="h-full">
+        {state.isLoading && (
+          <div className="inset-0 absolute flex items-center justify-center">
+            <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
+          </div>
+        )}
         {image && (
           <div
             className={`absolute inset-0 transition-opacity duration-500 ${
               isDragging ? 'opacity-25' : 'opacity-100'
             }`}
           >
-            <img src={image} className="" />
+            <img src={image} style={{width: state.viewerSize.width+'px' || '500px', height: state.viewerSize.height+'px' || '500px'}} />
           </div>
         )}
         {state.isLoading && (

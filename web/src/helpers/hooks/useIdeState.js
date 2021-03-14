@@ -66,10 +66,15 @@ export const useIdeState = () => {
           ...state,
           ideType: payload.message,
         }
-      case 'updateLayout':
+      case 'setLayout':
         return {
           ...state,
           layout: payload.message,
+        }
+      case 'setViewerSize':
+        return {
+          ...state,
+          viewerSize: payload.message,
         }
       case 'setLoading':
         return {
@@ -88,7 +93,10 @@ export const useIdeState = () => {
           cadPackages[state.ideType]
             .render({
               code: payload.code,
-              settings: { camera: payload.camera },
+              settings: {
+                camera: payload.camera,
+                viewerSize: state.viewerSize,
+              },
             })
             .then(({ objectData, message, isError }) => {
               if (isError) {

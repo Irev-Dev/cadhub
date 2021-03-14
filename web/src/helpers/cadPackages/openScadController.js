@@ -17,11 +17,12 @@ let lastCameraSettings = {
 }
 
 export const render = async ({ code, settings }) => {
+  console.log('from render', settings)
   const body = JSON.stringify({
     settings: {
       size: {
-        x: 500,
-        y: 500,
+        x: settings.viewerSize?.width,
+        y: settings.viewerSize?.height,
       },
       camera: settings.camera || lastCameraSettings,
     },
