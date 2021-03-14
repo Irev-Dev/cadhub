@@ -71,11 +71,6 @@ export const useIdeState = () => {
           ...state,
           layout: payload.message,
         }
-      case 'setViewerSize':
-        return {
-          ...state,
-          viewerSize: payload.message,
-        }
       case 'setLoading':
         return {
           ...state,
@@ -95,11 +90,12 @@ export const useIdeState = () => {
               code: payload.code,
               settings: {
                 camera: payload.camera,
-                viewerSize: state.viewerSize,
+                viewerSize: payload.viewerSize,
               },
             })
-            .then(({ objectData, message, isError }) => {
-              if (isError) {
+            .then(({ objectData, message, status }) => {
+              if (status === 'insufficient-preview-info') return
+              if (status === 'error') {
                 dispatch({
                   type: 'errorRender',
                   payload: { message },

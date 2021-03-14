@@ -7,9 +7,9 @@ import IdeConsole from 'src/components/IdeConsole'
 import 'react-mosaic-component/react-mosaic-component.css'
 
 const ELEMENT_MAP = {
-  Editor: <IdeEditor/>,
-  Viewer: <IdeViewer/>,
-  Console: <IdeConsole/>,
+  Editor: <IdeEditor />,
+  Viewer: <IdeViewer />,
+  Console: <IdeConsole />,
 }
 
 const IdeContainer = () => {
@@ -21,26 +21,38 @@ const IdeContainer = () => {
   function handleViewerSizeUpdate() {
     if (viewerDOM !== null && viewerDOM.current) {
       const { width, height } = viewerDOM.current.getBoundingClientRect()
-      console.log({width, height})
-      dispatch({ type: 'setViewerSize', payload: { message: { width, height } }})
+      dispatch({
+        type: 'render',
+        payload: {
+          code: state.code,
+          viewerSize: { width, height },
+        },
+      })
     }
   }
 
-  return (<div id='cadhub-ide' className='h-screen'>
-    <Mosaic
-      renderTile={ (id, path) => (
-        <MosaicWindow path={path} title={id} className={id.toLowerCase()}>
-          {(id === 'Viewer')
-            ? <div id='view-wrapper'className='h-full' ref={viewerDOM}>{ ELEMENT_MAP[id] }</div>
-            : ELEMENT_MAP[id]
-          }
-        </MosaicWindow>
-      )}
-      value={state.layout}
-      onChange={newLayout => dispatch({ type: 'setLayout', payload: { message: newLayout } })}
-      onRelease={handleViewerSizeUpdate}
-    />
-  </div>)
+  return (
+    <div id="cadhub-ide" className="h-screen">
+      <Mosaic
+        renderTile={(id, path) => (
+          <MosaicWindow path={path} title={id} className={id.toLowerCase()}>
+            {id === 'Viewer' ? (
+              <div id="view-wrapper" className="h-full" ref={viewerDOM}>
+                {ELEMENT_MAP[id]}
+              </div>
+            ) : (
+              ELEMENT_MAP[id]
+            )}
+          </MosaicWindow>
+        )}
+        value={state.layout}
+        onChange={(newLayout) =>
+          dispatch({ type: 'setLayout', payload: { message: newLayout } })
+        }
+        onRelease={handleViewerSizeUpdate}
+      />
+    </div>
+  )
 }
 
 export default IdeContainer
