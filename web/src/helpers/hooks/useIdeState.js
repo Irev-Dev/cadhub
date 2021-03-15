@@ -66,7 +66,7 @@ export const useIdeState = () => {
           ...state,
           ideType: payload.message,
         }
-      case 'updateLayout':
+      case 'setLayout':
         return {
           ...state,
           layout: payload.message,
@@ -88,10 +88,14 @@ export const useIdeState = () => {
           cadPackages[state.ideType]
             .render({
               code: payload.code,
-              settings: { camera: payload.camera },
+              settings: {
+                camera: payload.camera,
+                viewerSize: payload.viewerSize,
+              },
             })
-            .then(({ objectData, message, isError }) => {
-              if (isError) {
+            .then(({ objectData, message, status }) => {
+              if (status === 'insufficient-preview-info') return
+              if (status === 'error') {
                 dispatch({
                   type: 'errorRender',
                   payload: { message },

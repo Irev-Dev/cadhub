@@ -2,34 +2,35 @@ let openScadBaseURL =
   process.env.OPENSCAD_BASE_URL ||
   'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
 
-let lastCameraSettings = {
-  position: {
-    x: 200,
-    y: -20,
-    z: 140,
-  },
-  rotation: {
-    x: 55,
-    y: 3.8,
-    z: 84,
-  },
-  dist: 245,
-}
+let lastViewPortSize = 'INIT'
+let lastCameraSettings = 'INIT'
 
 export const render = async ({ code, settings }) => {
-  const body = JSON.stringify({
-    settings: {
-      size: {
-        x: 500,
-        y: 500,
-      },
-      camera: settings.camera || lastCameraSettings,
-    },
-    file: code,
-  })
+  const size = settings.viewerSize
+    ? {
+        x: Math.round(settings.viewerSize?.width),
+        y: Math.round(settings.viewerSize?.height),
+      }
+    : lastViewPortSize
+  const camera = settings.camera || lastCameraSettings
   if (settings.camera) {
     lastCameraSettings = settings.camera
   }
+  if (settings.viewerSize) {
+    lastViewPortSize = size
+  }
+  if ([camera, size].includes('INIT')) {
+    return {
+      status: 'insufficient-preview-info',
+    }
+  }
+  const body = JSON.stringify({
+    settings: {
+      size,
+      camera,
+    },
+    file: code,
+  })
   try {
     const response = await fetch(openScadBaseURL + '/render', {
       method: 'POST',
@@ -45,7 +46,7 @@ export const render = async ({ code, settings }) => {
         "'main.scad'"
       )
       return {
-        isError: true,
+        status: 'error',
         message: {
           type: 'error',
           message: cleanedErrorMessage,
@@ -54,6 +55,7 @@ export const render = async ({ code, settings }) => {
     }
     const data = await response.blob()
     return {
+      status: 'healthy',
       objectData: {
         type: 'png',
         data,
@@ -69,7 +71,7 @@ export const render = async ({ code, settings }) => {
     // and in future I think we need timeouts differently as they maybe from a user trying to render something too complex
     // or something with minkowski in it :/ either way something like "render timed out, try again or here are tips to reduce part complexity" with a link talking about $fn and minkowski etc
     return {
-      isError: true,
+      status: 'error',
       message: {
         type: 'error',
         message: 'network issue',

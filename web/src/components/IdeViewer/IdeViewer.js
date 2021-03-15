@@ -137,56 +137,55 @@ const IdeViewer = () => {
   const indigo300 = '#A5B4FC'
   const indigo900 = '#312E81'
   return (
-    <div className="p-8 border-2 m-2">
-      <div
-        className="relative"
-        style={{
-          height: '500px',
-          width: '500px',
-          backgroundColor: openSCADDeepOceanThemeBackground,
-        }}
-      >
-        {image && (
-          <div
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              isDragging ? 'opacity-25' : 'opacity-100'
-            }`}
-          >
-            <img src={image} className="" />
-          </div>
-        )}
-        {state.isLoading && (
-          <div className="inset-0 absolute flex items-center justify-center">
-            <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-          </div>
-        )}
-        <div
-          className={`opacity-0 absolute inset-0 transition-opacity duration-500 ${
-            isDragging ? 'opacity-100' : 'hover:opacity-50'
-          }`}
-          onMouseDown={() => setIsDragging(true)}
-        >
-          <Canvas>
-            <Controls
-              onDragStart={() => setIsDragging(true)}
-              onCameraChange={(camera) => {
-                dispatch({
-                  type: 'render',
-                  payload: {
-                    code: currentCode,
-                    camera,
-                  },
-                })
-              }}
-            />
-            <ambientLight />
-            <pointLight position={[15, 5, 10]} />
-            <Sphere position={[0, 0, 0]} color={pink400} />
-            <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
-            <Box position={[0, 0, -50]} size={[1, 1, 100]} color={indigo300} />
-            <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
-          </Canvas>
+    <div
+      className="relative h-full"
+      style={{ backgroundColor: openSCADDeepOceanThemeBackground }}
+    >
+      {state.isLoading && (
+        <div className="inset-0 absolute flex items-center justify-center">
+          <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
         </div>
+      )}
+      {image && (
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ${
+            isDragging ? 'opacity-25' : 'opacity-100'
+          }`}
+        >
+          <img src={image} className="h-full w-full" />
+        </div>
+      )}
+      {state.isLoading && (
+        <div className="inset-0 absolute flex items-center justify-center">
+          <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
+        </div>
+      )}
+      <div
+        className={`opacity-0 absolute inset-0 transition-opacity duration-500 ${
+          isDragging ? 'opacity-100' : 'hover:opacity-50'
+        }`}
+        onMouseDown={() => setIsDragging(true)}
+      >
+        <Canvas>
+          <Controls
+            onDragStart={() => setIsDragging(true)}
+            onCameraChange={(camera) =>
+              dispatch({
+                type: 'render',
+                payload: {
+                  code: currentCode,
+                  camera,
+                },
+              })
+            }
+          />
+          <ambientLight />
+          <pointLight position={[15, 5, 10]} />
+          <Sphere position={[0, 0, 0]} color={pink400} />
+          <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
+          <Box position={[0, 0, -50]} size={[1, 1, 100]} color={indigo300} />
+          <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
+        </Canvas>
       </div>
     </div>
   )
