@@ -1,5 +1,5 @@
 import { initialize } from 'src/cascade/js/MainPage/CascadeMain'
-import { monacoEditor } from 'src/cascade/js/MainPage/CascadeState'
+//
 
 class CascadeController {
   _hasInitialised = false
@@ -9,8 +9,10 @@ class CascadeController {
   }
 
   initialise(onCodeChange, code) {
-    const onInit = () => {
-      const editor = monacoEditor
+    const monacoEditorPromise = import('src/cascade/js/MainPage/CascadeState')
+    const onInit = async () => {
+      const awaitedEditor = await monacoEditorPromise
+      const editor = await awaitedEditor.monacoEditor
       editor.setValue(code)
       editor.evaluateCode(false)
     }
