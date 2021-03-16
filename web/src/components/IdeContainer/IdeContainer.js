@@ -1,13 +1,20 @@
-import { useContext, useRef, useEffect } from 'react'
+import { useContext, useRef, useEffect, lazy, Suspense } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
 import { IdeContext } from 'src/components/IdeToolbarNew'
-import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
 import 'react-mosaic-component/react-mosaic-component.css'
 
+const IdeEditor = lazy(() => import('../IdeEditor/IdeEditor'))
+
+const LazyEditor = () => (
+  <Suspense fallback={<div>...loading</div>}>
+    <IdeEditor />
+  </Suspense>
+)
+
 const ELEMENT_MAP = {
-  Editor: <IdeEditor />,
+  Editor: <LazyEditor />,
   Viewer: <IdeViewer />,
   Console: <IdeConsole />,
 }
