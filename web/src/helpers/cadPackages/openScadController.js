@@ -6,10 +6,11 @@ let lastViewPortSize = 'INIT'
 let lastCameraSettings = 'INIT'
 
 export const render = async ({ code, settings }) => {
+  const pixelRatio = window.devicePixelRatio || 1
   const size = settings.viewerSize
     ? {
-        x: Math.round(settings.viewerSize?.width),
-        y: Math.round(settings.viewerSize?.height),
+        x: Math.round(settings.viewerSize?.width * pixelRatio),
+        y: Math.round(settings.viewerSize?.height * pixelRatio),
       }
     : lastViewPortSize
   const camera = settings.camera || lastCameraSettings
