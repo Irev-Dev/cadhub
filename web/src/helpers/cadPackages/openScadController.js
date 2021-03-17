@@ -7,7 +7,6 @@ let lastCameraSettings = 'INIT'
 
 export const render = async ({ code, settings }) => {
   const pixelRatio = window.devicePixelRatio || 1
-  console.log({ pixelRatio })
   const size = settings.viewerSize
     ? {
         x: Math.round(settings.viewerSize?.width * pixelRatio),
