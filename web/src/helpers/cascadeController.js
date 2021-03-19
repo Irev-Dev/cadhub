@@ -17,7 +17,7 @@ class CascadeController {
     // only inits on first call, after that it just updates the editor and revaluates code, maybe should rename?
     this.incomingOnCodeChang = onCodeChange
     if (!this._hasInitialised) {
-      new initialize(this.controllerOnCodeChange, code, onInit)
+      initialize(this.controllerOnCodeChange, code, onInit)
       this._hasInitialised = true
       return
     }
@@ -25,23 +25,28 @@ class CascadeController {
   }
 
   capture(environment, width = 512, height = 384) {
-    environment.camera.aspect = width / height;
-    environment.camera.updateProjectionMatrix();
-    environment.renderer.setSize(width, height);
-    environment.renderer.render(environment.scene, environment.camera, null, false);
+    environment.camera.aspect = width / height
+    environment.camera.updateProjectionMatrix()
+    environment.renderer.setSize(width, height)
+    environment.renderer.render(
+      environment.scene,
+      environment.camera,
+      null,
+      false
+    )
     let imgBlob = new Promise((resolve, reject) => {
       environment.renderer.domElement.toBlob(
         (blob) => {
-          blob.name = `part_capture-${ Date.now() }`
+          blob.name = `part_capture-${Date.now()}`
           resolve(blob)
         },
         'image/jpeg',
         1
-      );
+      )
     })
 
     // Return to original dimensions
-    environment.onWindowResize();
+    environment.onWindowResize()
 
     return imgBlob
   }
