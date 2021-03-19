@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, Suspense, lazy } from 'react'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { IdeContext } from 'src/components/IdeToolbarNew'
-import Editor from '@monaco-editor/react'
+const Editor = lazy(() => import('@monaco-editor/react'))
 
 const IdeEditor = () => {
   const { state, dispatch } = useContext(IdeContext)
@@ -39,12 +39,14 @@ const IdeEditor = () => {
 
   return (
     <div className="h-full" onKeyDown={handleSaveHotkey}>
-      <Editor
-        defaultValue={state.code}
-        // TODO #247 cpp seems better than js for the time being
-        defaultLanguage="cpp"
-        onChange={handleCodeChange}
-      />
+      <Suspense fallback={<div>. . . loading</div>}>
+        <Editor
+          defaultValue={state.code}
+          // TODO #247 cpp seems better than js for the time being
+          defaultLanguage="cpp"
+          onChange={handleCodeChange}
+        />
+      </Suspense>
     </div>
   )
 }
