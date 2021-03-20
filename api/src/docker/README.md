@@ -5,9 +5,9 @@ We're using the serverless from work for deployment
 ```
 sls deploy
 ```
-But Kurt Hutten credentials for deployment, though if you wanted to set your own account you could deploy to that if you wanted to test.
+But [Kurt Hutten](https://github.com/Irev-Dev) is the only one with credentials for deployment atm, though if you wanted to set your own account you could deploy to that if you wanted to test.
 
-## testing changes locally
+## Testing changes locally
 
 You'll need to have Docker installed
 
@@ -21,7 +21,7 @@ docker-compose up --build
 ```
 The first time you run this, it has to build the main image it will take some time, but launching again will be quicker.
 
-After which we'll also spin up a light express server to act as an emulator to transform some the request from the front end into how the lambda's expect them.
+After which we'll also spin up a light express server to act as an emulator to transform some the request from the front end into how the lambda's expect them (This emulates the aws-api-gateway which changes tranforms the inbound requests somewhat).
 ```
 yarn install
 yarn emulate
