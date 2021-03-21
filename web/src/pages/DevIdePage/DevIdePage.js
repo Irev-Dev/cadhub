@@ -5,27 +5,31 @@ import OutBound from 'src/components/OutBound'
 
 const DevIdePage = () => {
   return (
-    <MainLayout>
-      <Seo
-        title="new ide in development"
-        description="new ide in development"
-        lang="en-US"
-      />
-      <div className="py-4 bg-pink-200">
-        <div className="mx-auto max-w-6xl">
-          Woah, woah. You shouldn't be here! We're still working on this. Since
-          you've seen it now, have a look what{' '}
-          <OutBound
-            className="text-pink-700"
-            to="https://github.com/Irev-Dev/cadhub/discussions/212"
-          >
-            we've got planned
-          </OutBound>
-          .
+    <div className="h-screen flex flex-col">
+      <MainLayout shouldRemoveFooterInIde>
+        <Seo
+          title="new ide in development"
+          description="new ide in development"
+          lang="en-US"
+        />
+        <div className="py-4 bg-pink-200">
+          <div className="mx-auto max-w-6xl">
+            Woah, woah. You shouldn't be here! We're still working on this.
+            Since you've seen it now, have a look what{' '}
+            <OutBound
+              className="text-pink-700"
+              to="https://github.com/Irev-Dev/cadhub/discussions/212"
+            >
+              we've got planned
+            </OutBound>
+            .
+          </div>
         </div>
+      </MainLayout>
+      <div className="flex-auto">
+        <IdeToolbar />
       </div>
-      <IdeToolbar />
-    </MainLayout>
+    </div>
   )
 }
 

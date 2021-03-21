@@ -50,20 +50,20 @@ export const render = async ({ code, settings }) => {
         status: 'error',
         message: {
           type: 'error',
-          message: cleanedErrorMessage,
+          message: addDateToLog(cleanedErrorMessage),
         },
       }
     }
-    const data = await response.blob()
+    const data = await response.json()
     return {
       status: 'healthy',
       objectData: {
         type: 'png',
-        data,
+        data: data.imageBase64,
       },
       message: {
         type: 'message',
-        message: 'successful render',
+        message: addDateToLog(data.result),
       },
     }
   } catch (e) {
@@ -75,7 +75,7 @@ export const render = async ({ code, settings }) => {
       status: 'error',
       message: {
         type: 'error',
-        message: 'network issue',
+        message: addDateToLog('network issue'),
       },
     }
   }
@@ -87,3 +87,8 @@ const openScad = {
 }
 
 export default openScad
+
+function addDateToLog(message) {
+  return `-> ${new Date().toLocaleString()}
+${message}`
+}

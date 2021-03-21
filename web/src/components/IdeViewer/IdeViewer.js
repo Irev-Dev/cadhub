@@ -124,8 +124,7 @@ const IdeViewer = () => {
   useEffect(() => {
     setImage(
       state.objectData?.type === 'png' &&
-        state.objectData?.data &&
-        window.URL.createObjectURL(state.objectData?.data)
+        'data:image/png;base64,' + state.objectData?.data
     )
     setIsDragging(false)
   }, [state.objectData])

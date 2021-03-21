@@ -14,19 +14,8 @@ app.post('/render', async (req, res) => {
   const { data } = await axios.post(invocationURL(5052), {
     body: Buffer.from(JSON.stringify(req.body)).toString('base64'),
   })
-  if (data.statusCode !== 200) {
-    res.status(data.statusCode)
-    res.send(res.body)
-  } else {
-    const fileContents = Buffer.from(data.body, 'base64')
-
-    const readStream = new stream.PassThrough()
-    readStream.end(fileContents)
-
-    res.set('Content-disposition', 'attachment; filename=' + 'output')
-    res.set('Content-Type', 'image/png')
-    readStream.pipe(res)
-  }
+  res.status(data.statusCode)
+  res.send(data.body)
 })
 
 app.listen(port, () => {
