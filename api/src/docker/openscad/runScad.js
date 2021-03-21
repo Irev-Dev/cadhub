@@ -64,11 +64,11 @@ async function runCommand(command, timeout = 5000) {
       }
       if (stderr) {
         console.log(`stderr: ${stderr}`)
-        resolve(`stderr: ${stderr}`)
+        resolve(stderr)
         return
       }
       console.log(`stdout: ${stdout}`)
-      resolve(`stdout: ${stdout}`)
+      resolve(stdout)
     })
     setTimeout(() => {
       reject('timeout')

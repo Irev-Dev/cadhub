@@ -45,11 +45,11 @@ const render = async (req, _context, callback) => {
     console.log(image, 'encoded image')
     const response = {
       statusCode: 200,
-      headers: {
-        'content-type': 'image/png',
-      },
-      body: image,
-      isBase64Encoded: true,
+      body: JSON.stringify({
+        imageBase64: image,
+        result,
+        tempFile,
+      }),
     }
     callback(null, response)
   }

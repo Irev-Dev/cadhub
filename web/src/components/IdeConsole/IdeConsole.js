@@ -7,12 +7,12 @@ const IdeConsole = () => {
     <div className="p-8 border-2 m-2 overflow-y-auto">
       <div>
         {state.consoleMessages?.map(({ type, message }, index) => (
-          <div
+          <pre
             className={'font-mono ' + (type === 'error' ? 'text-red-500' : '')}
             key={message + index}
           >
-            -> {message}
-          </div>
+            {message}
+          </pre>
         ))}
       </div>
     </div>
