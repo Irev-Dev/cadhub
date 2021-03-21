@@ -15,6 +15,7 @@ const ELEMENT_MAP = {
 const IdeContainer = () => {
   const { state, dispatch } = useContext(IdeContext)
   const viewerDOM = useRef(null)
+  const debounceTimeoutId = useRef
 
   useEffect(handleViewerSizeUpdate, [viewerDOM])
 
@@ -30,6 +31,20 @@ const IdeContainer = () => {
       })
     }
   }
+
+  const debouncedViewerSizeUpdate = () => {
+    clearTimeout(debounceTimeoutId.current)
+    debounceTimeoutId.current = setTimeout(() => {
+      handleViewerSizeUpdate()
+    }, 1000)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', debouncedViewerSizeUpdate)
+    return () => {
+      window.removeEventListener('resize', debouncedViewerSizeUpdate)
+    }
+  }, [])
 
   return (
     <div id="cadhub-ide" className="flex-auto h-full">
