@@ -32,7 +32,7 @@ const IdeContainer = () => {
   }
 
   return (
-    <div id="cadhub-ide" className="h-screen">
+    <div id="cadhub-ide" className="flex-auto h-full">
       <Mosaic
         renderTile={(id, path) => (
           <MosaicWindow path={path} title={id} className={id.toLowerCase()}>

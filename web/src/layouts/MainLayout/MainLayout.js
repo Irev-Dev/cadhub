@@ -95,7 +95,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
     }
   }, [hash, client]) // complaining about not having addMessage, however adding it puts useEffect into a loop
   return (
-    <div className="h-full">
+    <div>
       <header id="cadhub-main-header">
         <nav className="flex justify-between h-20 px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
           <ul className="flex items-center">

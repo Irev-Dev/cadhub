@@ -24,7 +24,7 @@ const IdeToolbarNew = () => {
 
   return (
     <IdeContext.Provider value={{ state, dispatch }}>
-      <div className="p-8 border-2">
+      <div className="h-full flex flex-col">
         <nav className="flex">
           {/* <button
             onClick={() => setIdeType('openCascade')}
