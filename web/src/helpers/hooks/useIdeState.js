@@ -16,11 +16,14 @@ module stick(basewid, angl){
     }
 }`
 
+export const codeStorageKey = 'Last-openscad-code'
+
 export const useIdeState = () => {
+  const code = localStorage.getItem(codeStorageKey) || donutInitCode
   const initialState = {
     ideType: 'openScad',
     consoleMessages: [{ type: 'message', message: 'Initialising OpenSCAD' }],
-    code: donutInitCode,
+    code,
     objectData: {
       type: 'stl',
       data: 'some binary',

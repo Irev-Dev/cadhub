@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import IdeContainer from 'src/components/IdeContainer'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useIdeState } from 'src/helpers/hooks/useIdeState'
+import { useIdeState, codeStorageKey } from 'src/helpers/hooks/useIdeState'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
 
 export const IdeContext = createContext()
@@ -12,6 +12,7 @@ const IdeToolbarNew = () => {
   }
   function handleRender() {
     dispatch({ type: 'render', payload: { code: state.code } })
+    localStorage.setItem(codeStorageKey, state.code)
   }
   function handleMakeLink() {
     if (isBrowser) {

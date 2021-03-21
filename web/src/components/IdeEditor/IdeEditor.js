@@ -1,6 +1,7 @@
 import { useContext, useEffect, Suspense, lazy } from 'react'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { IdeContext } from 'src/components/IdeToolbarNew'
+import { codeStorageKey } from 'src/helpers/hooks/useIdeState'
 const Editor = lazy(() => import('@monaco-editor/react'))
 
 const IdeEditor = () => {
@@ -34,6 +35,7 @@ const IdeEditor = () => {
     if (key === 's' && (ctrlKey || metaKey)) {
       event.preventDefault()
       dispatch({ type: 'render', payload: { code: state.code } })
+      localStorage.setItem(codeStorageKey, state.code)
     }
   }
 
