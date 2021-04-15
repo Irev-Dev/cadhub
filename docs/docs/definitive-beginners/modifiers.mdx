@@ -1,0 +1,70 @@
+---
+title: Modifiers
+---
+
+import Image from '@theme/IdealImage';
+
+import transparentRotate from '../../static/img/openscad-tutorial/transparent-rotate.png';
+import difference from '../../static/img/openscad-tutorial/difference.png';
+import removeArtifact from '../../static/img/openscad-tutorial/remove-artifact.png';
+
+The reason we're using `rotate` here is because we want to re-orientate our `pin2` to be inside to form a hole, tricky part is that it can be hard to visualise parts that are going to be subtracted from another shape so we're going to use a modifying character `%` for our `hingeBodyHalf`
+
+```cpp
+module pin2() {
+  translate([0,pivotRadius,hingeHalfExtrudeLength+tiny]){
+    rotate([0,175,0]){
+      cylinder(h=hingeLength/2+clearance/2, r1=pinRadius, r2=pinRadius+pinTaper);
+    }
+  }
+}
+// highlight-next-line
+%hingeBodyHalf();
+pin2();
+```
+
+<Image img={transparentRotate} style={{backgroundSize: 'contain'}} />
+
+The `%` character before `hingeBodyHalf()` makes it transparent so that we can see `pin2` within it, and one thing becomes obvious with this view is that a `rotate` of `175` is no right, it needs to be `180`! The `%` character is a "debugging" step, which means it's not going to end up in our final code, it's just helpful in the mean time. There are other characters that can be useful, the full list is
+
+```xml
+*  disable
+!  show only
+#  highlight / debug
+%  transparent / background
+```
+
+To actually make the hole we'll use a `difference` operation like so:
+
+```cpp
+module pin2() {
+  translate([0,pivotRadius,hingeHalfExtrudeLength]){
+    rotate([0,180,0]){
+      cylinder(h=hingeLength/2+clearance/2, r1=pinRadius, r2=pinRadius+pinTaper);
+    }
+  }
+}
+
+// highlight-next-line
+difference() {
+  hingeBodyHalf();
+  pin2();
+}
+```
+
+<Image img={difference} style={{backgroundSize: 'contain'}} />
+
+There we, go a hole! The way conceptualise how `difference` works is to think of it as subtracting the second child from the first. "child" simply means nested with `difference` so in the above example `pin2` is the second child that we are subtracting from `hingeBodyHalf`.
+
+There is one minor annoyance is that the end of the hole looks like it's glitching a little, this can happen in openscad when two surfaces line up.
+In this case the end of the `hingeBodyHalf` and the start of `pin2`, it only effects the preview and not the 3d STL export, but to make the preview a little nicer in this situations I'll define a variable with a very small value `tiny=0.005;` and add it strategically to resolve this issue, this part is optional but here's where I added it for pin2:
+
+```cpp
+module pin2() {
+  translate([0,pivotRadius,hingeHalfExtrudeLength+tiny]){
+//
+```
+
+Fixed!
+
+<Image img={removeArtifact} style={{backgroundSize: 'contain'}} />

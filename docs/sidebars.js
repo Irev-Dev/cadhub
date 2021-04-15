@@ -1,16 +1,26 @@
 module.exports = {
   docs: [
+    'getting-started/getting-started',
+    'why-code-cad',
     {
       type: 'category',
-      label: 'Docusaurus Tutorial',
+      label: 'Definitive OpenSCAD Tutorial for Beginners',
       items: [
-        'getting-started',
-        'create-a-page',
-        'create-a-document',
-        'create-a-blog-post',
-        'markdown-features',
-        'thank-you',
+        'definitive-beginners/your-openscad-journey',
+        'definitive-beginners/the-basics',
+        'definitive-beginners/adding-fillets',
+        'definitive-beginners/extruding-2d-shapes',
+        'definitive-beginners/modules',
+        'definitive-beginners/adding-clearances',
+        'definitive-beginners/modifiers',
+        'definitive-beginners/module-arguments',
+        'definitive-beginners/loops',
+        // {
+        //   type: 'category',
+        //   label: 'OpenSCAD tutorial',
+        //   items: ['create-a-page'],
+        // },
       ],
     },
   ],
-};
+}

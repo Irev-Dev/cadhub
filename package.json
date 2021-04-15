@@ -5,6 +5,9 @@
       "api",
       "web",
       "docs"
+    ],
+    "nohoist": [
+      "docs/**"
     ]
   },
   "scripts": {},

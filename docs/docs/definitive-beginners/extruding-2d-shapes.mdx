@@ -1,0 +1,83 @@
+---
+title: Extruding 2d Shapes
+---
+
+import Image from '@theme/IdealImage';
+
+import extrude from '../../static/img/openscad-tutorial/extrude.png';
+import differenceMarkup from '../../static/img/openscad-tutorial/difference-markup.png';
+import extrude2 from '../../static/img/openscad-tutorial/extrude2.png';
+import noFillet from '../../static/img/openscad-tutorial/no-fillet.png';
+
+### Let get 3 dimensional
+
+We've looked at this 2d shape long enough, we can give it some depth by extruding it, `linear_extrude`ing to be precise, let's add a new variable `hingeLength` too.
+
+```cpp
+// ... other variables above
+hingeLength=30;
+// highlight-next-line
+linear_extrude(hingeLength){
+  offset(1)offset(-2)offset(1){
+    translate([0,pivotRadius,0]){
+      circle(pivotRadius);
+    }
+    square([pivotRadius,pivotRadius]);
+    translate([pivotRadius,0,0]){
+      square([baseWidth,baseThickness]);
+    }
+  }
+}
+```
+
+<Image img={extrude} style={{backgroundSize: 'contain'}} />
+
+We do have a bit of a problem though because while want the base to go the full length of the hinge, the pivot should only go half that to make room for the other part of the hinge.
+Red scribbles shows what we want to remove.
+
+<Image img={differenceMarkup} style={{backgroundSize: 'contain'}} />
+
+The best way around this problem is to extrude the base again separately so to stretch further than the pivot.
+
+```cpp
+// ... variables above
+linear_extrude(hingeLength/2){
+  offset(1)offset(-2)offset(1){
+    translate([0,pivotRadius,0]){
+      circle(pivotRadius);
+    }
+    square([pivotRadius,pivotRadius]);
+    translate([pivotRadius,0,0]){
+      square([baseWidth,baseThickness]);
+    }
+  }
+}
+// highlight-start
+linear_extrude(hingeLength){
+  offset(1)offset(-1)translate([pivotRadius,0,0]){
+    square([baseWidth,baseThickness]);
+  }
+}
+// highlight-end
+```
+
+<Image img={extrude2} style={{backgroundSize: 'contain'}} />
+
+## Math Operations
+
+Great, starting to take shape, couple things to go over, first you may have noticed that we just did some inline math with `hingeLength/2`.
+This works fine, normal math operations can be preformed and it's fine to mix variables with numbers (also `2` here doesn't count as a magic number since `hingeLength/2` is easy to read as "half of `hingeLength`".
+
+You may notice that we've included the code that forms the hinge base:
+
+```cpp
+translate([pivotRadius,0,0]){
+  square([baseWidth,baseThickness]);
+}
+```
+
+within both of the `linear_extrude`s, at first it might seem like we could remove it from first `linear_extrude` since it only goes half the `hingeLength` but this would cause us to loose our internal fillet.
+
+<Image img={noFillet} style={{backgroundSize: 'contain'}} />
+
+As it needs to be within `offset` group for this fillet to work.

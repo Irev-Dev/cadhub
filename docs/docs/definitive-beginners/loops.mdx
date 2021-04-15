@@ -1,0 +1,209 @@
+---
+title: Loops
+---
+
+import Image from '@theme/IdealImage';
+
+import hole1 from '../../static/img/openscad-tutorial/hole1.png';
+import hole2 from '../../static/img/openscad-tutorial/hole2.png';
+import hole3 from '../../static/img/openscad-tutorial/hole3.png';
+import hole4 from '../../static/img/openscad-tutorial/hole4.png';
+import hole5 from '../../static/img/openscad-tutorial/hole5.png';
+import hole6 from '../../static/img/openscad-tutorial/hole6.png';
+import finishedHinge from '../../static/img/openscad-tutorial/finished-hinge.png';
+
+Let's remove the male hinge for now and add a new `module` called `plateHoles`.
+We'll start by adding adding a cylinder that's definitely longer than the plate is thick, we'll than rotate it by 90 degrees and move it a little:
+
+```cpp
+// ... other variable definitions
+mountingHoleRadius=1.5;
+
+// ... other module definitions
+// highlight-start
+module plateHoles() {
+  translate([baseWidth/2+pivotRadius,-baseThickness,0]){
+    rotate([-90,0,0]){
+      cylinder(r=mountingHoleRadius,h=baseThickness*4);
+    }
+  }
+}
+// highlight-end
+
+%hingeHalfFemale();
+// hingeHalfMale();
+plateHoles();
+```
+
+<Image img={hole1} style={{backgroundSize: 'contain'}} />
+
+## Basic Loop
+
+From here we can see how we can use this new `cylinder` along with `difference` to make a hole in the hinge base, but it's not quiet in the right place (it's half hanging off the edge), lets add a variable for how close we want the hole to sit from the edge `mountingHoleEdgeOffset=4;`.
+But bear in mind we also want to want multiple of these hole and it would be good if we could avoid "hard-coding" each one. Luckly we're able to layout a number of holes efficiently with a `for` loop.
+Lets add another variable `mountingHoleCount=3;`. There's a few ways to use a `for` loop in OpenSCAD, but we're going to use the simplest case, it's defined as
+`for(increment=[startNumber:endNmuber]){ /* your code ... */ }`
+
+`increment` is another variable, we can name it anything we want (`i` is very common) but increment is a good name.
+The code that runs within the curly braces `{}` is run multiple times for each number in the range between `startNumber` and `endNumber`, and the value of `increment` will update each time it's run. To make this concrete, we want 3 holes so lets add the following to `plateHoles`:
+
+```cpp
+module plateHoles() {
+  // highlight-start
+  for(increment=[0:2]){
+    echo("increment is currently", increment);
+    // highlight-end
+    translate([baseWidth/2+pivotRadius,-baseThickness,0]){
+      rotate([-90,0,0]){
+        cylinder(r=mountingHoleRadius,h=baseThickness*4);
+      }
+    }
+  }
+}
+```
+
+The reason we're using `[0:2]` and not `[0:3]` is because `0` counts so the code still runs 3 times.
+I've also introduced another function `echo`, this function can be used to display text to the console, we've added it a a temporary measure to help demonstrate that the code in the `for` loop is run multiple times.
+You should see in the console the following:
+
+```cpp
+ECHO: "increment is currently", 0
+ECHO: "increment is currently", 1
+ECHO: "increment is currently", 2
+// followed by some internal OpenSCAD messages
+```
+
+## Repeating Geometry
+
+Great, `echo` runs three times. Since we know the value of `increment` changes, lets use that to our advantage and change the value `translate` Z-axis like so:
+
+```cpp
+module plateHoles() {
+  for(increment=[0:2]){
+    // highlight-next-line
+    translate([baseWidth/2+pivotRadius,-baseThickness,increment*10]){
+      rotate([-90,0,0]){
+        cylinder(r=mountingHoleRadius,h=baseThickness*4);
+      }
+    }
+  }
+}
+```
+
+<Image img={hole2} style={{backgroundSize: 'contain'}} />
+
+And just like that we have three evenly spaced `cylinders`!
+
+## Calculating distribution
+
+I'm sure you can see where this is going, we need to make a few tweaks to get this all polished though.
+First lets use our variables, both the new `mountingHoleCount` and we can use that calculate a new variable `mountingHoleMoveIncrement=hingeLength/(mountingHoleCount-1);`
+This will be the gap between each of the holes, the reason we're using `(mountingHoleCount-1)` is because counting the gaps between holes, there's one less than the amount of holes. let's now add `increment*mountingHoleMoveIncrement`:
+
+```cpp
+// highlight-next-line
+mountingHoleMoveIncrement=hingeLength/(mountingHoleCount-1);
+
+module plateHoles() {
+  // highlight-start
+  for(i=[0:mountingHoleCount-1]){
+    translate([baseWidth/2+pivotRadius,-baseThickness,i*mountingHoleMoveIncrement]){
+    // highlight-end
+      rotate([-90,0,0]){
+        cylinder(r=mountingHoleRadius,h=baseThickness*4);
+      }
+    }
+  }
+}
+```
+
+<Image img={hole3} style={{backgroundSize: 'contain'}} />
+
+Awesome, it obvious that the hole spacing is related to the length of the hinge now, we can even increase the amount of holes with mountingHoleCount=4; and it look correct:
+
+<Image img={hole4} style={{backgroundSize: 'contain'}} />
+
+Though we still have the problem if the holes sitting right on the edge.
+We defined `mountingHoleEdgeOffset` earlier lets now use it in the `mountingHoleMoveIncrement` calculation.
+
+```cpp
+mountingHoleEdgeOffset=4;
+// highlight-start
+mountingHoleMoveIncrement=(hingeLength-2*mountingHoleEdgeOffset)/
+	(mountingHoleCount-1);
+// highlight-end
+
+module plateHoles() {
+  // highlight-start
+  for(i=[0:mountingHoleCount-1]){
+    translate([baseWidth/2+pivotRadius,-baseThickness,i*mountingHoleMoveIncrement]){
+    // highlight-end
+      rotate([-90,0,0]){
+        cylinder(r=mountingHoleRadius,h=baseThickness*4);
+      }
+    }
+  }
+}
+```
+
+<Image img={hole5} style={{backgroundSize: 'contain'}} />
+
+We subtract `2*mountingHoleEdgeOffset` from the `hingeLength` because we are limiting the amount of space the holes can spread out in, it `2*` the offset because we want that space of both sides, but clearly we don't have a gap on each side yet, but this is just a matter of where the first hole starts, so the last step for our `for` loop is to shift it over a little:
+
+```cpp
+module plateHoles() {
+  for(i=[0:mountingHoleCount-1]){
+    translate([
+      baseWidth/2+pivotRadius,
+      -baseThickness,
+      // highlight-next-line
+      i*mountingHoleMoveIncrement+mountingHoleEdgeOffset // <-- add offset
+    ]){
+      rotate([-90,0,0]){
+        cylinder(r=mountingHoleRadius,h=baseThickness*4);
+      }
+    }
+  }
+}
+```
+
+<Image img={hole6} style={{backgroundSize: 'contain'}} />
+
+Fantastic! now that we have our holes place, we need to use `difference` to actually cut the holes into the part, but where to do it?? We could use difference in both the mail and female parts but that would require doing the same thing twice. The best place to do it is in `hingeBodyHalf` since this module is common to both sides of the hinge:
+
+```cpp
+module hingeBodyHalf() {
+  // highlight-start
+  difference() {
+    union() {
+    // highlight-end
+      linear_extrude(hingeHalfExtrudeLength){
+        offset(1)offset(-2)offset(1){
+          translate([0,pivotRadius,0]){
+            circle(pivotRadius);
+          }
+          square([pivotRadius,pivotRadius]);
+          hingeBaseProfile();
+        }
+      }
+      linear_extrude(hingeLength){
+        offset(1)offset(-1)hingeBaseProfile();
+      }
+    }
+    // highlight-next-line
+    plateHoles();
+  }
+}
+
+// .. more code
+
+hingeHalfFemale();
+hingeHalfMale();
+```
+
+We're using `difference` here as planned, but we've also introduced a new operation `union`.
+`union` allows us to combine shapes into one, which is important here since `difference` works by subtracting the second child from the first and because both of the `linear_extrudes` are children `union` lets us combine them into a single child so that we can subtract `plateHoles`.
+
+Here's the result!
+
+<Image img={finishedHinge} style={{backgroundSize: 'contain'}} />

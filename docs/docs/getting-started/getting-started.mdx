@@ -1,0 +1,36 @@
+---
+title: Getting Started
+slug: /
+---
+
+To get started click the "+" button on the top right of CadHub
+
+import Image from '@theme/IdealImage';
+import plus from '../../static/img/getting-started/plus.png';
+import ide from '../../static/img/getting-started/ide.png';
+import cube from '../../static/img/getting-started/cube.jpg';
+import hinge from '../../static/img/getting-started/complete-hinge.png';
+
+
+<Image img={plus} style={{backgroundSize: 'contain', paddingBottom: '2rem'}} />
+
+
+You should now see the OpenSCAD IDE (integrated development environment)
+
+<Image img={ide} style={{backgroundSize: 'contain'}} />
+
+Here we should see the default code in the editor on the left-hand-side, there editor is where we design our CAD parts and we'll cover that more soon. You will also see the result will show up on the right-hand-side along with the console which gives us extra information too. You can click and drag inside the viewer to change the perspective, though the image will only update once you let go of the mouse.
+
+You can also move the object with with right-click and drag, and scrolling will zoom in and out.
+
+### What about the editor?
+
+For that we'll need to learn about the OpenSCAD language. For now, try replacing all of the existing code with `cube([10,10,10]);` and then hit ctrl+s to tell CadHub to render a new image. You should see a cube appear!
+
+<Image img={cube} style={{backgroundSize: 'contain'}} />
+
+Don't worry if you don't understand the specifics of what happen here, we'll give you the whole run down next in our introductory tutorial, where you'll learn the basics of OpenSCAD by making a hinge.
+
+<Image img={hinge} style={{backgroundSize: 'contain'}} />
+
+Already familiar with OpenSCAD? no worries, you can skip ahead to learn more about how to host a OpenSCAD project on CadHub

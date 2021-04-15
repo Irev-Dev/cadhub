@@ -1,0 +1,111 @@
+---
+title: The Basics
+---
+
+import Image from '@theme/IdealImage';
+
+import profile from '../../static/img/openscad-tutorial/profile.png';
+import circleCube from '../../static/img/openscad-tutorial/circle-cube.png';
+import translate from '../../static/img/openscad-tutorial/translate.png';
+import unroundedProfile from '../../static/img/openscad-tutorial/unrounded-profile.png';
+import bigRadius from '../../static/img/openscad-tutorial/big-radius.png';
+
+## 2D Primitives
+
+Designing parts in OpenSCAD is a matter of combining shapes and iterating until you get what you want, so with that in mind lets start with this from this perspective focusing just on one half of the hinge, let look at the blue half.
+
+<Image img={profile} style={{backgroundSize: 'contain'}} />
+
+We can see at the very least some circles and rectangles will be of use, so lets start there.
+
+```cpp
+circle(5);
+square([15,3]);
+```
+
+`circle(5);` gives us a circle with a radius of `5` and `square` is the 2d version of `cube` . Here we've given it dimensions of 15 and 2 for x and y respectively (or width and height if you prefer) .
+
+<Image img={circleCube} style={{backgroundSize: 'contain'}} />
+
+## Translate
+
+It's a start but we need to shift things around a little (I've colored these so we can tell them apart). The cross-hairs represent the origin of the environment and we can see that lines up with the circle's center the corner of the square. Since `5` is the radius of the circle, if want the circle to sit on top of the origin we need to shift it up by the same amount, we do that with `translate` like so:
+
+```cpp
+// highlight-next-line
+translate([0,5,0]){
+  circle(5);
+}
+square([15,3]);
+```
+
+<Image img={translate} style={{backgroundSize: 'contain'}} />
+
+`translate` is little different to the modules we've see so far is instead of ending with a semicolon `;` it ends with `{ children }` in the case above it has one child, the `circle`. `tranlates` shifts its children around, we're using it to shift it up by `5`. We put `5` in the second position in the square braces is because we want to shift it along the Y axis, if you're ever not sure which axis you need to shift something just try each until you find the one you're after.
+
+We also don't want to have the undercut where the circle meets the square, we can fix that with another square so that there's a nice 90 degree transition. Also for reasons we'll get to later, we don't actually want any overlap between these two squares so it will need shift with translate as well. Here's what we're left with:
+
+```cpp
+translate([0,5,0]){
+  circle(5);
+}
+// highlight-next-line
+square([5,5]);
+// highlight-next-line
+translate([5,0,0]){
+  square([11,2]);
+}
+```
+
+<Image img={unroundedProfile} style={{backgroundSize: 'contain'}} />
+
+I'm sure you can see the profile of the hinge coming together, that's great, but before we move forward we should quickly reflect on what we've done so far.
+
+## Variables
+
+We've written 7 lines and there are 5 module calls and . . . . a bunch of numbers, we have to ask ourselves If we came back to this code in a month would we be able to tell what it's supposed to do?
+We definitely could, but all of the numbers makes it difficult because it's not easy to tell why each value is that value.
+
+Have you ever walked into a room only to forget why?
+You know you came here for a reason but it completely eludes you!? Well reading old code, even only a couple weeks later is a bit like that, you know you put these numbers here for a reason  . . .right!
+
+In programming expressing intent in one of the most important principles for making code understandable and remember what we were doing.
+Isolated values like the ones in our code so far are commonly called "magic numbers" since we can't tell what they do, they might as well be magical.
+Luckily this can be solved by variables. Variables are a way of giving a number a name, so that we can reference that same number over and over again.
+This what it looks like in action.
+
+```cpp
+pivotRadius=5;
+translate([0,pivotRadius,0]){
+  circle(pivotRadius);
+}
+square([pivotRadius,pivotRadius]);
+translate([pivotRadius,0,0]){
+  square([11,2]);
+}
+```
+
+The first line `pivotRadius=5;` is where the variable is assigned, that is the value of `5` is assigned to the name `pivotRadius`, Then we can use it everywhere we need that value.
+The beauty of this is two fold,
+
+1) We have now given lots of context about what value of `5` actually means, that it relates to the pivot radius and
+2) if we ever what to change this value it's easy to just change the first line and the rest will update, for example we can more than double the value and the model stays cohesive, here it is with `pivotRadius=11;`
+
+<Image img={bigRadius} style={{backgroundSize: 'contain'}} />
+
+Let's clean up the rest of the magic numbers.
+
+```cpp
+pivotRadius=5;
+baseThickness=3;
+baseWidth=15;
+translate([0,pivotRadius,0]){
+  circle(pivotRadius);
+}
+square([pivotRadius,pivotRadius]);
+translate([pivotRadius,0,0]){
+  square([baseWidth,baseThickness]);
+}
+```
+
+There are some exceptions to the "magic number" rule, for example above `0` isn't a "magic number" since this conveys "no value for this axis" quite well.
