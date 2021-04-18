@@ -1,14 +1,6 @@
-const { runScad, stlExport } = require('./runScad')
+const { runCQ } = require('./runCQ')
 const middy = require('middy')
 const { cors } = require('middy/middlewares')
-
-const health = async () => {
-  console.log('Health endpoint')
-  return {
-    statusCode: 200,
-    body: 'ok',
-  }
-}
 
 // cors true does not seem to work in serverless.yml, perhaps docker lambdas aren't covered by that config
 // special lambda just for responding to options requests
@@ -24,12 +16,12 @@ const preflightOptions = (req, _context, callback) => {
   callback(null, response)
 }
 
-const render = async (req, _context, callback) => {
+const stl = async (req, _context, callback) => {
   _context.callbackWaitsForEmptyEventLoop = false
   const eventBody = Buffer.from(req.body, 'base64').toString('ascii')
   console.log(eventBody, 'eventBody')
   const { file, settings } = JSON.parse(eventBody)
-  const { error, result, tempFile } = await runScad({ file, settings })
+  const { error, result, tempFile } = await runCQ({ file, settings })
   if (error) {
     const response = {
       statusCode: 400,
@@ -55,41 +47,7 @@ const render = async (req, _context, callback) => {
   }
 }
 
-const exportstl = async (req, _context, callback) => {
-  _context.callbackWaitsForEmptyEventLoop = false
-  const eventBody = Buffer.from(req.body, 'base64').toString('ascii')
-  console.log(eventBody, 'eventBody')
-  const { file } = JSON.parse(eventBody)
-  const { error, result, tempFile } = await stlExport({ file })
-  if (error) {
-    const response = {
-      statusCode: 400,
-      body: { error, tempFile },
-    }
-    callback(null, response)
-  } else {
-    console.log(`got result in route: ${result}, file is: ${tempFile}`)
-    const fs = require('fs')
-    const stl = fs.readFileSync(`/tmp/${tempFile}/output.stl`, {
-      encoding: 'base64',
-    })
-    console.log('encoded stl', stl)
-    const response = {
-      statusCode: 200,
-      headers: {
-        'content-type': 'application/stl',
-      },
-      body: stl,
-      isBase64Encoded: true,
-    }
-    console.log('callback fired')
-    callback(null, response)
-  }
-}
-
 module.exports = {
-  health: middy(health).use(cors()),
-  exportstl: middy(exportstl).use(cors()),
-  render: middy(render).use(cors()),
+  stl: middy(stl).use(cors()),
   preflightOptions,
 }

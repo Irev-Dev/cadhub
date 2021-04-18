@@ -13,25 +13,25 @@ services:
     ports:
       - "5051:8080"
 
-  openscad-render:
+  openscad-preview:
     image: openscad
     # build: ./openscad/.
-    command: openscad.render
+    command: openscad.preview
     # networks:
     #   - awsland
     ports:
       - "5052:8080"
 
-  openscad-export:
+  openscad-stl:
     image: openscad
     # build: ./openscad/.
-    command: openscad.exportstl
+    command: openscad.stl
     ports:
       - "5053:8080"
 
-  cadquery-render:
+  cadquery-stl:
     build: ./cadquery/.
-    command: openscad.render
+    command: cadquery.stl
     ports:
       - 5060:8080
 

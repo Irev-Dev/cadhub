@@ -1,6 +1,4 @@
-let openScadBaseURL =
-  process.env.OPENSCAD_BASE_URL ||
-  'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
+import { lambdaBaseURL } from './common'
 
 export const render = async ({ code, settings }) => {
   const pixelRatio = window.devicePixelRatio || 1
@@ -16,7 +14,7 @@ export const render = async ({ code, settings }) => {
     file: code,
   })
   try {
-    const response = await fetch(openScadBaseURL + '/render', {
+    const response = await fetch(lambdaBaseURL + '/openscad/preview', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

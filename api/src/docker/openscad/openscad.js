@@ -24,7 +24,7 @@ const preflightOptions = (req, _context, callback) => {
   callback(null, response)
 }
 
-const render = async (req, _context, callback) => {
+const preview = async (req, _context, callback) => {
   _context.callbackWaitsForEmptyEventLoop = false
   const eventBody = Buffer.from(req.body, 'base64').toString('ascii')
   console.log(eventBody, 'eventBody')
@@ -55,7 +55,7 @@ const render = async (req, _context, callback) => {
   }
 }
 
-const exportstl = async (req, _context, callback) => {
+const stl = async (req, _context, callback) => {
   _context.callbackWaitsForEmptyEventLoop = false
   const eventBody = Buffer.from(req.body, 'base64').toString('ascii')
   console.log(eventBody, 'eventBody')
@@ -89,7 +89,7 @@ const exportstl = async (req, _context, callback) => {
 
 module.exports = {
   health: middy(health).use(cors()),
-  exportstl: middy(exportstl).use(cors()),
-  render: middy(render).use(cors()),
+  stl: middy(stl).use(cors()),
+  preview: middy(preview).use(cors()),
   preflightOptions,
 }

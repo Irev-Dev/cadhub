@@ -3,7 +3,7 @@ const { promises } = require('fs')
 const { writeFile } = promises
 const { nanoid } = require('nanoid')
 
-module.exports.runScad = async ({
+module.exports.runCQ = async ({
   file,
   settings: {
     size: { x = 500, y = 500 } = {},
@@ -23,20 +23,6 @@ module.exports.runScad = async ({
 
   try {
     const result = await runCommand(command, 10000)
-    return { result, tempFile }
-  } catch (error) {
-    return { error, tempFile }
-  }
-}
-
-module.exports.stlExport = async ({ file } = {}) => {
-  const tempFile = await makeFile(file)
-
-  try {
-    const result = await runCommand(
-      `openscad -o /tmp/${tempFile}/output.stl /tmp/${tempFile}/main.scad`,
-      300000 // lambda will time out before this, we might need to look at background jobs if we do git integration stl generation
-    )
     return { result, tempFile }
   } catch (error) {
     return { error, tempFile }

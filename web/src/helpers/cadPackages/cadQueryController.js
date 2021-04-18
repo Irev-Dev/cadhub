@@ -1,4 +1,4 @@
-let openScadBaseURL = process.env.CADQUERY_BASE_URL
+import { lambdaBaseURL } from './common'
 
 export const render = async ({ code }) => {
   const body = JSON.stringify({
@@ -6,7 +6,7 @@ export const render = async ({ code }) => {
     file: code,
   })
   try {
-    const response = await fetch(openScadBaseURL, {
+    const response = await fetch(lambdaBaseURL + '/cadquery/stl', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
