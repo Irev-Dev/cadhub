@@ -1,6 +1,7 @@
 import { useContext, useRef, useEffect } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
 import { IdeContext } from 'src/components/IdeToolbarNew'
+import { requestRender } from 'src/helpers/hooks/useIdeState'
 import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
@@ -13,7 +14,7 @@ const ELEMENT_MAP = {
 }
 
 const IdeContainer = () => {
-  const { state, dispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useContext(IdeContext)
   const viewerDOM = useRef(null)
   const debounceTimeoutId = useRef
 
@@ -22,12 +23,22 @@ const IdeContainer = () => {
   function handleViewerSizeUpdate() {
     if (viewerDOM !== null && viewerDOM.current) {
       const { width, height } = viewerDOM.current.getBoundingClientRect()
-      dispatch({
-        type: 'render',
-        payload: {
-          code: state.code,
-          viewerSize: { width, height },
-        },
+      thunkDispatch({
+        type: 'updateViewerSize',
+        payload: { viewerSize: { width, height } },
+      })
+      thunkDispatch((dispatch, getState) => {
+        const state = getState()
+        if (state.ideType === 'openScad') {
+          dispatch({ type: 'setLoading' })
+          requestRender({
+            state,
+            dispatch,
+            code: state.code,
+            viewerSize: { width, height },
+            camera: state.camera,
+          })
+        }
       })
     }
   }
@@ -49,20 +60,27 @@ const IdeContainer = () => {
   return (
     <div id="cadhub-ide" className="flex-auto h-full">
       <Mosaic
-        renderTile={(id, path) => (
-          <MosaicWindow path={path} title={id} className={id.toLowerCase()}>
-            {id === 'Viewer' ? (
-              <div id="view-wrapper" className="h-full" ref={viewerDOM}>
-                {ELEMENT_MAP[id]}
-              </div>
-            ) : (
-              ELEMENT_MAP[id]
-            )}
-          </MosaicWindow>
-        )}
+        renderTile={(id, path) => {
+          const title = id === 'Editor' ? `${id} (${state.ideType})` : id
+          return (
+            <MosaicWindow
+              path={path}
+              title={title}
+              className={id.toLowerCase()}
+            >
+              {id === 'Viewer' ? (
+                <div id="view-wrapper" className="h-full" ref={viewerDOM}>
+                  {ELEMENT_MAP[id]}
+                </div>
+              ) : (
+                ELEMENT_MAP[id]
+              )}
+            </MosaicWindow>
+          )
+        }}
         value={state.layout}
         onChange={(newLayout) =>
-          dispatch({ type: 'setLayout', payload: { message: newLayout } })
+          thunkDispatch({ type: 'setLayout', payload: { message: newLayout } })
         }
         onRelease={handleViewerSizeUpdate}
       />

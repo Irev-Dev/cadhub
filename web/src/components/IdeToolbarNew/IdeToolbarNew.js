@@ -3,15 +3,26 @@ import IdeContainer from 'src/components/IdeContainer'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useIdeState, codeStorageKey } from 'src/helpers/hooks/useIdeState'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
+import { requestRender } from 'src/helpers/hooks/useIdeState'
 
 export const IdeContext = createContext()
 const IdeToolbarNew = () => {
-  const [state, dispatch] = useIdeState()
+  const [state, thunkDispatch] = useIdeState()
   function setIdeType(ide) {
-    dispatch({ type: 'setIdeType', payload: { message: ide } })
+    thunkDispatch({ type: 'setIdeType', payload: { message: ide } })
   }
   function handleRender() {
-    dispatch({ type: 'render', payload: { code: state.code } })
+    thunkDispatch((dispatch, getState) => {
+      const state = getState()
+      dispatch({ type: 'setLoading' })
+      requestRender({
+        state,
+        dispatch,
+        code: state.code,
+        viewerSize: state.viewerSize,
+        camera: state.camera,
+      })
+    })
     localStorage.setItem(codeStorageKey, state.code)
   }
   function handleMakeLink() {
@@ -23,21 +34,17 @@ const IdeToolbarNew = () => {
   }
 
   return (
-    <IdeContext.Provider value={{ state, dispatch }}>
+    <IdeContext.Provider value={{ state, thunkDispatch: thunkDispatch }}>
       <div className="h-full flex flex-col">
         <nav className="flex">
-          {/* <button
-            onClick={() => setIdeType('openCascade')}
+          <button
+            onClick={() =>
+              setIdeType(state.ideType === 'openScad' ? 'cadQuery' : 'openScad')
+            }
             className="p-2 br-2 border-2 m-2 bg-blue-200"
           >
-            Switch to OpenCascade
+            Switch to {state.ideType === 'openScad' ? 'CadQuery' : 'OpenSCAD'}
           </button>
-          <button
-            onClick={() => setIdeType('openScad')}
-            className="p-2 br-2 border-2 m-2 bg-indigo-200"
-          >
-            Switch to OpenSCAD
-          </button> */}
           <button onClick={handleRender} className="p-2 br-2 border-2 m-2">
             Render
           </button>

@@ -1,22 +1,12 @@
-let openScadBaseURL =
-  process.env.OPENSCAD_BASE_URL ||
-  'https://x2wvhihk56.execute-api.us-east-1.amazonaws.com/dev'
+let openScadBaseURL = process.env.CADQUERY_BASE_URL
 
-export const render = async ({ code, settings }) => {
-  const pixelRatio = window.devicePixelRatio || 1
-  const size = {
-    x: Math.round(settings.viewerSize?.width * pixelRatio),
-    y: Math.round(settings.viewerSize?.height * pixelRatio),
-  }
+export const render = async ({ code }) => {
   const body = JSON.stringify({
-    settings: {
-      size,
-      camera: settings.camera,
-    },
+    settings: {},
     file: code,
   })
   try {
-    const response = await fetch(openScadBaseURL + '/render', {
+    const response = await fetch(openScadBaseURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,6 +14,7 @@ export const render = async ({ code, settings }) => {
       body,
     })
     if (response.status === 400) {
+      // TODO add proper error messages for CadQuery
       const { error } = await response.json()
       const cleanedErrorMessage = error.replace(
         /["|']\/tmp\/.+\/main.scad["|']/g,
@@ -41,7 +32,7 @@ export const render = async ({ code, settings }) => {
     return {
       status: 'healthy',
       objectData: {
-        type: 'png',
+        type: 'stl',
         data: data.imageBase64,
       },
       message: {
