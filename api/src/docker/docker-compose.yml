@@ -29,6 +29,12 @@ services:
     ports:
       - "5053:8080"
 
+  cadquery-render:
+    build: ./cadquery/.
+    command: openscad.render
+    ports:
+      - 5060:8080
+
 # networks:
 #   awsland:
 #     name: awsland

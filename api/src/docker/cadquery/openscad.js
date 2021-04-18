@@ -39,7 +39,7 @@ const render = async (req, _context, callback) => {
   } else {
     console.log(`got result in route: ${result}, file is: ${tempFile}`)
     const fs = require('fs')
-    const image = fs.readFileSync(`/tmp/${tempFile}/output.png`, {
+    const image = fs.readFileSync(`/tmp/${tempFile}/output.stl`, {
       encoding: 'base64',
     })
     console.log(image, 'encoded image')

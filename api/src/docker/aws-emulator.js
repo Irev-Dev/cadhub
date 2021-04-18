@@ -17,6 +17,14 @@ app.post('/render', async (req, res) => {
   res.status(data.statusCode)
   res.send(data.body)
 })
+app.post('/cadquery', async (req, res) => {
+  console.log('making post request to 5060')
+  const { data } = await axios.post(invocationURL(5060), {
+    body: Buffer.from(JSON.stringify(req.body)).toString('base64'),
+  })
+  res.status(data.statusCode)
+  res.send(data.body)
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

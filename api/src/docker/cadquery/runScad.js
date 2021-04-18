@@ -15,10 +15,10 @@ module.exports.runScad = async ({
   } = {}, // TODO add view settings
 } = {}) => {
   const tempFile = await makeFile(file)
-  const { x: rx, y: ry, z: rz } = rotation
-  const { x: px, y: py, z: pz } = position
-  const cameraArg = `--camera=${px},${py},${pz},${rx},${ry},${rz},${dist}`
-  const command = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o /tmp/${tempFile}/output.png ${cameraArg} --imgsize=${x},${y} --colorscheme DeepOcean /tmp/${tempFile}/main.scad`
+  // this one worked
+  // const command = `conda run -n cadquery python ./cq-cli/cq-cli.py --codec svg --infile /tmp/${tempFile}/main.py --outfile /tmp/${tempFile}/output.svg`
+
+  const command = `conda run -n cadquery python ./cq-cli/cq-cli.py --codec stl --infile /tmp/${tempFile}/main.py --outfile /tmp/${tempFile}/output.stl`
   console.log('command', command)
 
   try {
@@ -48,7 +48,7 @@ async function makeFile(file) {
   console.log(`file to write: ${file}`)
 
   await runCommand(`mkdir /tmp/${tempFile}`)
-  await writeFile(`/tmp/${tempFile}/main.scad`, file)
+  await writeFile(`/tmp/${tempFile}/main.py`, file)
   return tempFile
 }
 
