@@ -2,15 +2,10 @@ FROM public.ecr.aws/lts/ubuntu:20.04_stable
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-## install things needed to run openscad (xvfb is an important one)
 RUN apt-get update -qq
-# double check this below, I'm not sure we need inkscape etc
-RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb imagemagick unzip inkscape
+RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb
 RUN apt-get update -qq
-# RUN apt-get install -y -qq openscad
-# RUN apt-get install -y curl
 RUN apt-get install -y wget
-RUN apt-get install -y git
 
 # install node14, see comment at the to of node14source_setup.sh
 ADD node14source_setup.sh /nodesource_setup.sh
@@ -20,13 +15,13 @@ RUN apt-get install -y nodejs
 
 # Install aws-lambda-cpp build dependencies, this is for the post install script in aws-lambda-ric (in package.json)
 RUN apt-get update && \
-    apt-get install -y \
-    g++ \
-    make \
-    cmake \
-    unzip \
-    automake autoconf libtool \
-    libcurl4-openssl-dev
+  apt-get install -y \
+  g++ \
+  make \
+  cmake \
+  unzip \
+  automake autoconf libtool \
+  libcurl4-openssl-dev
 
 # Add the lambda emulator for local dev, (see entrypoint.sh for where it's used),
 # I have the file locally (gitignored) to speed up build times (as it downloads everytime),
@@ -39,46 +34,15 @@ WORKDIR /var/task/
 COPY package*.json /var/task/
 RUN npm install
 
-# Install Miniconda and CadQuery
-#RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-# RUN curl -sL "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" > "miniconda.sh"
-# RUN bash miniconda.sh -b -p /var/task/miniconda
-# # RUN . /var/task/miniconda/bin/activate && conda create -n cadquery && conda activate cadquery && conda install -c conda-forge -c cadquery cadquery=master python=3.8
-# RUN . /var/task/miniconda/bin/activate
-# # RUN export PATH="/var/task/miniconda/bin:$PATH"
 
-# ENV PATH="/var/task/miniconda/bin:${PATH}"
-# ARG PATH="/var/task/miniconda/bin:${PATH}"
-# RUN conda activate cadquery && conda install -c conda-forge -c cadquery cadquery=master python=3.8
+# Get the distribution copy of cq-cli
+RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.1.0/cq-cli-Linux-x86_64.zip
+RUN unzip cq-cli-Linux-x86_64.zip
 
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh \
-    && echo "Running $(conda --version)" && \
-    conda init bash && \
-    . /root/.bashrc && \
-    conda update conda && \
-    conda create -n cadquery && \
-    conda activate cadquery && \
-    conda install -c conda-forge -c cadquery cadquery=master python=3.8 && \
-    # conda create -n python-app && \
-    # conda activate python-app && \
-    # conda install python=3.8 pip && \
-    git clone https://github.com/CadQuery/cq-cli.git
-
-
-
-
-# Grab a copy of cq-cli to convert the provided script
-# RUN git clone https://github.com/CadQuery/cq-cli.git
+RUN chmod +x cq-cli/cq-cli
 
 COPY *.js /var/task/
 COPY entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-COPY shaft_coupler.py /shaft_coupler.py
-# RUN . $HOME/miniconda/bin/activate && conda activate cadquery && python cq-cli/cq-cli.py --codec svg --infile /shaft_coupler.py
 CMD [ "openscad.render" ]

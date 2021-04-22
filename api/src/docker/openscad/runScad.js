@@ -22,7 +22,7 @@ module.exports.runScad = async ({
   console.log('command', command)
 
   try {
-    const result = await runCommand(command, 10000)
+    const result = await runCommand(command, 15000)
     return { result, tempFile }
   } catch (error) {
     return { error, tempFile }
