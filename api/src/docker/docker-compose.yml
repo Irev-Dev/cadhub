@@ -7,7 +7,9 @@ services:
   #     - "5050:8080"
 
   openscad-health:
-    build: ./openscad/.
+    build:
+      context: ./
+      dockerfile: ./openscad/.
     image: openscad
     command: openscad.health
     ports:
@@ -30,7 +32,9 @@ services:
       - "5053:8080"
 
   cadquery-stl:
-    build: ./cadquery/.
+    build:
+      context: ./
+      dockerfile: ./cadquery/.
     command: cadquery.stl
     ports:
       - 5060:8080
