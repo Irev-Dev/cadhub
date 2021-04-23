@@ -8,7 +8,7 @@
 [web]
   port = 8910
   apiProxyPath = "/.netlify/functions"
-  includeEnvironmentVariables = ['GOOGLE_ANALYTICS_ID', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET']
+  includeEnvironmentVariables = ['GOOGLE_ANALYTICS_ID', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'CAD_LAMBDA_BASE_URL']
   # experimentalFastRefresh = true # this seems to break cascadeStudio
 [api]
   port = 8911

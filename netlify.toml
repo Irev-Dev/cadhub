@@ -10,3 +10,6 @@ functions = "api/dist/functions"
   from = "/*"
   to = "/index.html"
   status = 200
+
+[context.deploy-preview.environment]
+  CAD_LAMBDA_BASE_URL = "https://t7wdlz8ztf.execute-api.us-east-1.amazonaws.com/dev2"
