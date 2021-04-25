@@ -13,6 +13,9 @@ export const render = async ({ code, settings }) => {
     },
     file: code,
   })
+  if (!settings.camera.position) {
+    return
+  }
   try {
     const response = await fetch(lambdaBaseURL + '/openscad/preview', {
       method: 'POST',

@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useEffect } from 'react'
 import IdeContainer from 'src/components/IdeContainer'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useIdeState, codeStorageKey } from 'src/helpers/hooks/useIdeState'
@@ -6,11 +6,27 @@ import { copyTextToClipboard } from 'src/helpers/clipboard'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 
 export const IdeContext = createContext()
-const IdeToolbarNew = () => {
+const IdeToolbarNew = ({ cadPackage }) => {
   const [state, thunkDispatch] = useIdeState()
-  function setIdeType(ide) {
-    thunkDispatch({ type: 'setIdeType', payload: { message: ide } })
-  }
+  const scriptKey = 'encoded_script'
+  useEffect(() => {
+    thunkDispatch({
+      type: 'initIde',
+      payload: { cadPackage },
+    })
+    // load code from hash if it's there
+    let hash
+    if (isBrowser) {
+      hash = window.location.hash
+    }
+    const [key, scriptBase64] = hash.slice(1).split('=')
+    if (key === scriptKey) {
+      const script = atob(scriptBase64)
+      thunkDispatch({ type: 'updateCode', payload: script })
+    }
+    window.location.hash = ''
+    setTimeout(() => handleRender()) // definitely a little hacky, timeout with no delay is just to push it into the next event loop.
+  }, [cadPackage])
   function handleRender() {
     thunkDispatch((dispatch, getState) => {
       const state = getState()
@@ -37,14 +53,6 @@ const IdeToolbarNew = () => {
     <IdeContext.Provider value={{ state, thunkDispatch: thunkDispatch }}>
       <div className="h-full flex flex-col">
         <nav className="flex">
-          <button
-            onClick={() =>
-              setIdeType(state.ideType === 'openScad' ? 'cadQuery' : 'openScad')
-            }
-            className="p-2 br-2 border-2 m-2 bg-blue-200"
-          >
-            Switch to {state.ideType === 'openScad' ? 'CadQuery' : 'OpenSCAD'}
-          </button>
           <button onClick={handleRender} className="p-2 br-2 border-2 m-2">
             Render
           </button>

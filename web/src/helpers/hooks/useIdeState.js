@@ -8,7 +8,8 @@ function withThunk(dispatch, getState) {
       : dispatch(actionOrThunk)
 }
 
-const donutInitCode = `
+const initCodeMap = {
+  openScad: `
 color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
 donut();
 module donut() {
@@ -21,16 +22,31 @@ module stick(basewid, angl){
         sphere(7);
         translate([0,0,10])sphere(9);
     }
-}`
+}`,
+  cadQuery: `import cadquery as cq
+from cadquery import exporters
+
+diam = 5.0
+
+result = (cq.Workplane().circle(diam).extrude(20.0)
+          .faces(">Z").workplane(invert=True).circle(1.05).cutBlind(8.0)
+          .faces("<Z").workplane(invert=True).circle(0.8).cutBlind(12.0)
+          .edges("%CIRCLE").chamfer(0.15))
+
+# exporters.export(coupler, "/home/jwright/Downloads/coupler.stl", exporters.ExportTypes.STL)
+
+show_object(result)
+`,
+}
 
 export const codeStorageKey = 'Last-openscad-code'
 let mutableState = null
 
 export const useIdeState = () => {
-  const code = localStorage.getItem(codeStorageKey) || donutInitCode
+  const code = localStorage.getItem(codeStorageKey) || initCodeMap.openscad
   const initialState = {
-    ideType: 'cadQuery',
-    consoleMessages: [{ type: 'message', message: 'Initialising OpenSCAD' }],
+    ideType: 'INIT',
+    consoleMessages: [{ type: 'message', message: 'Initialising' }],
     code,
     objectData: {
       type: 'stl',
@@ -52,6 +68,12 @@ export const useIdeState = () => {
   }
   const reducer = (state, { type, payload }) => {
     switch (type) {
+      case 'initIde':
+        return {
+          ...state,
+          code: initCodeMap[payload.cadPackage] || initCodeMap.openscad,
+          ideType: payload.cadPackage,
+        }
       case 'updateCode':
         return { ...state, code: payload }
       case 'healthyRender':
@@ -73,11 +95,6 @@ export const useIdeState = () => {
             ? [...state.consoleMessages, payload.message]
             : payload.message,
           isLoading: false,
-        }
-      case 'setIdeType':
-        return {
-          ...state,
-          ideType: payload.message,
         }
       case 'setLayout':
         return {
@@ -122,26 +139,28 @@ export const requestRender = ({
   camera,
   viewerSize,
 }) => {
-  cadPackages[state.ideType]
-    .render({
-      code,
-      settings: {
-        camera,
-        viewerSize,
-      },
-    })
-    .then(({ objectData, message, status }) => {
-      if (status === 'error') {
-        dispatch({
-          type: 'errorRender',
-          payload: { message },
-        })
-      } else {
-        dispatch({
-          type: 'healthyRender',
-          payload: { objectData, message },
-        })
-      }
-    })
-    .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
+  state.ideType !== 'INIT' &&
+    !state.isLoading &&
+    cadPackages[state.ideType]
+      .render({
+        code,
+        settings: {
+          camera,
+          viewerSize,
+        },
+      })
+      .then(({ objectData, message, status }) => {
+        if (status === 'error') {
+          dispatch({
+            type: 'errorRender',
+            payload: { message },
+          })
+        } else {
+          dispatch({
+            type: 'healthyRender',
+            payload: { objectData, message, lastRunCode: code },
+          })
+        }
+      })
+      .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
 }

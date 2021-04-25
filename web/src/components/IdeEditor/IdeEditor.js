@@ -12,25 +12,6 @@ const IdeEditor = () => {
     openScad: 'cpp',
   }
 
-  const scriptKey = 'encoded_script'
-  useEffect(() => {
-    // load code from hash if it's there
-    let hash
-    if (isBrowser) {
-      hash = window.location.hash
-    }
-    const [key, scriptBase64] = hash.slice(1).split('=')
-    if (key === scriptKey) {
-      const script = atob(scriptBase64)
-      thunkDispatch({ type: 'updateCode', payload: script })
-    }
-  }, [])
-  useEffect(() => {
-    if (isBrowser) {
-      window.location.hash = ''
-    }
-  }, [state.code])
-
   function handleCodeChange(value, _event) {
     thunkDispatch({ type: 'updateCode', payload: value })
   }
@@ -61,6 +42,7 @@ const IdeEditor = () => {
       <Suspense fallback={<div>. . . loading</div>}>
         <Editor
           defaultValue={state.code}
+          value={state.code}
           // TODO #247 cpp seems better than js for the time being
           defaultLanguage={ideTypeToLanguageMap[state.ideType] || 'cpp'}
           language={ideTypeToLanguageMap[state.ideType] || 'cpp'}
