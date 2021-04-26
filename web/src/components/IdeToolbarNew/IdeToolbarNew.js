@@ -53,10 +53,16 @@ const IdeToolbarNew = ({ cadPackage }) => {
     <IdeContext.Provider value={{ state, thunkDispatch: thunkDispatch }}>
       <div className="h-full flex flex-col">
         <nav className="flex">
-          <button onClick={handleRender} className="p-2 br-2 border-2 m-2">
+          <button
+            onClick={handleRender}
+            className="border-2 px-2 text-gray-700 text-sm m-1"
+          >
             Render
           </button>
-          <button onClick={handleMakeLink} className="p-2 br-2 border-2 m-2">
+          <button
+            onClick={handleMakeLink}
+            className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
+          >
             Copy link
           </button>
         </nav>
