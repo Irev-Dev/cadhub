@@ -50,7 +50,7 @@ const IdeToolbarNew = ({ cadPackage }) => {
   }
 
   return (
-    <IdeContext.Provider value={{ state, thunkDispatch: thunkDispatch }}>
+    <IdeContext.Provider value={{ state, thunkDispatch }}>
       <div className="h-full flex flex-col">
         <nav className="flex">
           <button

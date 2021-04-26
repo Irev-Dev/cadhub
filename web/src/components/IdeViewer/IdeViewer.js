@@ -14,19 +14,19 @@ import { requestRender } from 'src/helpers/hooks/useIdeState'
 
 extend({ OrbitControls })
 
-function Asset({ url }) {
+function Asset({ stlData }) {
   const [loadedGeometry, setLoadedGeometry] = useState()
   const mesh = useRef()
   const ref = useUpdate((geometry) => {
     geometry.attributes = loadedGeometry.attributes
   })
   useEffect(() => {
-    if (url) {
-      const decoded = atob(url)
+    if (stlData) {
+      const decoded = atob(stlData)
       const loader = new STLLoader()
       setLoadedGeometry(loader.parse(decoded))
     }
-  }, [url])
+  }, [stlData])
   if (!loadedGeometry) return null
   return (
     <mesh ref={mesh} scale={[1, 1, 1]}>
@@ -228,7 +228,11 @@ const IdeViewer = () => {
             </>
           )}
           {state.ideType === 'cadQuery' && (
-            <Asset url={state.objectData?.data} />
+            <Asset
+              stlData={
+                state.objectData?.type === 'stl' && state.objectData?.data
+              }
+            />
           )}
         </Canvas>
       </div>
