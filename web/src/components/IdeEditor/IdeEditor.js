@@ -1,5 +1,4 @@
-import { useContext, useEffect, Suspense, lazy } from 'react'
-import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import { useContext, Suspense, lazy } from 'react'
 import { IdeContext } from 'src/components/IdeToolbarNew'
 import { codeStorageKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
@@ -34,15 +33,27 @@ const IdeEditor = () => {
       localStorage.setItem(codeStorageKey, state.code)
     }
   }
+  const loading = (
+    <div
+      className="text-gray-700 font-ropa-sans relative"
+      style={{ backgroundColor: 'red' }}
+    >
+      <div className="absolute inset-0 text-center flex items-center w-32">
+        . . . loading
+      </div>
+    </div>
+  )
   return (
     <div // eslint-disable-line jsx-a11y/no-static-element-interactions
       className="h-full"
       onKeyDown={handleSaveHotkey}
     >
-      <Suspense fallback={<div>. . . loading</div>}>
+      <Suspense fallback={loading}>
         <Editor
           defaultValue={state.code}
           value={state.code}
+          theme="vs-dark"
+          loading={loading}
           // TODO #247 cpp seems better than js for the time being
           defaultLanguage={ideTypeToLanguageMap[state.ideType] || 'cpp'}
           language={ideTypeToLanguageMap[state.ideType] || 'cpp'}

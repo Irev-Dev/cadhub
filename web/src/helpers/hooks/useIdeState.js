@@ -46,7 +46,9 @@ export const useIdeState = () => {
   const code = localStorage.getItem(codeStorageKey) || initCodeMap.openscad
   const initialState = {
     ideType: 'INIT',
-    consoleMessages: [{ type: 'message', message: 'Initialising' }],
+    consoleMessages: [
+      { type: 'message', message: 'Initialising', time: new Date() },
+    ],
     code,
     objectData: {
       type: 'stl',

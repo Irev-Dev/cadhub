@@ -58,15 +58,22 @@ const IdeContainer = () => {
   }, [])
 
   return (
-    <div id="cadhub-ide" className="flex-auto h-full">
+    <div id="cadhub-ide" className="mosaic-toolbar-overrides flex-auto h-full">
       <Mosaic
         renderTile={(id, path) => {
-          const title = id === 'Editor' ? `${id} (${state.ideType})` : id
           return (
             <MosaicWindow
               path={path}
-              title={title}
-              className={id.toLowerCase()}
+              renderToolbar={() => (
+                <div
+                  className="text-xs text-gray-400 pl-4 w-full py-px font-bold leading-loose border-b border-gray-700"
+                  style={{ backgroundColor: 'rgb(55,55,55)' }}
+                >
+                  {id}
+                  {id === 'Editor' && ` (${state.ideType})`}
+                </div>
+              )}
+              className={`${id.toLowerCase()} ${id.toLowerCase()}-tile`}
             >
               {id === 'Viewer' ? (
                 <div id="view-wrapper" className="h-full" ref={viewerDOM}>
