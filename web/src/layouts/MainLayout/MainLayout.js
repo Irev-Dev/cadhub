@@ -8,6 +8,7 @@ import { getActiveClasses } from 'get-active-classes'
 import Footer from 'src/components/Footer'
 import { useLocation } from '@redwoodjs/router'
 import LoginModal from 'src/components/LoginModal'
+import NavPlusButton from 'src/components/NavPlusButton'
 import ReactGA from 'react-ga'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
@@ -132,9 +133,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                 'mr-8 h-10 w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center'
               )}
             >
-              <Link className="h-full w-full" to={routes.draftPart()}>
-                <Svg name="plus" className="text-indigo-300 w-full h-full" />
-              </Link>
+              <NavPlusButton />
             </li>
             {isAuthenticated ? (
               <li

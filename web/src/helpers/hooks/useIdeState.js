@@ -1,7 +1,15 @@
 import { useReducer } from 'react'
 import { cadPackages } from 'src/helpers/cadPackages'
 
-const donutInitCode = `
+function withThunk(dispatch, getState) {
+  return (actionOrThunk) =>
+    typeof actionOrThunk === 'function'
+      ? actionOrThunk(dispatch, getState)
+      : dispatch(actionOrThunk)
+}
+
+const initCodeMap = {
+  openScad: `
 color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
 donut();
 module donut() {
@@ -14,19 +22,37 @@ module stick(basewid, angl){
         sphere(7);
         translate([0,0,10])sphere(9);
     }
-}`
+}`,
+  cadQuery: `import cadquery as cq
+from cadquery import exporters
 
-export const codeStorageKey = 'Last-openscad-code'
+diam = 5.0
+
+result = (cq.Workplane().circle(diam).extrude(20.0)
+          .faces(">Z").workplane(invert=True).circle(1.05).cutBlind(8.0)
+          .faces("<Z").workplane(invert=True).circle(0.8).cutBlind(12.0)
+          .edges("%CIRCLE").chamfer(0.15))
+
+# exporters.export(coupler, "/home/jwright/Downloads/coupler.stl", exporters.ExportTypes.STL)
+
+show_object(result)
+`,
+}
+
+export const codeStorageKey = 'Last-editor-code'
+let mutableState = null
 
 export const useIdeState = () => {
-  const code = localStorage.getItem(codeStorageKey) || donutInitCode
+  const code = localStorage.getItem(codeStorageKey) || initCodeMap.openscad
   const initialState = {
-    ideType: 'openScad',
-    consoleMessages: [{ type: 'message', message: 'Initialising OpenSCAD' }],
+    ideType: 'INIT',
+    consoleMessages: [
+      { type: 'message', message: 'Initialising', time: new Date() },
+    ],
     code,
     objectData: {
       type: 'stl',
-      data: 'some binary',
+      data: null,
     },
     layout: {
       direction: 'row',
@@ -38,10 +64,18 @@ export const useIdeState = () => {
         splitPercentage: 70,
       },
     },
+    camera: {},
+    viewerSize: { width: 0, height: 0 },
     isLoading: false,
   }
   const reducer = (state, { type, payload }) => {
     switch (type) {
+      case 'initIde':
+        return {
+          ...state,
+          code: initCodeMap[payload.cadPackage] || initCodeMap.openscad,
+          ideType: payload.cadPackage,
+        }
       case 'updateCode':
         return { ...state, code: payload }
       case 'healthyRender':
@@ -64,61 +98,71 @@ export const useIdeState = () => {
             : payload.message,
           isLoading: false,
         }
-      case 'setIdeType':
-        return {
-          ...state,
-          ideType: payload.message,
-        }
       case 'setLayout':
         return {
           ...state,
           layout: payload.message,
+        }
+      case 'updateCamera':
+        return {
+          ...state,
+          camera: payload.camera,
+        }
+      case 'updateViewerSize':
+        return {
+          ...state,
+          viewerSize: payload.viewerSize,
         }
       case 'setLoading':
         return {
           ...state,
           isLoading: true,
         }
+      case 'resetLoading':
+        return {
+          ...state,
+          isLoading: false,
+        }
       default:
         return state
     }
   }
 
-  function dispatchMiddleware(dispatch, state) {
-    return ({ type, payload }) => {
-      switch (type) {
-        case 'render':
-          cadPackages[state.ideType]
-            .render({
-              code: payload.code,
-              settings: {
-                camera: payload.camera,
-                viewerSize: payload.viewerSize,
-              },
-            })
-            .then(({ objectData, message, status }) => {
-              if (status === 'insufficient-preview-info') return
-              if (status === 'error') {
-                dispatch({
-                  type: 'errorRender',
-                  payload: { message },
-                })
-              } else {
-                dispatch({
-                  type: 'healthyRender',
-                  payload: { objectData, message },
-                })
-              }
-            })
-          dispatch({ type: 'setLoading' })
-          break
-
-        default:
-          return dispatch({ type, payload })
-      }
-    }
-  }
-
   const [state, dispatch] = useReducer(reducer, initialState)
-  return [state, dispatchMiddleware(dispatch, state)]
+  mutableState = state
+  const getState = () => mutableState
+  return [state, withThunk(dispatch, getState)]
+}
+
+export const requestRender = ({
+  state,
+  dispatch,
+  code,
+  camera,
+  viewerSize,
+}) => {
+  state.ideType !== 'INIT' &&
+    !state.isLoading &&
+    cadPackages[state.ideType]
+      .render({
+        code,
+        settings: {
+          camera,
+          viewerSize,
+        },
+      })
+      .then(({ objectData, message, status }) => {
+        if (status === 'error') {
+          dispatch({
+            type: 'errorRender',
+            payload: { message },
+          })
+        } else {
+          dispatch({
+            type: 'healthyRender',
+            payload: { objectData, message, lastRunCode: code },
+          })
+        }
+      })
+      .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
 }

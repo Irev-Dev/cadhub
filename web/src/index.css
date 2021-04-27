@@ -44,6 +44,11 @@
   @apply list-disc;
 }
 
+.mosaic-toolbar-overrides .mosaic-window .mosaic-window-toolbar {
+  /* makes the height of the toolbar based off the content inside instead of hardcoded to 30px */
+  height: unset;
+}
+
 
 /* Used for LandingSection.js, if it's gone or these class isn't used there you can probably delete it */
 .svg-shadow {

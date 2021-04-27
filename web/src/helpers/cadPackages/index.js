@@ -1,7 +1,7 @@
 import openScad from './openScadController'
-import openCascade from './newCascadeController'
+import cadQuery from './cadQueryController'
 
 export const cadPackages = {
   openScad,
-  openCascade,
+  cadQuery,
 }

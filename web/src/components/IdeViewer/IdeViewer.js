@@ -1,10 +1,40 @@
 import { IdeContext } from 'src/components/IdeToolbarNew'
 import { useRef, useState, useEffect, useContext } from 'react'
-import { Canvas, extend, useFrame, useThree } from 'react-three-fiber'
+import {
+  Canvas,
+  extend,
+  useFrame,
+  useThree,
+  useUpdate,
+} from 'react-three-fiber'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Vector3 } from 'three'
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
+import { requestRender } from 'src/helpers/hooks/useIdeState'
 
 extend({ OrbitControls })
+
+function Asset({ stlData }) {
+  const [loadedGeometry, setLoadedGeometry] = useState()
+  const mesh = useRef()
+  const ref = useUpdate((geometry) => {
+    geometry.attributes = loadedGeometry.attributes
+  })
+  useEffect(() => {
+    if (stlData) {
+      const decoded = atob(stlData)
+      const loader = new STLLoader()
+      setLoadedGeometry(loader.parse(decoded))
+    }
+  }, [stlData])
+  if (!loadedGeometry) return null
+  return (
+    <mesh ref={mesh} scale={[1, 1, 1]}>
+      <bufferGeometry attach="geometry" ref={ref} />
+      <meshStandardMaterial color="#F472B6" />
+    </mesh>
+  )
+}
 
 let debounceTimeoutId
 function Controls({ onCameraChange, onDragStart }) {
@@ -85,7 +115,7 @@ function Controls({ onCameraChange, onDragStart }) {
     }
   }, [])
 
-  useFrame(() => controls.current.update())
+  useFrame(() => controls.current?.update())
   return (
     <orbitControls
       ref={controls}
@@ -115,9 +145,8 @@ function Sphere(props) {
     </mesh>
   )
 }
-let currentCode // I have no idea why this works and using state.code is the dispatch doesn't but it was always stale
 const IdeViewer = () => {
-  const { state, dispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useContext(IdeContext)
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
 
@@ -127,8 +156,7 @@ const IdeViewer = () => {
         'data:image/png;base64,' + state.objectData?.data
     )
     setIsDragging(false)
-  }, [state.objectData])
-  currentCode = state.code
+  }, [state.objectData?.type, state.objectData?.data])
 
   const openSCADDeepOceanThemeBackground = '#323232'
   // the following are tailwind colors in hex, can't use these classes to color three.js meshes.
@@ -151,41 +179,68 @@ const IdeViewer = () => {
             isDragging ? 'opacity-25' : 'opacity-100'
           }`}
         >
-          <img src={image} className="h-full w-full" />
+          <img alt="code-cad preview" src={image} className="h-full w-full" />
         </div>
       )}
-      {state.isLoading && (
-        <div className="inset-0 absolute flex items-center justify-center">
-          <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-        </div>
-      )}
-      <div
+      <div // eslint-disable-line jsx-a11y/no-static-element-interactions
         className={`opacity-0 absolute inset-0 transition-opacity duration-500 ${
-          isDragging ? 'opacity-100' : 'hover:opacity-50'
+          !(isDragging || state.ideType !== 'openScad')
+            ? 'hover:opacity-50'
+            : 'opacity-100'
         }`}
         onMouseDown={() => setIsDragging(true)}
       >
         <Canvas>
           <Controls
             onDragStart={() => setIsDragging(true)}
-            onCameraChange={(camera) =>
-              dispatch({
-                type: 'render',
-                payload: {
-                  code: currentCode,
-                  camera,
-                },
+            onCameraChange={(camera) => {
+              thunkDispatch({
+                type: 'updateCamera',
+                payload: { camera },
               })
-            }
+              thunkDispatch((dispatch, getState) => {
+                const state = getState()
+                if (state.ideType === 'openScad') {
+                  dispatch({ type: 'setLoading' })
+                  requestRender({
+                    state,
+                    dispatch,
+                    code: state.code,
+                    viewerSize: state.viewerSize,
+                    camera,
+                  })
+                }
+              })
+            }}
           />
           <ambientLight />
           <pointLight position={[15, 5, 10]} />
-          <Sphere position={[0, 0, 0]} color={pink400} />
-          <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
-          <Box position={[0, 0, -50]} size={[1, 1, 100]} color={indigo300} />
-          <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
+          {state.ideType === 'openScad' && (
+            <>
+              <Sphere position={[0, 0, 0]} color={pink400} />
+              <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
+              <Box
+                position={[0, 0, -50]}
+                size={[1, 1, 100]}
+                color={indigo300}
+              />
+              <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
+            </>
+          )}
+          {state.ideType === 'cadQuery' && (
+            <Asset
+              stlData={
+                state.objectData?.type === 'stl' && state.objectData?.data
+              }
+            />
+          )}
         </Canvas>
       </div>
+      {state.isLoading && (
+        <div className="inset-0 absolute flex items-center justify-center">
+          <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
+        </div>
+      )}
     </div>
   )
 }

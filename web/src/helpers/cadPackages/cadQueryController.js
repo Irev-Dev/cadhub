@@ -1,23 +1,12 @@
 import { lambdaBaseURL } from './common'
 
-export const render = async ({ code, settings }) => {
-  const pixelRatio = window.devicePixelRatio || 1
-  const size = {
-    x: Math.round(settings.viewerSize?.width * pixelRatio),
-    y: Math.round(settings.viewerSize?.height * pixelRatio),
-  }
+export const render = async ({ code }) => {
   const body = JSON.stringify({
-    settings: {
-      size,
-      camera: settings.camera,
-    },
+    settings: {},
     file: code,
   })
-  if (!settings.camera.position) {
-    return
-  }
   try {
-    const response = await fetch(lambdaBaseURL + '/openscad/preview', {
+    const response = await fetch(lambdaBaseURL + '/cadquery/stl', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,6 +14,7 @@ export const render = async ({ code, settings }) => {
       body,
     })
     if (response.status === 400) {
+      // TODO add proper error messages for CadQuery
       const { error } = await response.json()
       const cleanedErrorMessage = error.replace(
         /["|']\/tmp\/.+\/main.scad["|']/g,
@@ -43,12 +33,12 @@ export const render = async ({ code, settings }) => {
     return {
       status: 'healthy',
       objectData: {
-        type: 'png',
+        type: 'stl',
         data: data.imageBase64,
       },
       message: {
         type: 'message',
-        message: data.result,
+        message: data.result || 'Successful Render',
         time: new Date(),
       },
     }
