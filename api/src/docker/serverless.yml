@@ -17,9 +17,11 @@ provider:
     images:
       # this image is built locally and push to ECR
       openscadimage:
-        path: ./openscad/
+        path: ./
+        file: ./openscad/Dockerfile
       cadqueryimage:
-        path: ./cadquery/
+        path: ./
+        file: ./cadquery/Dockerfile
   apiGateway:
     metrics: true
     binaryMediaTypes:
