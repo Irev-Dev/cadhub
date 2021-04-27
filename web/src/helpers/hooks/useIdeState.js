@@ -39,7 +39,7 @@ show_object(result)
 `,
 }
 
-export const codeStorageKey = 'Last-openscad-code'
+export const codeStorageKey = 'Last-editor-code'
 let mutableState = null
 
 export const useIdeState = () => {
