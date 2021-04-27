@@ -2,7 +2,7 @@ import { useContext, useRef, useEffect } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
 import { IdeContext } from 'src/components/IdeToolbarNew'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
-import IdeEditor from 'src/components/IdeEditor'
+import IdeEditor, { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
 import 'react-mosaic-component/react-mosaic-component.css'
@@ -67,7 +67,7 @@ const IdeContainer = () => {
               renderToolbar={() => (
                 <div
                   className="text-xs text-gray-400 pl-4 w-full py-px font-bold leading-loose border-b border-gray-700"
-                  style={{ backgroundColor: 'rgb(55,55,55)' }}
+                  style={matchEditorVsDarkTheme.lighterBg}
                 >
                   {id}
                   {id === 'Editor' && ` (${state.ideType})`}

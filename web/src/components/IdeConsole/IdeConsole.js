@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { IdeContext } from 'src/components/IdeToolbarNew'
+import { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
 
 const IdeConsole = () => {
   const { state } = useContext(IdeContext)
@@ -9,21 +10,19 @@ const IdeConsole = () => {
       element.scrollTop = element.scrollHeight - element.clientHeight
     }
   }, [state.consoleMessages])
-  const matchEditorVsDarkThemeBg = { backgroundColor: 'rgb(30,30,30)' }
-  const matchEditorVsDarkThemeText = { color: 'rgb(212,212,212)' }
-  const matchEditorVsDarkThemeTextBrown = { color: 'rgb(206,144,120)' }
+
   return (
-    <div className="p-2 px-4 min-h-full" style={matchEditorVsDarkThemeBg}>
+    <div className="p-2 px-4 min-h-full" style={matchEditorVsDarkTheme.Bg}>
       <div>
         {state.consoleMessages?.map(({ type, message, time }, index) => (
           <pre
             className="font-mono text-sm"
-            style={matchEditorVsDarkThemeText}
+            style={matchEditorVsDarkTheme.Text}
             key={message + index}
           >
             <div
               className="text-xs font-bold pt-2"
-              style={matchEditorVsDarkThemeTextBrown}
+              style={matchEditorVsDarkTheme.TextBrown}
             >
               {time?.toLocaleString()}
             </div>
