@@ -12,9 +12,6 @@ tags: []
 
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/CURATED-CODE-CAD-BANNER2.jpg" />
 
-### [See the web page version](https://kurthutten.com/blog/curated-code-cad/)
-
-
 ## What is Code-CAD?
 It's software that allows you to define 3D CAD models with code. It's a niche popular amongst software devs for obvious reasons — it gives you parametric models almost by default and it's easy to maintain and extend models within a team over time when paired with git. The coding nature of it allows teams to build their own abstraction for re-use and quick prototyping. The [Cadhub](https://cadhub.xyz/) homepage has a good breakdown of the potential of the Code-CAD paradigm. Code-CAD is not to be confused with 3d geometry libraries, Code-CAD instead has opinionated abstractions for quickly developing mechanical parts.
 

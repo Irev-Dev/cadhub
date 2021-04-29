@@ -1,7 +1,7 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'CadHub',
-  tagline: 'Pushing the advent of CodeCad',
+  tagline: '',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -12,9 +12,9 @@ module.exports = {
   plugins: ['@docusaurus/plugin-ideal-image', 'docusaurus-tailwindcss-loader'],
   themeConfig: {
     navbar: {
-      title: 'My Site',
+      title: 'CadHub',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'CadHub Logo',
         src: 'img/logo.svg',
       },
       items: [
