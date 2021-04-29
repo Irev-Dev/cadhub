@@ -6,7 +6,7 @@ module.exports = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
   organizationName: 'IrevDev', // Usually your GitHub org/user name.
   projectName: 'Cadhub', // Usually your repo name.
   plugins: ['@docusaurus/plugin-ideal-image', 'docusaurus-tailwindcss-loader'],
