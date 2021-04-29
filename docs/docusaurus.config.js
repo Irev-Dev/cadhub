@@ -1,6 +1,6 @@
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'My Site',
+  title: 'CadHub',
   tagline: 'Pushing the advent of CodeCad',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
@@ -9,7 +9,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'IrevDev', // Usually your GitHub org/user name.
   projectName: 'Cadhub', // Usually your repo name.
-  plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: ['@docusaurus/plugin-ideal-image', 'docusaurus-tailwindcss-loader'],
   themeConfig: {
     navbar: {
       title: 'My Site',

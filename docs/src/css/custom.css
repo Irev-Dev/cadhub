@@ -5,14 +5,49 @@
  * work well for content-centric websites.
  */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&display=swap');
+
+/* h1 {
+  font-size: 56px;
+} */
+
+@layer base {
+  h1 {
+    @apply text-4xl font-bold
+  }
+  h2 {
+    @apply text-3xl font-bold
+  }
+  h3 {
+    @apply text-2xl font-bold
+  }
+
+  ul li {
+    @apply list-disc ml-4
+  }
+
+  .table-of-contents li {
+    @apply list-none
+  }
+
+  a {
+    @apply text-indigo-700
+  }
+}
+
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
+  --ifm-color-primary: rgb(79, 70, 229);
+  --ifm-color-primary-dark: rgb(67, 56, 202);
+  --ifm-color-primary-darker: rgb(55, 48, 163);
+  --ifm-color-primary-darkest: rgb(49, 46, 129);
+  --ifm-color-primary-light: rgb(99, 102, 241);
+  --ifm-color-primary-lighter: rgb(129, 140, 248);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
   --ifm-code-font-size: 95%;
 }
