@@ -9,10 +9,6 @@ import plainCube from '../../static/img/openscad-tutorial/plain-cube.png';
 import tallCube from '../../static/img/openscad-tutorial/tall-cube.png';
 
 
-import parametric from '../../static/img/openscad-tutorial/parametric.png';
-
-Ready to learn some openSCAD!?
-
 In order to maximise our learning we're actually going to tackle 3 things, that is feed 3 birds with one scone.
 
 We're going to learn:
@@ -25,11 +21,11 @@ We're going to achieve that by making this cute print-in-place hinge, print in p
 
 <Image img={hinge} style={{backgroundSize: 'contain'}} />
 
-This Tutorial makes no assumption about previous knowledge, which means it fine you you haven't done any programming before, we'll walk you through it.
+This tutorial makes no assumption about previous knowledge, which means it's fine you you haven't done any programming before, we'll walk you through it.
 If you have done some programming before and prefer a more concise guide that focuses more on OpenSCAD syntax you might prefer the Definitive OpenSCAD Primer instead.
 
-If you came here from "getting started" then you would have already got a shape on screen with `cube([10,10,10]);`.
-If you came from elsewhere, open the OpenSCAD desktop app or go to our online editor, and add `cube([10,10,10]);` to get the following cube:
+If you came here from "[getting started](/docs)" then you would have already got a shape on screen with `cube([10,10,10]);`.
+If you came from elsewhere, open the OpenSCAD desktop app or go to our [online editor](https://cadhub.xyz/dev-ide/openScad), and add `cube([10,10,10]);` to get the following cube:
 
 <Image img={plainCube} style={{backgroundSize: 'contain'}} />
 
@@ -53,122 +49,3 @@ Before we go any further, now is a good time to mention a couple of principles t
 6. If you code isn't working, 9 out of 10 times it's because you are missing a semi-colon `;`, all lines apart from ones with curly brace `}` need to end with a semi-colon.
 
 
-
-
-
-We'll done, we're done coding and here's the final code in full:
-
-```cpp
-baseWidth=15;
-hingeLength=30;
-baseThickness=3;
-pivotRadius=5;
-pinRadius=2;
-pinTaper=0.25;
-mountingHoleRadius=1.5;
-mountingHoleCount=3;
-mountingHoleEdgeOffset=4;
-clearance=0.2;
-tiny=0.005;
-
-// calculated values
-hingeHalfExtrudeLength=hingeLength/2-clearance/2;
-mountingHoleMoveIncrement=(hingeLength-2*mountingHoleEdgeOffset)/
-  (mountingHoleCount-1);
-
-// modules
-module hingeBaseProfile() {
-  translate([pivotRadius,0,0]){
-    square([baseWidth,baseThickness]);
-  }
-}
-
-module hingeBodyHalf() {
-  difference() {
-    union() {
-      linear_extrude(hingeHalfExtrudeLength){
-        offset(1)offset(-2)offset(1){
-          translate([0,pivotRadius,0]){
-            circle(pivotRadius);
-          }
-          square([pivotRadius,pivotRadius]);
-          hingeBaseProfile();
-        }
-      }
-      linear_extrude(hingeLength){
-        offset(1)offset(-1)hingeBaseProfile();
-      }
-    }
-    plateHoles();
-  }
-}
-
-module pin(rotateY, radiusOffset) {
-  translate([0,pivotRadius,hingeHalfExtrudeLength+tiny]){
-    rotate([0,rotateY,0]) {
-      cylinder(
-        h=hingeLength/2+clearance/2,
-        r1=pinRadius+radiusOffset,
-        r2=pinRadius+pinTaper+radiusOffset
-      );
-    }
-  }
-}
-
-module hingeHalfFemale() {
-  difference() {
-    hingeBodyHalf();
-    pin(rotateY=180, radiusOffset=clearance);
-  }
-}
-
-module hingeHalfMale() {
-  translate([0,0,hingeLength]) {
-    rotate([0,180,0]) {
-      hingeBodyHalf();
-      pin(rotateY=0, radiusOffset=0);
-    }
-  }
-}
-
-module plateHoles() {
-  for(i=[0:mountingHoleCount-1]){
-    translate([
-      baseWidth/2+pivotRadius,
-      -baseThickness,
-      i*mountingHoleMoveIncrement+mountingHoleEdgeOffset
-    ]){
-      rotate([-90,0,0]){
-        cylinder(r=mountingHoleRadius,h=baseThickness*4);
-      }
-    }
-  }
-}
-
-// using high-level modules
-hingeHalfFemale();
-hingeHalfMale();
-```
-
-Lets reflect on what you've achieved
-
-### Parametric
-
-By diligently using variables instead of hardcoding values, you have create some code that is not only much easier to read and re-use, but it's now parametric by default, which means we can change the value of the variables and the model adjusts
-Here are some variations:
-
-<Image img={parametric} style={{backgroundSize: 'contain'}} />
-
-### Composed of many small well named modules
-
-By keeping modules small and making lots of them you've also done a great job of making the code easier to read.
-
-### Included fillets
-
-By taking extra steps to add fillets to you part, you've made the part stronger and already puts you head and shoulders above many OpenSCAD designs.
-
-### Print in place
-
-You've already tackled clearances for getting parts to fit together or print-in-place.
-
-Now that you up to speed with openscad you might be interested to learn how to host an OpenSCAD project

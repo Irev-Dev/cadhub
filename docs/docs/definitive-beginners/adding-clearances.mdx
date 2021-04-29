@@ -9,7 +9,7 @@ import clearancePivot from '../../static/img/openscad-tutorial/clearance-pivot.p
 import rotate from '../../static/img/openscad-tutorial/rotate.png';
 import readScad from '../../static/img/openscad-tutorial/read-scad.png';
 
-Since we've started thinking about how the hinge will be assembled with the pin taper, we also need to think about tolerances and clearance gaps. Because we want this hinge to be a "print in place" which mean it prints pre-assembled, we need to add clearance gaps so that our part doesn't print solid!
+Since we've started thinking about how the hinge will be assembled with the pin taper, we also need to think about tolerances and clearance gaps. Because we want this hinge to be "print in place" which mean it prints pre-assembled, we need to add clearance gaps so that our part doesn't print solid!
 
 Let start by adding a `clearance` variable and first thing we need to do is extrude our `hingeBodyHalf` slightly less than `hingeLength/2` since there needs to be some play between the two halves.
 
@@ -30,6 +30,7 @@ Oh no! there now a gap between our `pin` and `hingeBodyHalf`
 Here's the fix for that:
 
 ```cpp
+// highlight-next-line
 hingeHalfExtrudeLength=hingeLength/2-clearance/2;
 
 module hingeBodyHalf() {
@@ -38,7 +39,9 @@ module hingeBodyHalf() {
 }
 
 module pin() {
+  // highlight-next-line
   translate([0,pivotRadius,hingeHalfExtrudeLength]){
+    // highlight-next-line
     cylinder(h=hingeLength/2+clearance/2, r1=pinRadius, r2=pinRadius+pinTaper);
   }
 }
@@ -73,7 +76,7 @@ pin2();
 <Image img={rotate} style={{backgroundSize: 'contain'}} />
 
 This is not where we want to leave our pin, but it's a good way to introduce `rotate` as well as using multiple modifiers, i.e. we're using both `translate` and `rotate` together here.
-`rotate` is similar to `translate` in that it takes an argument `[x, y, z]` but instead of moving it rotates about each of those axes. In the above example of `[0, 45, 0]` it's as if were were to put a pin into the object along the `y` axis and then rotate 45 degrees around that pin.
+`rotate` is similar to `translate` in that it takes an argument `[x, y, z]` but instead of moving, it rotates about each of those axes. In the above example of `[0, 45, 0]` it's as if were were to put a pin into the object along the `y` axis and then rotate 45 degrees around that pin.
 
 ## How To Read Chained Operations
 

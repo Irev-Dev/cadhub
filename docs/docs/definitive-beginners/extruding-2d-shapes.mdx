@@ -81,3 +81,6 @@ within both of the `linear_extrude`s, at first it might seem like we could remov
 <Image img={noFillet} style={{backgroundSize: 'contain'}} />
 
 As it needs to be within `offset` group for this fillet to work.
+
+Okay so we leave it in both `linear_extrude`s but this leaves us in a situation similar to before we introduced variables, in that we have repeated code that would be difficult to determine why to someone reading our code.
+Well similar to variables we can solve this with `module`s.

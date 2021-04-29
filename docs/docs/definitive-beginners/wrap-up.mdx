@@ -1,0 +1,124 @@
+---
+title: Wrap Up
+---
+
+import Image from '@theme/IdealImage';
+import parametric from '../../static/img/openscad-tutorial/parametric.png';
+
+We're done coding and here's the final code in full:
+
+```cpp
+baseWidth=15;
+hingeLength=30;
+baseThickness=3;
+pivotRadius=5;
+pinRadius=2;
+pinTaper=0.25;
+mountingHoleRadius=1.5;
+mountingHoleCount=3;
+mountingHoleEdgeOffset=4;
+clearance=0.2;
+tiny=0.005;
+
+// calculated values
+hingeHalfExtrudeLength=hingeLength/2-clearance/2;
+mountingHoleMoveIncrement=(hingeLength-2*mountingHoleEdgeOffset)/
+  (mountingHoleCount-1);
+
+// modules
+module hingeBaseProfile() {
+  translate([pivotRadius,0,0]){
+    square([baseWidth,baseThickness]);
+  }
+}
+
+module hingeBodyHalf() {
+  difference() {
+    union() {
+      linear_extrude(hingeHalfExtrudeLength){
+        offset(1)offset(-2)offset(1){
+          translate([0,pivotRadius,0]){
+            circle(pivotRadius);
+          }
+          square([pivotRadius,pivotRadius]);
+          hingeBaseProfile();
+        }
+      }
+      linear_extrude(hingeLength){
+        offset(1)offset(-1)hingeBaseProfile();
+      }
+    }
+    plateHoles();
+  }
+}
+
+module pin(rotateY, radiusOffset) {
+  translate([0,pivotRadius,hingeHalfExtrudeLength+tiny]){
+    rotate([0,rotateY,0]) {
+      cylinder(
+        h=hingeLength/2+clearance/2,
+        r1=pinRadius+radiusOffset,
+        r2=pinRadius+pinTaper+radiusOffset
+      );
+    }
+  }
+}
+
+module hingeHalfFemale() {
+  difference() {
+    hingeBodyHalf();
+    pin(rotateY=180, radiusOffset=clearance);
+  }
+}
+
+module hingeHalfMale() {
+  translate([0,0,hingeLength]) {
+    rotate([0,180,0]) {
+      hingeBodyHalf();
+      pin(rotateY=0, radiusOffset=0);
+    }
+  }
+}
+
+module plateHoles() {
+  for(i=[0:mountingHoleCount-1]){
+    translate([
+      baseWidth/2+pivotRadius,
+      -baseThickness,
+      i*mountingHoleMoveIncrement+mountingHoleEdgeOffset
+    ]){
+      rotate([-90,0,0]){
+        cylinder(r=mountingHoleRadius,h=baseThickness*4);
+      }
+    }
+  }
+}
+
+// using high-level modules
+hingeHalfFemale();
+hingeHalfMale();
+```
+
+Lets reflect on what you've achieved
+
+### Parametric
+
+By diligently using variables instead of hardcoding values, you have create some code that is not only much easier to read and re-use, but it's now parametric by default, which means we can change the value of the variables and the model adjusts
+Here are some variations:
+
+<Image img={parametric} style={{backgroundSize: 'contain'}} />
+
+### Composed of many small well named modules
+
+By keeping modules small and making lots of them you've also done a great job of making the code easier to read.
+
+### Included fillets
+
+By taking extra steps to add fillets to you part, you've made the part stronger and already puts you head and shoulders above many OpenSCAD designs.
+
+### Print in place
+
+You've already tackled clearances for getting parts to fit together or print-in-place.
+
+
+<!-- Now that you up to speed with openscad you might be interested to learn how to host an OpenSCAD project -->
