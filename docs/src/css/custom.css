@@ -1,0 +1,60 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&display=swap');
+
+/* h1 {
+  font-size: 56px;
+} */
+
+@layer base {
+  h1 {
+    @apply text-4xl font-bold
+  }
+  h2 {
+    @apply text-3xl font-bold
+  }
+  h3 {
+    @apply text-2xl font-bold
+  }
+
+  ul li {
+    @apply list-disc ml-4
+  }
+
+  .table-of-contents li {
+    @apply list-none
+  }
+
+  a {
+    @apply text-indigo-700
+  }
+}
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: rgb(79, 70, 229);
+  --ifm-color-primary-dark: rgb(67, 56, 202);
+  --ifm-color-primary-darker: rgb(55, 48, 163);
+  --ifm-color-primary-darkest: rgb(49, 46, 129);
+  --ifm-color-primary-light: rgb(99, 102, 241);
+  --ifm-color-primary-lighter: rgb(129, 140, 248);
+  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-code-font-size: 95%;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}

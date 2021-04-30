@@ -1,0 +1,53 @@
+---
+title: Adding Fillets
+---
+
+import Image from '@theme/IdealImage';
+
+import offset1 from '../../static/img/openscad-tutorial/offset1.png';
+import offset2 from '../../static/img/openscad-tutorial/offset2.png';
+import offset3 from '../../static/img/openscad-tutorial/offset3.png';
+
+Next we're going to learn about a hack that every OpenSCAD coder should know, and that's you can create fillets with `offset`.
+Fillets are often ignored in OpenSCAD because they can be difficult to do, but you're not going to ignore them because you're a good engineer.
+We need to give fillets their due because they play an important role in reducing stress concentrations, have you ever seen an airplane with sharp square windows?? [Exactly](https://www.youtube.com/watch?v=7rXGRPMD-GQ)!
+
+## Offset
+
+Offset works by "expanding" the skin of your 2d shape but importantly it rounds external corners in the process. See our swole hinge profile below:
+
+```cpp
+// ... variables above
+// highlight-next-line
+offset(1){
+  translate([0,pivotRadius,0]){
+    circle(pivotRadius);
+  }
+  square([pivotRadius,pivotRadius]);
+  translate([pivotRadius,0,0]){
+    square([baseWidth,baseThickness]);
+  }
+}
+```
+
+<Image img={offset1} style={{backgroundSize: 'contain'}} />
+
+## Double Offset
+
+Here's the rub, we can do this again in reverse using a negative number to bring us back to our original dimensions but with an internal fillet.
+
+```cpp
+offset(-1)offset(1){
+  // ... hinge profile
+}
+```
+
+<Image img={offset2} style={{backgroundSize: 'contain'}} />
+
+## Triple Offset
+
+It gets even better, we can double our negative value and apply a third offset to get external fillets as well, to better understand what's happening here let overlay the shapes after each offset.
+
+<Image img={offset3} style={{backgroundSize: 'contain'}} />
+
+In essence we over expand, then under expand before finally expanding back to the original dimensions, but we have gained fillets in the process, it like kneading bread, the more you do it the better the bread . . . not really stick to 3 max.
