@@ -1,0 +1,3 @@
+[submodule "app/web/src/cascade"]
+	path = app/web/src/cascade
+	url = https://github.com/Irev-Dev/CascadeStudio.git
