@@ -3,11 +3,7 @@
   "workspaces": {
     "packages": [
       "api",
-      "web",
-      "docs"
-    ],
-    "nohoist": [
-      "docs/**"
+      "web"
     ]
   },
   "scripts": {},
