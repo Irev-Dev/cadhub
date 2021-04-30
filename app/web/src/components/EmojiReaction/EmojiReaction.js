@@ -77,7 +77,7 @@ const EmojiReaction = ({
           </div>
         </div>
 
-        <div className="whitespace-no-wrap absolute right-0 inset-y-0 flex items-center flex-row-reverse">
+        <div className="whitespace-nowrap absolute right-0 inset-y-0 flex items-center flex-row-reverse">
           {(emotes.length ? emotes : noEmotes).map((emote, i) => (
             <span
               className={getActiveClasses(

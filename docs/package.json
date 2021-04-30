@@ -15,11 +15,13 @@
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.72",
-    "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.72",
+    "@docusaurus/plugin-ideal-image": "2.0.0-alpha.72",
     "@docusaurus/preset-classic": "2.0.0-alpha.72",
     "@mdx-js/react": "^1.6.21",
+    "autoprefixer": "^10.2.5",
     "clsx": "^1.1.1",
     "docusaurus-tailwindcss-loader": "file:plugins/docusaurus-tailwindcss-loader",
+    "postcss": "^8.2.13",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
@@ -40,7 +42,6 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat",
     "postcss-import": "^14.0.1",
     "tailwindcss": "^2.1.2"
   }
