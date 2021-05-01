@@ -31,6 +31,10 @@
     @apply list-disc ml-4
   }
 
+  ol li {
+    @apply list-decimal ml-6
+  }
+
   .table-of-contents li {
     @apply list-none
   }
