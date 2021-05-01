@@ -14,7 +14,12 @@ export default function Home() {
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />"
     >
-      <header className={clsx('bg-pink-100', styles.heroBanner)}>
+      <header
+        className={clsx(
+          'bg-gradient-to-r from-red-300 via-red-200 to-pink-100',
+          styles.heroBanner
+        )}
+      >
         <div className="container">
           <h1 className="font-ropa-sans text-6xl pb-8 text-indigo-600">
             {siteConfig.title}
