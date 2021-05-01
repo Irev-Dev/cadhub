@@ -11,8 +11,8 @@ export default function Home() {
   const { siteConfig = {} } = context
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title={`Learn with ${siteConfig.title}`}
+      description="The premier to learn Code-CAD"
     >
       <header
         className={clsx(
