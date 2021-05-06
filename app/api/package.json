@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@octokit/app": "^12.0.2",
+    "@octokit/webhooks-types": "^3.71.1",
     "@redwoodjs/api": "^0.31.0",
     "@redwoodjs/api-server": "^0.31.0",
     "cloudinary": "^1.23.0"

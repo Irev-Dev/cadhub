@@ -22,7 +22,9 @@
     "Uploader",
     "describedby",
     "initialise",
+    "octokit",
     "redwoodjs",
+    "repos",
     "resizer",
     "roboto",
     "ropa"
