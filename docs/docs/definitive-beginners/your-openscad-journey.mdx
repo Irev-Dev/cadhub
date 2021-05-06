@@ -19,7 +19,7 @@ We're going to learn:
 
 We're going to achieve that by making this cute print-in-place hinge, print in place means that there will be no assembly step, both parts of the hinge will be printed pre-assembled.
 
-<Image img={hinge} style={{backgroundSize: 'contain'}} />
+<Image img={hinge} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 This tutorial makes no assumption about previous knowledge, which means it's fine you you haven't done any programming before, we'll walk you through it.
 If you have done some programming before and prefer a more concise guide that focuses more on OpenSCAD syntax you might prefer the Definitive OpenSCAD Primer instead.
@@ -27,7 +27,7 @@ If you have done some programming before and prefer a more concise guide that fo
 If you came here from "[getting started](/docs)" then you would have already got a shape on screen with `cube([10,10,10]);`.
 If you came from elsewhere, open the OpenSCAD desktop app or go to our [online editor](https://cadhub.xyz/dev-ide/openScad), and add `cube([10,10,10]);` to get the following cube:
 
-<Image img={plainCube} style={{backgroundSize: 'contain'}} />
+<Image img={plainCube} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 OpenSCAD has a number of modules available that allow us to make shapes and cube is one of them.
 Modules take the form `moduleName(moduleParameters);` or `moduleName(moduleParameters){children}`.
@@ -35,7 +35,7 @@ Using the `cube` as an example, it take the first form where the moduleName is `
 
 Try changes the line to `cube([10,10,20]);`. You should see the cube grow twice as tall as it was previously
 
-<Image img={tallCube} style={{backgroundSize: 'contain'}} />
+<Image img={tallCube} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 That's because the `[10,10,20]` is giving the cube's dimensions in each axis, the order is `[x, y, z]`, and as we've seen the `z` axis is the vertical axis.
 

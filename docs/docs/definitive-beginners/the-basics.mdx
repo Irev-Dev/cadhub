@@ -14,7 +14,7 @@ import bigRadius from '../../static/img/openscad-tutorial/big-radius.png';
 
 Designing parts in OpenSCAD is a matter of combining shapes and iterating until you get what you want, so with that in mind lets start with this from this perspective focusing just on one half of the hinge, let look at the blue half.
 
-<Image img={profile} style={{backgroundSize: 'contain'}} />
+<Image img={profile} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 We can see at the very least some circles and rectangles will be of use, so lets start there.
 
@@ -25,7 +25,7 @@ square([15,3]);
 
 `circle(5);` gives us a circle with a radius of `5` and `square` is the 2d version of `cube` . Here we've given it dimensions of 15 and 2 for x and y respectively (or width and height if you prefer) .
 
-<Image img={circleCube} style={{backgroundSize: 'contain'}} />
+<Image img={circleCube} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ## Translate
 
@@ -39,7 +39,7 @@ translate([0,5,0]){
 square([15,3]);
 ```
 
-<Image img={translate} style={{backgroundSize: 'contain'}} />
+<Image img={translate} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 `translate` is little different to the modules we've see so far is instead of ending with a semicolon `;` it ends with `{ children }` in the case above it has one child, the `circle`. `tranlates` shifts its children around, we're using it to shift it up by `5`. We put `5` in the second position in the square braces is because we want to shift it along the Y axis, if you're ever not sure which axis you need to shift something just try each until you find the one you're after.
 
@@ -57,7 +57,7 @@ translate([5,0,0]){
 }
 ```
 
-<Image img={unroundedProfile} style={{backgroundSize: 'contain'}} />
+<Image img={unroundedProfile} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 I'm sure you can see the profile of the hinge coming together, that's great, but before we move forward we should quickly reflect on what we've done so far.
 

@@ -35,7 +35,7 @@ module plateHoles() {
 plateHoles();
 ```
 
-<Image img={hole1} style={{backgroundSize: 'contain'}} />
+<Image img={hole1} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ## Basic Loop
 
@@ -90,7 +90,7 @@ module plateHoles() {
 }
 ```
 
-<Image img={hole2} style={{backgroundSize: 'contain'}} />
+<Image img={hole2} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 And just like that we have three evenly spaced `cylinders`!
 
@@ -117,11 +117,11 @@ module plateHoles() {
 }
 ```
 
-<Image img={hole3} style={{backgroundSize: 'contain'}} />
+<Image img={hole3} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 Awesome, it obvious that the hole spacing is related to the length of the hinge now, we can even increase the amount of holes with mountingHoleCount=4; and it looks correct:
 
-<Image img={hole4} style={{backgroundSize: 'contain'}} />
+<Image img={hole4} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 Though we still have the problem if the holes sitting right on the edge.
 We defined `mountingHoleEdgeOffset` earlier lets now use it in the `mountingHoleMoveIncrement` calculation.
@@ -146,7 +146,7 @@ module plateHoles() {
 }
 ```
 
-<Image img={hole5} style={{backgroundSize: 'contain'}} />
+<Image img={hole5} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 We subtract `2*mountingHoleEdgeOffset` from the `hingeLength` because we are limiting the amount of space the holes can spread out in, it `2*` the offset because we want that space of both sides, but clearly we don't have a gap on each side yet, but this is just a matter of where the first hole starts, so the last step for our `for` loop is to shift it over a little:
 
@@ -167,7 +167,7 @@ module plateHoles() {
 }
 ```
 
-<Image img={hole6} style={{backgroundSize: 'contain'}} />
+<Image img={hole6} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 Fantastic! now that we have our holes place, we need to use `difference` to actually cut the holes into the part, but where to do it?? We could use difference in both the mail and female parts but that would require doing the same thing twice. The best place to do it is in `hingeBodyHalf` since this module is common to both sides of the hinge:
 
@@ -206,4 +206,4 @@ We're using `difference` here as planned, but we've also introduced a new operat
 
 Here's the result!
 
-<Image img={finishedHinge} style={{backgroundSize: 'contain'}} />
+<Image img={finishedHinge} className="mb-8 bg-contain rounded-md overflow-hidden" />
