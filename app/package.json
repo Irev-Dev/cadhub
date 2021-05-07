@@ -11,7 +11,10 @@
     "@redwoodjs/core": "^0.31.0"
   },
   "eslintConfig": {
-    "extends": "@redwoodjs/eslint-config"
+    "extends": "@redwoodjs/eslint-config",
+    "rules": {
+      "react/no-unescaped-entities": ["error", {"forbid": [">", "}", "\""]}]
+    }
   },
   "engines": {
     "node": ">=14",
