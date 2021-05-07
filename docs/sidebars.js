@@ -16,11 +16,6 @@ module.exports = {
         'definitive-beginners/module-arguments',
         'definitive-beginners/loops',
         'definitive-beginners/wrap-up',
-        // {
-        //   type: 'category',
-        //   label: 'OpenSCAD tutorial',
-        //   items: ['create-a-page'],
-        // },
       ],
     },
   ],

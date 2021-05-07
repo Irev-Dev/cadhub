@@ -30,12 +30,12 @@ linear_extrude(hingeLength){
 }
 ```
 
-<Image img={extrude} style={{backgroundSize: 'contain'}} />
+<Image img={extrude} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 We do have a bit of a problem though because while want the base to go the full length of the hinge, the pivot should only go half that to make room for the other part of the hinge.
 Red scribbles shows what we want to remove.
 
-<Image img={differenceMarkup} style={{backgroundSize: 'contain'}} />
+<Image img={differenceMarkup} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 The best way around this problem is to extrude the base again separately so to stretch further than the pivot.
 
@@ -61,7 +61,7 @@ linear_extrude(hingeLength){
 // highlight-end
 ```
 
-<Image img={extrude2} style={{backgroundSize: 'contain'}} />
+<Image img={extrude2} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ## Math Operations
 
@@ -78,7 +78,7 @@ translate([pivotRadius,0,0]){
 
 within both of the `linear_extrude`s, at first it might seem like we could remove it from first `linear_extrude` since it only goes half the `hingeLength` but this would cause us to loose our internal fillet.
 
-<Image img={noFillet} style={{backgroundSize: 'contain'}} />
+<Image img={noFillet} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 As it needs to be within `offset` group for this fillet to work.
 

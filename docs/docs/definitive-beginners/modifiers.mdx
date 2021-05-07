@@ -23,9 +23,9 @@ module pin2() {
 pin2();
 ```
 
-<Image img={transparentRotate} style={{backgroundSize: 'contain'}} />
+<Image img={transparentRotate} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
-The `%` character before `hingeBodyHalf()` makes it transparent so that we can see `pin2` within it, and one thing becomes obvious with this view is that a `rotate` of `175` is no right, it needs to be `180`! The `%` character is a "debugging" step, which means it's not going to end up in our final code, it's just helpful in the mean time. There are other characters that can be useful, the full list is
+The `%` character before `hingeBodyHalf()` makes it transparent so that we can see `pin2` within it, and one thing that becomes obvious with this view is that a `rotate` of `175` is no right, it needs to be `180`! The `%` character is a "debugging" step, which means it's not going to end up in our final code, it's just helpful in the mean time. There are other characters that can be useful, the full list is
 
 ```xml
 *  disable
@@ -52,9 +52,9 @@ difference() {
 }
 ```
 
-<Image img={difference} style={{backgroundSize: 'contain'}} />
+<Image img={difference} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
-There we, go a hole! The way conceptualise how `difference` works is to think of it as subtracting the second child from the first. "child" simply means nested with `difference` so in the above example `pin2` is the second child that we are subtracting from `hingeBodyHalf`.
+There we, go a hole! The way to conceptualise how `difference` works is to think of it as subtracting the second child from the first. "child" simply means nested within `difference` so in the above example `pin2` is the second child that we are subtracting from `hingeBodyHalf`.
 
 There is one minor annoyance is that the end of the hole looks like it's glitching a little, this can happen in openscad when two surfaces line up.
 In this case the end of the `hingeBodyHalf` and the start of `pin2`, it only effects the preview and not the 3d STL export, but to make the preview a little nicer in this situations I'll define a variable with a very small value `tiny=0.005;` and add it strategically to resolve this issue, this part is optional but here's where I added it for pin2:
@@ -67,4 +67,4 @@ module pin2() {
 
 Fixed!
 
-<Image img={removeArtifact} style={{backgroundSize: 'contain'}} />
+<Image img={removeArtifact} className="mb-8 bg-contain rounded-md overflow-hidden" />

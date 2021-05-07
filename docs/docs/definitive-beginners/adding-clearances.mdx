@@ -23,9 +23,9 @@ module hingeBodyHalf() {
 }
 ```
 
-Oh no! there now a gap between our `pin` and `hingeBodyHalf`
+Oh no! there's now a gap between our `pin` and `hingeBodyHalf`
 
-<Image img={pivotGap} style={{backgroundSize: 'contain'}} />
+<Image img={pivotGap} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 Here's the fix for that:
 
@@ -54,10 +54,10 @@ Also notice that've we increased the length of the `cylinder` too so that it rea
 
 Much better
 
-<Image img={clearancePivot} style={{backgroundSize: 'contain'}} />
+<Image img={clearancePivot} style={{backgroundSize: 'contain'}} className="pb-8" />
 
-We still have more work to do on the pin though. We want to re-use the pin to "subtract" its shape from the other of the hinge, basically we can use our current pint to make a hole.
-Lets make a temporary new module called `pin2` in this new module and we're going to introduce a new function `rotate` to re-orientate the pin
+We still have more work to do on the pin though. We want to re-use the pin to "subtract" its shape from the other half of the hinge, basically we can use our current pint to make a hole.
+Lets make a temporary new module called `pin2`. In this new module and we're going to introduce a new function `rotate` to re-orientate the pin
 
 ```cpp
 module pin2() {
@@ -73,7 +73,7 @@ hingeBodyHalf();
 pin2();
 ```
 
-<Image img={rotate} style={{backgroundSize: 'contain'}} />
+<Image img={rotate} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 This is not where we want to leave our pin, but it's a good way to introduce `rotate` as well as using multiple modifiers, i.e. we're using both `translate` and `rotate` together here.
 `rotate` is similar to `translate` in that it takes an argument `[x, y, z]` but instead of moving, it rotates about each of those axes. In the above example of `[0, 45, 0]` it's as if were were to put a pin into the object along the `y` axis and then rotate 45 degrees around that pin.
@@ -84,7 +84,7 @@ Notice the order that we applied the `rotate` and `transform` we applied the `ro
 This might seem counter intuitive because `translate` is on top, but nesting operations should be read from the most nest outward in openscad.
 Here's the correct way to read the above code:
 
-<Image img={readScad} style={{backgroundSize: 'contain'}} />
+<Image img={readScad} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 The same thing applies to `hingeBodyHalf` that should read as follows:
 

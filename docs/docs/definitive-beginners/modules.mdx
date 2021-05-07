@@ -89,10 +89,10 @@ hingeBodyHalf();
 pin();
 ```
 
-<Image img={pivot} style={{backgroundSize: 'contain'}} />
+<Image img={pivot} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 A couple notes about the above.
 
 - `cylinder` is the 3d version of `circle` when `h` for height is the length that we would need to extrude `circle` by. It can also take one or two radii, here we're using two because it allows us to add a taper to the pin. The reason why we want to add a taper is because we're starting to think about the assemble of this hinge and if we taper the pin it means the other half of the hinge will be locked on.
-- In order to add the taper we've defined two variables `pinRadius` and `pitTaper` when, the latter is extra we add to the second `cylinder` radius.
-- The `translate` is there move the `cylinder` up so that it's centred with the hinge pivot and along so that it's protruding out of the hinge pivot.
+- In order to add the taper we've defined two variables `pinRadius` and `pitTaper`. The latter is extra we add to the second `cylinder` radius.
+- The `translate` is there move the `cylinder` up so that it's centred with the hinge pivot and move along so that it's protruding out of the hinge pivot.

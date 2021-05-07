@@ -8,7 +8,7 @@ import offset1 from '../../static/img/openscad-tutorial/offset1.png';
 import offset2 from '../../static/img/openscad-tutorial/offset2.png';
 import offset3 from '../../static/img/openscad-tutorial/offset3.png';
 
-Next we're going to learn about a hack that every OpenSCAD coder should know, and that's you can create fillets with `offset`.
+Next we're going to learn about a hack that every OpenSCAD coder should know, and that is you can create fillets with `offset`.
 Fillets are often ignored in OpenSCAD because they can be difficult to do, but you're not going to ignore them because you're a good engineer.
 We need to give fillets their due because they play an important role in reducing stress concentrations, have you ever seen an airplane with sharp square windows?? [Exactly](https://www.youtube.com/watch?v=7rXGRPMD-GQ)!
 
@@ -30,7 +30,7 @@ offset(1){
 }
 ```
 
-<Image img={offset1} style={{backgroundSize: 'contain'}} />
+<Image img={offset1} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ## Double Offset
 
@@ -42,12 +42,12 @@ offset(-1)offset(1){
 }
 ```
 
-<Image img={offset2} style={{backgroundSize: 'contain'}} />
+<Image img={offset2} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ## Triple Offset
 
-It gets even better, we can double our negative value and apply a third offset to get external fillets as well, to better understand what's happening here let overlay the shapes after each offset.
+It gets even better, we can double our negative value and apply a third offset to get external fillets as well, to better understand what's happening here let's overlay the shapes after each offset.
 
-<Image img={offset3} style={{backgroundSize: 'contain'}} />
+<Image img={offset3} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
-In essence we over expand, then under expand before finally expanding back to the original dimensions, but we have gained fillets in the process, it like kneading bread, the more you do it the better the bread . . . not really stick to 3 max.
+In essence we over expand, then under expand before finally expanding back to the original dimensions, but we have gained fillets in the process, it's like kneading bread, the more you do it the better the bread . . . not really stick to 3 max.
