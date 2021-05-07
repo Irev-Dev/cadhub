@@ -64,7 +64,7 @@ module plateHoles() {
 
 The reason we're using `[0:2]` and not `[0:3]` is because `0` counts so the code still runs 3 times.
 I've also introduced another function `echo`, this function can be used to display text to the console, we've added it as a temporary measure to help demonstrate that the code in the `for` loop is run multiple times.
-You should see in the console the following:
+You should see the the following in the console:
 
 ```cpp
 ECHO: "increment is currently", 0
@@ -75,7 +75,7 @@ ECHO: "increment is currently", 2
 
 ## Repeating Geometry
 
-Great, `echo` runs three times. Since we know the value of `increment` changes, lets use that to our advantage and change the value `translate` Z-axis like so:
+Great, `echo` runs three times. Since we know the value of `increment` changes, lets use that to our advantage and change the Z-axis value of `translate` like so:
 
 ```cpp
 module plateHoles() {
@@ -169,7 +169,7 @@ module plateHoles() {
 
 <Image img={hole6} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
-Fantastic! now that we have our holes place, we need to use `difference` to actually cut the holes into the part, but where to do it?? We could use difference in both the mail and female parts but that would require doing the same thing twice. The best place to do it is in `hingeBodyHalf` since this module is common to both sides of the hinge:
+Fantastic! now that we have our holes placed, we need to use `difference` to actually cut the holes into the part, but where to do it?? We could use `difference` in both the male and female parts but that would require doing the same thing twice. The best place to do it is in `hingeBodyHalf` since this module is common to both sides of the hinge:
 
 ```cpp
 module hingeBodyHalf() {

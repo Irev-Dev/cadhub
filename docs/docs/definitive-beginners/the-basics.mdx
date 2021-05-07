@@ -12,7 +12,7 @@ import bigRadius from '../../static/img/openscad-tutorial/big-radius.png';
 
 ## 2D Primitives
 
-Designing parts in OpenSCAD is a matter of combining shapes and iterating until you get what you want, so with that in mind lets start with this from this perspective focusing just on one half of the hinge, let look at the blue half.
+Designing parts in OpenSCAD is a matter of combining shapes and iterating until you get what you want, so with that in mind lets start from this perspective focusing on one half of the hinge, let's look at the blue half.
 
 <Image img={profile} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -41,7 +41,7 @@ square([15,3]);
 
 <Image img={translate} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
-`translate` is little different to the modules we've see so far is instead of ending with a semicolon `;` it ends with `{ children }` in the case above it has one child, the `circle`. `tranlates` shifts its children around, we're using it to shift it up by `5`. We put `5` in the second position in the square braces is because we want to shift it along the Y axis, if you're ever not sure which axis you need to shift something just try each until you find the one you're after.
+`translate` is little different to the modules we've see so far is instead of ending with a semicolon `;` it ends with `{ children }` in the case above it has one child, the `circle`. `translate` shifts its children around, we're using it to shift it up by `5`. We put `5` in the second position in the square braces because we want to shift it along the Y axis, if you're ever not sure which axis you need to shift something, just try each until you find the one you're after.
 
 We also don't want to have the undercut where the circle meets the square, we can fix that with another square so that there's a nice 90 degree transition. Also for reasons we'll get to later, we don't actually want any overlap between these two squares so it will need shift with translate as well. Here's what we're left with:
 

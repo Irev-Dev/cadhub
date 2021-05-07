@@ -27,7 +27,7 @@
     @apply text-2xl font-bold
   }
 
-  ul li {
+  .markdown ul li {
     @apply list-disc ml-4
   }
 
