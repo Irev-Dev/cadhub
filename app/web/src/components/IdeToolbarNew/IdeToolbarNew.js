@@ -4,11 +4,13 @@ import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import { useIdeState, codeStorageKey } from 'src/helpers/hooks/useIdeState'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
+import { encode, decode } from 'src/helpers/compress'
 
 export const IdeContext = createContext()
 const IdeToolbarNew = ({ cadPackage }) => {
   const [state, thunkDispatch] = useIdeState()
   const scriptKey = 'encoded_script'
+  const scriptKeyV2 = 'encoded_script_v2'
   useEffect(() => {
     thunkDispatch({
       type: 'initIde',
@@ -19,9 +21,12 @@ const IdeToolbarNew = ({ cadPackage }) => {
     if (isBrowser) {
       hash = window.location.hash
     }
-    const [key, scriptBase64] = hash.slice(1).split('=')
+    const [key, encodedScript] = hash.slice(1).split('=')
     if (key === scriptKey) {
-      const script = atob(scriptBase64)
+      const script = atob(encodedScript)
+      thunkDispatch({ type: 'updateCode', payload: script })
+    } else if (key === scriptKeyV2) {
+      const script = decode(encodedScript)
       thunkDispatch({ type: 'updateCode', payload: script })
     }
     window.location.hash = ''
@@ -43,8 +48,8 @@ const IdeToolbarNew = ({ cadPackage }) => {
   }
   function handleMakeLink() {
     if (isBrowser) {
-      const scriptBase64 = btoa(state.code)
-      window.location.hash = `encoded_script=${scriptBase64}`
+      const encodedScript = encode(state.code)
+      window.location.hash = `${scriptKeyV2}=${encodedScript}`
       copyTextToClipboard(window.location.href)
     }
   }
