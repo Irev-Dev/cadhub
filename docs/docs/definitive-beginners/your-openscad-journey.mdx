@@ -24,7 +24,6 @@ We're going to learn:
 <Image img={hinge} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 This tutorial makes no assumption about previous knowledge, which means it's fine you you haven't done any programming before, we'll walk you through it.
-If you have done some programming before and prefer a more concise guide that focuses more on OpenSCAD syntax you might prefer the Definitive OpenSCAD Primer instead.
 
 If you came here from "[getting started](/docs)" then you would have already got a shape on screen with `cube([10,10,10]);`.
 If you came from elsewhere, open the OpenSCAD desktop app or go to our [online editor](https://cadhub.xyz/dev-ide/openScad), and add `cube([10,10,10]);` to get the following cube:
@@ -45,7 +44,7 @@ Before we go any further, now is a good time to mention a couple of principles t
 
 1. Computers are incredibly stupid, but do exactly what you tell them to do, which means if there's even a small part of code that's incorrect, then OpenSCAD will display errors, it's normal for this to happen often and bears no reflection on your ability to program, keep at it! which leads to the next point.
 2. Never get intimidated, if you don't understand a part of the syntax or code try changing the parameters, see what happens. Playing with the code in this manner is one of the best ways to learn.
-3. The [OpenSCAD](https://www.openscad.org/cheatsheet/) cheatsheet is very useful as a reference. You should always have it open in a tab.
+3. The [OpenSCAD cheatsheet](https://www.openscad.org/cheatsheet/) is very useful as a reference. You should always have it open in a tab.
 4. There are multiple ways to call these modules, i.e. `cube([10,10,10]); cube(size=[10,10,10]); cube([10,10,10], false);` all have the same result, it depends on if you prefer shorthand or not, to avoid confusion, for this tutorial we'll use longhand `argumentName=value` in circumstances where we're using more than one argument, and shorthand if it's only one, i.e. `cube([10,10,10]);` (`[10,10,10]` is considered one value because it a single array).
 5. Don't worry about units. nominally the units are in the metric millimetre, since that is the standard global engineering unit, but because it exists in virtual space they are effectively unit-less and can be scaled later.
 6. If your code isn't working, 9 out of 10 times it's because you are missing a semi-colon `;`, Generally speaking most lines apart from ones with a curly brace `}` need to end with a semi-colon.
