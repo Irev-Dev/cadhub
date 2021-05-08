@@ -22,6 +22,7 @@ We can see at the very least some circles and rectangles will be of use, so lets
 circle(5);
 square([15,3]);
 ```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJxLzixKzknVMNW05iouLE0sStWINjTVMY7VtAYAcmwH2A==)**
 
 `circle(5);` gives us a circle with a radius of `5` and `square` is the 2d version of `cube`.
 Here we've given it dimensions of 15 and 3 for x and y respectively (or width and height if you prefer).
@@ -40,6 +41,8 @@ translate([0,5,0]){
 square([15,3]);
 ```
 
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJwrKUrMK85JLEnViDbQMdUxiNWs5lJQSM4sSs5J1TDVtOaq5SouLE0sAsobmuoYx2paAwCRsA7o)**
+
 <Image img={translate} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 `translate` is a little different to the modules we've seen so far in that instead of ending with a semicolon `;` it ends with `{ children }`. In the case above it has one child, the `circle`. `translate` shifts its children around, we're using it to shift it up by `5`. We put `5` in the second position in the square braces because we want to shift it along the Y axis. If you're ever not sure which axis you need to shift something, just try each until you find the one you're after.
@@ -57,6 +60,7 @@ translate([5,0,0]){
   square([11,2]);
 }
 ```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJwrKUrMK85JLEnViDbQMdUxiNWs5lJQSM4sSs5J1TDVtOaq5SouLE0sAsqb6pjGAgVKEDqA6mE6YIoMDXWMQKpqAc2BGmg=)**
 
 <Image img={unroundedProfile} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -85,6 +89,7 @@ translate([pivotRadius,0,0]){
   square([11,2]);
 }
 ```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJwryCzLLwlKTMksLbY1teYqKUrMK85JLEnViDbQKUDI6RjEalZzKSgkZxYl56RqIMloWnPVchUXliYWAfUg60Bix2qimIxiLsxkmBGGhjpGIPW1AMDeNbI=)**
 
 The first line `pivotRadius=5;` is where the variable is assigned, that is the value of `5` is assigned to the name `pivotRadius`, Then we can use it everywhere we need that value.
 The beauty of this is two fold,
@@ -108,5 +113,6 @@ translate([pivotRadius,0,0]){
   square([baseWidth,baseThickness]);
 }
 ```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJwryCzLLwlKTMksLbY1teZKSixODcnITM7OSy0utjWGCIRnppRk2BoCpUuKEvOKcxJLUjWiDXQKEFp1DGI1q7kUFJIzi5JzUjWQZDStuWq5igtLE4uAepB1ILFjNVFMRjEXZjLMCLh7dFCcCjKiFgD+/Uh/)**
 
 There are some exceptions to the "magic number" rule, for example above `0` isn't a "magic number" since this conveys "no value for this axis" quite well.
