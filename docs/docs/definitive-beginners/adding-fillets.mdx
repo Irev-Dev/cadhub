@@ -29,6 +29,7 @@ offset(1){
   }
 }
 ```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJxTScuzNTay5irILMsvCUpMySwttjW15kpKLE4NychMzs5LLS62NYYIhGemlGTYGgKlufLT0opTSzQMNau5FBRKihLzinMSS1I1og10kAzSMYgFyysoJGcWJeekaiDJaVoDJWqBuLiwNLEIqBNZHxI7FqwQyQYU8xE2wIyBu1MHxQuxUPtqAYDXUD0=)**
 
 <Image img={offset1} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -41,6 +42,7 @@ offset(-1)offset(1){
   // ... hinge profile
 }
 ```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJxTScuzNTay5irILMsvCUpMySwttjW15kpKLE4NychMzs5LLS62NYYIhGemlGTYGgKlufLT0opTSzR0DTWhLEPNai4FhZKixLzinMSSVI1oAx0kI3UMYsHyCgrJmUXJOakaSHKa1kCJWiAuLixNLALqRNaHxI4FK0SyAcV8hA0wY+Au1kHxTCzUvloAmONTcw==)**
 
 <Image img={offset2} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -51,3 +53,10 @@ It gets even better, we can double our negative value and apply a third offset t
 <Image img={offset3} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 In essence we over expand, then under expand before finally expanding back to the original dimensions, but we have gained fillets in the process, it's like kneading bread, the more you do it the better the bread . . . not really stick to 3 max.
+
+```cpp
+offset(1)offset(-2)offset(1){
+  // ... hinge profile
+}
+```
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#encoded_script_v2=eJxTScuzNTay5irILMsvCUpMySwttjW15kpKLE4NychMzs5LLS62NYYIhGemlGTYGgKlufLT0opTSzQMNaEMXSNNuFA1l4JCSVFiXnFOYkmqRrSBDpLZOgaxYHkFheTMouScVA0kOU1roEQtEBcXliYWAXUi60Nix4IVItmAYj7CBpgxcKfroPgqFmpfLQCaj1Z9)**
