@@ -1,6 +1,10 @@
 const { makeFile, runCommand } = require('../common/utils')
 const { nanoid } = require('nanoid')
 
+/** Removes our generated/hash filename with just "main.scad", so that it's a nice message in the IDE */
+const cleanOpenScadError = (error) =>
+  error.replace(/["|']\/tmp\/.+\/main.scad["|']/g, "'main.scad'")
+
 module.exports.runScad = async ({
   file,
   settings: {
@@ -16,14 +20,16 @@ module.exports.runScad = async ({
   const { x: rx, y: ry, z: rz } = rotation
   const { x: px, y: py, z: pz } = position
   const cameraArg = `--camera=${px},${py},${pz},${rx},${ry},${rz},${dist}`
-  const command = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o /tmp/${tempFile}/output.png ${cameraArg} --imgsize=${x},${y} --colorscheme DeepOcean /tmp/${tempFile}/main.scad`
+  const fullPath = `/tmp/${tempFile}/output.png`
+  const command = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o ${fullPath} ${cameraArg} --imgsize=${x},${y} --colorscheme DeepOcean /tmp/${tempFile}/main.scad`
   console.log('command', command)
 
   try {
-    const result = await runCommand(command, 15000)
-    return { result, tempFile }
-  } catch (error) {
-    return { error, tempFile }
+    const consoleMessage = await runCommand(command, 15000)
+    return { consoleMessage, fullPath }
+  } catch (dirtyError) {
+    const error = cleanOpenScadError(dirtyError)
+    return { error }
   }
 }
 
