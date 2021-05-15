@@ -6,6 +6,7 @@
   "author": "Kurt Hutten <kurt@kurthutten.com>",
   "license": "",
   "dependencies": {
+    "aws-sdk": "^2.907.0",
     "cors": "^2.8.5",
     "middy": "^0.36.0",
     "nanoid": "^3.1.20"

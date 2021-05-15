@@ -24,60 +24,30 @@ provider:
         file: ./cadquery/Dockerfile
   apiGateway:
     metrics: true
-    binaryMediaTypes:
-      # we need to allow binary types to be able to send back images and stls, but it would be better to be more specific
-      # ie image/png etc. as */* treats everything as binary including the json body as the input the lambdas
-      # which mean we need to decode the input bode from base64, but the images break with anything other than */* :(
-      - '*/*'
 
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:GetObject"
+          Resource: "arn:aws:s3:::cad-preview-bucket-prod-001/*"
+        - Effect: "Allow"
+          Action:
+            - "s3:PutObject"
+          Resource: "arn:aws:s3:::cad-preview-bucket-prod-001/*"
+          # Dev bucket is cad-preview-bucket-dev-001/*"
 
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
 
 functions:
-  # see preflightoptions comment in openscad.js
-  preflightopenscadpreview:
-    image:
-      name: openscadimage
-      command:
-        - openscad.preflightOptions
-      entryPoint:
-        - '/entrypoint.sh'
-    events:
-      - http:
-          path: openscad/preview
-          method: options
-  preflightopenscadstl:
-    image:
-      name: openscadimage
-      command:
-        - openscad.preflightOptions
-      entryPoint:
-        - '/entrypoint.sh'
-    events:
-      - http:
-          path: openscad/stl
-          method: options
   openscadpreview:
     image:
       name: openscadimage
@@ -89,31 +59,22 @@ functions:
       - http:
           path: openscad/preview
           method: post
-    timeout: 15
-  openscadstl:
-    image:
-      name: openscadimage
-      command:
-        - openscad.stl
-      entryPoint:
-        - '/entrypoint.sh'
-    events:
-      - http:
-          path: openscad/stl
-          method: post
-    timeout: 30
-
-  preflightcadquerystl:
-    image:
-      name: cadqueryimage
-      command:
-        - cadquery.preflightOptions
-      entryPoint:
-        - '/entrypoint.sh'
-    events:
-      - http:
-          path: cadquery/stl
-          method: options
+          cors: true
+    timeout: 25
+    environment:
+      BUCKET: cad-preview-bucket-prod-001
+  # openscadstl:
+  #   image:
+  #     name: openscadimage
+  #     command:
+  #       - openscad.stl
+  #     entryPoint:
+  #       - '/entrypoint.sh'
+  #   events:
+  #     - http:
+  #         path: openscad/stl
+  #         method: post
+  #   timeout: 30
   cadquerystl:
     image:
       name: cadqueryimage
@@ -125,7 +86,10 @@ functions:
       - http:
           path: cadquery/stl
           method: post
+          cors: true
     timeout: 30
+    environment:
+      BUCKET: cad-preview-bucket-prod-001
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

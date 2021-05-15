@@ -14,19 +14,27 @@ import { requestRender } from 'src/helpers/hooks/useIdeState'
 
 extend({ OrbitControls })
 
-function Asset({ stlData }) {
+function Asset({ url, resetLoading, setLoading }) {
   const [loadedGeometry, setLoadedGeometry] = useState()
   const mesh = useRef()
   const ref = useUpdate((geometry) => {
     geometry.attributes = loadedGeometry.attributes
   })
   useEffect(() => {
-    if (stlData) {
-      const decoded = atob(stlData)
+    if (url) {
       const loader = new STLLoader()
-      setLoadedGeometry(loader.parse(decoded))
+      setLoading()
+      loader.load(
+        url,
+        (geometry) => {
+          setLoadedGeometry(geometry)
+          resetLoading()
+        },
+        null,
+        resetLoading
+      )
     }
-  }, [stlData])
+  }, [url])
   if (!loadedGeometry) return null
   return (
     <mesh ref={mesh} scale={[1, 1, 1]}>
@@ -150,11 +158,11 @@ const IdeViewer = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
 
+  const resetLoading = () => thunkDispatch({ type: 'resetLoading' })
+  const setLoading = () => thunkDispatch({ type: 'setLoading' })
+
   useEffect(() => {
-    setImage(
-      state.objectData?.type === 'png' &&
-        'data:image/png;base64,' + state.objectData?.data
-    )
+    setImage(state.objectData?.type === 'png' && state.objectData?.data)
     setIsDragging(false)
   }, [state.objectData?.type, state.objectData?.data])
 
@@ -229,9 +237,9 @@ const IdeViewer = () => {
           )}
           {state.ideType === 'cadQuery' && (
             <Asset
-              stlData={
-                state.objectData?.type === 'stl' && state.objectData?.data
-              }
+              url={state.objectData?.type === 'stl' && state.objectData?.data}
+              resetLoading={resetLoading}
+              setLoading={setLoading}
             />
           )}
         </Canvas>

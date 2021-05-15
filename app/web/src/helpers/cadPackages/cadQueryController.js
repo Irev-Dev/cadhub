@@ -34,11 +34,11 @@ export const render = async ({ code }) => {
       status: 'healthy',
       objectData: {
         type: 'stl',
-        data: data.imageBase64,
+        data: data.url,
       },
       message: {
         type: 'message',
-        message: data.result || 'Successful Render',
+        message: data.consoleMessage || 'Successful Render',
         time: new Date(),
       },
     }
