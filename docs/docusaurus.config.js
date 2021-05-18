@@ -30,6 +30,11 @@ module.exports = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          href: 'http://cadhub.xyz/',
+          label: 'Main App',
+          position: 'right',
+        },
       ],
     },
     footer: {
@@ -71,6 +76,10 @@ module.exports = {
             {
               label: 'GitHub',
               href: 'https://github.com/Irev-Dev/cadhub',
+            },
+            {
+              label: 'Main App',
+              href: 'http://cadhub.xyz/',
             },
           ],
         },
