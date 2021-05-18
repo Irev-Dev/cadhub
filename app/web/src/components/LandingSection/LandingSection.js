@@ -59,7 +59,7 @@ const LandingSection = () => {
       </div>
       <div className="max-w-6xl mx-auto px-2">
         <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
-          What's the potential of code-cad?
+          What's the potential of Code-CAD?
         </h2>
         <MarketingPoint
           leadingPoint="Communication"
@@ -143,27 +143,44 @@ const LandingSection = () => {
       <div className="mt-24">
         <p className="text-center text-pink-400 max-w-xl text-2xl mx-auto font-medium">
           CadHub is a space to share cad projects and it’s our gift to the
-          code-cad community. Let’s celebrate and promote code-cad together.
+          Code-CAD community. Let’s celebrate and promote Code-CAD together.
         </p>
-        <div className="rounded-md shadow-md max-w-lg mx-auto border border-gray-300 mt-16">
-          <p className="text-2xl font-medium text-gray-600 p-8">
-            Projects use the excellent{' '}
+        <div className="rounded-md shadow-md max-w-lg mx-auto border border-gray-300 mt-16 text-center">
+          <p className="text-2xl font-medium text-gray-600 px-8 pt-8 pb-4 leading-relaxed">
+            We have work-in-progress integrations with{' '}
             <OutBound
               className="text-gray-600 underline"
-              to="https://github.com/zalo/CascadeStudio"
+              to="https://github.com/openscad/openscad"
             >
-              CascadeStudio
+              OpenSCAD
             </OutBound>{' '}
-            with more integrations{' '}
+            and{' '}
+            <OutBound
+              className="text-gray-600 underline"
+              to="https://github.com/CadQuery/cadquery"
+            >
+              CadQuery
+            </OutBound>{' '}
+            with more{' '}
             <OutBound
               className="text-gray-600 underline"
               to="https://github.com/Irev-Dev/cadhub/discussions/212"
             >
-              coming soon
+              features planned
             </OutBound>
             .
           </p>
-          <Link to={routes.draftPart()}>
+          <p className="text-2xl font-medium text-gray-600 px-8 pb-8">
+            Follow the{' '}
+            <OutBound
+              className="text-gray-600 underline"
+              to="https://learn.cadhub.xyz/docs/"
+            >
+              official tutorial
+            </OutBound>{' '}
+            or
+          </p>
+          <Link to={routes.devIde({ cadPackage: 'openScad' })}>
             <div className="bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl">
               <span className="font-bold text-2xl text-indigo-200">
                 Start Hacking Now
@@ -172,7 +189,7 @@ const LandingSection = () => {
           </Link>
         </div>
       </div>
-      <div className="flex justify-center mt-64 pt-20 mb-32">
+      <div className="flex justify-center mt-64 pt-20">
         <div className="flex text-2xl text-gray-500">
           See what other's have created
           <Svg
@@ -180,6 +197,18 @@ const LandingSection = () => {
             className="h-12 w-12 animate-bounce text-indigo-300 ml-2"
           />
         </div>
+      </div>
+      <div className="text-center mb-32 max-w-xl mx-auto text-gray-500 pr-6">
+        caveat; the following projects are based on a project we're depricating
+        support for, it's a{' '}
+        <OutBound
+          className="text-gray-600 underline"
+          to="https://github.com/Irev-Dev/cadhub/discussions/261"
+        >
+          long story
+        </OutBound>
+        , though rest-assured saving projects with OpenSCAD and CadQuery will be
+        available soon
       </div>
       <LoginModal
         open={isLoginModalOpen}
