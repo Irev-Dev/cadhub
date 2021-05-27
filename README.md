@@ -2,7 +2,7 @@
 
 # [C a d H u b](https://cadhub.xyz)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/77f37543-e54a-4723-8136-157c0221ec27/deploy-status)](https://app.netlify.com/sites/cadhubxyz/deploys)
+<!-- [![Netlify Status](https://api.netlify.com/api/v1/badges/77f37543-e54a-4723-8136-157c0221ec27/deploy-status)](https://app.netlify.com/sites/cadhubxyz/deploys) -->
 
 Let's help Code-CAD reach its [full potential!](https://cadhub.xyz) We're making a ~~cad~~hub for the Code-CAD community, think of it as model-repository crossed with a live editor. We have an integration with the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/) with [more coming soon](https://github.com/Irev-Dev/curated-code-cad).
 
