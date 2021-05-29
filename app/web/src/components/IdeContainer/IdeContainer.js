@@ -29,7 +29,7 @@ const IdeContainer = () => {
       })
       thunkDispatch((dispatch, getState) => {
         const state = getState()
-        if (state.ideType === 'openScad') {
+        if (['png', 'INIT'].includes(state.objectData?.type)) {
           dispatch({ type: 'setLoading' })
           requestRender({
             state,

@@ -1,4 +1,9 @@
-import { lambdaBaseURL } from './common'
+import {
+  lambdaBaseURL,
+  stlToGeometry,
+  createHealthyResponse,
+  createUnhealthyResponse,
+} from './common'
 
 export const render = async ({ code }) => {
   const body = JSON.stringify({
@@ -14,47 +19,26 @@ export const render = async ({ code }) => {
       body,
     })
     if (response.status === 400) {
-      // TODO add proper error messages for CadQuery
       const { error } = await response.json()
-      const cleanedErrorMessage = error.replace(
-        /["|']\/tmp\/.+\/main.scad["|']/g,
-        "'main.scad'"
-      )
       return {
         status: 'error',
         message: {
           type: 'error',
-          message: cleanedErrorMessage,
+          message: error,
           time: new Date(),
         },
       }
     }
     const data = await response.json()
-    return {
-      status: 'healthy',
-      objectData: {
-        type: 'stl',
-        data: data.url,
-      },
-      message: {
-        type: 'message',
-        message: data.consoleMessage || 'Successful Render',
-        time: new Date(),
-      },
-    }
+    const geometry = await stlToGeometry(data.url)
+    return createHealthyResponse({
+      type: 'geometry',
+      data: geometry,
+      consoleMessage: data.consoleMessage,
+      date: new Date(),
+    })
   } catch (e) {
-    // TODO handle errors better
-    // I think we should display something overlayed on the viewer window something like "network issue try again"
-    // and in future I think we need timeouts differently as they maybe from a user trying to render something too complex
-    // or something with minkowski in it :/ either way something like "render timed out, try again or here are tips to reduce part complexity" with a link talking about $fn and minkowski etc
-    return {
-      status: 'error',
-      message: {
-        type: 'error',
-        message: 'network issue',
-        time: new Date(),
-      },
-    }
+    return createUnhealthyResponse(new Date())
   }
 }
 

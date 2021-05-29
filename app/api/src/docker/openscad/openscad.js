@@ -1,4 +1,4 @@
-const { runScad } = require('./runScad')
+const { runScad, stlExport } = require('./runScad')
 const middy = require('middy')
 const { cors } = require('middy/middlewares')
 const AWS = require('aws-sdk')
@@ -12,25 +12,52 @@ const {
 
 const s3 = new AWS.S3()
 
+const openScadStlKey = (eventBody) => {
+  const { file } = JSON.parse(eventBody)
+  return `${makeHash(JSON.stringify(file))}.stl`
+}
+
 const preview = async (req, _context, callback) => {
   _context.callbackWaitsForEmptyEventLoop = false
   const eventBody = req.body
   console.log('eventBody', eventBody)
   const key = `${makeHash(eventBody)}.png`
+  const stlKey = openScadStlKey(eventBody)
+
   console.log('key', key)
+
+  const stlParams = {
+    Bucket: process.env.BUCKET,
+    Key: stlKey,
+  }
 
   const params = {
     Bucket: process.env.BUCKET,
     Key: key,
   }
-  const previousAsset = await checkIfAlreadyExists(params, s3)
+  const [previousAssetStl, previousAssetPng] = await Promise.all([
+    checkIfAlreadyExists(stlParams, s3),
+    checkIfAlreadyExists(params, s3),
+  ])
+  const type = previousAssetStl.isAlreadyInBucket ? 'stl' : 'png'
+  const previousAsset = previousAssetStl.isAlreadyInBucket
+    ? previousAssetStl
+    : previousAssetPng
   if (previousAsset.isAlreadyInBucket) {
     console.log('already in bucket')
     const response = {
       statusCode: 200,
       body: JSON.stringify({
-        url: getObjectUrl(params, s3),
-        consoleMessage: previousAsset.consoleMessage,
+        url: getObjectUrl(
+          {
+            Bucket: process.env.BUCKET,
+            Key: previousAssetStl.isAlreadyInBucket ? stlKey : key,
+          },
+          s3
+        ),
+        consoleMessage:
+          previousAsset.consoleMessage || previousAssetPng.consoleMessage,
+        type,
       }),
     }
     callback(null, response)
@@ -50,39 +77,46 @@ const preview = async (req, _context, callback) => {
   })
 }
 
-// const stl = async (req, _context, callback) => {
-//   _context.callbackWaitsForEmptyEventLoop = false
-//   const eventBody = Buffer.from(req.body, 'base64').toString('ascii')
-//   console.log(eventBody, 'eventBody')
-//   const { file } = JSON.parse(eventBody)
-//   const { error, result, tempFile } = await stlExport({ file })
-//   if (error) {
-//     const response = {
-//       statusCode: 400,
-//       body: { error, tempFile },
-//     }
-//     callback(null, response)
-//   } else {
-//     console.log(`got result in route: ${result}, file is: ${tempFile}`)
-//     const fs = require('fs')
-//     const stl = fs.readFileSync(`/tmp/${tempFile}/output.stl`, {
-//       encoding: 'base64',
-//     })
-//     console.log('encoded stl', stl)
-//     const response = {
-//       statusCode: 200,
-//       headers: {
-//         'content-type': 'application/stl',
-//       },
-//       body: stl,
-//       isBase64Encoded: true,
-//     }
-//     console.log('callback fired')
-//     callback(null, response)
-//   }
-// }
+const stl = async (req, _context, callback) => {
+  _context.callbackWaitsForEmptyEventLoop = false
+  const eventBody = req.body
+  console.log(eventBody, 'eventBody')
+  const stlKey = openScadStlKey(eventBody)
+
+  console.log('key', stlKey)
+
+  const params = {
+    Bucket: process.env.BUCKET,
+    Key: stlKey,
+  }
+  console.log('original params', params)
+  const previousAsset = await checkIfAlreadyExists(params, s3)
+  if (previousAsset.isAlreadyInBucket) {
+    console.log('already in bucket')
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        url: getObjectUrl({ ...params }, s3),
+        consoleMessage: previousAsset.consoleMessage,
+      }),
+    }
+    callback(null, response)
+    return
+  }
+  const { file } = JSON.parse(eventBody)
+  const { error, consoleMessage, fullPath } = await stlExport({ file })
+  await storeAssetAndReturnUrl({
+    error,
+    callback,
+    fullPath,
+    consoleMessage,
+    key: stlKey,
+    s3,
+    params,
+  })
+}
 
 module.exports = {
-  // stl: middy(stl).use(cors()),
+  stl: middy(stl).use(cors()),
   preview: middy(loggerWrap(preview)).use(cors()),
 }

@@ -5,7 +5,10 @@ import { useIdeState, codeStorageKey } from 'src/helpers/hooks/useIdeState'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import { encode, decode } from 'src/helpers/compress'
-import { flow } from 'lodash/fp'
+import { flow, identity } from 'lodash/fp'
+import { fileSave } from 'browser-fs-access'
+import { MeshBasicMaterial, Mesh, Scene } from 'three'
+import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
 
 export const githubSafe = (url) =>
   url.includes('github.com')
@@ -80,6 +83,63 @@ const IdeToolbarNew = ({ cadPackage }) => {
       copyTextToClipboard(window.location.href)
     }
   }
+  const PullTitleFromFirstLine = (code) => {
+    const firstLine = code.split('\n').filter(identity)[0]
+    if (!(firstLine.startsWith('//') || firstLine.startsWith('#'))) {
+      return 'object.stl'
+    }
+    return (
+      (firstLine.replace(/^(\/\/|#)\s*(.+)/, (_, __, titleWithSpaces) =>
+        titleWithSpaces.replaceAll(/\s/g, '-')
+      ) || 'object') + '.stl'
+    )
+  }
+
+  const handleStlDownload = (({ geometry, fileName, type }) => () => {
+    const makeStlBlobFromGeo = flow(
+      (geo) => new Mesh(geo, new MeshBasicMaterial()),
+      (mesh) => new Scene().add(mesh),
+      (scene) => new STLExporter().parse(scene),
+      (stl) =>
+        new Blob([stl], {
+          type: 'text/plain',
+        })
+    )
+    const saveFile = (geometry) => {
+      const blob = makeStlBlobFromGeo(geometry)
+      fileSave(blob, {
+        fileName,
+        extensions: ['.stl'],
+      })
+    }
+    if (geometry) {
+      if (type === 'geometry') {
+        saveFile(geometry)
+      } else {
+        thunkDispatch((dispatch, getState) => {
+          const state = getState()
+          if (state.ideType === 'openScad') {
+            thunkDispatch((dispatch, getState) => {
+              const state = getState()
+              dispatch({ type: 'setLoading' })
+              requestRender({
+                state,
+                dispatch,
+                code: state.code,
+                viewerSize: state.viewerSize,
+                camera: state.camera,
+                specialCadProcess: 'stl',
+              }).then((result) => result && saveFile(result.data))
+            })
+          }
+        })
+      }
+    }
+  })({
+    type: state.objectData?.type,
+    geometry: state.objectData?.data,
+    fileName: PullTitleFromFirstLine(state.code),
+  })
 
   return (
     <IdeContext.Provider value={{ state, thunkDispatch }}>
@@ -96,6 +156,12 @@ const IdeToolbarNew = ({ cadPackage }) => {
             className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
           >
             Copy link
+          </button>
+          <button
+            onClick={handleStlDownload}
+            className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
+          >
+            Download STL
           </button>
         </nav>
         <IdeContainer />
