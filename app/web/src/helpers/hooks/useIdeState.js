@@ -9,7 +9,10 @@ function withThunk(dispatch, getState) {
 }
 
 const initCodeMap = {
-  openScad: `
+  openScad: `// involute donut
+
+// ^ first comment is used for download title (i.e "involute-donut.stl")
+
 color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
 donut();
 module donut() {
@@ -23,7 +26,11 @@ module stick(basewid, angl){
         translate([0,0,10])sphere(9);
     }
 }`,
-  cadQuery: `import cadquery as cq
+  cadQuery: `# demo shaft coupler
+
+# ^ first comment is used for download title (i.e. "demo-shaft-coupler.stl")
+
+import cadquery as cq
 from cadquery import exporters
 
 diam = 5.0
@@ -49,7 +56,7 @@ export const useIdeState = () => {
     ],
     code,
     objectData: {
-      type: 'stl',
+      type: 'INIT',
       data: null,
     },
     layout: {
@@ -138,17 +145,22 @@ export const requestRender = ({
   code,
   camera,
   viewerSize,
+  specialCadProcess = null,
 }) => {
-  state.ideType !== 'INIT' &&
-    !state.isLoading &&
-    cadPackages[state.ideType]
-      .render({
-        code,
-        settings: {
-          camera,
-          viewerSize,
-        },
-      })
+  if (
+    state.ideType !== 'INIT' &&
+    (!state.isLoading || state.objectData?.type === 'INIT')
+  ) {
+    const renderFn = specialCadProcess
+      ? cadPackages[state.ideType][specialCadProcess]
+      : cadPackages[state.ideType].render
+    return renderFn({
+      code,
+      settings: {
+        camera,
+        viewerSize,
+      },
+    })
       .then(({ objectData, message, status }) => {
         if (status === 'error') {
           dispatch({
@@ -160,7 +172,9 @@ export const requestRender = ({
             type: 'healthyRender',
             payload: { objectData, message, lastRunCode: code },
           })
+          return objectData
         }
       })
       .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
+  }
 }

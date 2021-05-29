@@ -35,14 +35,15 @@ module.exports.runScad = async ({
 
 module.exports.stlExport = async ({ file } = {}) => {
   const tempFile = await makeFile(file, '.scad', nanoid)
+  const fullPath = `/tmp/${tempFile}/output.stl`
 
   try {
-    const result = await runCommand(
-      `openscad -o /tmp/${tempFile}/output.stl /tmp/${tempFile}/main.scad`,
-      300000 // lambda will time out before this, we might need to look at background jobs if we do git integration stl generation
+    const consoleMessage = await runCommand(
+      `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o ${fullPath} /tmp/${tempFile}/main.scad`,
+      60000 // lambda will time out before this, we might need to look at background jobs if we do git integration stl generation
     )
-    return { result, tempFile }
+    return { consoleMessage, fullPath }
   } catch (error) {
-    return { error, tempFile }
+    return { error, fullPath }
   }
 }

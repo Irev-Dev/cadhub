@@ -1,4 +1,9 @@
-import { lambdaBaseURL } from './common'
+import {
+  lambdaBaseURL,
+  stlToGeometry,
+  createHealthyResponse,
+  createUnhealthyResponse,
+} from './common'
 
 export const render = async ({ code, settings }) => {
   const pixelRatio = window.devicePixelRatio || 1
@@ -41,51 +46,61 @@ export const render = async ({ code, settings }) => {
     })
     if (response.status === 400) {
       const { error } = await response.json()
-      const cleanedErrorMessage = error.replace(
-        /["|']\/tmp\/.+\/main.scad["|']/g,
-        "'main.scad'"
-      )
-      return {
-        status: 'error',
-        message: {
-          type: 'error',
-          message: cleanedErrorMessage,
-          time: new Date(),
-        },
-      }
+      const cleanedErrorMessage = cleanError(error)
+      return createUnhealthyResponse(new Date(), cleanedErrorMessage)
     }
     const data = await response.json()
-    return {
-      status: 'healthy',
-      objectData: {
-        type: 'png',
-        data: data.url,
-      },
-      message: {
-        type: 'message',
-        message: data.consoleMessage,
-        time: new Date(),
-      },
-    }
+    const type = data.type !== 'stl' ? 'png' : 'geometry'
+    const newData = data.type !== 'stl' ? data.url : stlToGeometry(data.url)
+    return createHealthyResponse({
+      type,
+      data: await newData,
+      consoleMessage: data.consoleMessage,
+      date: new Date(),
+    })
   } catch (e) {
-    // TODO handle errors better
-    // I think we should display something overlayed on the viewer window something like "network issue try again"
-    // and in future I think we need timeouts differently as they maybe from a user trying to render something too complex
-    // or something with minkowski in it :/ either way something like "render timed out, try again or here are tips to reduce part complexity" with a link talking about $fn and minkowski etc
-    return {
-      status: 'error',
-      message: {
-        type: 'error',
-        message: 'network issue',
-        time: new Date(),
+    return createUnhealthyResponse(new Date())
+  }
+}
+
+export const stl = async ({ code, settings }) => {
+  const body = JSON.stringify({
+    settings: {},
+    file: code,
+  })
+  try {
+    const response = await fetch(lambdaBaseURL + '/openscad/stl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
+      body,
+    })
+    if (response.status === 400) {
+      const { error } = await response.json()
+      const cleanedErrorMessage = cleanError(error)
+      return createUnhealthyResponse(new Date(), cleanedErrorMessage)
     }
+    const data = await response.json()
+    const geometry = await stlToGeometry(data.url)
+    return createHealthyResponse({
+      type: 'geometry',
+      data: geometry,
+      consoleMessage: data.consoleMessage,
+      date: new Date(),
+    })
+  } catch (e) {
+    return createUnhealthyResponse(new Date())
   }
 }
 
 const openScad = {
   render,
-  // more functions to come
+  stl,
 }
 
 export default openScad
+
+function cleanError(error) {
+  return error.replace(/["|']\/tmp\/.+\/main.scad["|']/g, "'main.scad'")
+}

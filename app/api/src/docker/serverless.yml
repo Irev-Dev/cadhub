@@ -63,18 +63,21 @@ functions:
     timeout: 25
     environment:
       BUCKET: cad-preview-bucket-prod-001
-  # openscadstl:
-  #   image:
-  #     name: openscadimage
-  #     command:
-  #       - openscad.stl
-  #     entryPoint:
-  #       - '/entrypoint.sh'
-  #   events:
-  #     - http:
-  #         path: openscad/stl
-  #         method: post
-  #   timeout: 30
+  openscadstl:
+    image:
+      name: openscadimage
+      command:
+        - openscad.stl
+      entryPoint:
+        - '/entrypoint.sh'
+    events:
+      - http:
+          path: openscad/stl
+          method: post
+          cors: true
+    timeout: 30
+    environment:
+      BUCKET: cad-preview-bucket-prod-001
   cadquerystl:
     image:
       name: cadqueryimage

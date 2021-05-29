@@ -9,33 +9,16 @@ import {
 } from 'react-three-fiber'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Vector3 } from 'three'
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 
 extend({ OrbitControls })
 
-function Asset({ url, resetLoading, setLoading }) {
-  const [loadedGeometry, setLoadedGeometry] = useState()
+function Asset({ geometry: incomingGeo }) {
   const mesh = useRef()
   const ref = useUpdate((geometry) => {
-    geometry.attributes = loadedGeometry.attributes
+    geometry.attributes = incomingGeo.attributes
   })
-  useEffect(() => {
-    if (url) {
-      const loader = new STLLoader()
-      setLoading()
-      loader.load(
-        url,
-        (geometry) => {
-          setLoadedGeometry(geometry)
-          resetLoading()
-        },
-        null,
-        resetLoading
-      )
-    }
-  }, [url])
-  if (!loadedGeometry) return null
+  if (!incomingGeo) return null
   return (
     <mesh ref={mesh} scale={[1, 1, 1]}>
       <bufferGeometry attach="geometry" ref={ref} />
@@ -158,9 +141,6 @@ const IdeViewer = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
 
-  const resetLoading = () => thunkDispatch({ type: 'resetLoading' })
-  const setLoading = () => thunkDispatch({ type: 'setLoading' })
-
   useEffect(() => {
     setImage(state.objectData?.type === 'png' && state.objectData?.data)
     setIsDragging(false)
@@ -192,7 +172,7 @@ const IdeViewer = () => {
       )}
       <div // eslint-disable-line jsx-a11y/no-static-element-interactions
         className={`opacity-0 absolute inset-0 transition-opacity duration-500 ${
-          !(isDragging || state.ideType !== 'openScad')
+          !(isDragging || state.objectData?.type !== 'png')
             ? 'hover:opacity-50'
             : 'opacity-100'
         }`}
@@ -208,7 +188,7 @@ const IdeViewer = () => {
               })
               thunkDispatch((dispatch, getState) => {
                 const state = getState()
-                if (state.ideType === 'openScad') {
+                if (['png', 'INIT'].includes(state.objectData?.type)) {
                   dispatch({ type: 'setLoading' })
                   requestRender({
                     state,
@@ -223,7 +203,7 @@ const IdeViewer = () => {
           />
           <ambientLight />
           <pointLight position={[15, 5, 10]} />
-          {state.ideType === 'openScad' && (
+          {state.objectData?.type === 'png' && (
             <>
               <Sphere position={[0, 0, 0]} color={pink400} />
               <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
@@ -235,13 +215,11 @@ const IdeViewer = () => {
               <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
             </>
           )}
-          {state.ideType === 'cadQuery' && (
-            <Asset
-              url={state.objectData?.type === 'stl' && state.objectData?.data}
-              resetLoading={resetLoading}
-              setLoading={setLoading}
-            />
-          )}
+          <Asset
+            geometry={
+              state.objectData?.type === 'geometry' && state.objectData?.data
+            }
+          />
         </Canvas>
       </div>
       {state.isLoading && (
