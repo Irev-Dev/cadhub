@@ -1,6 +1,6 @@
 import { useContext, Suspense, lazy } from 'react'
 import { IdeContext } from 'src/components/IdeToolbarNew'
-import { codeStorageKey } from 'src/helpers/hooks/useIdeState'
+import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 const Editor = lazy(() => import('@monaco-editor/react'))
 
@@ -38,7 +38,7 @@ const IdeEditor = () => {
           camera: state.camera,
         })
       })
-      localStorage.setItem(codeStorageKey, state.code)
+      localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
     }
   }
   const loading = (

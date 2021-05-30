@@ -44,11 +44,12 @@ show_object(result)
 `,
 }
 
-export const codeStorageKey = 'Last-editor-code'
+const codeStorageKey = 'Last-editor-code'
+export const makeCodeStoreKey = (ideType) => `${codeStorageKey}-${ideType}`
 let mutableState = null
 
 export const useIdeState = () => {
-  const code = localStorage.getItem(codeStorageKey) || initCodeMap.openscad
+  const code = ''
   const initialState = {
     ideType: 'INIT',
     consoleMessages: [
@@ -78,7 +79,10 @@ export const useIdeState = () => {
       case 'initIde':
         return {
           ...state,
-          code: initCodeMap[payload.cadPackage] || initCodeMap.openscad,
+          code:
+            localStorage.getItem(makeCodeStoreKey(payload.cadPackage)) ||
+            initCodeMap[payload.cadPackage] ||
+            '',
           ideType: payload.cadPackage,
         }
       case 'updateCode':
