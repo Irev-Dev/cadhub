@@ -1,7 +1,7 @@
 import { createContext, useEffect } from 'react'
 import IdeContainer from 'src/components/IdeContainer'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useIdeState, codeStorageKey } from 'src/helpers/hooks/useIdeState'
+import { useIdeState, makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import { encode, decode } from 'src/helpers/compress'
@@ -74,7 +74,7 @@ const IdeToolbarNew = ({ cadPackage }) => {
         camera: state.camera,
       })
     })
-    localStorage.setItem(codeStorageKey, state.code)
+    localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
   }
   function handleMakeLink() {
     if (isBrowser) {
@@ -83,8 +83,8 @@ const IdeToolbarNew = ({ cadPackage }) => {
       copyTextToClipboard(window.location.href)
     }
   }
-  const PullTitleFromFirstLine = (code) => {
-    const firstLine = code.split('\n').filter(identity)[0]
+  const PullTitleFromFirstLine = (code = '') => {
+    const firstLine = code.split('\n').filter(identity)[0] || ''
     if (!(firstLine.startsWith('//') || firstLine.startsWith('#'))) {
       return 'object.stl'
     }
