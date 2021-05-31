@@ -2,6 +2,7 @@ const { runCQ } = require('./runCQ')
 const middy = require('middy')
 const { cors } = require('middy/middlewares')
 const AWS = require('aws-sdk')
+const tk = require('timekeeper')
 const {
   makeHash,
   checkIfAlreadyExists,
@@ -29,7 +30,7 @@ const stl = async (req, _context, callback) => {
     const response = {
       statusCode: 200,
       body: JSON.stringify({
-        url: getObjectUrl(params, s3),
+        url: getObjectUrl(params, s3, tk),
         consoleMessage: previousAsset.consoleMessage,
       }),
     }
@@ -47,6 +48,7 @@ const stl = async (req, _context, callback) => {
     key,
     s3,
     params,
+    tk,
   })
 }
 

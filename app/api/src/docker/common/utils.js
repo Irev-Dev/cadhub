@@ -64,12 +64,24 @@ async function checkIfAlreadyExists(params, s3) {
   }
 }
 
-function getObjectUrl(params, s3) {
+function getObjectUrl(params, s3, tk) {
+  const getTruncatedTime = () => {
+    const currentTime = new Date()
+    const d = new Date(currentTime)
+
+    d.setMinutes(Math.floor(d.getMinutes() / 10) * 10)
+    d.setSeconds(0)
+    d.setMilliseconds(0)
+
+    return d
+  }
   const HALF_HOUR = 1800
-  return s3.getSignedUrl('getObject', {
-    ...params,
-    Expires: HALF_HOUR,
-  })
+  return tk.withFreeze(getTruncatedTime(), () =>
+    s3.getSignedUrl('getObject', {
+      ...params,
+      Expires: HALF_HOUR,
+    })
+  )
 }
 
 function loggerWrap(handler) {
@@ -90,6 +102,7 @@ async function storeAssetAndReturnUrl({
   key,
   s3,
   params,
+  tk,
 }) {
   if (error) {
     const response = {
@@ -114,16 +127,18 @@ async function storeAssetAndReturnUrl({
       callback(null, response)
       return
     }
+    const FiveDays = 432000
     const storedRender = await s3
       .putObject({
         Bucket: process.env.BUCKET,
         Key: key,
         Body: buffer,
+        CacheControl: `max-age=${FiveDays}`, // browser caching to stop downloads of the same part
         Metadata: putConsoleMessageInMetadata(consoleMessage),
       })
       .promise()
     console.log('stored object', storedRender)
-    const url = getObjectUrl(params, s3)
+    const url = getObjectUrl(params, s3, tk)
     console.log('url', url)
     const response = {
       statusCode: 200,
