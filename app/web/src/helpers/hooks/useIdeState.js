@@ -13,18 +13,12 @@ const initCodeMap = {
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
 
+
+radius=3;
 color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
-donut();
-module donut() {
-    for(i=[1:360]){
-        rotate(i*13.751)stick(20,i*1.351);
-    }
-}
-module stick(basewid, angl){
-    translate([basewid,0,0])rotate([angl,angl,angl*2])color(c="hotpink")hull(){
-        sphere(7);
-        translate([0,0,10])sphere(9);
-    }
+color(c="hotpink")rotate_extrude()translate([20,0])offset(radius)offset(-radius)difference(){
+    circle(d=34);
+    translate([-200,-500])square([500,500]);
 }`,
   cadQuery: `# demo shaft coupler
 
