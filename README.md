@@ -4,15 +4,14 @@
 
 <!-- [![Netlify Status](https://api.netlify.com/api/v1/badges/77f37543-e54a-4723-8136-157c0221ec27/deploy-status)](https://app.netlify.com/sites/cadhubxyz/deploys) -->
 
-Let's help Code-CAD reach its [full potential!](https://cadhub.xyz) We're making a ~~cad~~hub for the Code-CAD community, think of it as model-repository crossed with a live editor. We have an integration with the excellent [cascadeStudio](https://zalo.github.io/CascadeStudio/) with [more coming soon](https://github.com/Irev-Dev/curated-code-cad).
+Let's help Code-CAD reach its [full potential!](https://cadhub.xyz) We're making a ~~cad~~hub for the Code-CAD community, think of it as model-repository crossed with a live editor. We have integrations in progress for [OpenSCAD](https://cadhub.xyz/dev-ide/openScad) and [CadQuery](https://cadhub.xyz/dev-ide/cadQuery) with [more coming soon](https://github.com/Irev-Dev/curated-code-cad).
 
 If you want to be involved in anyway, checkout the [Road Map](https://github.com/Irev-Dev/cadhub/discussions/212) and get in touch via, [twitter](https://twitter.com/IrevDev), [discord](https://discord.gg/SD7zFRNjGH) or [discussions](https://github.com/Irev-Dev/cadhub/discussions).
 
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/fullcadhubshot.jpg">
 
-<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20IDE%20-%20export%20expand%20state.jpg">
 
-## Getting Started
+## Getting your dev environment setup
 
 Because we're integrating cascadeStudio, this is done some what crudely for the time being, so you'll need to clone the repo with submodules.
 
@@ -73,6 +72,13 @@ We're using tailwind utility classes so please try and use them as much as possi
 
 In progress, though can be [seen on Figma](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/CadHub?node-id=0%3A1)
 
-<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/Part%20Page(1).jpg">
+## Integrations
+The OpenSCAD and CadQuery integrations work by leveraging each of their cli tools in a docker image. It's currently deployed to AWS and can be found [here](https://github.com/Irev-Dev/cadhub/tree/main/app/api/src/docker).
 
-<img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/User%20Page%20Edit.jpg">
+## Docs
+Docs are hosted at [learn.cadhub.xyz](http://learn.cadhub.xyz/). It includes a OpenSCAD tutorial at this point, and more is coming. The docs can be found in this repo at [docs](https://github.com/Irev-Dev/cadhub/tree/main/docs)
+
+
+## Who is CadHub
+
+[Kurt](https://github.com/Irev-Dev) and [Frank](https://github.com/franknoirot) make up the Core-team and [Jeremy](https://github.com/jmwright) is a major contributor. Plus a number smaller contributors.

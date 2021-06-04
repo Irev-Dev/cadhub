@@ -13,6 +13,7 @@ const initCodeMap = {
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
 
+// Follow the OpenSCAD tutorial: https://learn.cadhub.xyz/docs/
 
 radius=3;
 color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
@@ -23,6 +24,8 @@ color(c="hotpink")rotate_extrude()translate([20,0])offset(radius)offset(-radius)
   cadQuery: `# demo shaft coupler
 
 # ^ first comment is used for download title (i.e. "demo-shaft-coupler.stl")
+
+# CadQuery docs: https://cadquery.readthedocs.io/
 
 import cadquery as cq
 from cadquery import exporters
