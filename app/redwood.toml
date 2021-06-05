@@ -8,7 +8,16 @@
 [web]
   port = 8910
   apiProxyPath = "/.netlify/functions"
-  includeEnvironmentVariables = ['GOOGLE_ANALYTICS_ID', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET', 'CAD_LAMBDA_BASE_URL']
+  includeEnvironmentVariables = [
+    'GOOGLE_ANALYTICS_ID',
+    'CLOUDINARY_API_KEY',
+    'CLOUDINARY_API_SECRET',
+    'CAD_LAMBDA_BASE_URL',
+    'SENTRY_DSN',
+    'SENTRY_AUTH_TOKEN',
+    'SENTRY_ORG',
+    'SENTRY_PROJECT'
+    ]
   # experimentalFastRefresh = true # this seems to break cascadeStudio
 [api]
   port = 8911
@@ -18,3 +27,10 @@
 
 [experimental]
   esbuild = false
+
+[[plugins]]
+  package = "@sentry/netlify-build-plugin"
+
+  [plugins.inputs]
+    sentryOrg = "cadhub-org"
+    sentryProject = "cadhub"
