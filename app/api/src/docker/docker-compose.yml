@@ -23,6 +23,10 @@ services:
     #   - awsland
     ports:
       - "5052:8080"
+    environment:
+      AWS_SECRET_ACCESS_KEY: "${DEV_AWS_SECRET_ACCESS_KEY}"
+      AWS_ACCESS_KEY_ID: "${DEV_AWS_ACCESS_KEY_ID}"
+      BUCKET: "${DEV_BUCKET}"
 
   openscad-stl:
     image: openscad
@@ -30,6 +34,10 @@ services:
     command: openscad.stl
     ports:
       - "5053:8080"
+    environment:
+      AWS_SECRET_ACCESS_KEY: "${DEV_AWS_SECRET_ACCESS_KEY}"
+      AWS_ACCESS_KEY_ID: "${DEV_AWS_ACCESS_KEY_ID}"
+      BUCKET: "${DEV_BUCKET}"
 
   cadquery-stl:
     build:
@@ -38,6 +46,10 @@ services:
     command: cadquery.stl
     ports:
       - 5060:8080
+    environment:
+      AWS_SECRET_ACCESS_KEY: "${DEV_AWS_SECRET_ACCESS_KEY}"
+      AWS_ACCESS_KEY_ID: "${DEV_AWS_ACCESS_KEY_ID}"
+      BUCKET: "${DEV_BUCKET}"
 
 # networks:
 #   awsland:

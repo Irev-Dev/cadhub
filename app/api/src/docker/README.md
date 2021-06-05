@@ -3,7 +3,7 @@
 We're using the serverless from work for deployment
 
 ```
-sls deploy
+sls deploy --stage stagename
 ```
 But [Kurt Hutten](https://github.com/Irev-Dev) is the only one with credentials for deployment atm, though if you wanted to set your own account you could deploy to that if you wanted to test.
 

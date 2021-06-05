@@ -13,7 +13,7 @@ const invocationURL = (port) =>
 app.post('/openscad/preview', async (req, res) => {
   try {
     const { data } = await axios.post(invocationURL(5052), {
-      body: Buffer.from(JSON.stringify(req.body)).toString('base64'),
+      body: JSON.stringify(req.body),
     })
     res.status(data.statusCode)
     res.send(data.body)
@@ -26,7 +26,7 @@ app.post('/cadquery/stl', async (req, res) => {
   console.log('making post request to 5060')
   try {
     const { data } = await axios.post(invocationURL(5060), {
-      body: Buffer.from(JSON.stringify(req.body)).toString('base64'),
+      body: req.body
     })
     res.status(data.statusCode)
     res.send(data.body)
