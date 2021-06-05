@@ -1,8 +1,9 @@
 import { createUserInsecure } from 'src/services/users/users.js'
 import { db } from 'src/lib/db'
+import { sentryWrapper } from 'src/lib/sentry'
 import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'
 
-export const handler = async (req, _context) => {
+const unWrappedHandler = async (req, _context) => {
   const body = JSON.parse(req.body)
   console.log(body)
   console.log(_context)
@@ -82,3 +83,5 @@ export const handler = async (req, _context) => {
     }
   }
 }
+
+export const handler = sentryWrapper(unWrappedHandler)
