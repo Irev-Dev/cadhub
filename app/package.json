@@ -8,20 +8,25 @@
   },
   "scripts": {},
   "devDependencies": {
-    "@redwoodjs/core": "^0.31.0"
+    "@redwoodjs/core": "0.32.2"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
     "rules": {
-      "react/no-unescaped-entities": ["error", {"forbid": [">", "}", "\""]}]
+      "react/no-unescaped-entities": [
+        "error",
+        {
+          "forbid": [
+            ">",
+            "}",
+            "\""
+          ]
+        }
+      ]
     }
   },
   "engines": {
     "node": ">=14",
     "yarn": ">=1.15"
-  },
-  "resolutions": {
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
   }
 }
