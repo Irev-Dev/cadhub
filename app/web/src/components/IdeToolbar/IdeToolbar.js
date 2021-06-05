@@ -4,7 +4,8 @@ import OutBound from 'src/components/OutBound'
 import ReactGA from 'react-ga'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 import Button from 'src/components/Button'
 import ImageUploader from 'src/components/ImageUploader'
@@ -43,7 +44,6 @@ const IdeToolbar = ({
     }
   })
 
-  const { addMessage } = useFlash()
   const [forkPart] = useMutation(FORK_PART_MUTATION, {
     refetchQueries: [
       {
@@ -86,9 +86,7 @@ const IdeToolbar = ({
           partTitle: data?.forkPart?.title,
         })
       )
-      addMessage(`Part created with title: ${data?.forkPart?.title}.`, {
-        classes: 'rw-flash-success',
-      })
+      toast.success(`Part created with title: ${data?.forkPart?.title}.`)
     } else if (isAuthenticated) onSave()
     else recordedLogin()
   }

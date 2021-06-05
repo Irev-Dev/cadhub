@@ -6,13 +6,12 @@ import InputTextForm from 'src/components/InputTextForm'
 import OutBound from 'src/components/OutBound'
 import { Form, Submit } from '@redwoodjs/forms'
 import { useAuth } from '@redwoodjs/auth'
-import { useFlash } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { Link, routes } from '@redwoodjs/router'
 import { subscribe } from 'src/helpers/subscribe'
 
 const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
   const { logIn, signUp } = useAuth()
-  const { addMessage } = useFlash()
 
   const [tab, setTab] = useState(shouldStartWithSignup ? 0 : 1)
   const onTabChange = (_, newValue) => {
@@ -26,7 +25,7 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
     try {
       setError('')
       if (checkBox) {
-        subscribe({ email, addMessage })
+        subscribe({ email, addMessage: (msg) => toast.error(msg) })
       }
       await signUp({
         email,

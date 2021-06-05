@@ -1,4 +1,5 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes } from '@redwoodjs/router'
 
 import UserProfile from 'src/components/UserProfile'
@@ -33,11 +34,10 @@ export const Empty = () => <div className="h-full">Empty</div>
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ user, refetch, variables: { isEditable } }) => {
-  const { addMessage } = useFlash()
   const [updateUser, { loading, error }] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: ({ updateUserByUserName }) => {
       navigate(routes.user({ userName: updateUserByUserName.userName }))
-      addMessage('User updated.', { classes: 'rw-flash-success' })
+      toast.success('User updated.')
     },
   })
 

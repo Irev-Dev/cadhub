@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
-import { Flash, useFlash } from '@redwoodjs/web'
+import { Toaster, toast } from '@redwoodjs/web/toast'
 import Tooltip from '@material-ui/core/Tooltip'
 import Popover from '@material-ui/core/Popover'
 import { getActiveClasses } from 'get-active-classes'
@@ -20,7 +20,6 @@ let previousSubmission = ''
 
 const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()
-  const { addMessage } = useFlash()
   const { user, loading } = useUser()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -75,12 +74,10 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
       client
         .confirm(token, true)
         .then(() => {
-          addMessage('Email confirmed', { classes: 'rw-flash-success' })
+          toast.success('Email confirmed')
         })
         .catch(() => {
-          addMessage('Problem confirming email', {
-            classes: 'bg-red-300 text-red-900',
-          })
+          toast.error('Problem confirming email')
         })
     } else if (key === 'recovery_token') {
       client
@@ -89,12 +86,10 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           navigate(routes.updatePassword())
         })
         .catch(() => {
-          addMessage('Problem recovering account', {
-            classes: 'bg-red-300 text-red-900',
-          })
+          toast.error('Problem recovering account')
         })
     }
-  }, [hash, client]) // complaining about not having addMessage, however adding it puts useEffect into a loop
+  }, [hash, client])
   return (
     <div>
       <header id="cadhub-main-header">
@@ -197,7 +192,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           )}
         </nav>
       </header>
-      <Flash timeout={1500} />
+      <Toaster timeout={1500} />
       <LoginModal
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

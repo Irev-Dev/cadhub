@@ -1,4 +1,5 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 
@@ -113,7 +114,6 @@ export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
 export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
   const { currentUser } = useAuth()
-  const { addMessage } = useFlash()
   const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: ({ updatePart }) => {
       navigate(
@@ -122,7 +122,7 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
           partTitle: updatePart.title,
         })
       )
-      addMessage('Part updated.', { classes: 'rw-flash-success' })
+      toast.success('Part updated.')
     },
   })
   const [createPart] = useMutation(CREATE_PART_MUTATION, {
@@ -133,7 +133,7 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
           partTitle: createPart?.title,
         })
       )
-      addMessage('Part Created.', { classes: 'rw-flash-success' })
+      toast.success('Part Created.')
     },
   })
   const onSave = async (id, input) => {
@@ -147,7 +147,7 @@ export const Success = ({ userPart, variables: { isEditable }, refetch }) => {
   const [deletePart] = useMutation(DELETE_PART_MUTATION, {
     onCompleted: ({ deletePart }) => {
       navigate(routes.home())
-      addMessage('Part deleted.', { classes: 'rw-flash-success' })
+      toast.success('Part deleted.')
     },
   })
 
