@@ -17,4 +17,4 @@
   open = true
 
 [experimental]
-  esbuild = true
+  esbuild = false
