@@ -13,3 +13,10 @@ functions = "api/dist/functions"
 
 [context.deploy-preview.environment]
   CAD_LAMBDA_BASE_URL = "https://t7wdlz8ztf.execute-api.us-east-1.amazonaws.com/dev2"
+
+[[plugins]]
+  package = "@sentry/netlify-build-plugin"
+
+  [plugins.inputs]
+    sentryOrg = "cadhub-org"
+    sentryProject = "cadhub"

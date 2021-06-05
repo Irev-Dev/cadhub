@@ -28,9 +28,3 @@
 [experimental]
   esbuild = false
 
-[[plugins]]
-  package = "@sentry/netlify-build-plugin"
-
-  [plugins.inputs]
-    sentryOrg = "cadhub-org"
-    sentryProject = "cadhub"
