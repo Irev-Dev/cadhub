@@ -1,4 +1,5 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes } from '@redwoodjs/router'
 import IdeCascadeStudio from 'src/components/IdeCascadeStudio'
 import { QUERY as UsersPartsQuery } from 'src/components/PartsOfUserCell'
@@ -46,11 +47,10 @@ export const Loading = () => <div>Loading...</div>
 export const Empty = () => <div>Part not found</div>
 
 export const Success = ({ part, refetch }) => {
-  const { addMessage } = useFlash()
   const { user } = useUser()
   const [updatePart, { loading, error }] = useMutation(UPDATE_PART_MUTATION, {
     onCompleted: () => {
-      addMessage('Part updated.', { classes: 'rw-flash-success fixed w-screen z-10' })
+      toast.success('Part updated.')
     },
   })
   const [forkPart] = useMutation(FORK_PART_MUTATION, {
@@ -67,7 +67,7 @@ export const Success = ({ part, refetch }) => {
           partTitle: forkPart?.title,
         })
       )
-      addMessage('Part Forked.', { classes: 'rw-flash-success' })
+      toast.success('Part Forked.')
     },
   })
 

@@ -1,35 +1,30 @@
 import { routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Form, Submit } from '@redwoodjs/forms'
-import { useFlash } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 import InputTextForm from 'src/components/InputTextForm'
 import MainLayout from 'src/layouts/MainLayout'
 import Seo from 'src/components/Seo/Seo'
 
 const UpdatePasswordPage = () => {
-  const { addMessage } = useFlash()
   const { client } = useAuth()
   const onSubmit = ({ password, confirm }) => {
     if (password !== confirm || !password) {
-      addMessage("Passwords don't match, try again", {
-        classes: 'bg-red-300 text-red-900',
-      })
+      toast.error("Passwords don't match, try again")
       return
     }
     client
       .currentUser()
       .update({ password })
       .then(() => {
-        addMessage('Password updated', { classes: 'rw-flash-success' })
+        toast.success('Password updated')
         setTimeout(() => {
           navigate(routes.home())
         }, 500)
       })
       .catch(() => {
-        addMessage('Problem updating password', {
-          classes: 'bg-red-300 text-red-900',
-        })
+        toast.error('Problem updating password')
       })
   }
   return (

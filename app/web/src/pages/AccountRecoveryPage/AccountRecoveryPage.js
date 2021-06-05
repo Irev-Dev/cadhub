@@ -1,28 +1,25 @@
 import { routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Form, Submit } from '@redwoodjs/forms'
-import { useFlash } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 import InputTextForm from 'src/components/InputTextForm'
 import MainLayout from 'src/layouts/MainLayout'
 import Seo from 'src/components/Seo/Seo'
 
 const AccountRecoveryPage = () => {
-  const { addMessage } = useFlash()
   const { client } = useAuth()
   const onSubmit = ({ email }) => {
     client
       .requestPasswordRecovery(email)
       .then(() => {
-        addMessage('Email sent', { classes: 'rw-flash-success' })
+        toast.success('Email sent')
         setTimeout(() => {
           navigate(routes.home())
         }, 500)
       })
       .catch(() => {
-        addMessage('Problem sending email', {
-          classes: 'bg-red-300 text-red-900',
-        })
+        toast.error('Problem sending email')
       })
   }
   return (

@@ -1,5 +1,5 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
-import { Link, routes } from '@redwoodjs/router'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 const DELETE_USER_MUTATION = gql`
   mutation DeleteUserMutation($id: String!) {
@@ -36,10 +36,9 @@ const checkboxInputTag = (checked) => {
 }
 
 const UsersList = ({ users }) => {
-  const { addMessage } = useFlash()
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
     onCompleted: () => {
-      addMessage('User deleted.', { classes: 'rw-flash-success' })
+      toast.success('User deleted.')
     },
   })
 

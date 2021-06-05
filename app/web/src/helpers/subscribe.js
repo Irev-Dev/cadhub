@@ -7,9 +7,7 @@ export const subscribe = ({ email, addMessage }) => {
     )
   } catch (e) {
     setTimeout(() => {
-      addMessage('Problem subscribing to newsletter', {
-        classes: 'bg-red-300 text-red-900',
-      })
+      addMessage('Problem subscribing to newsletter')
     }, 1000)
   }
 }

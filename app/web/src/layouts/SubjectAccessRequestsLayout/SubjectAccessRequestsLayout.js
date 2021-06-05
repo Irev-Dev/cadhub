@@ -1,10 +1,10 @@
 import { Link, routes } from '@redwoodjs/router'
-import { Flash } from '@redwoodjs/web'
+import { Toaster } from '@redwoodjs/web/toast'
 
 const SubjectAccessRequestsLayout = (props) => {
   return (
     <div className="rw-scaffold">
-      <Flash timeout={1000} />
+      <Toaster timeout={1000} />
       <header className="rw-header">
         <h1 className="rw-heading rw-heading-primary">
           <Link to={routes.subjectAccessRequests()} className="rw-link">

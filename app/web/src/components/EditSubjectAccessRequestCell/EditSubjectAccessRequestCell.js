@@ -1,4 +1,5 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes } from '@redwoodjs/router'
 import SubjectAccessRequestForm from 'src/components/SubjectAccessRequestForm'
 
@@ -33,15 +34,12 @@ const UPDATE_SUBJECT_ACCESS_REQUEST_MUTATION = gql`
 export const Loading = () => <div>Loading...</div>
 
 export const Success = ({ subjectAccessRequest }) => {
-  const { addMessage } = useFlash()
   const [updateSubjectAccessRequest, { loading, error }] = useMutation(
     UPDATE_SUBJECT_ACCESS_REQUEST_MUTATION,
     {
       onCompleted: () => {
         navigate(routes.subjectAccessRequests())
-        addMessage('SubjectAccessRequest updated.', {
-          classes: 'rw-flash-success',
-        })
+        toast.success('SubjectAccessRequest updated.')
       },
     }
   )

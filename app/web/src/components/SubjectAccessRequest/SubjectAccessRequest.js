@@ -1,4 +1,5 @@
-import { useMutation, useFlash } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
 
 import { QUERY } from 'src/components/SubjectAccessRequestsCell'
@@ -32,15 +33,12 @@ const checkboxInputTag = (checked) => {
 }
 
 const SubjectAccessRequest = ({ subjectAccessRequest }) => {
-  const { addMessage } = useFlash()
   const [deleteSubjectAccessRequest] = useMutation(
     DELETE_SUBJECT_ACCESS_REQUEST_MUTATION,
     {
       onCompleted: () => {
         navigate(routes.subjectAccessRequests())
-        addMessage('SubjectAccessRequest deleted.', {
-          classes: 'rw-flash-success',
-        })
+        toast.success('SubjectAccessRequest deleted.')
       },
       // This refetches the query on the list page. Read more about other ways to
       // update the cache over here:

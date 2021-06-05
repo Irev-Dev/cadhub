@@ -6,6 +6,7 @@ import { Form, Submit } from '@redwoodjs/forms'
 import MainLayout from 'src/layouts/MainLayout'
 import Seo from 'src/components/Seo/Seo'
 import InputTextForm from 'src/components/InputTextForm'
+import { toast } from '@redwoodjs/web/dist/toast'
 
 export const QUERY = gql`
   query SUBJECT_ACCESS_REQUEST($userName: String!) {
@@ -74,7 +75,6 @@ const CREATE_SUBJECT_ACCESS_REQUEST_MUTATION = gql`
 `
 
 const SubjectAccessRequestPage = () => {
-  const { addMessage } = useFlash()
   const [input, setInput] = useState({})
   const { data } = useQuery(QUERY, {
     skip: !input.userName,
@@ -88,9 +88,7 @@ const SubjectAccessRequestPage = () => {
     CREATE_SUBJECT_ACCESS_REQUEST_MUTATION,
     {
       onCompleted: () => {
-        addMessage('SubjectAccessRequest created.', {
-          classes: 'rw-flash-success',
-        })
+        toast.success('SubjectAccessRequest created.')
       },
     }
   )
