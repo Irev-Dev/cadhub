@@ -8,7 +8,7 @@ RUN apt-get update -qq
 RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb imagemagick unzip inkscape
 RUN apt-get update -qq
 RUN apt-get install -y -qq openscad
-RUN apt-get install -y curl
+RUN apt-get install -y curl wget
 
 # install node14, see comment at the to of node14source_setup.sh
 ADD common/node14source_setup.sh /nodesource_setup.sh
@@ -36,6 +36,12 @@ RUN ["chmod", "+x", "/usr/local/bin/aws-lambda-rie"]
 WORKDIR /var/task/
 COPY openscad/package*.json /var/task/
 RUN npm install
+
+# Install OpenSCAD libraries
+# It's experimental, so only adding latest Round-Anything for now
+RUN echo "OPENSCADPATH=/var/task/openscad" >>/etc/profile && \
+  wget -P /var/task/openscad/ https://github.com/Irev-Dev/Round-Anything/archive/refs/tags/1.0.4.zip && \
+  unzip /var/task/openscad/1.0.4
 
 COPY openscad/*.js /var/task/
 COPY common/*.js /var/common/
