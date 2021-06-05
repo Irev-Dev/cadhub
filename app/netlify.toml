@@ -18,5 +18,5 @@ functions = "api/dist/functions"
   package = "@sentry/netlify-build-plugin"
 
   [plugins.inputs]
-    sentryOrg = "cadhub-org"
-    sentryProject = "cadhub"
+    sentryOrg = "kurt"
+    sentryProject = "kurt"
