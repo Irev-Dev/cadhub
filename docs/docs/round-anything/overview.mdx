@@ -1,0 +1,114 @@
+---
+title: Overview
+---
+
+import Image from '@theme/IdealImage';
+
+import socialMediaSnippets from '../../static/img/round-anything/social-media-snippets.png';
+import minkowskiRounded from '../../static/img/round-anything/minkowski-rounded.png';
+import polyroundDemo from '../../static/img/round-anything/polyround-demo.png';
+import conflictResolution from '../../static/img/round-anything/conflict-resolution.png';
+import pointTranslation from '../../static/img/round-anything/point-translation.png';
+import shell2d from '../../static/img/round-anything/shell-2d.png';
+import beamChain from '../../static/img/round-anything/beam-chain.png';
+import mirrorPoints from '../../static/img/round-anything/mirror-points.png';
+import polyroundExtrude from '../../static/img/round-anything/polyround-extrude.png';
+import radiusExtrude from '../../static/img/round-anything/radius-extrude.png';
+
+
+## A pragmatic approach to OpenSCAD design
+
+### Built with ❤ by the CadHub team ([repo](https://github.com/Irev-Dev/Round-Anything))
+
+Round-Anything is primarily a set of OpenSCAD utilities that help with rounding parts, but it also embodies a robust approach to developing OpenSCAD parts. I built this library to solve some of my own struggles with rounding and OpenSCAD, and I've been happy to see other's are finding it useful too.
+
+<Image img={socialMediaSnippets} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+## The Why
+
+The truth is fillets, internal fillets, in particular, can be a real pain to add in openscad.
+And the more you move away from shapes with 90 degree angles, the more difficult it becomes.
+Effectively there is a complexity ceiling on parts with fillets you can produce in OpenScad.
+Because of how important fillets in both making an appealing and strong part (by reducing stress concentration), a library that focuses on fillets as a core principle makes for a solid foundation for your parts.
+Furthermore, the heart of the library revolves around the polygon, this is because we're leveraging the battle-tested paradigm of extruding from 2d sketches of most CAD packages.
+I can't imagine making an OpenSCAD part without Round-Anything.
+
+Below is an overview of the library's features, For documentation of its [API click here](/docs/round-anything/api-reference).
+There's also a [timelapse of a part](https://twitter.com/IrevDev/status/1292945044647731201) made using the library.
+
+A video version of this article can be [found here](https://www.youtube.com/watch?v=laxv2wFKq8Q):
+
+##  Features
+
+### `polyRound`
+It's like polygon, but upgraded to allow rounding of any of the points.
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fpolyround.scad)**
+
+<Image img={polyroundDemo} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+### `polyRoundExtrude`
+Piggy backs on [`polyRound`](/docs/round-anything/overview#polyround), Allowing fillets on the ends of `polyRound` extrutions.
+A negative vaule will flare the end out for a transition to flat, useful for creating [filleted negatives](https://github.com/Irev-Dev/Round-Anything/discussions/25#discussioncomment-795765) for use with difference.
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FpolyRoundExtrude.scad)**
+
+<Image img={polyroundExtrude} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+### Radius Conflict resolution
+By default, fillets are automatically scaled to remove any give pair of subsequent fillets from conflicting (if they are too big and too close together).
+The feature can be opted out of.
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fradii-conflict.scad)**
+
+<Image img={conflictResolution} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+### `translateRadiiPoints` - Point translation helpers
+Aids in the reuse of polygon of points. To keep a single source of truth and for editing them together.
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FtranslateRadiiPoints.scad)**
+
+<Image img={pointTranslation} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+### `shell2d`
+Self-explanatory, when combined with poly round, it gives a nice smooth transitioning shell.
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fshell2d.scad)**
+
+<Image img={shell2d} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+###  `beamChain`
+Unlike a regular polygon, where the last point is joint to the first to complete the shape.
+Instead, we can treat each set of points as a beam without it wrapping at the end.
+We can round the transitions between the beams and combine with other points, to form more complex shapes.
+
+An offset from the normal gives beams their thickness.
+
+<Image img={beamChain} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+### `mirrorPoints`
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FmirrorPoints.scad)**
+
+For mirroring a set of points.
+The benefit of this over using the native OpenSCAD mirror transformation is the ability to put smooth radii along the mirrored plane.
+
+<Image img={mirrorPoints} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+
+### `extrudeWithRadius`
+Similar to [PolyRoundExtrude](http://localhost:3000/docs/round-anything/overview#polyroundextrude) but is more generic.
+It will work with any 2d shape, though uses a more hacky and less proformant method.
+Use `polyRoundExtrude` instead if you can
+
+**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FextrudeWithRadius.scad)**
+
+<Image img={radiusExtrude} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+### `minkowskiRound` (not recommended)
+A power tool for rounding all edges of a design after the fact.
+Adjustable for external and internal radii.
+
+Due to how slow Minkowski is, this helper is not recommended and may be deprecated in the future.
+
+<Image img={minkowskiRounded} className="mb-8 bg-contain rounded-md overflow-hidden" />

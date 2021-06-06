@@ -18,5 +18,14 @@ module.exports = {
         'definitive-beginners/wrap-up',
       ],
     },
+    {
+      type: 'category',
+      label: 'Round Anything Library',
+      items: [
+        'round-anything/overview',
+        'round-anything/api-reference',
+        'round-anything/radii-conflict',
+      ],
+    },
   ],
 }
