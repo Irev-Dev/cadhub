@@ -45,7 +45,10 @@ Arguments are:
 
 ```cpp
 radiiPoints=[[-4,0,1],[5,3,1.5],[0,7,0.1],[8,7,10],[20,20,0.8],[10,0,10]];
-polygon(polyRound(radiiPoints,30));
+polygon(
+  // highlight-next-line
+  polyRound(radiiPoints,30)
+);
 ```
 By default `polyRound` will reduce radii to stop any two subsequent radii from conflicting.
 To further understand how the radii conflict resolution works here's an example of that.
@@ -95,6 +98,7 @@ It is recommended over `extrudeWithRadius` where possible.
 
 ```cpp
 radiiPoints=[[10,0,10],[20,20,1.1],[8,7,10],[0,7,0.3],[5,3,0.1],[-4,0,1]];
+// highlight-next-line
 polyRoundExtrude(radiiPoints,2,0.5,-0.8,fn=50);
 ```
 
@@ -134,8 +138,10 @@ function nutCapture(startAndEndRadius=0)=[
 ];
 translate([-5,0,0])polygon(polyRound(nutCapture(),20));
 
+// highlight-start
 negativeNutCapture=translateRadiiPoints(nutCapture(),tran=[5,0]);
 rotatedNegativeNutCapture=translateRadiiPoints(nutCapture(1),tran=[20,5],rot=90);
+// highlight-end
 aSquare=concat(
   [[0,0,0]],
   negativeNutCapture,
@@ -174,6 +180,7 @@ Here's a simple example.
 ```cpp
 radiiPoints=[[-4,0,1],[5,3,1.5],[0,7,0.1],[8,7,10],[20,20,0.8],[10,0,10]];
 shell2d(-0.5)polygon(polyRound(radiiPoints,30));
+// highlight-next-line
 translate([0,-10,0])shell2d(-0.5){
   polygon(polyRound(radiiPoints,30));
   translate([8,8])gridpattern(memberW = 0.3, sqW = 1, iter = 17, r = 0.2);
@@ -314,6 +321,7 @@ use: `mirroredRadiiPoints = mirrorPoints(radiiPoints, rot, endAttenuation)`
 ```cpp
 centerRadius=7;
 points=[[0,0,0],[2,8,0],[5,4,3],[15,10,0.5],[10,2,centerRadius]];
+// highlight-next-line
 mirroredPoints=mirrorPoints(points,0,[0,0]);
 translate([0,-20,0])polygon(polyRound(mirroredPoints,20));
 ```
@@ -340,7 +348,9 @@ extrudeWithRadius(length,r1=0,r2=0,fn=30){
 
 ```cpp
 radiiPoints=[[-4,0,1],[5,3,1.5],[0,7,0.1],[8,7,10],[20,20,0.8],[10,0,10]];
-extrudeWithRadius(3,0.5,0.5,50)polygon(polyRound(radiiPoints,30));
+// highlight-next-line
+extrudeWithRadius(3,0.5,0.5,50)
+  polygon(polyRound(radiiPoints,30));
 #translate([7,4,3])extrudeWithRadius(3,-0.5,0.95,50)circle(1,$fn=30);
 ```
 
