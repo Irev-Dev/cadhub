@@ -5,7 +5,7 @@ author: Kurt Hutten
 author_title: CadHub Core Team
 author_url: https://github.com/Irev-Dev
 author_image_url: https://avatars.githubusercontent.com/u/29681384?v=4
-tags: ['OpenSCCAD']
+tags: ['OpenSCAD']
 ---
 
 This is an:
