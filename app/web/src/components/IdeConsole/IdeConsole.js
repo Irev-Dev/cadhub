@@ -20,7 +20,7 @@ const IdeConsole = () => {
             <pre
               className="font-mono text-sm"
               style={matchEditorVsDarkTheme.Text}
-              key={message + index}
+              key={`${message} ${index}`}
             >
               <div
                 className="text-xs font-bold pt-2"
