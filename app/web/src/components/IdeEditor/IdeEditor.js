@@ -7,7 +7,6 @@ const Editor = lazy(() => import('@monaco-editor/react'))
 export const matchEditorVsDarkTheme = {
   // Some colors to roughly match the vs-dark editor theme
   Bg: { backgroundColor: 'rgb(30,30,30)' },
-  lighterBg: { backgroundColor: 'rgb(55,55,55)' },
   Text: { color: 'rgb(212,212,212)' },
   TextBrown: { color: 'rgb(206,144,120)' },
 }

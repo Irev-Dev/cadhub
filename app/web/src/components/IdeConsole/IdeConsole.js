@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { IdeContext } from 'src/components/IdeToolbarNew'
 import { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
+import PanelToolbar from 'src/components/PanelToolbar'
 
 const IdeConsole = () => {
   const { state } = useContext(IdeContext)
@@ -12,27 +13,28 @@ const IdeConsole = () => {
   }, [state.consoleMessages])
 
   return (
-    <div className="p-2 px-4 min-h-full" style={matchEditorVsDarkTheme.Bg}>
-      <div>
-        {state.consoleMessages?.map(({ type, message, time }, index) => (
-          <pre
-            className="font-mono text-sm"
-            style={matchEditorVsDarkTheme.Text}
-            key={message + index}
-          >
-            <div
-              className="text-xs font-bold pt-2"
-              style={matchEditorVsDarkTheme.TextBrown}
+      <div className="p-2 px-8 pt-14 min-h-full relative" style={matchEditorVsDarkTheme.Bg}>
+        <PanelToolbar panelName="console" />
+        <div>
+          {state.consoleMessages?.map(({ type, message, time }, index) => (
+            <pre
+              className="font-mono text-sm"
+              style={matchEditorVsDarkTheme.Text}
+              key={message + index}
             >
-              {time?.toLocaleString()}
-            </div>
-            <div className={(type === 'error' ? 'text-red-400' : '') + ' pl-4'}>
-              {message}
-            </div>
-          </pre>
-        ))}
+              <div
+                className="text-xs font-bold pt-2"
+                style={matchEditorVsDarkTheme.TextBrown}
+              >
+                {time?.toLocaleString()}
+              </div>
+              <div className={(type === 'error' ? 'text-red-400' : '') + ' pl-4'}>
+                {message}
+              </div>
+            </pre>
+          ))}
+        </div>
       </div>
-    </div>
   )
 }
 

@@ -10,6 +10,9 @@ module.exports = {
         'bounce-sm-slow': 'bounce-sm 5s linear infinite',
         'twist-sm-slow': 'twist-sm 10s infinite',
       },
+      cursor: {
+        grab: 'grab'
+      },
       keyframes: {
         'bounce-sm': {
           '0%, 100%': {
