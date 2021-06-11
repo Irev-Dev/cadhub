@@ -9,6 +9,8 @@ import { flow, identity } from 'lodash/fp'
 import { fileSave } from 'browser-fs-access'
 import { MeshBasicMaterial, Mesh, Scene } from 'three'
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
+import OutBound from 'src/components/OutBound'
+import IdeSideBar from 'src/components/IdeSideBar'
 
 export const githubSafe = (url) =>
   url.includes('github.com')
@@ -143,28 +145,45 @@ const IdeToolbarNew = ({ cadPackage }) => {
 
   return (
     <IdeContext.Provider value={{ state, thunkDispatch }}>
-      <div className="h-full flex flex-col">
-        <nav className="flex">
-          <button
-            onClick={handleRender}
-            className="border-2 px-2 text-gray-700 text-sm m-1"
-          >
-            Render
-          </button>
-          <button
-            onClick={handleMakeLink}
-            className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
-          >
-            Copy link
-          </button>
-          <button
-            onClick={handleStlDownload}
-            className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
-          >
-            Download STL
-          </button>
-        </nav>
-        <IdeContainer />
+      <div className="h-full flex">
+        <div className="w-16 bg-gray-700 flex-shrink-0">
+          <IdeSideBar />
+        </div>
+        <div className="h-full flex flex-grow flex-col">
+          <div className="py-2 bg-pink-200">
+            <div className="mx-auto max-w-3xl">
+              We're still working on this. Since you're here, have a look what{' '}
+              <OutBound
+                className="text-pink-700"
+                to="https://github.com/Irev-Dev/cadhub/discussions/212"
+              >
+                we've got planned
+              </OutBound>
+              .
+            </div>
+          </div>
+          <nav className="flex">
+            <button
+              onClick={handleRender}
+              className="border-2 px-2 text-gray-700 text-sm m-1"
+            >
+              Render
+            </button>
+            <button
+              onClick={handleMakeLink}
+              className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
+            >
+              Copy link
+            </button>
+            <button
+              onClick={handleStlDownload}
+              className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
+            >
+              Download STL
+            </button>
+          </nav>
+          <IdeContainer />
+        </div>
       </div>
     </IdeContext.Provider>
   )

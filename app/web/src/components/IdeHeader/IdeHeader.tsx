@@ -10,8 +10,10 @@ const TopButton = ({children}) => (
 const IdeHeader = () => {
   return (
     <div className="h-16 bg-gray-900 flex justify-between items-center">
-      <div className="w-16 h-full flex items-center justify-center bg-gray-700">
-        <Svg className="w-12" name="favicon" />
+      <div className="bg-gray-700 pr-48 h-full">
+        <div className="w-16 h-full flex items-center justify-center bg-gray-900">
+          <Svg className="w-12" name="favicon" />
+        </div>
       </div>
       <div className="text-gray-200 flex gap-4 mr-4">
         <TopButton>Render</TopButton>

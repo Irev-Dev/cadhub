@@ -6,6 +6,7 @@ import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
 import 'react-mosaic-component/react-mosaic-component.css'
+import EditorMenu from 'src/components/EditorMenu/EditorMenu'
 
 const ELEMENT_MAP = {
   Editor: <IdeEditor />,
@@ -64,7 +65,7 @@ const IdeContainer = () => {
           return (
             <MosaicWindow
               path={path}
-              renderToolbar={() => <div/>} // needs an empty element, otherwise it adds it's own toolbar
+              renderToolbar={() => id === 'Editor' ? <div className="w-full"><EditorMenu /></div> : <div/>} // needs an empty element, otherwise it adds it's own toolbar
               className={`${id.toLowerCase()} ${id.toLowerCase()}-tile`}
             >
               {id === 'Viewer' ? (
