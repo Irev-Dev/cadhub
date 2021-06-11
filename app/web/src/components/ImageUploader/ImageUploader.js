@@ -6,7 +6,7 @@ import ReactCrop from 'react-image-crop'
 import { Dialog } from '@material-ui/core'
 import { Image as CloudinaryImage } from 'cloudinary-react'
 import 'react-image-crop/dist/ReactCrop.css'
-import Svg from 'src/components/Svg/Svg.js'
+import Svg from 'src/components/Svg'
 
 const CLOUDINARY_UPLOAD_PRESET = 'CadHub_project_images'
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/irevdev/upload'
