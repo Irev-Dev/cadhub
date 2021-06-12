@@ -3,7 +3,7 @@ import { Menu } from '@headlessui/react'
 
 import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import Svg from 'src/components/Svg/Svg'
-import { useRender } from 'src/components/IdeToolbarNew/useRender'
+import { useRender } from 'src/components/IdeWrapper/useRender'
 import {makeStlDownloadHandler, PullTitleFromFirstLine} from './helpers'
 
 const EditorMenu = () => {

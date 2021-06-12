@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import Seo from 'src/components/Seo/Seo'
-import IdeToolbar from 'src/components/IdeToolbarNew'
+import IdeWrapper from 'src/components/IdeWrapper'
 import { Toaster } from '@redwoodjs/web/toast'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 
@@ -16,7 +16,7 @@ const DevIdePage = ({ cadPackage }) => {
       />
       <Toaster timeout={9000} />
       <IdeContext.Provider value={{ state, thunkDispatch }}>
-        <IdeToolbar cadPackage={cadPackage} />
+        <IdeWrapper cadPackage={cadPackage} />
       </IdeContext.Provider>
     </div>
   )
