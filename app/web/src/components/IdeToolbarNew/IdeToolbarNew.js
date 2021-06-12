@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import IdeContainer from 'src/components/IdeContainer'
 import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { handleRenderVerbose } from './useRender'
+import { useRender } from './useRender'
 import { decode } from 'src/helpers/compress'
 import { flow } from 'lodash/fp'
 import OutBound from 'src/components/OutBound'
@@ -22,6 +22,7 @@ const prepareEncodedUrl = flow(decodeURIComponent, githubSafe)
 const IdeToolbarNew = ({ cadPackage }) => {
   const { state, thunkDispatch } = useContext(IdeContext)
   const [shouldShowConstructionMessage, setShouldShowConstructionMessage] = useState(true)
+  const handleRender = useRender()
   const scriptKey = 'encoded_script'
   const scriptKeyV2 = 'encoded_script_v2'
   const fetchText = 'fetch_text_v1'
@@ -62,9 +63,6 @@ const IdeToolbarNew = ({ cadPackage }) => {
     }
     window.location.hash = ''
   }, [cadPackage])
-  function handleRender() {
-    return handleRenderVerbose({thunkDispatch, state})
-  }
 
   return (
     <div className="h-full flex">
