@@ -1,16 +1,13 @@
 import { createContext, useEffect } from 'react'
 import IdeContainer from 'src/components/IdeContainer'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useIdeState, makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
-import { copyTextToClipboard } from 'src/helpers/clipboard'
-import { requestRender } from 'src/helpers/hooks/useIdeState'
-import { encode, decode } from 'src/helpers/compress'
-import { flow, identity } from 'lodash/fp'
-import { fileSave } from 'browser-fs-access'
-import { MeshBasicMaterial, Mesh, Scene } from 'three'
-import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
+import { useIdeState } from 'src/helpers/hooks/useIdeState'
+import { handleRenderVerbose } from './useRender'
+import { decode } from 'src/helpers/compress'
+import { flow } from 'lodash/fp'
 import OutBound from 'src/components/OutBound'
 import IdeSideBar from 'src/components/IdeSideBar'
+import IdeHeader from 'src/components/IdeHeader'
 
 export const githubSafe = (url) =>
   url.includes('github.com')
@@ -65,83 +62,8 @@ const IdeToolbarNew = ({ cadPackage }) => {
     window.location.hash = ''
   }, [cadPackage])
   function handleRender() {
-    thunkDispatch((dispatch, getState) => {
-      const state = getState()
-      dispatch({ type: 'setLoading' })
-      requestRender({
-        state,
-        dispatch,
-        code: state.code,
-        viewerSize: state.viewerSize,
-        camera: state.camera,
-      })
-    })
-    localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
+    return handleRenderVerbose({thunkDispatch, state})
   }
-  function handleMakeLink() {
-    if (isBrowser) {
-      const encodedScript = encode(state.code)
-      window.location.hash = `${scriptKeyV2}=${encodedScript}`
-      copyTextToClipboard(window.location.href)
-    }
-  }
-  const PullTitleFromFirstLine = (code = '') => {
-    const firstLine = code.split('\n').filter(identity)[0] || ''
-    if (!(firstLine.startsWith('//') || firstLine.startsWith('#'))) {
-      return 'object.stl'
-    }
-    return (
-      (firstLine.replace(/^(\/\/|#)\s*(.+)/, (_, __, titleWithSpaces) =>
-        titleWithSpaces.replaceAll(/\s/g, '-')
-      ) || 'object') + '.stl'
-    )
-  }
-
-  const handleStlDownload = (({ geometry, fileName, type }) => () => {
-    const makeStlBlobFromGeo = flow(
-      (geo) => new Mesh(geo, new MeshBasicMaterial()),
-      (mesh) => new Scene().add(mesh),
-      (scene) => new STLExporter().parse(scene),
-      (stl) =>
-        new Blob([stl], {
-          type: 'text/plain',
-        })
-    )
-    const saveFile = (geometry) => {
-      const blob = makeStlBlobFromGeo(geometry)
-      fileSave(blob, {
-        fileName,
-        extensions: ['.stl'],
-      })
-    }
-    if (geometry) {
-      if (type === 'geometry') {
-        saveFile(geometry)
-      } else {
-        thunkDispatch((dispatch, getState) => {
-          const state = getState()
-          if (state.ideType === 'openScad') {
-            thunkDispatch((dispatch, getState) => {
-              const state = getState()
-              dispatch({ type: 'setLoading' })
-              requestRender({
-                state,
-                dispatch,
-                code: state.code,
-                viewerSize: state.viewerSize,
-                camera: state.camera,
-                specialCadProcess: 'stl',
-              }).then((result) => result && saveFile(result.data))
-            })
-          }
-        })
-      }
-    }
-  })({
-    type: state.objectData?.type,
-    geometry: state.objectData?.data,
-    fileName: PullTitleFromFirstLine(state.code),
-  })
 
   return (
     <IdeContext.Provider value={{ state, thunkDispatch }}>
@@ -150,6 +72,9 @@ const IdeToolbarNew = ({ cadPackage }) => {
           <IdeSideBar />
         </div>
         <div className="h-full flex flex-grow flex-col">
+          <nav className="flex">
+            <IdeHeader handleRender={handleRender} />
+          </nav>
           <div className="py-2 bg-pink-200">
             <div className="mx-auto max-w-3xl">
               We're still working on this. Since you're here, have a look what{' '}
@@ -162,26 +87,6 @@ const IdeToolbarNew = ({ cadPackage }) => {
               .
             </div>
           </div>
-          <nav className="flex">
-            <button
-              onClick={handleRender}
-              className="border-2 px-2 text-gray-700 text-sm m-1"
-            >
-              Render
-            </button>
-            <button
-              onClick={handleMakeLink}
-              className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
-            >
-              Copy link
-            </button>
-            <button
-              onClick={handleStlDownload}
-              className="border-2 text-gray-700 px-2 text-sm m-1 ml-2"
-            >
-              Download STL
-            </button>
-          </nav>
           <IdeContainer />
         </div>
       </div>

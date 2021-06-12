@@ -1,6 +1,6 @@
 import Seo from 'src/components/Seo/Seo'
 import IdeToolbar from 'src/components/IdeToolbarNew'
-import IdeHeader from 'src/components/IdeHeader'
+import { Toaster } from '@redwoodjs/web/toast'
 
 const DevIdePage = ({ cadPackage }) => {
   return (
@@ -10,10 +10,8 @@ const DevIdePage = ({ cadPackage }) => {
         description="new ide in development"
         lang="en-US"
       />
-      <IdeHeader />
-      <div className="flex-auto">
-        <IdeToolbar cadPackage={cadPackage} />
-      </div>
+      <Toaster timeout={9000} />
+      <IdeToolbar cadPackage={cadPackage} />
     </div>
   )
 }
