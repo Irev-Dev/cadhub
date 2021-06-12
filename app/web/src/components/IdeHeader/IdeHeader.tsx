@@ -3,9 +3,19 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { copyTextToClipboard } from 'src/helpers/clipboard'
 import { encode } from 'src/helpers/compress'
 
-const TopButton = ({children, onClick}: {onClick?: () => void, children: React.ReactNode}) => (
-  <button onClick={onClick} className="flex bg-gray-500 h-10 justify-center items-center px-4 rounded">
-    <div className="rounded-full bg-gray-200 h-6 w-6 mr-4"/>
+const TopButton = ({
+    onClick,
+    children,
+    className,
+    iconColor,
+  }: {
+    onClick?: () => void
+    children: React.ReactNode
+    className?: string
+    iconColor: string
+  }) => (
+  <button onClick={onClick} className={`flex bg-gray-200 h-10 justify-center items-center px-4 rounded ${className}`}>
+    <div className={`rounded-full h-6 w-6 mr-4 ${iconColor}`}/>
     {children}
   </button>
 )
@@ -16,8 +26,11 @@ const IdeHeader = ({handleRender}: {handleRender: () => void}) => {
       <div className="bg-gray-700 pr-48 h-full">
       </div>
       <div className="text-gray-200 flex gap-4 mr-4">
-        <TopButton onClick={handleRender}>Render</TopButton>
-
+        <TopButton
+          className="bg-gray-600 text-gray-200"
+          iconColor="bg-gray-300"
+          onClick={handleRender}
+        >Render</TopButton>
 
         <Popover className="relative outline-none w-full h-full">
           {({open}) => {
@@ -25,9 +38,8 @@ const IdeHeader = ({handleRender}: {handleRender: () => void}) => {
             return (
               <>
                 <Popover.Button className="h-full w-full outline-none">
-                  <TopButton>Share</TopButton>
+                  <TopButton iconColor="bg-gray-600" className="text-gray-700">Share</TopButton>
                 </Popover.Button>
-
                 {open && <Popover.Panel className="absolute z-10 mt-4 right-0">
                   <Tabs
                     className="bg-gray-300 rounded-md shadow-md overflow-hidden text-gray-700"
@@ -52,7 +64,7 @@ const IdeHeader = ({handleRender}: {handleRender: () => void}) => {
             )
           }}
         </Popover>
-        <TopButton>Fork</TopButton>
+        {/* <TopButton>Fork</TopButton> */}
       </div>
     </div>
   )

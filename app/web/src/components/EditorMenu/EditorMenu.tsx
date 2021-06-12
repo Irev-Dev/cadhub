@@ -21,8 +21,9 @@ const EditorMenu = () => {
         <Svg name='drag-grid' className="w-4 p-px" />
       </div>
       <button
-        className="text-gray-300 px-3 h-full"
+        className="text-gray-300 px-3 h-full cursor-not-allowed"
         aria-label="editor settings"
+        disabled
       >
         <Svg name='gear' className="w-7 p-px" />
       </button>
@@ -32,10 +33,10 @@ const EditorMenu = () => {
           handleRender={handleRender}
           handleStlDownload={handleStlDownload}
         />
-        <button className="text-gray-100">
+        <button className="text-gray-100 cursor-not-allowed" disabled>
           Edit
         </button>
-        <button className="text-gray-100">
+        <button className="text-gray-100 cursor-not-allowed" disabled>
           View
         </button>
       </div>

@@ -9,7 +9,7 @@ const IdeSideBar = () => {
             <Svg className="w-12" name="favicon" />
           </Link>
         </div>
-      <button className=" text-gray-300 p-2 pb-4 flex justify-center" aria-label="IDE settings">
+      <button className="text-gray-300 p-2 pb-4 flex justify-center cursor-not-allowed" aria-label="IDE settings" disabled>
         <Svg name="big-gear" />
       </button>
     </div>

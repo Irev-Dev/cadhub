@@ -11,7 +11,7 @@ const PanelToolbar = ({ panelName }: { panelName : string }) => {
           <Svg name='drag-grid' className="w-4 p-px" />
         </div>
       )}
-      <button className="bg-gray-500 text-gray-300 px-3 rounded-br-lg h-full" aria-label={`${panelName} settings`}>
+      <button className="bg-gray-500 text-gray-300 px-3 rounded-br-lg h-full cursor-not-allowed" aria-label={`${panelName} settings`} disabled>
         <Svg name='gear' className="w-7 p-px" />
       </button>
     </div>
