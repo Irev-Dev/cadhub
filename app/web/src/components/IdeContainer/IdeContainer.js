@@ -1,6 +1,6 @@
-import { useContext, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
-import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
@@ -15,7 +15,7 @@ const ELEMENT_MAP = {
 }
 
 const IdeContainer = () => {
-  const { state, thunkDispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useIdeContext()
   const viewerDOM = useRef(null)
   const debounceTimeoutId = useRef
 

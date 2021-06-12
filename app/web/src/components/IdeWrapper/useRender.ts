@@ -1,10 +1,9 @@
 import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
-import { useContext } from 'react'
-import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 
 export const useRender = () => {
-  const { state, thunkDispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useIdeContext()
   return () => {
     thunkDispatch((dispatch, getState) => {
       const state = getState()

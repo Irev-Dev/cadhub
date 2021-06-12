@@ -1,9 +1,10 @@
 import { makeEncodedLink } from './helpers'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
-import {useIdeContext} from 'src/helpers/hooks/useIdeContext'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+
 
 const FullScriptEncoding = () => {
-  const {state} = useIdeContext()
+  const { state } = useIdeContext()
   const encodedLink = makeEncodedLink(state.code)
   return (
     <>

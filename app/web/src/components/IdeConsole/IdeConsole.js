@@ -1,10 +1,10 @@
-import { useContext, useEffect } from 'react'
-import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
+import { useEffect } from 'react'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
 import PanelToolbar from 'src/components/PanelToolbar'
 
 const IdeConsole = () => {
-  const { state } = useContext(IdeContext)
+  const { state } = useIdeContext()
   useEffect(() => {
     const element = document.querySelector('.console-tile .mosaic-window-body')
     if (element) {

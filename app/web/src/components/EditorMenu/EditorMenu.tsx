@@ -1,14 +1,13 @@
-import { useContext } from 'react'
 import { Menu } from '@headlessui/react'
 
-import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import Svg from 'src/components/Svg/Svg'
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import {makeStlDownloadHandler, PullTitleFromFirstLine} from './helpers'
 
 const EditorMenu = () => {
   const handleRender = useRender()
-  const { state, thunkDispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useIdeContext()
   const handleStlDownload = makeStlDownloadHandler({
     type: state.objectData?.type,
     geometry: state.objectData?.data,
