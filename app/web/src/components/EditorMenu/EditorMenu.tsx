@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { Menu } from '@headlessui/react'
 
-import { IdeContext } from 'src/components/IdeToolbarNew/IdeToolbarNew'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import Svg from 'src/components/Svg/Svg'
 import { useRender } from 'src/components/IdeToolbarNew/useRender'
 import {makeStlDownloadHandler, PullTitleFromFirstLine} from './helpers'

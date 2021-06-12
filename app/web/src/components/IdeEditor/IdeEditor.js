@@ -1,5 +1,5 @@
 import { useContext, Suspense, lazy } from 'react'
-import { IdeContext } from 'src/components/IdeToolbarNew'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 const Editor = lazy(() => import('@monaco-editor/react'))

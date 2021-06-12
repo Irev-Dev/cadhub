@@ -1,7 +1,7 @@
 import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import { useContext } from 'react'
-import { IdeContext } from 'src/components/IdeToolbarNew/IdeToolbarNew'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 
 export const handleRenderVerbose = ({thunkDispatch, state}) => {
   thunkDispatch((dispatch, getState) => {

@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import IdeContainer from 'src/components/IdeContainer'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
-import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { handleRenderVerbose } from './useRender'
 import { decode } from 'src/helpers/compress'
 import { flow } from 'lodash/fp'
@@ -19,9 +19,8 @@ export const githubSafe = (url) =>
 
 const prepareEncodedUrl = flow(decodeURIComponent, githubSafe)
 
-export const IdeContext = createContext()
 const IdeToolbarNew = ({ cadPackage }) => {
-  const [state, thunkDispatch] = useIdeState()
+  const { state, thunkDispatch } = useContext(IdeContext)
   const [shouldShowConstructionMessage, setShouldShowConstructionMessage] = useState(true)
   const scriptKey = 'encoded_script'
   const scriptKeyV2 = 'encoded_script_v2'
@@ -68,34 +67,32 @@ const IdeToolbarNew = ({ cadPackage }) => {
   }
 
   return (
-    <IdeContext.Provider value={{ state, thunkDispatch }}>
-      <div className="h-full flex">
-        <div className="w-16 bg-gray-700 flex-shrink-0">
-          <IdeSideBar />
-        </div>
-        <div className="h-full flex flex-grow flex-col">
-          <nav className="flex">
-            <IdeHeader handleRender={handleRender} />
-          </nav>
-          {shouldShowConstructionMessage && <div className="py-2 bg-pink-200 flex">
-            <div className="flex-grow text-center">
-              We're still working on this. Since you're here, have a look what{' '}
-              <OutBound
-                className="text-pink-700"
-                to="https://github.com/Irev-Dev/cadhub/discussions/212"
-              >
-                we've got planned
-              </OutBound>
-              .
-            </div>
-            <button className="flex" onClick={() => setShouldShowConstructionMessage(false)}>
-              <Svg className="h-4 w-6 text-gray-500 mr-3 items-center" name="x"/>
-            </button>
-          </div>}
-          <IdeContainer />
-        </div>
+    <div className="h-full flex">
+      <div className="w-16 bg-gray-700 flex-shrink-0">
+        <IdeSideBar />
       </div>
-    </IdeContext.Provider>
+      <div className="h-full flex flex-grow flex-col">
+        <nav className="flex">
+          <IdeHeader handleRender={handleRender} />
+        </nav>
+        {shouldShowConstructionMessage && <div className="py-2 bg-pink-200 flex">
+          <div className="flex-grow text-center">
+            We're still working on this. Since you're here, have a look what{' '}
+            <OutBound
+              className="text-pink-700"
+              to="https://github.com/Irev-Dev/cadhub/discussions/212"
+            >
+              we've got planned
+            </OutBound>
+            .
+          </div>
+          <button className="flex" onClick={() => setShouldShowConstructionMessage(false)}>
+            <Svg className="h-4 w-6 text-gray-500 mr-3 items-center" name="x"/>
+          </button>
+        </div>}
+        <IdeContainer />
+      </div>
+    </div>
   )
 }
 

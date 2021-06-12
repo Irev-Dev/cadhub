@@ -1,6 +1,6 @@
 import { useContext, useRef, useEffect } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
-import { IdeContext } from 'src/components/IdeToolbarNew'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'

@@ -1,4 +1,4 @@
-import { IdeContext } from 'src/components/IdeToolbarNew'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import { useRef, useState, useEffect, useContext } from 'react'
 import {
   Canvas,

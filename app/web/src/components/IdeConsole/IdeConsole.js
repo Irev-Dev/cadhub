@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { IdeContext } from 'src/components/IdeToolbarNew'
+import { IdeContext } from 'src/pages/DevIdePage/DevIdePage'
 import { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
 import PanelToolbar from 'src/components/PanelToolbar'
 
