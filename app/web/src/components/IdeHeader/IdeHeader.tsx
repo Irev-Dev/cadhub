@@ -1,7 +1,6 @@
 import { Popover } from '@headlessui/react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { copyTextToClipboard } from 'src/helpers/clipboard'
-import { encode } from 'src/helpers/compress'
+import FullScriptEncoding from 'src/components/EncodedUrl/FullScriptEncoding'
 
 const TopButton = ({
     onClick,
@@ -34,7 +33,6 @@ const IdeHeader = ({handleRender}: {handleRender: () => void}) => {
 
         <Popover className="relative outline-none w-full h-full">
           {({open}) => {
-            const encodedLink = makeEncodedLink('bing bong')
             return (
               <>
                 <Popover.Button className="h-full w-full outline-none">
@@ -46,12 +44,11 @@ const IdeHeader = ({handleRender}: {handleRender: () => void}) => {
                     selectedTabClassName="bg-gray-200"
                   >
                     <TabPanel className="p-4">
-                      <p className="text-sm pb-4 border-b border-gray-700">Encodes your CodeCad script into a URL so that you can share your work</p>
-                      <input value={encodedLink.replace(/^.+:\/\//g, '')} readOnly className="p-1 mt-4 text-xs rounded-t border border-gray-700 w-full" />
-                      <button className="w-full bg-gray-700 py-1 rounded-b text-gray-300" onClick={() => copyTextToClipboard(encodedLink)} >Copy URL</button>
+                      <FullScriptEncoding />
                     </TabPanel>
                     <TabPanel>
-                      <h2 className="h-32">Any content 2</h2>
+                      <p>blah</p>
+                      <input onPaste={(e) => console.log(e)} />
                     </TabPanel>
 
                     <TabList className="flex whitespace-nowrap text-gray-700 border-t border-gray-700">
@@ -71,10 +68,3 @@ const IdeHeader = ({handleRender}: {handleRender: () => void}) => {
 }
 
 export default IdeHeader
-
-const scriptKeyV2 = 'encoded_script_v2' // todo don't leave here
-
-function makeEncodedLink(code: string): string {
-  const encodedScript = encode(code)
-  return `${location.href}#${scriptKeyV2}=${encodedScript}`
-}
