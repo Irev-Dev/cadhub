@@ -65,7 +65,15 @@ const IdeContainer = () => {
           return (
             <MosaicWindow
               path={path}
-              renderToolbar={() => id === 'Editor' ? <div className="w-full"><EditorMenu /></div> : <div/>} // needs an empty element, otherwise it adds it's own toolbar
+              renderToolbar={() =>
+                id === 'Editor' ? (
+                  <div className="w-full">
+                    <EditorMenu />
+                  </div>
+                ) : (
+                  <div /> // needs an empty element, otherwise it adds it's own toolbar
+                )
+              }
               className={`${id.toLowerCase()} ${id.toLowerCase()}-tile`}
             >
               {id === 'Viewer' ? (

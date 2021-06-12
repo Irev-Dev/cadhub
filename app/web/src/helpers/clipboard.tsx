@@ -1,7 +1,7 @@
 import { toast } from '@redwoodjs/web/toast'
 
 function fallbackCopyTextToClipboard(text: string) {
-  var textArea = document.createElement('textarea')
+  const textArea = document.createElement('textarea')
   textArea.value = text
 
   // Avoid scrolling to bottom
@@ -14,8 +14,8 @@ function fallbackCopyTextToClipboard(text: string) {
   textArea.select()
 
   try {
-    var successful = document.execCommand('copy')
-    var msg = successful ? 'successful' : 'unsuccessful'
+    const successful = document.execCommand('copy')
+    const msg = successful ? 'successful' : 'unsuccessful'
     console.log('Fallback: Copying text command was ' + msg)
   } catch (err) {
     console.error('Fallback: Oops, unable to copy', err)
@@ -24,11 +24,12 @@ function fallbackCopyTextToClipboard(text: string) {
   document.body.removeChild(textArea)
 }
 
-const clipboardSuccessToast = (text: string) => toast.success(() => (
-  <div className="overflow-hidden">
-    <p>link added to clipboard.</p>
-  </div>
-))
+const clipboardSuccessToast = (text: string) =>
+  toast.success(() => (
+    <div className="overflow-hidden">
+      <p>link added to clipboard.</p>
+    </div>
+  ))
 
 const makeClipboardCopier = (success: Function) => (text: string) => {
   if (!navigator.clipboard) {

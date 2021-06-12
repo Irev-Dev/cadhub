@@ -19,4 +19,3 @@ export const useRender = () => {
     localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
   }
 }
-

@@ -8,7 +8,8 @@ import Svg from 'src/components/Svg/Svg'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 
 const IdeToolbarNew = ({ cadPackage }) => {
-  const [shouldShowConstructionMessage, setShouldShowConstructionMessage] = useState(true)
+  const [shouldShowConstructionMessage, setShouldShowConstructionMessage] =
+    useState(true)
   const handleRender = useRender()
   useIdeInit(cadPackage)
 
@@ -21,21 +22,29 @@ const IdeToolbarNew = ({ cadPackage }) => {
         <nav className="flex">
           <IdeHeader handleRender={handleRender} />
         </nav>
-        {shouldShowConstructionMessage && <div className="py-2 bg-pink-200 flex">
-          <div className="flex-grow text-center">
-            We're still working on this. Since you're here, have a look what{' '}
-            <OutBound
-              className="text-pink-700"
-              to="https://github.com/Irev-Dev/cadhub/discussions/212"
+        {shouldShowConstructionMessage && (
+          <div className="py-2 bg-pink-200 flex">
+            <div className="flex-grow text-center">
+              We're still working on this. Since you're here, have a look what{' '}
+              <OutBound
+                className="text-pink-700"
+                to="https://github.com/Irev-Dev/cadhub/discussions/212"
+              >
+                we've got planned
+              </OutBound>
+              .
+            </div>
+            <button
+              className="flex"
+              onClick={() => setShouldShowConstructionMessage(false)}
             >
-              we've got planned
-            </OutBound>
-            .
+              <Svg
+                className="h-4 w-6 text-gray-500 mr-3 items-center"
+                name="x"
+              />
+            </button>
           </div>
-          <button className="flex" onClick={() => setShouldShowConstructionMessage(false)}>
-            <Svg className="h-4 w-6 text-gray-500 mr-3 items-center" name="x"/>
-          </button>
-        </div>}
+        )}
         <IdeContainer />
       </div>
     </div>

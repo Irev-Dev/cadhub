@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { flow } from 'lodash/fp'
 
-import {useIdeContext} from 'src/helpers/hooks/useIdeContext'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useRender } from 'src/components/IdeWrapper/useRender'
-import {encode, decode} from 'src/helpers/compress'
+import { encode, decode } from 'src/helpers/compress'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const scriptKey = 'encoded_script'
@@ -25,7 +25,7 @@ export const githubSafe = (url: string): string =>
 const prepareEncodedUrl = flow(decodeURIComponent, githubSafe)
 
 export function useIdeInit(cadPackage: string) {
-  const {thunkDispatch} = useIdeContext()
+  const { thunkDispatch } = useIdeContext()
   const handleRender = useRender()
   useEffect(() => {
     thunkDispatch({
