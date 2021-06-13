@@ -10,7 +10,6 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
-import PanelToolbar from 'src/components/PanelToolbar'
 
 extend({ OrbitControls })
 
@@ -228,7 +227,6 @@ const IdeViewer = () => {
           <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
         </div>
       )}
-      <PanelToolbar panelName="3d-view" />
     </div>
   )
 }

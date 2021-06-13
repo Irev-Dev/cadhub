@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
-import PanelToolbar from 'src/components/PanelToolbar'
 
 const IdeConsole = () => {
   const { state } = useIdeContext()
@@ -14,10 +13,9 @@ const IdeConsole = () => {
 
   return (
     <div
-      className="p-2 px-8 pt-14 min-h-full relative"
+      className="p-2 px-8 pt-14 min-h-full"
       style={matchEditorVsDarkTheme.Bg}
     >
-      <PanelToolbar panelName="console" />
       <div>
         {state.consoleMessages?.map(({ type, message, time }, index) => (
           <pre

@@ -1,15 +1,10 @@
 import { useState } from 'react'
-import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import { useIdeContext, ideTypeNameMap } from 'src/helpers/hooks/useIdeContext'
 import OutBound from 'src/components/OutBound/OutBound'
 import { prepareEncodedUrl, makeExternalUrl } from './helpers'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import { toast } from '@redwoodjs/web/toast'
-
-const ideTypeNameMap = {
-  openScad: 'OpenSCAD',
-  cadQuery: 'CadQuery',
-}
 
 const ExternalScript = () => {
   const { state, thunkDispatch } = useIdeContext()

@@ -35,13 +35,10 @@ const IdeToolbarNew = ({ cadPackage }) => {
               .
             </div>
             <button
-              className="flex"
+              className="flex mr-3"
               onClick={() => setShouldShowConstructionMessage(false)}
             >
-              <Svg
-                className="h-4 w-6 text-gray-500 mr-3 items-center"
-                name="x"
-              />
+              <Svg className="h-4 w-6 text-gray-500 items-center" name="x" />
             </button>
           </div>
         )}
