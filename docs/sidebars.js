@@ -27,5 +27,6 @@ module.exports = {
         'round-anything/radii-conflict',
       ],
     },
+    'general-cadhub/external-resource-url'
   ],
 }

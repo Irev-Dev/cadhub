@@ -63,7 +63,7 @@ const ExternalScript = () => {
         CadHub url for this resource.{' '}
         <OutBound
           className="underline text-gray-500"
-          to="TODO learn.cadhub link"
+          to="https://learn.cadhub.xyz/docs/general-cadhub/external-resource-url"
         >
           Learn more
         </OutBound>{' '}
