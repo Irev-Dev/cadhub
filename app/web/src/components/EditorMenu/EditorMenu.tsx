@@ -31,9 +31,7 @@ const EditorMenu = () => {
           <button className="cursor-not-allowed" disabled>
             Edit
           </button>
-          <button className="cursor-not-allowed" disabled>
-            View
-          </button>
+          <ViewDropdown handleLayoutReset={() => thunkDispatch({type: 'resetLayout'})} />
         </div>
         <button
           className="text-gray-300  h-full cursor-not-allowed"
@@ -59,43 +57,70 @@ export default EditorMenu
 
 function FileDropdown({ handleRender, handleStlDownload }) {
   return (
-    <Menu>
-      <Menu.Button className="text-gray-100">File</Menu.Button>
-      <Menu.Items className="absolute flex flex-col mt-10 bg-gray-500 rounded shadow-md text-gray-100">
-        <Menu.Item>
-          {({ active }) => (
-            <button
-              className={`${active && 'bg-gray-600'} px-2 py-1`}
-              onClick={handleRender}
-            >
-              Save &amp; Render{' '}
-              <span className="text-gray-400 pl-4">
-                {/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? (
-                  <>
-                    <Svg
-                      name="mac-cmd-key"
-                      className="h-3 w-3 inline-block text-left"
-                    />
-                    S
-                  </>
-                ) : (
-                  'Ctrl S'
-                )}
-              </span>
-            </button>
-          )}
-        </Menu.Item>
-        <Menu.Item>
-          {({ active }) => (
-            <button
-              className={`${active && 'bg-gray-600'} px-2 py-1 text-left`}
-              onClick={handleStlDownload}
-            >
-              Download STL
-            </button>
-          )}
-        </Menu.Item>
-      </Menu.Items>
-    </Menu>
+    <Dropdown name="File">
+      <Menu.Item>
+        {({ active }) => (
+          <button
+            className={`${active && 'bg-gray-600'} px-2 py-1`}
+            onClick={handleRender}
+          >
+            Save &amp; Render{' '}
+            <span className="text-gray-400 pl-4">
+              {/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? (
+                <>
+                  <Svg
+                    name="mac-cmd-key"
+                    className="h-3 w-3 inline-block text-left"
+                  />
+                  S
+                </>
+              ) : (
+                'Ctrl S'
+              )}
+            </span>
+          </button>
+        )}
+      </Menu.Item>
+      <Menu.Item>
+        {({ active }) => (
+          <button
+            className={`${active && 'bg-gray-600'} px-2 py-1 text-left`}
+            onClick={handleStlDownload}
+          >
+            Download STL
+          </button>
+        )}
+      </Menu.Item>
+    </Dropdown>
+  )
+}
+
+function ViewDropdown({ handleLayoutReset }) {
+  return (
+    <Dropdown name="View">
+      <Menu.Item>
+        {({ active }) => (
+          <button
+            className={`${active && 'bg-gray-600'} px-2 py-1`}
+            onClick={handleLayoutReset}
+          >
+            Reset layout
+          </button>
+        )}
+      </Menu.Item>
+    </Dropdown>
+  )
+}
+
+function Dropdown({ name, children }: {name: string, children: React.ReactNode}) {
+  return (
+    <div className="relative">
+      <Menu>
+        <Menu.Button className="text-gray-100">{name}</Menu.Button>
+        <Menu.Items className="absolute flex flex-col mt-4 bg-gray-500 rounded shadow-md text-gray-100 overflow-hidden whitespace-nowrap">
+          {children}
+        </Menu.Items>
+      </Menu>
+    </div>
   )
 }

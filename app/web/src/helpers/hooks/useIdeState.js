@@ -47,6 +47,16 @@ let mutableState = null
 
 export const useIdeState = () => {
   const code = ''
+  const initialLayout = {
+    direction: 'row',
+    first: 'Editor',
+    second: {
+      direction: 'column',
+      first: 'Viewer',
+      second: 'Console',
+      splitPercentage: 70,
+    },
+  }
   const initialState = {
     ideType: 'INIT',
     consoleMessages: [
@@ -57,16 +67,7 @@ export const useIdeState = () => {
       type: 'INIT',
       data: null,
     },
-    layout: {
-      direction: 'row',
-      first: 'Editor',
-      second: {
-        direction: 'column',
-        first: 'Viewer',
-        second: 'Console',
-        splitPercentage: 70,
-      },
-    },
+    layout: initialLayout,
     camera: {},
     viewerSize: { width: 0, height: 0 },
     isLoading: false,
@@ -128,6 +129,11 @@ export const useIdeState = () => {
         return {
           ...state,
           isLoading: false,
+        }
+      case 'resetLayout':
+        return {
+          ...state,
+          layout: initialLayout,
         }
       default:
         return state
