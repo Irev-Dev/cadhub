@@ -10,11 +10,6 @@ const scriptKey = 'encoded_script'
 const scriptKeyV2 = 'encoded_script_v2'
 const fetchText = 'fetch_text_v1'
 
-export function makeEncodedLink(code: string): string {
-  const encodedScript = encode(code)
-  return `${location.origin}${location.pathname}#${scriptKeyV2}=${encodedScript}`
-}
-
 export const githubSafe = (url: string): string =>
   url.includes('github.com')
     ? url
@@ -22,7 +17,20 @@ export const githubSafe = (url: string): string =>
         .replace('/blob/', '/')
     : url
 
-const prepareEncodedUrl = flow(decodeURIComponent, githubSafe)
+export const prepareEncodedUrl = flow(decodeURIComponent, githubSafe)
+
+const prepareDecodedUrl = flow(githubSafe, encodeURIComponent)
+
+export function makeEncodedLink(code: string): string {
+  const encodedScript = encode(code)
+  return `${location.origin}${location.pathname}#${scriptKeyV2}=${encodedScript}`
+}
+
+export function makeExternalUrl(resourceUrl: string): string {
+  return `${location.origin}${
+    location.pathname
+  }#${fetchText}=${prepareDecodedUrl(resourceUrl)}`
+}
 
 export function useIdeInit(cadPackage: string) {
   const { thunkDispatch } = useIdeContext()

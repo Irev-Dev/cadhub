@@ -6,7 +6,7 @@ const FullScriptEncoding = () => {
   const { state } = useIdeContext()
   const encodedLink = makeEncodedLink(state.code)
   return (
-    <>
+    <div className="p-4">
       <p className="text-sm pb-4 border-b border-gray-700">
         Encodes your CodeCad script into a URL so that you can share your work
       </p>
@@ -21,7 +21,7 @@ const FullScriptEncoding = () => {
       >
         Copy URL
       </button>
-    </>
+    </div>
   )
 }
 

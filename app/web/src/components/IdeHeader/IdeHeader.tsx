@@ -1,6 +1,7 @@
 import { Popover } from '@headlessui/react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import FullScriptEncoding from 'src/components/EncodedUrl/FullScriptEncoding'
+import ExternalScript from 'src/components/EncodedUrl/ExternalScript'
 
 const TopButton = ({
   onClick,
@@ -50,12 +51,11 @@ const IdeHeader = ({ handleRender }: { handleRender: () => void }) => {
                       className="bg-gray-300 rounded-md shadow-md overflow-hidden text-gray-700"
                       selectedTabClassName="bg-gray-200"
                     >
-                      <TabPanel className="p-4">
+                      <TabPanel>
                         <FullScriptEncoding />
                       </TabPanel>
                       <TabPanel>
-                        <p>blah</p>
-                        <input onPaste={(e) => console.log(e)} />
+                        <ExternalScript />
                       </TabPanel>
 
                       <TabList className="flex whitespace-nowrap text-gray-700 border-t border-gray-700">
