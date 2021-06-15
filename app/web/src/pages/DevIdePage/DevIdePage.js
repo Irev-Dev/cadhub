@@ -1,33 +1,23 @@
-import MainLayout from 'src/layouts/MainLayout'
+import { createContext } from 'react'
 import Seo from 'src/components/Seo/Seo'
-import IdeToolbar from 'src/components/IdeToolbarNew'
-import OutBound from 'src/components/OutBound'
+import IdeWrapper from 'src/components/IdeWrapper'
+import { Toaster } from '@redwoodjs/web/toast'
+import { useIdeState } from 'src/helpers/hooks/useIdeState'
 
+export const IdeContext = createContext()
 const DevIdePage = ({ cadPackage }) => {
+  const [state, thunkDispatch] = useIdeState()
   return (
     <div className="h-screen flex flex-col">
-      <MainLayout shouldRemoveFooterInIde>
-        <Seo
-          title="new ide in development"
-          description="new ide in development"
-          lang="en-US"
-        />
-        <div className="py-2 bg-pink-200">
-          <div className="mx-auto max-w-3xl">
-            We're still working on this. Since you're here, have a look what{' '}
-            <OutBound
-              className="text-pink-700"
-              to="https://github.com/Irev-Dev/cadhub/discussions/212"
-            >
-              we've got planned
-            </OutBound>
-            .
-          </div>
-        </div>
-      </MainLayout>
-      <div className="flex-auto">
-        <IdeToolbar cadPackage={cadPackage} />
-      </div>
+      <Seo
+        title="new ide in development"
+        description="new ide in development"
+        lang="en-US"
+      />
+      <Toaster timeout={9000} />
+      <IdeContext.Provider value={{ state, thunkDispatch }}>
+        <IdeWrapper cadPackage={cadPackage} />
+      </IdeContext.Provider>
     </div>
   )
 }

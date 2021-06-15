@@ -1,11 +1,13 @@
-import { useContext, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
-import { IdeContext } from 'src/components/IdeToolbarNew'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
-import IdeEditor, { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
+import IdeEditor from 'src/components/IdeEditor'
 import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
 import 'react-mosaic-component/react-mosaic-component.css'
+import EditorMenu from 'src/components/EditorMenu/EditorMenu'
+import PanelToolbar from 'src/components/PanelToolbar'
 
 const ELEMENT_MAP = {
   Editor: <IdeEditor />,
@@ -13,8 +15,26 @@ const ELEMENT_MAP = {
   Console: <IdeConsole />,
 }
 
+const TOOLBAR_MAP = {
+  Editor: (
+    <div className="w-full">
+      <EditorMenu />
+    </div>
+  ),
+  Viewer: (
+    <div>
+      <PanelToolbar panelName="Viewer" />
+    </div>
+  ),
+  Console: (
+    <div>
+      <PanelToolbar panelName="Console" />
+    </div>
+  ),
+}
+
 const IdeContainer = () => {
-  const { state, thunkDispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useIdeContext()
   const viewerDOM = useRef(null)
   const debounceTimeoutId = useRef
 
@@ -64,15 +84,7 @@ const IdeContainer = () => {
           return (
             <MosaicWindow
               path={path}
-              renderToolbar={() => (
-                <div
-                  className="text-xs text-gray-400 pl-4 w-full py-px font-bold leading-loose border-b border-gray-700"
-                  style={matchEditorVsDarkTheme.lighterBg}
-                >
-                  {id}
-                  {id === 'Editor' && ` (${state.ideType})`}
-                </div>
-              )}
+              renderToolbar={() => TOOLBAR_MAP[id]}
               className={`${id.toLowerCase()} ${id.toLowerCase()}-tile`}
             >
               {id === 'Viewer' ? (

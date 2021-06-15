@@ -1,5 +1,5 @@
-import { IdeContext } from 'src/components/IdeToolbarNew'
-import { useRef, useState, useEffect, useContext } from 'react'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import { useRef, useState, useEffect } from 'react'
 import {
   Canvas,
   extend,
@@ -137,7 +137,7 @@ function Sphere(props) {
   )
 }
 const IdeViewer = () => {
-  const { state, thunkDispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useIdeContext()
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
 

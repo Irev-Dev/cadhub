@@ -1,0 +1,37 @@
+---
+title: External resoure URLs
+---
+
+import Image from '@theme/IdealImage';
+
+import spaceDonut from '../../static/img/general-cadhub/space-donut.png';
+import openscadSelect from '../../static/img/getting-started/openscad-select.jpg';
+import externalScript1 from '../../static/img/general-cadhub/external-script-1.png';
+import externalScript2 from '../../static/img/general-cadhub/external-script-2.png';
+
+CadHub allows you to generate a URL that links to a script hosted on an external URL.
+The typical usecase for this as a CodeCad script hosted on github, this way the repo can continue to update and the link will stay up-to-date.
+Any URL that returns the script as plain text will work.
+
+Here's how to use it using github as an example.
+Find the file you want on Github, in this case ToastedIce's [space donut](https://github.com/toastedice/random_openscad_creations_I_made/blob/main/donut/spacedonut.scad).
+
+<Image img={spaceDonut} style={{backgroundSize: 'contain', paddingBottom: '2rem'}} />
+
+Copy the URL.
+
+Open the IDE for the Cad package to match your script, in this case OpenSCAD.
+
+<Image img={openscadSelect} style={{backgroundSize: 'contain', paddingBottom: '2rem', width: '400px', margin: '0 auto'}} />
+
+Click the share button in the top right, then select the "external srcipt" tab.
+
+<Image img={externalScript1} style={{backgroundSize: 'contain', paddingBottom: '2rem', width: '400px', margin: '0 auto'}} />
+
+Paste in the Github URL.
+
+<Image img={externalScript2} style={{backgroundSize: 'contain', paddingBottom: '2rem', width: '400px', margin: '0 auto'}} />
+
+From there you can copy the generated URL, or "copy and Render" to check the script is working as intended.
+
+Here's the [URL](http://cadhub.xyz/dev-ide/cadQuery#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2Ftoastedice%2Frandom_openscad_creations_I_made%2Fmain%2Fdonut%2Fspacedonut.scad) from this example.

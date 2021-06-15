@@ -1,5 +1,5 @@
-import { useContext, Suspense, lazy } from 'react'
-import { IdeContext } from 'src/components/IdeToolbarNew'
+import { Suspense, lazy } from 'react'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 const Editor = lazy(() => import('@monaco-editor/react'))
@@ -7,13 +7,12 @@ const Editor = lazy(() => import('@monaco-editor/react'))
 export const matchEditorVsDarkTheme = {
   // Some colors to roughly match the vs-dark editor theme
   Bg: { backgroundColor: 'rgb(30,30,30)' },
-  lighterBg: { backgroundColor: 'rgb(55,55,55)' },
   Text: { color: 'rgb(212,212,212)' },
   TextBrown: { color: 'rgb(206,144,120)' },
 }
 
 const IdeEditor = () => {
-  const { state, thunkDispatch } = useContext(IdeContext)
+  const { state, thunkDispatch } = useIdeContext()
   const ideTypeToLanguageMap = {
     cadQuery: 'python',
     openScad: 'cpp',
