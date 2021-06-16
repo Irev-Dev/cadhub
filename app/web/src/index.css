@@ -44,9 +44,19 @@
   @apply list-disc;
 }
 
+#cadhub-ide.mosaic-toolbar-overrides .mosaic-blueprint-theme {
+  background-color: #0D0D13;
+}
+#cadhub-ide.mosaic-toolbar-overrides .mosaic-root {
+  top: 0;
+}
 .mosaic-toolbar-overrides .mosaic-window .mosaic-window-toolbar {
   /* makes the height of the toolbar based off the content inside instead of hardcoded to 30px */
   height: unset;
+}
+/* used in IdeContainer component */
+#cadhub-ide .mosaic-window.console .mosaic-window-body {
+  overflow-y: auto;
 }
 
 
@@ -102,7 +112,3 @@ input.error, textarea.error {
   border: 1px solid red;
 }
 
-/* used in IdeContainer component */
-#cadhub-ide .mosaic-window.console .mosaic-window-body {
-  overflow-y: auto;
-}

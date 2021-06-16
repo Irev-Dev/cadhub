@@ -42,6 +42,8 @@ RUN npm install
 RUN echo "OPENSCADPATH=/var/task/openscad" >>/etc/profile && \
   wget -P /var/task/openscad/ https://github.com/Irev-Dev/Round-Anything/archive/refs/tags/1.0.4.zip && \
   unzip /var/task/openscad/1.0.4
+# Add our own theming (based on DeepOcean with a different "background" and "opencsg-face-back")
+COPY openscad/cadhubtheme.json /usr/share/openscad/color-schemes/render/
 
 COPY openscad/*.js /var/task/
 COPY common/*.js /var/common/

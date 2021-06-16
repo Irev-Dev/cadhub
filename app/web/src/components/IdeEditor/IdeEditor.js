@@ -1,22 +1,43 @@
-import { Suspense, lazy } from 'react'
+import { useEffect, useState } from 'react'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
-const Editor = lazy(() => import('@monaco-editor/react'))
+import Editor, { useMonaco } from '@monaco-editor/react'
+import { theme } from 'src/../tailwind.config'
 
-export const matchEditorVsDarkTheme = {
-  // Some colors to roughly match the vs-dark editor theme
-  Bg: { backgroundColor: 'rgb(30,30,30)' },
-  Text: { color: 'rgb(212,212,212)' },
-  TextBrown: { color: 'rgb(206,144,120)' },
-}
+const colors = theme.extend.colors
 
-const IdeEditor = () => {
+const IdeEditor = ({ Loading }) => {
   const { state, thunkDispatch } = useIdeContext()
+  const [theme, setTheme] = useState('vs-dark')
   const ideTypeToLanguageMap = {
     cadQuery: 'python',
     openScad: 'cpp',
   }
+  const monaco = useMonaco()
+  useEffect(() => {
+    if (monaco) {
+      const themeName = 'cadhub'
+      monaco.editor.defineTheme(themeName, {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+          { background: colors['ch-gray'][750] },
+          {
+            token: 'comment',
+            foreground: colors['ch-blue'][600],
+            fontStyle: 'italic',
+          },
+          { token: 'keyword', foreground: colors['ch-purple'][600] },
+          { token: 'string', foreground: colors['ch-pink'][300] },
+        ],
+        colors: {
+          'editor.background': colors['ch-gray'][800],
+        },
+      })
+      setTheme(themeName)
+    }
+  }, [monaco])
 
   function handleCodeChange(value, _event) {
     thunkDispatch({ type: 'updateCode', payload: value })
@@ -40,33 +61,22 @@ const IdeEditor = () => {
       localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
     }
   }
-  const loading = (
-    <div
-      className="text-gray-700 font-ropa-sans relative"
-      style={{ backgroundColor: 'red' }}
-    >
-      <div className="absolute inset-0 text-center flex items-center w-32">
-        . . . loading
-      </div>
-    </div>
-  )
+
   return (
     <div // eslint-disable-line jsx-a11y/no-static-element-interactions
       className="h-full"
       onKeyDown={handleSaveHotkey}
     >
-      <Suspense fallback={loading}>
-        <Editor
-          defaultValue={state.code}
-          value={state.code}
-          theme="vs-dark"
-          loading={loading}
-          // TODO #247 cpp seems better than js for the time being
-          defaultLanguage={ideTypeToLanguageMap[state.ideType] || 'cpp'}
-          language={ideTypeToLanguageMap[state.ideType] || 'cpp'}
-          onChange={handleCodeChange}
-        />
-      </Suspense>
+      <Editor
+        defaultValue={state.code}
+        value={state.code}
+        theme={theme}
+        loading={Loading}
+        // TODO #247 cpp seems better than js for the time being
+        defaultLanguage={ideTypeToLanguageMap[state.ideType] || 'cpp'}
+        language={ideTypeToLanguageMap[state.ideType] || 'cpp'}
+        onChange={handleCodeChange}
+      />
     </div>
   )
 }

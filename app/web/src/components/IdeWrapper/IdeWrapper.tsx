@@ -15,7 +15,7 @@ const IdeToolbarNew = ({ cadPackage }) => {
 
   return (
     <div className="h-full flex">
-      <div className="w-16 bg-gray-700 flex-shrink-0">
+      <div className="w-16 bg-ch-gray-700 flex-shrink-0">
         <IdeSideBar />
       </div>
       <div className="h-full flex flex-grow flex-col">
