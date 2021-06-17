@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "0.32.2",
-    "@redwoodjs/api-server": "0.32.2",
+    "@redwoodjs/api": "^0.31.0",
+    "@redwoodjs/api-server": "^0.31.0",
     "@sentry/node": "^6.5.1",
     "cloudinary": "^1.23.0"
   }
