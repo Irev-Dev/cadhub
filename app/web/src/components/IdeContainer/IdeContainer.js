@@ -1,17 +1,43 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, Suspense, lazy } from 'react'
 import { Mosaic, MosaicWindow } from 'react-mosaic-component'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
-import IdeEditor from 'src/components/IdeEditor'
-import IdeViewer from 'src/components/IdeViewer'
 import IdeConsole from 'src/components/IdeConsole'
 import 'react-mosaic-component/react-mosaic-component.css'
 import EditorMenu from 'src/components/EditorMenu/EditorMenu'
 import PanelToolbar from 'src/components/PanelToolbar'
 
+const IdeEditor = lazy(() => import('src/components/IdeEditor/IdeEditor'))
+const IdeViewer = lazy(() => import('src/components/IdeViewer/IdeViewer'))
+
+const SmallLoadingPing = (
+  <div className="bg-ch-gray-800 text-gray-200 font-ropa-sans relative w-full h-full flex justify-center items-center">
+    <div className="relative">
+      <div className="absolute inset-0 flex justify-center items-center">
+        <div className="h-4 w-4 bg-purple-600 rounded-full animate-ping"></div>
+      </div>
+      <div className="relative">. . . loading</div>
+    </div>
+  </div>
+)
+
+const BigLoadingPing = () => (
+  <div className="inset-0 absolute flex items-center justify-center">
+    <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
+  </div>
+)
+
 const ELEMENT_MAP = {
-  Editor: <IdeEditor />,
-  Viewer: <IdeViewer />,
+  Editor: (
+    <Suspense fallback={SmallLoadingPing}>
+      <IdeEditor Loading={SmallLoadingPing} />
+    </Suspense>
+  ),
+  Viewer: (
+    <Suspense fallback={BigLoadingPing}>
+      <IdeViewer Loading={BigLoadingPing} />
+    </Suspense>
+  ),
   Console: <IdeConsole />,
 }
 
@@ -78,7 +104,10 @@ const IdeContainer = () => {
   }, [])
 
   return (
-    <div id="cadhub-ide" className="mosaic-toolbar-overrides flex-auto h-full">
+    <div
+      id="cadhub-ide"
+      className="mosaic-toolbar-overrides flex-auto h-full bg-red-500"
+    >
       <Mosaic
         renderTile={(id, path) => {
           return (

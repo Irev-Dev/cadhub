@@ -136,7 +136,7 @@ function Sphere(props) {
     </mesh>
   )
 }
-const IdeViewer = () => {
+const IdeViewer = ({ Loading }) => {
   const { state, thunkDispatch } = useIdeContext()
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
@@ -146,21 +146,13 @@ const IdeViewer = () => {
     setIsDragging(false)
   }, [state.objectData?.type, state.objectData?.data])
 
-  const openSCADDeepOceanThemeBackground = '#323232'
   // the following are tailwind colors in hex, can't use these classes to color three.js meshes.
   const pink400 = '#F472B6'
   const indigo300 = '#A5B4FC'
   const indigo900 = '#312E81'
   return (
-    <div
-      className="relative h-full"
-      style={{ backgroundColor: openSCADDeepOceanThemeBackground }}
-    >
-      {state.isLoading && (
-        <div className="inset-0 absolute flex items-center justify-center">
-          <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-        </div>
-      )}
+    <div className="relative h-full bg-ch-gray-800">
+      {state.isLoading && <Loading />}
       {image && (
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${

@@ -21,7 +21,7 @@ module.exports.runScad = async ({
   const { x: px, y: py, z: pz } = position
   const cameraArg = `--camera=${px},${py},${pz},${rx},${ry},${rz},${dist}`
   const fullPath = `/tmp/${tempFile}/output.png`
-  const command = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o ${fullPath} ${cameraArg} --imgsize=${x},${y} --colorscheme DeepOcean /tmp/${tempFile}/main.scad`
+  const command = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad -o ${fullPath} ${cameraArg} --imgsize=${x},${y} --colorscheme CadHub /tmp/${tempFile}/main.scad`
   console.log('command', command)
 
   try {

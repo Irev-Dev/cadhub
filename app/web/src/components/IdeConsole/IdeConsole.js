@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { matchEditorVsDarkTheme } from 'src/components/IdeEditor'
 
 const IdeConsole = () => {
   const { state } = useIdeContext()
@@ -12,21 +11,14 @@ const IdeConsole = () => {
   }, [state.consoleMessages])
 
   return (
-    <div
-      className="p-2 px-8 pt-14 min-h-full"
-      style={matchEditorVsDarkTheme.Bg}
-    >
+    <div className="p-2 px-8 pt-4 min-h-full bg-ch-gray-800">
       <div>
         {state.consoleMessages?.map(({ type, message, time }, index) => (
           <pre
-            className="font-mono text-sm"
-            style={matchEditorVsDarkTheme.Text}
+            className="font-mono text-sm text-gray-300"
             key={`${message} ${index}`}
           >
-            <div
-              className="text-xs font-bold pt-2"
-              style={matchEditorVsDarkTheme.TextBrown}
-            >
+            <div className="text-xs font-bold pt-2 text-ch-blue-600">
               {time?.toLocaleString()}
             </div>
             <div className={(type === 'error' ? 'text-red-400' : '') + ' pl-4'}>

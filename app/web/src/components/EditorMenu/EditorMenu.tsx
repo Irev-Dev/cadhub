@@ -18,9 +18,9 @@ const EditorMenu = () => {
   const isOpenScad = state.ideType === 'openScad'
   const isCadQuery = state.ideType === 'cadQuery'
   return (
-    <div className="flex justify-between bg-gray-500 text-gray-100">
+    <div className="flex justify-between bg-ch-gray-760 text-gray-100">
       <div className="flex items-center h-9 w-full cursor-grab">
-        <div className=" text-gray-500 bg-gray-300 cursor-grab px-2 h-full flex items-center">
+        <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
           <Svg name="drag-grid" className="w-4 p-px" />
         </div>
         <div className="flex gap-6 px-5">
@@ -31,10 +31,12 @@ const EditorMenu = () => {
           <button className="cursor-not-allowed" disabled>
             Edit
           </button>
-          <ViewDropdown handleLayoutReset={() => thunkDispatch({type: 'resetLayout'})} />
+          <ViewDropdown
+            handleLayoutReset={() => thunkDispatch({ type: 'resetLayout' })}
+          />
         </div>
         <button
-          className="text-gray-300  h-full cursor-not-allowed"
+          className="text-ch-gray-300  h-full cursor-not-allowed"
           aria-label="editor settings"
           disabled
         >
@@ -112,12 +114,18 @@ function ViewDropdown({ handleLayoutReset }) {
   )
 }
 
-function Dropdown({ name, children }: {name: string, children: React.ReactNode}) {
+function Dropdown({
+  name,
+  children,
+}: {
+  name: string
+  children: React.ReactNode
+}) {
   return (
     <div className="relative">
       <Menu>
         <Menu.Button className="text-gray-100">{name}</Menu.Button>
-        <Menu.Items className="absolute flex flex-col mt-4 bg-gray-500 rounded shadow-md text-gray-100 overflow-hidden whitespace-nowrap">
+        <Menu.Items className="absolute flex flex-col mt-4 bg-ch-gray-760 rounded text-gray-100 overflow-hidden whitespace-nowrap border border-ch-gray-700">
           {children}
         </Menu.Items>
       </Menu>
