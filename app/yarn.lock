@@ -10068,7 +10068,7 @@ graphql-scalars@1.9.3:
   dependencies:
     tslib "~2.2.0"
 
-graphql-tag@2.12.4:
+graphql-tag@2.12.4, graphql-tag@^2.12.4:
   version "2.12.4"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.4.tgz#d34066688a4f09e72d6f4663c74211e9b4b7c4bf"
   integrity sha512-VV1U4O+9x99EkNpNmCUV5RZwq6MnK4+pGbRYWG+lA/m3uo7TSqJF81OkcOP148gFP6fzdl7JWYBrwWVTS9jXww==

@@ -6,6 +6,7 @@
     "@redwoodjs/api": "^0.33.0",
     "@redwoodjs/api-server": "^0.33.0",
     "@sentry/node": "^6.5.1",
-    "cloudinary": "^1.23.0"
+    "cloudinary": "^1.23.0",
+    "graphql-tag": "^2.12.4"
   }
 }

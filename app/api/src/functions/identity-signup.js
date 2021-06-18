@@ -2,7 +2,7 @@ import { createUserInsecure } from 'src/services/users/users.js'
 import { db } from 'src/lib/db'
 import { sentryWrapper } from 'src/lib/sentry'
 import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'
-// import 'graphql-tag'
+import 'graphql-tag'
 
 const unWrappedHandler = async (req, _context) => {
   const body = JSON.parse(req.body)
