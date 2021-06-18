@@ -5,8 +5,8 @@ import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'
 
 const unWrappedHandler = async (req, _context) => {
   const body = JSON.parse(req.body)
-  console.log(body)
-  console.log(_context)
+  // console.log(body)
+  // console.log(_context)
   // DUMP FROM THE LOGS ABOVE
   /*
   5:09:30 AM: 2020-10-19T18:09:30.011Z	9da27e24-b6ec-404e-8e7d-25b5d323b67a	INFO	{
