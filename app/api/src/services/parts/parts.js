@@ -83,7 +83,7 @@ export const updatePart = async ({ id, input }) => {
     where: { id },
   })
   if (imageToDestroy) {
-    console.log(`image destroyed, publicId: ${imageToDestroy}, partId: ${id}`)
+    // console.log(`image destroyed, publicId: ${imageToDestroy}, partId: ${id}`)
     // destroy after the db has been updated
     destroyImage({ publicId: imageToDestroy })
   }

@@ -20,7 +20,7 @@ export const foreignKeyReplacement = (input) => {
 }
 
 export const enforceAlphaNumeric = (string) =>
-  string.replace(/([^a-zA-Z\d_:])/g, '-')
+  (string || '').replace(/([^a-zA-Z\d_:])/g, '-')
 
 export const generateUniqueString = async (
   seed,
