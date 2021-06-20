@@ -27,6 +27,10 @@
     @apply text-2xl font-bold
   }
 
+  .markdown {
+    @apply text-xl
+  }
+
   .markdown ul li {
     @apply list-disc ml-4
   }

@@ -1,0 +1,37 @@
+---
+slug: 3d-diffs - CAD code reviews
+title: 3d-diffs - CAD code reviews
+author: Kurt Hutten
+author_title: CadHub Core Team
+author_url: https://github.com/Irev-Dev
+author_image_url: https://avatars.githubusercontent.com/u/29681384?v=4
+tags: []
+---
+
+import Image from '@theme/IdealImage';
+
+import threedDiffExampleCode from '../static/img/blog/3d-diff/3dDiffExampleCode.jpg';
+import threedDiffExample from '../static/img/blog/3d-diff/3dDiffExample.jpg';
+
+
+When making a change to a repo, we're probably all familir with code diffs, so common we don't give them a second thought.
+What's so powerful about code-diffs is they let us to apply our entire conceptual model of how the software functions to a laser focused section the code, to both check that the change is good, as well as giving us a chance to update that mental model incrementally.
+
+CodeCAD is in a unique position that it outputs a 3d artifact, but we can also produce diff artifacts for the purpose of reviewing, it's so intuitive that it needs little explanation, so here's an example:
+
+<Image img={threedDiffExampleCode} className="bg-contain rounded-md overflow-hidden" />
+<Image img={threedDiffExample} className="mb-8 bg-contain rounded-md overflow-hidden" />
+
+Green represents where material has been added to the model, and red where it's been removed. Because the hole count has gond from 3 to 2, the middle hole has been filled in. The holes have also increased in diameter which is why there are red rings around the two outer holes where material has been removed.
+
+The process for creating these diffs is rather elegant, here's some psudo-code:
+
+```
+noChange =    intersection(newShape, oldShape)
+addedMaterial =   subtract(newShape, oldShape)
+removedMaterial = subtract(oldShape, newShape)
+
+colorGray(noChange)
+colorGreen(addedMaterial)
+colorRed(removedMaterial)
+```
