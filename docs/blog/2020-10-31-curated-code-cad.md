@@ -19,11 +19,11 @@ It's software that allows you to define 3D CAD models with code. It's a niche po
 
 I recommend reading through the entire list below to see if one chimes with you and your needs, beyond that I can make the following recommendation and points:
 <!--truncate-->
-- My main recommendation is to use one of the packages that wrap OpenCascade (a mature C++ CAD library). Packages that do so are CadQuery, CascadeStudio, DeclaraCAD and pythonOCC. My reasons for recommending these are as follows:
-  - Most of Code-CAD tools are plagued with a CSG mindset (that is unions, subtractions and intersections of primitive shapes; cubes spheres etc). This is an inherently limited paradigm (one simple example of this is how internal fillets, which are important for reducing stress concentrations in parts, become very difficult). While CadQuery, CascadeStudio, DeclaraCAD and pythonOCC still offer CSG functionality, you're also able to move beyond it with concepts like lofts and sweeps.
+- My main recommendation is to use one of the packages that uses a B-rep kernal (and for opensounce tools that means OpenCascade, a mature C++ CAD library). Packages that do so are CadQuery, CascadeStudio, DeclaraCAD and pythonOCC. My reasons for recommending these are as follows:
+  - Most of Code-CAD tools are plagued with a CSG mindset (that is unions, subtractions and intersections of primitive shapes; cubes spheres etc). This is an inherently limited paradigm (one simple example of this is how internal fillets, which are important for reducing stress concentrations in parts, become very difficult). While CadQuery, CascadeStudio, DeclaraCAD and pythonOCC still offer CSG functionality, you're also able to move beyond.
   - OpenCascade uses a B-rep (boundary representation) kernel, In my opinion, this means you'll be learning a future-proof tool that won't limit the types of applications you can model for, which is likely the case for mesh kernels, which will cause trouble in for some applications like optics and injection moulding.
 
-- OpenSCAD is tried and true, with lots of examples and tutorials floating around the internet. It also has a very intuitive syntax that many people without prior programming experience have been able to quickly pick up. However, some reasons you might want to look elsewhere are:
+- OpenSCAD is tried and true, with lots of examples and tutorials floating around the internet. It also has a very intuitive syntax that folks without prior programming experience have been able to quickly pick up. However, some reasons you might want to look elsewhere are:
   - It can be hard to build powerful abstractions since they've rolled their own language. Consequences of this include that it doesn't have a package manager like many modern languages, and the presence of quirks with the language, such as function definitions that aren't ergonomic.
   - Performance can start to suffer with complex parts.
   - Its mesh-based kernel has limitations if you want to move beyond 3d-printed parts.
@@ -35,14 +35,14 @@ No matter which one is your tool of choice, if you're here and you love Code-CAD
 
 ## Special mention
 
-### [OpenScad](http://www.openscad.org/)
+### [OpenSCAD](http://www.openscad.org/)
 - [Repo](https://github.com/openscad/openscad)
 - [Community](http://www.openscad.org/community.html)
 - [Docs](http://www.openscad.org/documentation.html)
 - License: GPL-2
 - ~~Online editor~~
 
-The rest of the packages are in alphabetical order, but OpenScad gets a special mention because it's the OG. Many of the projects below were inspired by OpenScad and is the most well-known choice. If you're new to code-cad this is the safest choice. The syntax is easy to pick up and there lots of guides around the internet.
+The rest of the packages are in alphabetical order, but OpenSCAD gets a special mention because it's the OG. Many of the projects below were inspired by OpenSCAD and is the most well-known choice. If you're new to code-cad this is the safest choice. The syntax is easy to pick up and there lots of guides around the internet.
 
 ### [OpenCascade](https://www.opencascade.com/)
 - [Repo](https://github.com/tpaviot/oce)
@@ -92,8 +92,9 @@ bitbybit is both a node editor and Code-CAD as they have exposed a [typescript](
 - License: GPL-3
 - [Online editor](https://cadhub.xyz/)
 
-A community hub for sharing code-cad projects. Currently integrates with the excellent [CascadeStudio](https://zalo.github.io/CascadeStudio/). Built and maintained by yours truly.
+A community hub for sharing code-cad projects. Currently integrates with [CadQuery](https://cadquery.readthedocs.io/en/latest/intro.html) and [OpenScad](http://www.openscad.org/). Built and maintained by yours truly.
 
+![CadHub IDE screenshot](/img/blog/curated-code-cad/CadHubSS.jpg)
 ### [CadQuery](https://cadquery.readthedocs.io/en/latest/intro.html)
 - [Repo](https://github.com/CadQuery/cadquery)
 - [Community](https://discord.gg/qz3uAdF)
@@ -125,7 +126,7 @@ A javascript wrapper for [OpenCascade](https://github.com/tpaviot/oce) that runs
 - License: Apache, 2.0
 - ~~Online editor~~
 
-Curv is a programming language for creating art using mathematics. It’s a 2D and 3D geometric modelling tool that supports full colour, animation and 3D printing. It was inspired by OpenScad and [shadertoy](https://www.shadertoy.com/).
+Curv is a programming language for creating art using mathematics. It’s a 2D and 3D geometric modelling tool that supports full colour, animation and 3D printing. It was inspired by OpenSCAD and [shadertoy](https://www.shadertoy.com/).
 
 ### [DeclaraCAD](https://declaracad.com/)
 - [Repo](https://github.com/codelv/declaracad)
@@ -145,7 +146,7 @@ and [enaml](https://github.com/nucleic/enaml/).
 - License: LGPLv2
 - ~~Online editor~~
 
-FreeCad is a more traditional CAD package that supports python scripting, Both for modelling as well as controlling the FreeCAD GUI itself. Not only that it has a built in [OpenScad workbench](https://wiki.freecadweb.org/OpenSCAD_Module) as well as an external [CadQuery workbench](https://wiki.freecadweb.org/CadQuery_Workbench), making it the best in this list at interoperability. FreeCAD uses OpenCascade under-the-hood.
+FreeCad is a more traditional CAD package that supports python scripting, Both for modelling as well as controlling the FreeCAD GUI itself. Not only that it has a built in [OpenSCAD workbench](https://wiki.freecadweb.org/OpenSCAD_Module) as well as an external [CadQuery workbench](https://wiki.freecadweb.org/CadQuery_Workbench), making it the best in this list at interoperability. FreeCAD uses OpenCascade under-the-hood.
 
 ### [ImplicitCAD](http://www.implicitcad.org/)
 - [Repo](https://github.com/colah/ImplicitCAD)
@@ -154,7 +155,7 @@ FreeCad is a more traditional CAD package that supports python scripting, Both f
 - License: AGPL-3
 - [Online editor](http://www.implicitcad.org/editor)
 
-Inspired by OpenScad with a very similar language, implemented in Haskell and includes the ability to write definitions in Haskell, instead of just OpenSCAD, and is part of an 'almost stack' of tools including ExplicitCAD (for a GUI), and HSlice (for an STL slicer).
+Inspired by OpenSCAD with a very similar language, implemented in Haskell and includes the ability to write definitions in Haskell, instead of just OpenSCAD, and is part of an 'almost stack' of tools including ExplicitCAD (for a GUI), and HSlice (for an STL slicer).
 
 ### [JSCAD](http://www.jscad.xyz/)
 - [Repo](https://github.com/jscad/OpenJSCAD.org)
@@ -203,12 +204,12 @@ Python-based, Also uses [OpenCascade](https://github.com/tpaviot/oce).
 - License: GPL-3
 - ~~Online editor~~
 
-Another project inspired by OpenScad. The author considers key differences to be procedural vs functional programming language style, (i.e variables can be modified) and the use of arbitrary precision arithmetic throughout (meaning there are no unexpected double/float rounding errors). There is a handy [feature matrix](https://github.com/GilesBathgate/RapCAD/blob/master/doc/feature_matrix.asciidoc) between RapCAD, OpenScad and ImplicitCad.
+Another project inspired by OpenSCAD. The author considers key differences to be procedural vs functional programming language style, (i.e variables can be modified) and the use of arbitrary precision arithmetic throughout (meaning there are no unexpected double/float rounding errors). There is a handy [feature matrix](https://github.com/GilesBathgate/RapCAD/blob/master/doc/feature_matrix.asciidoc) between RapCAD, OpenSCAD and ImplicitCad.
 
 ### [scad-clj](https://github.com/farrellm/scad-clj)
 - [Repo](https://github.com/farrellm/scad-clj)
 - ~~Community~~
-- ~~Docs~~ (No docs but mirrors openscad functions)
+- ~~Docs~~ (No docs but mirrors OpenSCAD functions)
 - License: EPL-1.0
 - ~~Online editor~~
 
@@ -217,7 +218,7 @@ OpenSCAD DSL in Clojure. Functions generally mirror OpenSCAD, with a couple of n
 ### [scad-hs](https://github.com/farrellm/scad-hs)
 - [Repo](https://github.com/farrellm/scad-hs)
 - ~~Community~~
-- ~~Docs~~ (No docs but mirrors openscad functions)
+- ~~Docs~~ (No docs but mirrors OpenSCAD functions)
 - License: BSD-3-Clause License
 - ~~Online editor~~
 
@@ -239,7 +240,7 @@ Go-based Code-CAD package that uses a signed distance functions (SDFs) kernel. I
 - License: GPL-2 or later
 - ~~Online editor~~
 
-Python-based library that wraps OpenScad, i.e. it outputs OpenScad code.
+Python-based library that wraps OpenSCAD, i.e. it outputs OpenSCAD code.
 
 ### [Tovero](https://www.gitlab.com/kavalogic-inc/tovero)
 - [Repo](https://www.gitlab.com/kavalogic-inc/tovero)
