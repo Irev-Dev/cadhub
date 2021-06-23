@@ -83,18 +83,14 @@ export default function Home() {
                 <li>Build your own helper functions and abstractions</li>
                 <li>
                   Trigger{' '}
-                  <a href="https://en.wikipedia.org/wiki/Finite_element_method">
+                  <a href="/blog/testing-code-cad">
                     FEM
                   </a>{' '}
-                  or regenerate tool paths with a{' '}
-                  <a href="https://www.redhat.com/en/topics/devops/what-is-ci-cd">
-                    CI/CD
-                  </a>{' '}
-                  process
+                  or regenerate tool paths with a CI/CD process
                 </li>
                 <li>
                   Auto-generate a{' '}
-                  <a href="https://en.wikipedia.org/wiki/Bill_of_materials">
+                  <a href="/blog/codecad-artifacts">
                     BOM
                   </a>
                 </li>
@@ -102,6 +98,11 @@ export default function Home() {
                   Integrate it into your{' '}
                   <a href="https://www.ptc.com/en/technologies/plm">PLM</a>{' '}
                   tools
+                </li>
+                <li>
+                  <a href="/blog/3d-diffs">
+                    3d-diffs
+                  </a>
                 </li>
               </ul>
             </div>
