@@ -13,6 +13,7 @@ const OutBound = ({ className, children, to }) => {
         })
         return true
       }}
+      rel="noreferrer"
     >
       {children}
     </a>
