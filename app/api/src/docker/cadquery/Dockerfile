@@ -3,7 +3,7 @@ FROM public.ecr.aws/lts/ubuntu:20.04_stable
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qq
-RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb
+RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb libglew2.1
 RUN apt-get update -qq
 RUN apt-get install -y wget
 
