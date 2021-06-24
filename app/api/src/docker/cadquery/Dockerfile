@@ -36,7 +36,9 @@ RUN npm install
 
 
 # Get the distribution copy of cq-cli
-RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.1.0/cq-cli-Linux-x86_64.zip
+RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.2-beta.1/cq-cli-Linux-x86_64.zip
+# Comment the entry above out and uncomment the one below to revert to the stable release
+# RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.1.0/cq-cli-Linux-x86_64.zip
 RUN unzip cq-cli-Linux-x86_64.zip
 
 RUN chmod +x cq-cli/cq-cli
