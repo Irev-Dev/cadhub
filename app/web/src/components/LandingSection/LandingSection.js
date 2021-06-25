@@ -89,7 +89,7 @@ const LandingSection = () => {
               <li>Build your own helper functions and abstractions</li>
               <li>
                 Trigger{' '}
-                <QuickLink to="https://en.wikipedia.org/wiki/Finite_element_method">
+                <QuickLink to="https://learn.cadhub.xyz/blog/testing-code-cad">
                   FEM
                 </QuickLink>{' '}
                 or regenerate tool paths with a{' '}
@@ -100,7 +100,7 @@ const LandingSection = () => {
               </li>
               <li>
                 Auto-generate a{' '}
-                <QuickLink to="https://en.wikipedia.org/wiki/Bill_of_materials">
+                <QuickLink to="https://learn.cadhub.xyz/blog/codecad-artifacts">
                   BOM
                 </QuickLink>
               </li>
@@ -110,6 +110,11 @@ const LandingSection = () => {
                   PLM
                 </QuickLink>{' '}
                 tools
+              </li>
+              <li>
+                <QuickLink to="https://learn.cadhub.xyz/blog/3d-diffs">
+                  3d-diffs
+                </QuickLink>
               </li>
             </ul>
           </div>

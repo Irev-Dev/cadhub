@@ -9,7 +9,7 @@ Let's help Code-CAD reach its [full potential!](https://cadhub.xyz) We're making
 If you want to be involved in anyway, checkout the [Road Map](https://github.com/Irev-Dev/cadhub/discussions/212) and get in touch via, [twitter](https://twitter.com/IrevDev), [discord](https://discord.gg/SD7zFRNjGH) or [discussions](https://github.com/Irev-Dev/cadhub/discussions).
 
 <img src="https://raw.githubusercontent.com/Irev-Dev/repo-images/main/images/fullcadhubshot.jpg">
-
+<img src="https://raw.githubusercontent.com/Irev-Dev/cadhub/main/docs/static/img/blog/curated-code-cad/CadHubSS.jpg">
 
 ## Getting your dev environment setup
 
