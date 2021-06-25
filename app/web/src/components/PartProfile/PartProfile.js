@@ -27,7 +27,8 @@ const PartProfile = ({
   const [isInvalid, setIsInvalid] = useState(false)
   const { currentUser } = useAuth()
   const editorRef = useRef(null)
-  const canEdit = currentUser?.sub === userPart.id || currentUser?.roles.includes('admin')
+  const canEdit =
+    currentUser?.sub === userPart.id || currentUser?.roles.includes('admin')
   const isImageEditable = !isEditable && canEdit // image is editable when not in profile edit mode in order to separate them as it's too hard too to upload an image to cloudinary temporarily until the use saves (and maybe have to clean up) for the time being
   const part = userPart?.Part
   const emotes = countEmotes(part?.Reaction)

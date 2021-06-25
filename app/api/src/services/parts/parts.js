@@ -77,13 +77,17 @@ export const updatePart = async ({ id, input }) => {
   }
   const originalPart = await db.part.findUnique({ where: { id } })
   const imageToDestroy =
-    originalPart.mainImage !== input.mainImage && input.mainImage && originalPart.mainImage
+    originalPart.mainImage !== input.mainImage &&
+    input.mainImage &&
+    originalPart.mainImage
   const update = await db.part.update({
     data: foreignKeyReplacement(input),
     where: { id },
   })
   if (imageToDestroy) {
-    console.log(`image destroyed, publicId: ${imageToDestroy}, partId: ${id}, replacing image is ${input.mainImage}`)
+    console.log(
+      `image destroyed, publicId: ${imageToDestroy}, partId: ${id}, replacing image is ${input.mainImage}`
+    )
     // destroy after the db has been updated
     destroyImage({ publicId: imageToDestroy })
   }
