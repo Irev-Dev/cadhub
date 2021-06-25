@@ -3,6 +3,7 @@ import {
   stlToGeometry,
   createHealthyResponse,
   createUnhealthyResponse,
+  timeoutErrorMessage,
 } from './common'
 
 export const render = async ({ code, settings }) => {
@@ -49,6 +50,9 @@ export const render = async ({ code, settings }) => {
       const cleanedErrorMessage = cleanError(error)
       return createUnhealthyResponse(new Date(), cleanedErrorMessage)
     }
+    if (response.status === 502) {
+      return createUnhealthyResponse(new Date(), timeoutErrorMessage)
+    }
     const data = await response.json()
     const type = data.type !== 'stl' ? 'png' : 'geometry'
     const newData = data.type !== 'stl' ? data.url : stlToGeometry(data.url)
@@ -80,6 +84,9 @@ export const stl = async ({ code, settings }) => {
       const { error } = await response.json()
       const cleanedErrorMessage = cleanError(error)
       return createUnhealthyResponse(new Date(), cleanedErrorMessage)
+    }
+    if (response.status === 502) {
+      return createUnhealthyResponse(new Date(), timeoutErrorMessage)
     }
     const data = await response.json()
     const geometry = await stlToGeometry(data.url)

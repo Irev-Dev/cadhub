@@ -12,6 +12,9 @@ export const requireOwnership = async ({ userId, userName, partId } = {}) => {
   }
 
   if (context.currentUser.roles?.includes('admin')) {
+    if (context.currentUser?.sub === '5cea3906-1e8e-4673-8f0d-89e6a963c096') {
+      throw new ForbiddenError("That's a local admin ONLY.")
+    }
     return
   }
 
