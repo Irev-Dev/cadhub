@@ -26,7 +26,7 @@ app.post('/cadquery/stl', async (req, res) => {
   console.log('making post request to 5060')
   try {
     const { data } = await axios.post(invocationURL(5060), {
-      body: req.body,
+      body: JSON.stringify(req.body),
     })
     res.status(data.statusCode)
     res.send(data.body)
