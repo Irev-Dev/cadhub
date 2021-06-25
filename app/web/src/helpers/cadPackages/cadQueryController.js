@@ -3,6 +3,7 @@ import {
   stlToGeometry,
   createHealthyResponse,
   createUnhealthyResponse,
+  timeoutErrorMessage,
 } from './common'
 
 export const render = async ({ code }) => {
@@ -28,6 +29,9 @@ export const render = async ({ code }) => {
           time: new Date(),
         },
       }
+    }
+    if (response.status === 502) {
+      return createUnhealthyResponse(new Date(), timeoutErrorMessage)
     }
     const data = await response.json()
     const geometry = await stlToGeometry(data.url)

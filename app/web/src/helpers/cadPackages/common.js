@@ -38,3 +38,5 @@ export function createUnhealthyResponse(date, message = 'network issue') {
     },
   }
 }
+
+export const timeoutErrorMessage = `timeout: We're currently limited a 30s execution time. You can try again, sometimes it works the second time`
