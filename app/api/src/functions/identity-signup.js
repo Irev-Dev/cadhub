@@ -1,4 +1,4 @@
-import { createUserInsecure } from 'src/services/users/users.js'
+import { createUserInsecure } from 'src/services/users/users'
 import { db } from 'src/lib/db'
 import { sentryWrapper } from 'src/lib/sentry'
 import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'

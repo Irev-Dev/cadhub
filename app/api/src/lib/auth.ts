@@ -121,7 +121,8 @@ export const getCurrentUser = async (decoded, { _token, _type }) => {
  * requireAuth({ role: ['editor', 'author'] })
  * requireAuth({ role: ['publisher'] })
  */
-export const requireAuth = ({ role } = {}) => {
+export const requireAuth = ({ role }: {role?: string | string[]} = {}) => {
+  console.log(context.currentUser)
   if (!context.currentUser) {
     throw new AuthenticationError("You don't have permission to do that.")
   }
