@@ -14,6 +14,8 @@ You'll need to have Docker installed
 Because of the way the docker containers to be deployed as lambdas on aws are somewhat specialised for the purpose we're using `docker-compose` to spin one up for each function/endpoint. So we've added a aws-emulation layer
 
 
+The docker build relies on a git ignored file, the aws-lambda-rie. [Download it](https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie), then put it into `app/api/src/docker/common/`. alternatively you can put this download into the DockerFiles by reading the instructions at around line 29 of the DockerFiles (`app/api/src/docker/openscad/Dockerfile` & `app/api/src/docker/cadquery/Dockerfile`). However this will mean slower build times as it will need download this 14mb file every build.
+
 Then cd into this folder `cd api/src/docker` and:
 
 ```bash
@@ -26,8 +28,7 @@ After which we'll also spin up a light express server to act as an emulator to t
 yarn install
 yarn emulate
 ```
-You can now add OPENSCAD_BASE_URL="http://localhost:8080" to you .env file and restart your main dev process (`yarn rw dev`)
-comment that line out if you want to go back to using the aws endpoint (and restart the dev process).
+You can now add CAD_LAMBDA_BASE_URL="http://localhost:8080" to you .env file and restart your main dev process (`yarn rw dev`) comment that line out if you want to go back to using the aws endpoint (and restart the dev process).
 
 If you change anything in the `api/src/docker/openscad` directory, you will need to stop the docker process and restart it (will be fairly quick if you're only changing the js)
 

@@ -14,6 +14,12 @@ const Footer = () => {
         >
           Road Map
         </OutBound>
+        <OutBound
+          className="mr-8"
+          to="https://learn.cadhub.xyz/blog"
+        >
+          Blog
+        </OutBound>
         <Link className="mr-8" to={routes.codeOfConduct()}>
           Code of Conduct
         </Link>

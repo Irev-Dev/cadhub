@@ -10,6 +10,11 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
+import texture from './dullFrontLitMetal.png'
+import { TextureLoader } from 'three/src/loaders/TextureLoader'
+
+const loader = new TextureLoader
+const colorMap = loader.load(texture)
 
 extend({ OrbitControls })
 
@@ -22,7 +27,7 @@ function Asset({ geometry: incomingGeo }) {
   return (
     <mesh ref={mesh} scale={[1, 1, 1]}>
       <bufferGeometry attach="geometry" ref={ref} />
-      <meshStandardMaterial color="#F472B6" />
+      <meshStandardMaterial map={colorMap} color="#F472B6" />
     </mesh>
   )
 }
@@ -193,8 +198,10 @@ const IdeViewer = ({ Loading }) => {
               })
             }}
           />
-          <ambientLight />
-          <pointLight position={[15, 5, 10]} />
+          <ambientLight intensity={1} />
+          <pointLight position={[15, 5, 10]} intensity={4} />
+          <pointLight position={[-1000, -1000, -1000]} intensity={1}/>
+          <pointLight position={[-1000, 0, 1000]} intensity={1}/>
           {state.objectData?.type === 'png' && (
             <>
               <Sphere position={[0, 0, 0]} color={pink400} />

@@ -10,9 +10,10 @@ app.use(cors())
 const invocationURL = (port) =>
   `http://localhost:${port}/2015-03-31/functions/function/invocations`
 
-app.post('/openscad/preview', async (req, res) => {
+const makeRequest = (route, port) => [route, async (req, res) => {
+  console.log(`making post request to ${port}, ${route}`)
   try {
-    const { data } = await axios.post(invocationURL(5052), {
+    const { data } = await axios.post(invocationURL(port), {
       body: JSON.stringify(req.body),
     })
     res.status(data.statusCode)
@@ -21,20 +22,11 @@ app.post('/openscad/preview', async (req, res) => {
     res.status(500)
     res.send()
   }
-})
-app.post('/cadquery/stl', async (req, res) => {
-  console.log('making post request to 5060')
-  try {
-    const { data } = await axios.post(invocationURL(5060), {
-      body: JSON.stringify(req.body),
-    })
-    res.status(data.statusCode)
-    res.send(data.body)
-  } catch (e) {
-    res.status(500)
-    res.send()
-  }
-})
+}]
+
+app.post(...makeRequest('/openscad/preview', 5052))
+app.post(...makeRequest('/openscad/stl', 5053))
+app.post(...makeRequest('/cadquery/stl', 5060))
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
