@@ -28,8 +28,7 @@ After which we'll also spin up a light express server to act as an emulator to t
 yarn install
 yarn emulate
 ```
-You can now add OPENSCAD_BASE_URL="http://localhost:8080" to you .env file and restart your main dev process (`yarn rw dev`)
-comment that line out if you want to go back to using the aws endpoint (and restart the dev process).
+You can now add CAD_LAMBDA_BASE_URL="http://localhost:8080" to you .env file and restart your main dev process (`yarn rw dev`) comment that line out if you want to go back to using the aws endpoint (and restart the dev process).
 
 If you change anything in the `api/src/docker/openscad` directory, you will need to stop the docker process and restart it (will be fairly quick if you're only changing the js)
 
