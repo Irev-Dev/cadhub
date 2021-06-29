@@ -5,6 +5,10 @@
   "dependencies": {
     "@redwoodjs/api": "^0.34.1",
     "@sentry/node": "^6.5.1",
-    "cloudinary": "^1.23.0"
+    "cloudinary": "^1.23.0",
+    "nodemailer": "^6.6.2"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.2"
   }
 }
