@@ -9,7 +9,7 @@ import {
 export const render = async ({ code }) => {
   const body = JSON.stringify({
     settings: {
-      deflection: 0.2
+      deflection: 0.2,
     },
     file: code,
   })

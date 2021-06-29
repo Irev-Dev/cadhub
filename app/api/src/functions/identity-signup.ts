@@ -1,8 +1,9 @@
-import { createUserInsecure } from 'src/services/users/users.js'
+import { createUserInsecure } from 'src/services/users/users'
 import { db } from 'src/lib/db'
 import { sentryWrapper } from 'src/lib/sentry'
 import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'
 import 'graphql-tag'
+import { sendMail } from 'src/lib/sendmail'
 
 const unWrappedHandler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -56,7 +57,7 @@ const unWrappedHandler = async (req, _context) => {
   const user = body.user
   const email = user.email
 
-  let roles = []
+  const roles = []
 
   if (eventType === 'signup') {
     roles.push('user')
@@ -73,6 +74,15 @@ const unWrappedHandler = async (req, _context) => {
       id: user.id,
     }
     await createUserInsecure({ input })
+    await sendMail({
+      to: 'k.hutten@protonmail.ch',
+      from: {
+        address: 'news@mail.cadhub.xyz',
+        name: 'CadHub',
+      },
+      subject: `New Cadhub User`,
+      text: JSON.stringify(input, null, 2),
+    })
 
     return {
       statusCode: 200,
