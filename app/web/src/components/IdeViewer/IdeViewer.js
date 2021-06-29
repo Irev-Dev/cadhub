@@ -13,7 +13,7 @@ import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 
-const loader = new TextureLoader
+const loader = new TextureLoader()
 const colorMap = loader.load(texture)
 
 extend({ OrbitControls })
@@ -200,8 +200,8 @@ const IdeViewer = ({ Loading }) => {
           />
           <ambientLight intensity={1} />
           <pointLight position={[15, 5, 10]} intensity={4} />
-          <pointLight position={[-1000, -1000, -1000]} intensity={1}/>
-          <pointLight position={[-1000, 0, 1000]} intensity={1}/>
+          <pointLight position={[-1000, -1000, -1000]} intensity={1} />
+          <pointLight position={[-1000, 0, 1000]} intensity={1} />
           {state.objectData?.type === 'png' && (
             <>
               <Sphere position={[0, 0, 0]} color={pink400} />

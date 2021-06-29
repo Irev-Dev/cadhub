@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import SubjectAccessRequestsCell from 'src/components/SubjectAccessRequestsCell'
-import { Flash, useQuery, useMutation, useFlash } from '@redwoodjs/web'
+import { useQuery, useMutation } from '@redwoodjs/web'
 import { Form, Submit } from '@redwoodjs/forms'
 
 import MainLayout from 'src/layouts/MainLayout'
