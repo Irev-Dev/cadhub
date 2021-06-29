@@ -3,6 +3,7 @@ import { db } from 'src/lib/db'
 import { sentryWrapper } from 'src/lib/sentry'
 import { enforceAlphaNumeric, generateUniqueString } from 'src/services/helpers'
 import 'graphql-tag'
+import {sendMail} from 'src/lib/sendmail'
 
 const unWrappedHandler = async (req, _context) => {
   const body = JSON.parse(req.body)
@@ -73,6 +74,15 @@ const unWrappedHandler = async (req, _context) => {
       id: user.id,
     }
     await createUserInsecure({ input })
+    await sendMail({
+      to: 'k.hutten@protonmail.ch',
+      from: {
+        address:'news@mail.cadhub.xyz',
+        name: 'CadHub',
+      },
+      subject: `New Cadhub User`,
+      text: JSON.stringify(input, null, 2),
+    })
 
     return {
       statusCode: 200,

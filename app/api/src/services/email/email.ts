@@ -9,10 +9,18 @@ export const sendAllUsersEmail = async ({input: {body, subject}}) => {
     address:'news@mail.cadhub.xyz',
     name: 'CadHub',
   }
-  return sendMail({
+  const result = await sendMail({
     to: recipients,
     from,
     subject,
     text: body,
   })
+  await sendMail({
+    to: 'k.hutten@protonmail.ch',
+    from,
+    subject: `All users email report`,
+    text: JSON.stringify(result, null, 2),
+  })
+
+  return result
 }
