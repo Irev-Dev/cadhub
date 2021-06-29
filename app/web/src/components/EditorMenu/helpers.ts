@@ -42,18 +42,15 @@ export const makeStlDownloadHandler =
         thunkDispatch((dispatch, getState) => {
           const state = getState()
           if (state.ideType === 'openScad') {
-            thunkDispatch((dispatch, getState) => {
-              const state = getState()
-              dispatch({ type: 'setLoading' })
-              requestRender({
-                state,
-                dispatch,
-                code: state.code,
-                viewerSize: state.viewerSize,
-                camera: state.camera,
-                specialCadProcess: 'stl',
-              }).then((result) => result && saveFile(result.data))
-            })
+            dispatch({ type: 'setLoading' })
+            requestRender({
+              state,
+              dispatch,
+              code: state.code,
+              viewerSize: state.viewerSize,
+              camera: state.camera,
+              specialCadProcess: 'stl',
+            }).then((result) => result && saveFile(result.data))
           }
         })
       }
