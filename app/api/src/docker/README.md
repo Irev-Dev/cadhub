@@ -16,6 +16,8 @@ Because of the way the docker containers to be deployed as lambdas on aws are so
 
 The docker build relies on a git ignored file, the aws-lambda-rie. [Download it](https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie), then put it into `app/api/src/docker/common/`. alternatively you can put this download into the DockerFiles by reading the instructions at around line 29 of the DockerFiles (`app/api/src/docker/openscad/Dockerfile` & `app/api/src/docker/cadquery/Dockerfile`). However this will mean slower build times as it will need download this 14mb file every build.
 
+you will also need to create a .env in `app/api/src/docker/.env` for the following env-vars `DEV_AWS_SECRET_ACCESS_KEY, DEV_AWS_ACCESS_KEY_ID and DEV_BUCKET`. Ask @irev-dev for credentials and he can sort you out.
+
 Then cd into this folder `cd api/src/docker` and:
 
 ```bash

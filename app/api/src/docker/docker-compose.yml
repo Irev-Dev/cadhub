@@ -1,15 +1,9 @@
 services:
-  # aws-emulator:
-  #   build: .
-  #   networks:
-  #     - awsland
-  #   ports:
-  #     - "5050:8080"
 
   openscad-health:
     build:
       context: ./
-      dockerfile: ./openscad/.
+      dockerfile: ./openscad/Dockerfile
     image: openscad
     command: openscad.health
     ports:
@@ -17,10 +11,7 @@ services:
 
   openscad-preview:
     image: openscad
-    # build: ./openscad/.
     command: openscad.preview
-    # networks:
-    #   - awsland
     ports:
       - "5052:8080"
     environment:
@@ -30,7 +21,6 @@ services:
 
   openscad-stl:
     image: openscad
-    # build: ./openscad/.
     command: openscad.stl
     ports:
       - "5053:8080"
@@ -42,7 +32,7 @@ services:
   cadquery-stl:
     build:
       context: ./
-      dockerfile: ./cadquery/.
+      dockerfile: ./cadquery/Dockerfile
     command: cadquery.stl
     ports:
       - 5060:8080
@@ -51,6 +41,3 @@ services:
       AWS_ACCESS_KEY_ID: "${DEV_AWS_ACCESS_KEY_ID}"
       BUCKET: "${DEV_BUCKET}"
 
-# networks:
-#   awsland:
-#     name: awsland
