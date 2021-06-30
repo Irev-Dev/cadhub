@@ -30,8 +30,8 @@ RUN apt-get update && \
 # Add the lambda emulator for local dev, (see entrypoint.sh for where it's used),
 # I have the file locally (gitignored) to speed up build times (as it downloads everytime),
 # but you can use the http version of the below ADD command or download it yourself from that url.
-ADD common/aws-lambda-rie /usr/local/bin/aws-lambda-rie
-# ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie /usr/local/bin/aws-lambda-rie
+# ADD common/aws-lambda-rie /usr/local/bin/aws-lambda-rie
+ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie /usr/local/bin/aws-lambda-rie
 RUN ["chmod", "+x", "/usr/local/bin/aws-lambda-rie"]
 
 WORKDIR /var/task/
