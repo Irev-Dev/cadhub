@@ -6,6 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 # double check this below, I'm not sure we need inkscape etc
 RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb imagemagick unzip inkscape
+RUN add-apt-repository ppa:openscad/releases
 RUN apt-get update -qq
 RUN apt-get install -y -qq openscad
 RUN apt-get install -y curl wget
