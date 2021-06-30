@@ -1,6 +1,9 @@
 services:
 
   openscad-preview:
+    build:
+      context: ./
+      dockerfile: ./openscad/Dockerfile
     image: openscad
     command: openscad.preview
     ports:
