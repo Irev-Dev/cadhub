@@ -1,7 +1,7 @@
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 
 export const lambdaBaseURL =
-  process.env.CAD_LAMBDA_BASE_URL ||
+  // process.env.CAD_LAMBDA_BASE_URL ||
   'https://oxt2p7ddgj.execute-api.us-east-1.amazonaws.com/prod'
 
 export const stlToGeometry = (url) =>
