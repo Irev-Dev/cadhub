@@ -31,9 +31,7 @@ const LandingSection = () => {
                   ode is the future of <span className="text-6xl">C</span>
                   AD
                 </h1>
-                <div className="text-indigo-600 text-base font-normal self-end pt-3 tracking-widest">
-                  No more click-n-drool.
-                </div>
+                <div className="text-indigo-600 text-base font-normal self-end pt-3 tracking-widest max-w-2xl"></div>
               </div>
             </div>
           </div>

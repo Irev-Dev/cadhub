@@ -5,7 +5,7 @@ import { navigate, routes } from '@redwoodjs/router'
 import UserProfile from 'src/components/UserProfile'
 
 export const QUERY = gql`
-  query FIND_USER_BY_ID($userName: String!) {
+  query FIND_USER_BY_USERNAME($userName: String!) {
     user: userName(userName: $userName) {
       id
       userName

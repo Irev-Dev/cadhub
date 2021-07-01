@@ -1,15 +1,9 @@
 services:
 
-  openscad-health:
+  openscad-preview:
     build:
       context: ./
       dockerfile: ./openscad/Dockerfile
-    image: openscad
-    command: openscad.health
-    ports:
-      - "5051:8080"
-
-  openscad-preview:
     image: openscad
     command: openscad.preview
     ports:
