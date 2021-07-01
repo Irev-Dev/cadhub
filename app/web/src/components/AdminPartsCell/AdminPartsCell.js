@@ -3,7 +3,7 @@ import { Link, routes } from '@redwoodjs/router'
 import AdminParts from 'src/components/AdminParts'
 
 export const QUERY = gql`
-  query PARTS {
+  query PARTS_ADMIN {
     parts {
       id
       title

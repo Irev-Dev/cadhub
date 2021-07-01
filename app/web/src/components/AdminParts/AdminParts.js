@@ -5,7 +5,7 @@ import { Link, routes } from '@redwoodjs/router'
 import { QUERY } from 'src/components/AdminPartsCell'
 
 const DELETE_PART_MUTATION = gql`
-  mutation DeletePartMutation($id: String!) {
+  mutation DeletePartMutationAdmin($id: String!) {
     deletePart(id: $id) {
       id
     }

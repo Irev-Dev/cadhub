@@ -7,8 +7,6 @@ export const schema = gql`
   type EmailResponse {
     accepted: [String!]!
     rejected: [String!]!
-    messageId: String!
-    envelope: Envelope
   }
 
   input Email {
