@@ -1,7 +1,7 @@
 import nodemailer, { SendMailOptions } from 'nodemailer'
 
-interface Args {
-  to: SendMailOptions['to']
+export interface SendMailArgs {
+  to: string
   from: SendMailOptions['from']
   subject: string
   text: string
@@ -26,7 +26,7 @@ export function sendMail({
   from,
   subject,
   text,
-}: Args): Promise<SuccessResult> {
+}: SendMailArgs): Promise<SuccessResult> {
   const transporter = nodemailer.createTransport({
     host: 'smtp.mailgun.org',
     port: 587,

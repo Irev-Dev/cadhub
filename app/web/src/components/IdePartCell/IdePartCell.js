@@ -24,7 +24,7 @@ export const QUERY = gql`
 `
 
 const UPDATE_PART_MUTATION = gql`
-  mutation UpdatePartMutation($id: String!, $input: UpdatePartInput!) {
+  mutation UpdatePartMutationIde($id: String!, $input: UpdatePartInput!) {
     updatePart(id: $id, input: $input) {
       id
     }
