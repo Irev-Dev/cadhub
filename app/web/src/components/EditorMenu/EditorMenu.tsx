@@ -10,7 +10,9 @@ const EditorMenu = () => {
   const { state, thunkDispatch } = useIdeContext()
   const handleStlDownload = makeStlDownloadHandler({
     type: state.objectData?.type,
+    ideType: state.ideType,
     geometry: state.objectData?.data,
+    quality: state.objectData?.quality,
     fileName: PullTitleFromFirstLine(state.code || ''),
     thunkDispatch,
   })

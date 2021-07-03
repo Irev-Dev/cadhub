@@ -4,9 +4,10 @@ import {
   createHealthyResponse,
   createUnhealthyResponse,
   timeoutErrorMessage,
+  RenderArgs,
 } from './common'
 
-export const render = async ({ code, settings }) => {
+export const render = async ({ code, settings }: RenderArgs) => {
   const pixelRatio = window.devicePixelRatio || 1
   const size = {
     x: Math.round(settings.viewerSize?.width * pixelRatio),
@@ -67,7 +68,7 @@ export const render = async ({ code, settings }) => {
   }
 }
 
-export const stl = async ({ code, settings }) => {
+export const stl = async ({ code, settings }: RenderArgs) => {
   const body = JSON.stringify({
     settings: {},
     file: code,

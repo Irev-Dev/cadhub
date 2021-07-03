@@ -4,12 +4,16 @@ import {
   createHealthyResponse,
   createUnhealthyResponse,
   timeoutErrorMessage,
+  RenderArgs,
 } from './common'
 
-export const render = async ({ code }) => {
+export const render = async ({
+  code,
+  settings: { quality = 'low' },
+}: RenderArgs) => {
   const body = JSON.stringify({
     settings: {
-      deflection: 0.15,
+      deflection: quality === 'low' ? 0.35 : 0.11,
     },
     file: code,
   })
