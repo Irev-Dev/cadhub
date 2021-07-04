@@ -1,10 +1,18 @@
 import { createContext } from 'react'
 import Seo from 'src/components/Seo/Seo'
-import IdeWrapper from 'src/components/IdeWrapper'
+import IdeWrapper from 'src/components/IdeWrapper/IdeWrapper'
 import { Toaster } from '@redwoodjs/web/toast'
-import { useIdeState } from 'src/helpers/hooks/useIdeState'
+import { useIdeState, State, initialState } from 'src/helpers/hooks/useIdeState'
 
-export const IdeContext = createContext()
+interface IdeContextType {
+  state: State
+  thunkDispatch: (actionOrThunk: any) => any
+}
+
+export const IdeContext = createContext<IdeContextType>({
+  state: initialState,
+  thunkDispatch: () => {},
+})
 const DevIdePage = ({ cadPackage }) => {
   const [state, thunkDispatch] = useIdeState()
   return (

@@ -62,7 +62,9 @@ const Routes = () => {
         <Route path="/admin/subject-access-requests/{id}/edit" page={EditSubjectAccessRequestPage} name="editSubjectAccessRequest" />
         <Route path="/admin/subject-access-requests/{id}" page={SubjectAccessRequestPage} name="subjectAccessRequest" />
         <Route path="/admin/subject-access-requests" page={SubjectAccessRequestsPage} name="subjectAccessRequests" />
-        <Route path="/admin/email" page={AdminEmailPage} name="adminEmail" />
+
+        {/* Retired for now but might want to bring it back, delete if older that I danno late 2021 */}
+        {/* <Route path="/admin/email" page={AdminEmailPage} name="adminEmail" />  */}
       </Private>
     </Router>
   )

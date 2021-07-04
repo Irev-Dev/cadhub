@@ -2,7 +2,7 @@ import { flow, identity } from 'lodash/fp'
 import { fileSave } from 'browser-fs-access'
 import { MeshBasicMaterial, Mesh, Scene } from 'three'
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
-import { requestRender } from 'src/helpers/hooks/useIdeState'
+import { requestRender, State } from 'src/helpers/hooks/useIdeState'
 
 export const PullTitleFromFirstLine = (code = '') => {
   const firstLine = code.split('\n').filter(identity)[0] || ''
@@ -16,8 +16,24 @@ export const PullTitleFromFirstLine = (code = '') => {
   )
 }
 
+interface makeStlDownloadHandlerArgs {
+  geometry: any
+  fileName: string
+  type: State['objectData']['type']
+  ideType: State['ideType']
+  thunkDispatch: (a: any) => any
+  quality: State['objectData']['quality']
+}
+
 export const makeStlDownloadHandler =
-  ({ geometry, fileName, type, thunkDispatch }) =>
+  ({
+    geometry,
+    fileName,
+    type,
+    thunkDispatch,
+    quality,
+    ideType,
+  }: makeStlDownloadHandlerArgs) =>
   () => {
     const makeStlBlobFromGeo = flow(
       (geo) => new Mesh(geo, new MeshBasicMaterial()),
@@ -36,22 +52,25 @@ export const makeStlDownloadHandler =
       })
     }
     if (geometry) {
-      if (type === 'geometry') {
+      if (
+        type === 'geometry' &&
+        (quality === 'high' || ideType === 'openScad')
+      ) {
         saveFile(geometry)
       } else {
         thunkDispatch((dispatch, getState) => {
           const state = getState()
-          if (state.ideType === 'openScad') {
-            dispatch({ type: 'setLoading' })
-            requestRender({
-              state,
-              dispatch,
-              code: state.code,
-              viewerSize: state.viewerSize,
-              camera: state.camera,
-              specialCadProcess: 'stl',
-            }).then((result) => result && saveFile(result.data))
-          }
+          const specialCadProcess = ideType === 'openScad' && 'stl'
+          dispatch({ type: 'setLoading' })
+          requestRender({
+            state,
+            dispatch,
+            code: state.code,
+            viewerSize: state.viewerSize,
+            camera: state.camera,
+            quality: 'high',
+            specialCadProcess,
+          }).then((result) => result && saveFile(result.data))
         })
       }
     }

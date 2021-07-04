@@ -12,6 +12,7 @@ import Button from 'src/components/Button'
 import PartReactionsCell from '../PartReactionsCell'
 import { countEmotes } from 'src/helpers/emote'
 import { getActiveClasses } from 'get-active-classes'
+import OutBound from 'src/components/OutBound/OutBound'
 
 const PartProfile = ({
   userPart,
@@ -178,6 +179,19 @@ const PartProfile = ({
             partTitle={input?.title}
             isInvalid={isInvalid}
           />
+          <div>
+            <h3 className="text-center p-2 bg-pink-200 rounded-md mt-4 shadow-md">
+              Warning, this part was made with CascadeStudio which is being
+              deprecated on CadHub.{' '}
+              <OutBound
+                className="text-gray-600 underline"
+                to="https://github.com/Irev-Dev/cadhub/discussions/261"
+              >
+                Click here
+              </OutBound>{' '}
+              for more information
+            </h3>
+          </div>
           {!isEditable && part?.id && (
             <ImageUploader
               className="rounded-lg shadow-md border-2 border-gray-200 border-solid mt-8"

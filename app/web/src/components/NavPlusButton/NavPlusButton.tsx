@@ -18,10 +18,6 @@ const NavPlusButton: React.FC = () => {
               ideType: 'openScad',
             },
             { name: 'CadQuery', sub: 'beta', ideType: 'cadQuery' },
-            {
-              name: 'CascadeStudio',
-              sub: 'soon to be deprecated',
-            },
           ].map(({ name, sub, ideType }) => (
             <li
               key={name}

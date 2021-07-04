@@ -43,36 +43,64 @@ show_object(result)
 
 const codeStorageKey = 'Last-editor-code'
 export const makeCodeStoreKey = (ideType) => `${codeStorageKey}-${ideType}`
-let mutableState = null
+let mutableState: State = null
 
-export const useIdeState = () => {
-  const code = ''
-  const initialLayout = {
-    direction: 'row',
-    first: 'Editor',
-    second: {
-      direction: 'column',
-      first: 'Viewer',
-      second: 'Console',
-      splitPercentage: 70,
-    },
+interface XYZ {
+  x: number
+  y: number
+  z: number
+}
+
+export interface State {
+  ideType: 'INIT' | 'openScad' | 'cadQuery'
+  consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
+  code: string
+  objectData: {
+    type: 'INIT' | 'stl' | 'png' | 'geometry'
+    data: any
+    quality: 'low' | 'high'
   }
-  const initialState = {
-    ideType: 'INIT',
-    consoleMessages: [
-      { type: 'message', message: 'Initialising', time: new Date() },
-    ],
-    code,
-    objectData: {
-      type: 'INIT',
-      data: null,
-    },
-    layout: initialLayout,
-    camera: {},
-    viewerSize: { width: 0, height: 0 },
-    isLoading: false,
+  layout: any
+  camera: {
+    dist?: number
+    position?: XYZ
+    rotation?: XYZ
   }
-  const reducer = (state, { type, payload }) => {
+  viewerSize: { width: number; height: number }
+  isLoading: boolean
+}
+
+const code = ''
+const initialLayout = {
+  direction: 'row',
+  first: 'Editor',
+  second: {
+    direction: 'column',
+    first: 'Viewer',
+    second: 'Console',
+    splitPercentage: 70,
+  },
+}
+
+export const initialState: State = {
+  ideType: 'INIT',
+  consoleMessages: [
+    { type: 'message', message: 'Initialising', time: new Date() },
+  ],
+  code,
+  objectData: {
+    type: 'INIT',
+    data: null,
+    quality: 'low',
+  },
+  layout: initialLayout,
+  camera: {},
+  viewerSize: { width: 0, height: 0 },
+  isLoading: false,
+}
+
+export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
+  const reducer = (state: State, { type, payload }): State => {
     switch (type) {
       case 'initIde':
         return {
@@ -89,6 +117,7 @@ export const useIdeState = () => {
         return {
           ...state,
           objectData: {
+            ...state.objectData,
             type: payload.objectData?.type,
             data: payload.objectData?.data,
           },
@@ -142,8 +171,19 @@ export const useIdeState = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
   mutableState = state
-  const getState = () => mutableState
-  return [state, withThunk(dispatch, getState)]
+  const getState = (): State => mutableState
+  const thunkDispatch = withThunk(dispatch, getState)
+  return [state, thunkDispatch]
+}
+
+interface RequestRenderArgs {
+  state: State
+  dispatch: any
+  code: State['code']
+  camera: State['camera']
+  viewerSize: State['viewerSize']
+  quality: State['objectData']['quality']
+  specialCadProcess?: string
 }
 
 export const requestRender = ({
@@ -152,8 +192,9 @@ export const requestRender = ({
   code,
   camera,
   viewerSize,
+  quality,
   specialCadProcess = null,
-}) => {
+}: RequestRenderArgs) => {
   if (
     state.ideType !== 'INIT' &&
     (!state.isLoading || state.objectData?.type === 'INIT')
@@ -166,6 +207,7 @@ export const requestRender = ({
       settings: {
         camera,
         viewerSize,
+        quality,
       },
     })
       .then(({ objectData, message, status }) => {

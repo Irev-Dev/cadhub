@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
-import { requestRender } from 'src/helpers/hooks/useIdeState'
+import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { theme } from 'src/../tailwind.config'
 
