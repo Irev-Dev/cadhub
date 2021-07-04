@@ -117,7 +117,7 @@ async function storeAssetAndReturnUrl({
     let buffer
 
     try {
-      buffer = await readFile(fullPath)
+      buffer = await readFile(`${fullPath}.gz`)
     } catch (e) {
       console.log('read file error', e)
       const response = {
@@ -134,6 +134,8 @@ async function storeAssetAndReturnUrl({
         Key: key,
         Body: buffer,
         CacheControl: `max-age=${FiveDays}`, // browser caching to stop downloads of the same part
+        ContentType: 'text/stl',
+        ContentEncoding: 'gzip',
         Metadata: putConsoleMessageInMetadata(consoleMessage),
       })
       .promise()

@@ -1,13 +1,23 @@
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
+import { State } from 'src/helpers/hooks/useIdeState'
 
 export const lambdaBaseURL =
-  // process.env.CAD_LAMBDA_BASE_URL ||
-  'https://oxt2p7ddgj.execute-api.us-east-1.amazonaws.com/prod'
+  process.env.CAD_LAMBDA_BASE_URL ||
+  'https://2inlbple1b.execute-api.us-east-1.amazonaws.com/prod2'
 
 export const stlToGeometry = (url) =>
   new Promise((resolve, reject) => {
     new STLLoader().load(url, resolve, null, reject)
   })
+
+export interface RenderArgs {
+  code: State['code']
+  settings: {
+    camera: State['camera']
+    viewerSize: State['viewerSize']
+    quality: State['objectData']['quality']
+  }
+}
 
 export function createHealthyResponse({ date, data, consoleMessage, type }) {
   return {

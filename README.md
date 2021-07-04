@@ -37,6 +37,8 @@ yarn rw prisma migrate dev
 yarn rw prisma db seed
 ```
 
+p.s. `yarn rw prisma studio` spins up an app to inspect the db
+
 ### Fire up dev
 ```terminal
 yarn rw dev

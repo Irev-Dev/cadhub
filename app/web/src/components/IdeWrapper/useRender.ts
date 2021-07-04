@@ -1,5 +1,4 @@
-import { makeCodeStoreKey } from 'src/helpers/hooks/useIdeState'
-import { requestRender } from 'src/helpers/hooks/useIdeState'
+import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 
 export const useRender = () => {

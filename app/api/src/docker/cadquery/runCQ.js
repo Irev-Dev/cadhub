@@ -7,7 +7,14 @@ module.exports.runCQ = async ({
 } = {}) => {
   const tempFile = await makeFile(file, '.py', nanoid)
   const fullPath = `/tmp/${tempFile}/output.stl`
-  const command = `cq-cli/cq-cli --codec stl --infile /tmp/${tempFile}/main.py --outfile ${fullPath} --outputopts "deflection:${deflection};angularDeflection:${deflection};"`
+  const command = [
+    `cq-cli/cq-cli`,
+    `--codec stl`,
+    `--infile /tmp/${tempFile}/main.py`,
+    `--outfile ${fullPath}`,
+    `--outputopts "deflection:${deflection};angularDeflection:${deflection};"`,
+    `&& gzip ${fullPath}`,
+  ].join(' ')
   console.log('command', command)
 
   try {
