@@ -46,6 +46,8 @@ yarn rw dev
 
 Your browser should open automatically to `http://localhost:8910` to see the web app. Lambda functions run on `http://localhost:8911` and are also proxied to `http://localhost:8910/.redwood/functions/*`.
 
+If you want to access the websight on your phone use `yarn redwood dev --fwd="--host <ip-address-on-your-network-i.e.-192.168.0.5">"`
+
 you can sign in to the following accounts locally
 
 localUser1@kurthutten.com: `abc123`
