@@ -93,27 +93,27 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   return (
     <div>
       <header id="cadhub-main-header">
-        <nav className="flex justify-between h-20 px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
+        <nav className="flex justify-between h-20 md:px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
-                <div className="rounded-full overflow-hidden ml-8">
-                  <Svg className="w-16" name="favicon" />
+                <div className="rounded-full overflow-hidden ml-2 md:ml-8">
+                  <Svg className="w-10 md:w-16" name="favicon" />
                 </div>
               </Link>
             </li>
             <li>
               <Tooltip title="Very alpha, there's lots of work todo">
-                <div className="ml-12 flex">
+                <div className="ml-2 md:ml-12 flex">
                   {/* Because of how specific these styles are to this heading/logo and it doesn't need to be replicated else where as well as it's very precise with the placement of "pre-alpha" I think it's appropriate. */}
                   <h2
-                    className="text-indigo-300 text-5xl font-ropa-sans py-1 tracking-wider"
+                    className="text-indigo-300 text-2xl md:text-5xl font-ropa-sans py-1 md:tracking-wider"
                     style={{ letterSpacing: '0.3em' }}
                   >
                     CadHub
                   </h2>
                   <div
-                    className="text-pink-400 text-sm font-bold font-ropa-sans"
+                    className="text-pink-400 text-sm font-bold font-ropa-sans hidden md:block"
                     style={{ paddingBottom: '2rem', marginLeft: '-1.8rem' }}
                   >
                     pre-alpha
@@ -125,7 +125,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           <ul className="flex items-center">
             <li
               className={getActiveClasses(
-                'mr-8 h-10 w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center'
+                'mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center'
               )}
             >
               <NavPlusButton />
@@ -150,7 +150,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               <li>
                 <a
                   href="#"
-                  className="text-indigo-200 font-semibold underline"
+                  className="text-indigo-200 font-semibold underline mr-2"
                   onClick={recordedLogin}
                 >
                   Sign in/up

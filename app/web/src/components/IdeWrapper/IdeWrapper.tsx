@@ -23,8 +23,8 @@ const IdeToolbarNew = ({ cadPackage }) => {
           <IdeHeader handleRender={handleRender} />
         </nav>
         {shouldShowConstructionMessage && (
-          <div className="py-2 bg-pink-200 flex">
-            <div className="flex-grow text-center">
+          <div className="py-1 md:py-2 bg-pink-200 flex">
+            <div className="flex-grow text-center text-xs md:text-base">
               We're still working on this. Since you're here, have a look what{' '}
               <OutBound
                 className="text-pink-700"
