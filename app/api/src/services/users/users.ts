@@ -51,9 +51,9 @@ export const updateUserByUserName = async ({ userName, input }) => {
       `You've tried to used a protected word as you userName, try something other than `
     )
   }
-  const originalPart = await db.user.findUnique({ where: { userName } })
+  const originalProject = await db.user.findUnique({ where: { userName } })
   const imageToDestroy =
-    originalPart.image !== input.image && originalPart.image
+    originalProject.image !== input.image && originalProject.image
   const update = await db.user.update({
     data: input,
     where: { userName },
@@ -73,14 +73,14 @@ export const deleteUser = ({ id }) => {
 }
 
 export const User = {
-  Parts: (_obj, { root }) =>
-    db.user.findUnique({ where: { id: root.id } }).Part(),
-  Part: (_obj, { root }) =>
-    _obj.partTitle &&
-    db.part.findUnique({
+  Projects: (_obj, { root }) =>
+    db.user.findUnique({ where: { id: root.id } }).Project(),
+  Project: (_obj, { root }) =>
+    _obj.projectTitle &&
+    db.project.findUnique({
       where: {
         title_userId: {
-          title: _obj.partTitle,
+          title: _obj.projectTitle,
           userId: root.id,
         },
       },

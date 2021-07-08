@@ -5,9 +5,16 @@ import Editor from 'rich-markdown-editor'
 import ImageUploader from 'src/components/ImageUploader'
 import Button from 'src/components/Button'
 import ProfileTextInput from 'src/components/ProfileTextInput'
-import PartsOfUser from 'src/components/PartsOfUserCell'
+import ProjectsOfUser from 'src/components/ProjectsOfUserCell'
 
-const UserProfile = ({ user, isEditable, loading, onSave, error, parts }) => {
+const UserProfile = ({
+  user,
+  isEditable,
+  loading,
+  onSave,
+  error,
+  projects,
+}) => {
   const { currentUser } = useAuth()
   const canEdit = currentUser?.sub === user.id
   const isImageEditable = !isEditable && canEdit // image is editable when not in profile edit mode in order to separate them as it's too hard too to upload an image to cloudinary temporarily until the use saves (and maybe have to clean up) for the time being
@@ -95,8 +102,8 @@ const UserProfile = ({ user, isEditable, loading, onSave, error, parts }) => {
           </div>
         </div>
         <div className="mt-10">
-          <h3 className="text-3xl text-gray-500 font-ropa-sans">Parts:</h3>
-          <PartsOfUser userName={user?.userName} />
+          <h3 className="text-3xl text-gray-500 font-ropa-sans">Projects:</h3>
+          <ProjectsOfUser userName={user?.userName} />
         </div>
       </section>
     </>

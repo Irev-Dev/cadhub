@@ -40,7 +40,7 @@ No matter which one is your tool of choice, if you're here and you love Code-CAD
 - [Community](http://www.openscad.org/community.html)
 - [Docs](http://www.openscad.org/documentation.html)
 - License: GPL-2
-- [Online editor](https://cadhub.xyz/dev-ide/openScad)
+- [Online editor](https://cadhub.xyz/dev-ide/openscad)
 
 The rest of the packages are in alphabetical order, but OpenSCAD gets a special mention because it's the OG. Many of the projects below were inspired by OpenSCAD and is the most well-known choice. If you're new to code-cad this is the safest choice. The syntax is easy to pick up and there lots of guides around the internet.
 
@@ -100,7 +100,7 @@ A community hub for sharing code-cad projects. Currently integrates with [CadQue
 - [Community](https://discord.gg/qz3uAdF)
 - [Docs](https://cadquery.readthedocs.io/en/latest/intro.html)
 - License: Apache, 2.0
-- [Online editor](https://cadhub.xyz/dev-ide/cadQuery)
+- [Online editor](https://cadhub.xyz/dev-ide/cadquery)
 
 CadQuery is a Python library that wraps and extends [OpenCascade](https://github.com/tpaviot/oce). It has a philosophy of capturing design intent. The API has been designed to be as close as possible to how you’d describe the object to a human. An example of this is its ability to "select" parts of the model's geometry to run operations on, such as the following code that selects only the edges running along the Z-axis and fillets them.
 

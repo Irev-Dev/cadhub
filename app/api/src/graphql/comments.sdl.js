@@ -4,8 +4,8 @@ export const schema = gql`
     text: String!
     user: User!
     userId: String!
-    part: Part!
-    partId: String!
+    project: Project!
+    projectId: String!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -18,13 +18,13 @@ export const schema = gql`
   input CreateCommentInput {
     text: String!
     userId: String!
-    partId: String!
+    projectId: String!
   }
 
   input UpdateCommentInput {
     text: String
     userId: String
-    partId: String
+    projectId: String
   }
 
   type Mutation {

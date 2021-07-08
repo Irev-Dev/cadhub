@@ -2,23 +2,34 @@ import { useContext } from 'react'
 import { MosaicWindowContext } from 'react-mosaic-component'
 import Svg from 'src/components/Svg/Svg'
 
-const PanelToolbar = ({ panelName }: { panelName: string }) => {
+const PanelToolbar = ({
+  panelName,
+  showTopGradient,
+}: {
+  panelName: string
+  showTopGradient?: boolean
+}) => {
   const { mosaicWindowActions } = useContext(MosaicWindowContext)
   return (
-    <div className="absolute top-0 right-0 flex items-center h-9">
-      <button
-        className="bg-ch-gray-760 text-ch-gray-300 px-3 rounded-bl-lg h-full cursor-not-allowed"
-        aria-label={`${panelName} settings`}
-        disabled
-      >
-        <Svg name="gear" className="w-7 p-px" />
-      </button>
-      {mosaicWindowActions.connectDragSource(
-        <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
-          <Svg name="drag-grid" className="w-4 p-px" />
-        </div>
+    <>
+      {showTopGradient && (
+        <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-ch-gray-800 to-transparent" />
       )}
-    </div>
+      <div className="absolute top-0 right-0 flex items-center h-9">
+        <button
+          className="bg-ch-gray-760 text-ch-gray-300 px-3 rounded-bl-lg h-full cursor-not-allowed"
+          aria-label={`${panelName} settings`}
+          disabled
+        >
+          <Svg name="gear" className="w-7 p-px" />
+        </button>
+        {mosaicWindowActions.connectDragSource(
+          <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
+            <Svg name="drag-grid" className="w-4 p-px" />
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 

@@ -20,6 +20,8 @@ module.exports = {
           750: '#222222',
           760: '#232532',
           700: '#2A3038',
+          600: '#3B3E4B',
+          500: '#9F9FB4',
           300: '#CFCFD8',
         },
         'ch-purple': {
@@ -29,6 +31,7 @@ module.exports = {
         },
         'ch-blue': {
           600: '#79B2F8',
+          300: '#08466F'
         },
         'ch-pink': {
           800: '#93064F',
@@ -42,6 +45,11 @@ module.exports = {
       fontFamily: {
         'ropa-sans': ['Ropa Sans', 'Arial', 'sans-serif'],
         roboto: ['Roboto', 'Arial', 'sans-serif'],
+        'fira-code': ['Fira Code', 'monospace'],
+        'fira-sans': ['Fira Sans', 'sans-seri'],
+      },
+      gridAutoColumns: {
+        'preview-layout': 'minmax(30rem, 1fr) minmax(auto, 2fr)',
       },
       keyframes: {
         'bounce-sm': {
@@ -77,5 +85,7 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }

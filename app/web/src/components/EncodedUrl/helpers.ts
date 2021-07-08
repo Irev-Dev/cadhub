@@ -32,14 +32,17 @@ export function makeExternalUrl(resourceUrl: string): string {
   }#${fetchText}=${prepareDecodedUrl(resourceUrl)}`
 }
 
-export function useIdeInit(cadPackage: string) {
+export function useIdeInit(cadPackage: string, code = '') {
   const { thunkDispatch } = useIdeContext()
   const handleRender = useRender()
   useEffect(() => {
     thunkDispatch({
       type: 'initIde',
-      payload: { cadPackage },
+      payload: { cadPackage, code },
     })
+    if (code) {
+      return
+    }
     // load code from hash if it's there
     const triggerRender = () =>
       setTimeout(() => {

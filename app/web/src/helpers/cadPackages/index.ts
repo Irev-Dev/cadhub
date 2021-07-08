@@ -1,7 +1,7 @@
-import openScad from './openScadController'
-import cadQuery from './cadQueryController'
+import openscad from './openScadController'
+import cadquery from './cadQueryController'
 
 export const cadPackages = {
-  openScad,
-  cadQuery,
+  openscad,
+  cadquery,
 }

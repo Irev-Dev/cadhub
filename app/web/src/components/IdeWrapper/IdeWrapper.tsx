@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import IdeContainer from 'src/components/IdeContainer/IdeContainer'
 import { useRender } from './useRender'
 import OutBound from 'src/components/OutBound/OutBound'
@@ -6,12 +6,25 @@ import IdeSideBar from 'src/components/IdeSideBar/IdeSideBar'
 import IdeHeader from 'src/components/IdeHeader/IdeHeader'
 import Svg from 'src/components/Svg/Svg'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
+import type { Project } from 'src/components/IdeProjectCell/IdeProjectCell'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 
-const IdeToolbarNew = ({ cadPackage }) => {
+interface Props {
+  cadPackage: string
+}
+
+const IdeWrapper = ({ cadPackage }: Props) => {
   const [shouldShowConstructionMessage, setShouldShowConstructionMessage] =
     useState(true)
+  const { state, project } = useIdeContext()
   const handleRender = useRender()
-  useIdeInit(cadPackage)
+  const saveCode = useSaveCode()
+  const onRender = () => {
+    handleRender()
+    saveCode({ code: state.code })
+  }
+  useIdeInit(cadPackage, project?.code || state?.code)
 
   return (
     <div className="h-full flex">
@@ -20,7 +33,7 @@ const IdeToolbarNew = ({ cadPackage }) => {
       </div>
       <div className="h-full flex flex-grow flex-col">
         <nav className="flex">
-          <IdeHeader handleRender={handleRender} />
+          <IdeHeader handleRender={onRender} />
         </nav>
         {shouldShowConstructionMessage && (
           <div className="py-1 md:py-2 bg-pink-200 flex">
@@ -48,4 +61,4 @@ const IdeToolbarNew = ({ cadPackage }) => {
   )
 }
 
-export default IdeToolbarNew
+export default IdeWrapper

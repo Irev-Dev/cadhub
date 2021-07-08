@@ -39,7 +39,7 @@ Arguments are:
   - Debugging mode, print reduced radii to the console.
   - Radii conflict resolution disabled.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fpolyround.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fpolyround.scad)**
 
 <Image img={polyroundApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -53,7 +53,7 @@ polygon(
 By default `polyRound` will reduce radii to stop any two subsequent radii from conflicting.
 To further understand how the radii conflict resolution works here's an example of that.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fradii-conflict.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fradii-conflict.scad)**
 
 <Image img={conflictApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -92,7 +92,7 @@ Use: `polyRoundExtrude(radiiPoints,length,r1,r2,fn,convexity)`
 This module is similar to `extrudeWithRadius` in purpose, though by using radiiPoints directly instead of a generic 2d child it's able to offer smoother curves in a more preformant manner.
 It is recommended over `extrudeWithRadius` where possible.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FpolyRoundExtrude.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FpolyRoundExtrude.scad)**
 
 <Image img={polyroundExtrudeApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -104,7 +104,7 @@ polyRoundExtrude(radiiPoints,2,0.5,-0.8,fn=50);
 
 Negative fillets on the end of extrusions can be useful when:
 - An extrusion needs to mate with flat surface
-- Creating [holes with transitioning fillets](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fnegative-polyRoundExtrude.scad).
+- Creating [holes with transitioning fillets](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fnegative-polyRoundExtrude.scad).
 
 ### `translateRadiiPoints`
 Function for moving radii points, to aid in their reuse.
@@ -119,7 +119,7 @@ Because the function returns radiiPoints, they need to be used with `polyRound` 
 `translateRadiiPoints` is typically employed to re-use points multiple times in one part.
 In order to make this work, several series of points are combined `concat`.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FtranslateRadiiPoints.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FtranslateRadiiPoints.scad)**
 
 <Image img={translatePointsApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -173,7 +173,7 @@ where:
 
 Here's a simple example.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fshell2d.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fshell2d.scad)**
 
 <Image img={shell2dApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -208,7 +208,7 @@ Because it returns a new list of radiiPoints, it can safetly used with `polyRoun
 
 The following shows how a series of points can form the bean chain, how radii are added and defining the thickness of the beams
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FbeamChain-1.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FbeamChain-1.scad)**
 
 <Image img={beamchainApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -239,7 +239,7 @@ translate([0,-7*2,0]){
 
 The next example shows adding a angle and filleting radius to the end of the beams
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FbeamChain-2.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FbeamChain-2.scad)**
 
 <Image img={beamchainApi2} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -262,7 +262,7 @@ translate([0,-7*4,0]){
 Lastly the following shows how seperating the beams polygong path into forward and return paths allows extra polgon points at the ends of the beam.
 The advantage of this over regular union is adding a transitioning radius between the beam and the extra points.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FbeamChain-3.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FbeamChain-3.scad)**
 
 <Image img={beamchainApi3} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -314,7 +314,7 @@ use: `mirroredRadiiPoints = mirrorPoints(radiiPoints, rot, endAttenuation)`
 - `rot`: angle of rotation.
 - `endAttenuation`: [start, end]. Amount of points to be removed from the start and end of the radiiPoints. Its purpose is to remove single points from the ends if they lie right on the mirror axis and would cause two points on top of each other.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FmirrorPoints.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FmirrorPoints.scad)**
 
 <Image img={mirrorpointsApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -342,7 +342,7 @@ extrudeWithRadius(length,r1=0,r2=0,fn=30){
 - `r1`, `r2`: Start and end radii.
 - `fn`: How much the radii are subdivided.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FextrudeWithRadius.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FextrudeWithRadius.scad)**
 
 <Image img={extrudeWithRadiusApi} className="mb-8 bg-contain rounded-md overflow-hidden" />
 

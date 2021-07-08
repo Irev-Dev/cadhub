@@ -1,16 +1,20 @@
 import MainLayout from 'src/layouts/MainLayout'
-import PartsCell from 'src/components/PartsCell'
+import ProjectsCell from 'src/components/ProjectsCell'
 import LandingSection from 'src/components/LandingSection'
 import Seo from 'src/components/Seo/Seo'
 
-const PartsPage = () => {
+const ProjectsPage = () => {
   return (
     <MainLayout>
-      <Seo title="Parts page" description="Cadhub parts page" lang="en-US" />
+      <Seo
+        title="Projects page"
+        description="Cadhub Projects page"
+        lang="en-US"
+      />
       <LandingSection />
-      <PartsCell shouldFilterPartsWithoutImage />
+      <ProjectsCell shouldFilterProjectsWithoutImage />
     </MainLayout>
   )
 }
 
-export default PartsPage
+export default ProjectsPage

@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import { cadPackages } from 'src/helpers/cadPackages'
+import type { RootState } from '@react-three/fiber'
 
 function withThunk(dispatch, getState) {
   return (actionOrThunk) =>
@@ -9,7 +10,7 @@ function withThunk(dispatch, getState) {
 }
 
 const initCodeMap = {
-  openScad: `// involute donut
+  openscad: `// involute donut
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
 
@@ -21,7 +22,7 @@ color(c="hotpink")rotate_extrude()translate([20,0])offset(radius)offset(-radius)
     circle(d=34);
     translate([-200,-500])square([500,500]);
 }`,
-  cadQuery: `# demo shaft coupler
+  cadquery: `# demo shaft coupler
 
 # ^ first comment is used for download title (i.e. "demo-shaft-coupler.stl")
 
@@ -52,7 +53,7 @@ interface XYZ {
 }
 
 export interface State {
-  ideType: 'INIT' | 'openScad' | 'cadQuery'
+  ideType: 'INIT' | 'openscad' | 'cadquery'
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
   objectData: {
@@ -68,6 +69,7 @@ export interface State {
   }
   viewerSize: { width: number; height: number }
   isLoading: boolean
+  threeInstance: RootState
 }
 
 const code = ''
@@ -97,6 +99,7 @@ export const initialState: State = {
   camera: {},
   viewerSize: { width: 0, height: 0 },
   isLoading: false,
+  threeInstance: null,
 }
 
 export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
@@ -106,7 +109,8 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
         return {
           ...state,
           code:
-            localStorage.getItem(makeCodeStoreKey(payload.cadPackage)) ||
+            payload.code ||
+            // localStorage.getItem(makeCodeStoreKey(payload.cadPackage)) ||
             initCodeMap[payload.cadPackage] ||
             '',
           ideType: payload.cadPackage,
@@ -164,6 +168,11 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
           ...state,
           layout: initialLayout,
         }
+      case 'setThreeInstance':
+        return {
+          ...state,
+          threeInstance: payload,
+        }
       default:
         return state
     }
@@ -182,7 +191,7 @@ interface RequestRenderArgs {
   code: State['code']
   camera: State['camera']
   viewerSize: State['viewerSize']
-  quality: State['objectData']['quality']
+  quality?: State['objectData']['quality']
   specialCadProcess?: string
 }
 
@@ -192,7 +201,7 @@ export const requestRender = ({
   code,
   camera,
   viewerSize,
-  quality,
+  quality = 'low',
   specialCadProcess = null,
 }: RequestRenderArgs) => {
   if (
