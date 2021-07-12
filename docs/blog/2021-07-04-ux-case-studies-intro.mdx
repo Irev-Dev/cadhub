@@ -1,0 +1,43 @@
+---
+slug: ux-studies-intro
+title: "GUI-CAD UX studies: introduction"
+author: Frank Noirot
+author_title: CadHub Core Team
+author_url: https://github.com/franknoirot
+author_image_url: https://avatars.githubusercontent.com/u/23481541?v=4
+tags: []
+---
+
+import Image from '@theme/IdealImage';
+
+import ivanSutherland from '../static/img/blog/ux-case-studies-intro/ivan-sutherland-sketchpad.jpg';
+
+I'm helping CadHub out by designing the interfaces for the [new editor](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/CadHub?node-id=1114%3A1608), [project viewer](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/?node-id=1046%3A0), and [more](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/?node-id=1150%3A1618). Right now we're focused on getting the Code-CAD user experience perfected so that users can try out all the great Code-CAD packages out there in a simple and sharable way. But we think that the future of Code-CAD will pull UX lessons from traditional, GUI-based CAD systems. So I'll be taking a look at the history and UX of some of today's CAD tools to see how we might bring them along with the Code-CAD evolution. 
+
+<!--truncate-->
+
+## Why GUIs aren't enough anymore
+
+As others like [Jessie Frazelle](https://medium.com/embedded-ventures/mechanical-cad-yesterday-today-and-tomorrow-981cef7e06b1) have pointed out, the history of CAD software has been focused primarily on using software to emulate the frictionless user experiences of sketching and modelling by hand. That paradigm lead most of the major tools to build GUI-based systems, as they correctly assumed at the the time that the GUI offered an interface that could be understood by people in the industry. Decades have passed and the same assumption still forms the foundation of the paradigm, but could these assumptions have fundamentally changed?
+
+<Image img={ivanSutherland} alt="Ivan Sutherland's Sketchpad program from the 1960's, a man using a pen-like tool on a screen to manipulate a 2D model, considered the first CAD program." className="mb-8 bg-contain rounded-md overflow-hidden max-w-lg mx-auto" />
+
+It's hard to understate how much of a sea change web development has brought to technical culture. In the past decade the web technologies of HTML, CSS, and especially JavaScript have trained a large part of technical workers to think not in terms of software packages, but in terms of the technologies and languages that are used to construct them, because as a culture we have become accustomed to the idea that there is always an API powering whatever tool we're using. Technical users of course still want seamless GUI user experiences on platforms, but increasingly they also want the ability to get under the hood and use the APIs that power whatever tool or platform they're on. This trend is evident in the rise of API-first services like [Stripe](https://stripe.com) and monolith-fracturing trends like [JAMstack web development](https://jamstack.org).
+
+With Code-CAD, we are putting a spotlight on this sea change in user expectations, and putting out a call to action for people to start creating experiences for this web-native, language-comfortable audience of CAD users. With CadHub, we're building a showcase for the great Code-CAD packages like [CadQuery](https://cadquery.readthedocs.io/en/latest/) and [OpenSCAD](https://openscad.org/) that have been under development by early adopters for years.
+
+## A Gooey Hegelian Dialectic
+
+Okay, so we in the Code-CAD community are a bunch of developers who want more interfaces from our CAD programs. We're comfortable with programming languages and APIs and we want access to them in addition to the GUIs that CAD has traditionally provided. That's all great, but then why isn't Code-CAD mainstream right now?
+
+For one, the process of building a robust, text-first approach to so visual an activity is, as [Kurt has written about](/blog/right-level-of-abstraction) on this blog, incredibly difficult. But the Code-CAD community has been doing the monumental work of developing clean, expressive APIs for modelling. That important work is what we want to showcase and make more accessible with CadHub. But we think it's only half of the equation for creating the next step in CAD.
+
+There are myriads of thorny user experience problems that have been solved by the dominant CAD packages of today. They are amazing pieces of software that users know and love. And all those clever UX solutions were created in the design space of GUIs. If Code-CAD as a paradigm is going to become the new normal for computer-aided design, we need to understand and address all the innovation that GUI-CAD has brought to design, and translate them into Code-CAD. We need to find a gooey-code synthesis. As previously stated, this new generation of users *still want seamless GUI experiences*. Code-CAD needs to provide a way of switching seamlessly between "Application Programming" and "Graphical User" interfaces.
+
+## Already under construction
+
+I'll try to explore that design space with a few brief case studies on UX that I love from existing CAD and 3D modelling software. I'm looking for key experiences that help empower designers, how they operate in the GUI-CAD paradigm, and how Code-CAD might provide code-based synonyms of these GUI experiences.
+
+But I want to mention that work is already being done on this front. Jeremy Wright of the CadQuery team is building [Semblage](https://semblage.7bindustries.com/en/latest/), a GUI-code hybrid built with CadQuery and the Godot gaming engine. [BuildBee](https://makecode.buildbee.com/) lets users switch between Scratch-like block interface and JavaScript code for making models. Blender provides an [excellent Python API](https://docs.blender.org/api/current/index.html) for almost all of its incredible functionality, and there a dozen other projects pushing things forward while we look to the present and the past for more inspiration.
+
+Our first stop will be the timeline feature of AutoDesk Fusion360, which is a clever way to make the order of operations in modelling intuitive. Stay tuned for this post and more in the coming weeks, check out our work on [GitHub](https://github.com/Irev-Dev/cadhub/discussions/404) and [Figma](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/?node-id=633%3A0), sign up for [Kurt's newsletter](https://kurthutten.com/), and join [our Discord](https://discord.gg/sFYJyEJ6) to get plugged into our ongoing discussions about the future of Code-CAD.
