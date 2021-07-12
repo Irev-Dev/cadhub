@@ -52,7 +52,7 @@ export default function Home() {
       </header>
       <main>
         <div className="max-w-6xl mx-auto px-2 pb-32">
-          <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
+          {/* <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
             What's the potential of code-cad?
           </h2>
           <MarketingPoint
@@ -131,7 +131,7 @@ export default function Home() {
               over the next 10 years. As coders proliferate, so will the number
               of areas in which they operate, including CAD.
             </p>
-          </MarketingPoint>
+          </MarketingPoint> */}
         </div>
       </main>
     </Layout>
