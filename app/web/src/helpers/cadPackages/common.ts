@@ -32,7 +32,17 @@ export interface HealthyResponse {
   }
 }
 
-export function createHealthyResponse({ date, data, consoleMessage, type }: {date: Date; data: any; consoleMessage: string, type: HealthyResponse['objectData']['type'] }): HealthyResponse {
+export function createHealthyResponse({
+  date,
+  data,
+  consoleMessage,
+  type,
+}: {
+  date: Date
+  data: any
+  consoleMessage: string
+  type: HealthyResponse['objectData']['type']
+}): HealthyResponse {
   return {
     status: 'healthy',
     objectData: {
@@ -56,7 +66,10 @@ export interface ErrorResponse {
   }
 }
 
-export function createUnhealthyResponse(date: Date, message = 'network issue'): ErrorResponse {
+export function createUnhealthyResponse(
+  date: Date,
+  message = 'network issue'
+): ErrorResponse {
   // TODO handle errors better
   // I think we should display something overlayed on the viewer window something like "network issue try again"
   // and in future I think we need timeouts differently as they maybe from a user trying to render something too complex
