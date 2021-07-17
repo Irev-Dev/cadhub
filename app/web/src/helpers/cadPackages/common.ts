@@ -19,7 +19,20 @@ export interface RenderArgs {
   }
 }
 
-export function createHealthyResponse({ date, data, consoleMessage, type }) {
+export interface HealthyResponse {
+  status: 'healthy'
+  message: {
+    type: 'message'
+    message: string
+    time: Date
+  }
+  objectData: {
+    data: any
+    type: 'stl' | 'png' | 'geometry'
+  }
+}
+
+export function createHealthyResponse({ date, data, consoleMessage, type }: {date: Date; data: any; consoleMessage: string, type: HealthyResponse['objectData']['type'] }): HealthyResponse {
   return {
     status: 'healthy',
     objectData: {
@@ -34,7 +47,16 @@ export function createHealthyResponse({ date, data, consoleMessage, type }) {
   }
 }
 
-export function createUnhealthyResponse(date, message = 'network issue') {
+export interface ErrorResponse {
+  status: 'error'
+  message: {
+    type: 'error'
+    message: string
+    time: Date
+  }
+}
+
+export function createUnhealthyResponse(date: Date, message = 'network issue'): ErrorResponse {
   // TODO handle errors better
   // I think we should display something overlayed on the viewer window something like "network issue try again"
   // and in future I think we need timeouts differently as they maybe from a user trying to render something too complex
@@ -49,4 +71,8 @@ export function createUnhealthyResponse(date, message = 'network issue') {
   }
 }
 
-export const timeoutErrorMessage = `timeout: We're currently limited a 30s execution time. You can try again, sometimes it works the second time`
+export const timeoutErrorMessage = `timeout: We're currently limited to a 30s execution time. You can try again, sometimes it works the second time`
+
+export interface DefaultKernelExport {
+  render: (arg: RenderArgs) => Promise<HealthyResponse | ErrorResponse>
+}
