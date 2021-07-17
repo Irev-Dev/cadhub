@@ -1,13 +1,20 @@
 import { Menu } from '@headlessui/react'
 
-import { useIdeContext, ideTypeNameMap } from 'src/helpers/hooks/useIdeContext'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import Svg from 'src/components/Svg/Svg'
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import { makeStlDownloadHandler, PullTitleFromFirstLine } from './helpers'
+import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
+import CadPackage from 'src/components/CadPackage/CadPackage'
 
 const EditorMenu = () => {
   const handleRender = useRender()
+  const saveCode = useSaveCode()
   const { state, thunkDispatch } = useIdeContext()
+  const onRender = () => {
+    handleRender()
+    saveCode({ code: state.code })
+  }
   const handleStlDownload = makeStlDownloadHandler({
     type: state.objectData?.type,
     ideType: state.ideType,
@@ -16,9 +23,6 @@ const EditorMenu = () => {
     fileName: PullTitleFromFirstLine(state.code || ''),
     thunkDispatch,
   })
-  const cadName = ideTypeNameMap[state.ideType] || ''
-  const isOpenScad = state.ideType === 'openScad'
-  const isCadQuery = state.ideType === 'cadQuery'
   return (
     <div className="flex justify-between bg-ch-gray-760 text-gray-100">
       <div className="flex items-center h-9 w-full cursor-grab">
@@ -27,7 +31,7 @@ const EditorMenu = () => {
         </div>
         <div className="flex gap-6 px-5">
           <FileDropdown
-            handleRender={handleRender}
+            handleRender={onRender}
             handleStlDownload={handleStlDownload}
           />
           <button className="cursor-not-allowed" disabled>
@@ -45,14 +49,7 @@ const EditorMenu = () => {
           <Svg name="gear" className="w-6 p-px" />
         </button>
       </div>
-      <div className="flex items-center cursor-default">
-        <div
-          className={`${isOpenScad && 'bg-yellow-200'} ${
-            isCadQuery && 'bg-blue-800'
-          } w-5 h-5 rounded-full`}
-        />
-        <div className="px-2">{cadName}</div>
-      </div>
+      <CadPackage cadPackage={state.ideType} className="px-3" />
     </div>
   )
 }

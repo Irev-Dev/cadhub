@@ -44,26 +44,26 @@ const Routes = () => {
       <Route notfound page={NotFoundPage} />
 
       {/* Ownership enforced routes */}
-      <Route path="/u/{userName}/new" page={NewPartPage} name="newPart" />
+      <Route path="/u/{userName}/new" page={NewProjectPage} name="newProject" />
       <Private unauthenticated="home" role="user">
         <Route path="/u/{userName}/edit" page={EditUserPage} name="editUser" />
-        <Route path="/u/{userName}/{partTitle}/edit" page={EditPartPage} name="editPart" />
+        <Route path="/u/{userName}/{projectTitle}/edit" page={EditProjectPage} name="editProject" />
       </Private>
       {/* End ownership enforced routes */}
 
-      <Route path="/draft" page={DraftPartPage} name="draftPart" />
+      <Route path="/draft/{cadPackage}" page={DraftProjectPage} name="draftProject" />
       <Route path="/u/{userName}" page={UserPage} name="user" />
-      <Route path="/u/{userName}/{partTitle}" page={PartPage} name="part" />
-      <Route path="/u/{userName}/{partTitle}/ide" page={IdePartPage} name="ide" />
+      <Route path="/u/{userName}/{projectTitle}" page={ProjectPage} name="project" />
+      <Route path="/u/{userName}/{projectTitle}/ide" page={IdeProjectPage} name="ide" />
 
       <Private unauthenticated="home" role="admin">
         <Route path="/admin/users" page={UsersPage} name="users" />
-        <Route path="/admin/parts" page={AdminPartsPage} name="parts" />
+        <Route path="/admin/projects" page={AdminProjectsPage} name="projects" />
         <Route path="/admin/subject-access-requests/{id}/edit" page={EditSubjectAccessRequestPage} name="editSubjectAccessRequest" />
         <Route path="/admin/subject-access-requests/{id}" page={SubjectAccessRequestPage} name="subjectAccessRequest" />
         <Route path="/admin/subject-access-requests" page={SubjectAccessRequestsPage} name="subjectAccessRequests" />
 
-        {/* Retired for now but might want to bring it back, delete if older that I danno late 2021 */}
+        {/* Retired for now but might want to bring it back, delete if older that I dunno late 2021 */}
         {/* <Route path="/admin/email" page={AdminEmailPage} name="adminEmail" />  */}
       </Private>
     </Router>

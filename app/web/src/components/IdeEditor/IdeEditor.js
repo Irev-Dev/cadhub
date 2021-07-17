@@ -3,15 +3,18 @@ import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { theme } from 'src/../tailwind.config'
+import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 
 const colors = theme.extend.colors
 
 const IdeEditor = ({ Loading }) => {
   const { state, thunkDispatch } = useIdeContext()
   const [theme, setTheme] = useState('vs-dark')
+  const saveCode = useSaveCode()
+
   const ideTypeToLanguageMap = {
-    cadQuery: 'python',
-    openScad: 'cpp',
+    cadquery: 'python',
+    openscad: 'cpp',
   }
   const monaco = useMonaco()
   useEffect(() => {
@@ -49,6 +52,7 @@ const IdeEditor = ({ Loading }) => {
       thunkDispatch((dispatch, getState) => {
         const state = getState()
         dispatch({ type: 'setLoading' })
+        saveCode({ code: state.code })
         requestRender({
           state,
           dispatch,

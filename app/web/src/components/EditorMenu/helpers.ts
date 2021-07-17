@@ -54,13 +54,13 @@ export const makeStlDownloadHandler =
     if (geometry) {
       if (
         type === 'geometry' &&
-        (quality === 'high' || ideType === 'openScad')
+        (quality === 'high' || ideType === 'openscad')
       ) {
         saveFile(geometry)
       } else {
         thunkDispatch((dispatch, getState) => {
           const state = getState()
-          const specialCadProcess = ideType === 'openScad' && 'stl'
+          const specialCadProcess = ideType === 'openscad' && 'stl'
           dispatch({ type: 'setLoading' })
           requestRender({
             state,

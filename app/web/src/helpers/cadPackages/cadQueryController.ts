@@ -52,9 +52,9 @@ export const render = async ({
   }
 }
 
-const openScad = {
+const openscad = {
   render,
   // more functions to come
 }
 
-export default openScad
+export default openscad

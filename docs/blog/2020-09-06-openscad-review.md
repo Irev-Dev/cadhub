@@ -33,7 +33,7 @@ OpenSCAD is free, open-source software that you can download and run on your mac
 Being opensource means there's a great open-source community with many libraries available that can help make you more productive or open up new possibilities.
 
 ## 3) Fostering community
-Parts being 100% code is a significant benefit to the community, as hosting code on Github is a very robust way of making community contributions, as it goes through the same process software would, without awkwardly trying to pass around save files when changes are made.
+Projects being 100% code is a significant benefit to the community, as hosting code on Github is a very robust way of making community contributions, as it goes through the same process software would, without awkwardly trying to pass around save files when changes are made.
 
 ## 4) It Hits a niche
 OpenSCAD is very intuitive for those that come from a programming background.

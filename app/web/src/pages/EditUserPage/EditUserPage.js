@@ -5,7 +5,7 @@ import Seo from 'src/components/Seo/Seo'
 const UserPage = ({ userName }) => {
   return (
     <MainLayout>
-      <Seo title={userName} description="Add new part page" lang="en-US" />
+      <Seo title={userName} description="Add new project page" lang="en-US" />
 
       <EditUserCell userName={userName} isEditable />
     </MainLayout>

@@ -43,7 +43,7 @@ A video version of this article can be [found here](https://www.youtube.com/watc
 ### `polyRound`
 It's like polygon, but upgraded to allow rounding of any of the points.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fpolyround.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fpolyround.scad)**
 
 <Image img={polyroundDemo} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -51,7 +51,7 @@ It's like polygon, but upgraded to allow rounding of any of the points.
 Piggy backs on [`polyRound`](/docs/round-anything/overview#polyround), Allowing fillets on the ends of `polyRound` extrutions.
 A negative vaule will flare the end out for a transition to flat, useful for creating [filleted negatives](https://github.com/Irev-Dev/Round-Anything/discussions/25#discussioncomment-795765) for use with difference.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FpolyRoundExtrude.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FpolyRoundExtrude.scad)**
 
 <Image img={polyroundExtrude} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -59,21 +59,21 @@ A negative vaule will flare the end out for a transition to flat, useful for cre
 By default, fillets are automatically scaled to remove any give pair of subsequent fillets from conflicting (if they are too big and too close together).
 The feature can be opted out of.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fradii-conflict.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fradii-conflict.scad)**
 
 <Image img={conflictResolution} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ### `translateRadiiPoints` - Point translation helpers
 Aids in the reuse of polygon of points. To keep a single source of truth and for editing them together.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FtranslateRadiiPoints.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FtranslateRadiiPoints.scad)**
 
 <Image img={pointTranslation} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
 ### `shell2d`
 Self-explanatory, when combined with poly round, it gives a nice smooth transitioning shell.
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fshell2d.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2Fshell2d.scad)**
 
 <Image img={shell2d} className="mb-8 bg-contain rounded-md overflow-hidden" />
 
@@ -88,7 +88,7 @@ An offset from the normal gives beams their thickness.
 
 ### `mirrorPoints`
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FmirrorPoints.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FmirrorPoints.scad)**
 
 For mirroring a set of points.
 The benefit of this over using the native OpenSCAD mirror transformation is the ability to put smooth radii along the mirrored plane.
@@ -101,7 +101,7 @@ Similar to [PolyRoundExtrude](http://localhost:3000/docs/round-anything/overview
 It will work with any 2d shape, though uses a more hacky and less proformant method.
 Use `polyRoundExtrude` instead if you can
 
-**[Live Demo](https://cadhub.xyz/dev-ide/openScad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FextrudeWithRadius.scad)**
+**[Live Demo](https://cadhub.xyz/dev-ide/openscad#fetch_text_v1=https%3A%2F%2Fraw.githubusercontent.com%2FIrev-Dev%2FRound-Anything%2Fmaster%2Fexamples%2FextrudeWithRadius.scad)**
 
 <Image img={radiusExtrude} className="mb-8 bg-contain rounded-md overflow-hidden" />
 

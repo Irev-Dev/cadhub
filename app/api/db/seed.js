@@ -50,9 +50,9 @@ async function main() {
     })
   }
 
-  const parts = [
+  const projects = [
     {
-      title: 'demo-part1',
+      title: 'demo-project1',
       description: '# can be markdown',
       mainImage: 'CadHub/kjdlgjnu0xmwksia7xox',
       user: {
@@ -62,7 +62,7 @@ async function main() {
       },
     },
     {
-      title: 'demo-part2',
+      title: 'demo-project2',
       description: '## [hey](www.google.com)',
       user: {
         connect: {
@@ -72,39 +72,43 @@ async function main() {
     },
   ]
 
-  existing = await db.part.findMany({where: { title: parts[0].title}})
+  existing = await db.project.findMany({where: { title: projects[0].title}})
   if(!existing.length) {
-    await db.part.create({
-      data: parts[0],
+    await db.project.create({
+      data: projects[0],
     })
   }
-  existing = await db.part.findMany({where: { title: parts[1].title}})
+  existing = await db.project.findMany({where: { title: projects[1].title}})
   if(!existing.length) {
-    await db.part.create({
-      data: parts[1],
+    await db.project.create({
+      data: projects[1],
     })
   }
 
 
 
-  const aPart = await db.part.findUnique({where: {
+  const aProject = await db.project.findUnique({where: {
     title_userId: {
-      title: parts[0].title,
+      title: projects[0].title,
       userId: users[0].id,
     }
   }})
   await db.comment.create({
     data: {
-      text: "nice part, I like it",
-      user: {connect: { id: users[0].id}},
-      part: {connect: { id: aPart.id}},
+      text: "nice project, I like it",
+      userId: users[0].id,
+      projectId: aProject.id,
+      // user: {connect: { id: users[0].id}},
+      // project: {connect: { id: aProject.id}},
     }
   })
-  await db.partReaction.create({
+  await db.projectReaction.create({
     data: {
       emote: "❤️",
-      user: {connect: { id: users[0].id}},
-      part: {connect: { id: aPart.id}},
+      userId: users[0].id,
+      projectId: aProject.id,
+      // user: {connect: { id: users[0].id}},
+      // project: {connect: { id: aProject.id}},
     }
   })
 

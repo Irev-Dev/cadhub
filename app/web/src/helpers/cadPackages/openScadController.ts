@@ -56,7 +56,10 @@ export const render = async ({ code, settings }: RenderArgs) => {
     }
     const data = await response.json()
     const type = data.type !== 'stl' ? 'png' : 'geometry'
-    const newData = data.type !== 'stl' ? data.url : stlToGeometry(data.url)
+    const newData =
+      data.type !== 'stl'
+        ? fetch(data.url).then((a) => a.blob())
+        : stlToGeometry(data.url)
     return createHealthyResponse({
       type,
       data: await newData,
@@ -102,12 +105,12 @@ export const stl = async ({ code, settings }: RenderArgs) => {
   }
 }
 
-const openScad = {
+const openscad = {
   render,
   stl,
 }
 
-export default openScad
+export default openscad
 
 function cleanError(error) {
   return error.replace(/["|']\/tmp\/.+\/main.scad["|']/g, "'main.scad'")

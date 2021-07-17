@@ -1,22 +1,24 @@
 type SvgNames =
   | 'arrow-down'
-  | 'arrow'
+  // | 'arrow'
   | 'arrow-left'
   | 'big-gear'
   | 'camera'
-  | 'checkmark'
+  | 'check'
   | 'chevron-down'
   | 'dots-vertical'
   | 'drag-grid'
   | 'exclamation-circle'
   | 'favicon'
   | 'flag'
+  | 'floppy-disk'
   | 'fork'
   | 'gear'
   | 'lightbulb'
   | 'logout'
   | 'mac-cmd-key'
   | 'pencil'
+  | 'pencil-solid'
   | 'photograph'
   | 'plus'
   | 'plus-circle'
@@ -84,13 +86,19 @@ const Svg = ({
         />
       </svg>
     ),
-    checkmark: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 20" fill="none">
+    check: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
         <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M10.3438 19.6875C15.7803 19.6875 20.1875 15.2803 20.1875 9.84375C20.1875 4.4072 15.7803 0 10.3438 0C4.9072 0 0.5 4.4072 0.5 9.84375C0.5 15.2803 4.9072 19.6875 10.3438 19.6875ZM15.3321 6.5547C15.6384 6.09517 15.5142 5.4743 15.0547 5.16795C14.5952 4.8616 13.9743 4.98577 13.6679 5.4453L9.34457 11.9304L7.20711 9.79289C6.81658 9.40237 6.18342 9.40237 5.79289 9.79289C5.40237 10.1834 5.40237 10.8166 5.79289 11.2071L8.79289 14.2071C9.00474 14.419 9.3004 14.5247 9.59854 14.4951C9.89667 14.4656 10.1659 14.304 10.3321 14.0547L15.3321 6.5547Z"
-          fill="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M5 13l4 4L19 7"
         />
       </svg>
     ),
@@ -263,6 +271,16 @@ const Svg = ({
         />
       </svg>
     ),
+    'floppy-disk': (
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          fill="currentColor"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2.0293 19.0684H16.0293C17.1339 19.0684 18.0293 18.173 18.0293 17.0684V5.88782L13.4281 0.910156H12.0956V6.52001H2.88691V0.910156H2.0293C0.924727 0.910156 0.0292969 1.80559 0.0292969 2.91016V17.0684C0.0292969 18.1729 0.924727 19.0684 2.0293 19.0684ZM2.88691 10.8961H14.9981V17.249H2.88691V10.8961ZM8.02924 2.88855C8.02924 2.32878 8.48302 1.875 9.04278 1.875C9.60255 1.875 10.0563 2.32878 10.0563 2.88854V4.53734C10.0563 5.0971 9.60255 5.55088 9.04278 5.55088C8.48302 5.55088 8.02924 5.0971 8.02924 4.53734V2.88855Z"
+        />
+      </svg>
+    ),
     fork: (
       <svg
         viewBox="-3 -3 32 32" // TODO size this properly, or get a better icon
@@ -345,6 +363,16 @@ const Svg = ({
           strokeWidth={strokeWidth}
           d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
         />
+      </svg>
+    ),
+    'pencil-solid': (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
       </svg>
     ),
     photograph: (

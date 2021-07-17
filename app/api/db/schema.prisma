@@ -14,8 +14,7 @@ generator client {
 //   ADMIN
 // }
 
-// enum PartType {
-//   CASCADESTUDIO
+// enum ProjectType {
 //   JSCAD
 // }
 
@@ -33,15 +32,20 @@ model User {
 
   image                String? // url maybe id or file storage service? cloudinary?
   bio                  String? //mark down
-  Part                 Part[]
-  Reaction             PartReaction[]
+  Project              Project[]
+  Reaction             ProjectReaction[]
   Comment              Comment[]
   SubjectAccessRequest SubjectAccessRequest[]
 }
 
-model Part {
+enum CadPackage {
+  openscad
+  cadquery
+}
+
+model Project {
   id          String   @id @default(uuid())
-  title       String
+  title       String   @db.VarChar(25)
   description String? // markdown string
   code        String?
   mainImage   String? // link to cloudinary
@@ -50,23 +54,24 @@ model Part {
   user        User     @relation(fields: [userId], references: [id])
   userId      String
   deleted     Boolean  @default(false)
+  cadPackage  CadPackage @default(openscad)
 
   Comment  Comment[]
-  Reaction PartReaction[]
+  Reaction ProjectReaction[]
   @@unique([title, userId])
 }
 
-model PartReaction {
+model ProjectReaction {
   id     String @id @default(uuid())
   emote  String // an emoji
   user   User   @relation(fields: [userId], references: [id])
   userId String
-  part   Part   @relation(fields: [partId], references: [id])
-  partId String
+  project   Project   @relation(fields: [projectId], references: [id])
+  projectId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([emote, userId, partId])
+  @@unique([emote, userId, projectId])
 }
 
 model Comment {
@@ -74,8 +79,8 @@ model Comment {
   text   String // the comment, should I allow mark down?
   user   User   @relation(fields: [userId], references: [id])
   userId String
-  part   Part   @relation(fields: [partId], references: [id])
-  partId String
+  project   Project   @relation(fields: [projectId], references: [id])
+  projectId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -90,4 +95,11 @@ model SubjectAccessRequest {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model RW_DataMigration {
+  version    String   @id
+  name       String
+  startedAt  DateTime
+  finishedAt DateTime
 }

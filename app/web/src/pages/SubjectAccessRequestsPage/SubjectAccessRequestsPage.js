@@ -19,7 +19,7 @@ export const QUERY = gql`
       updatedAt
       image
       bio
-      Parts {
+      Projects {
         id
         title
         description
@@ -32,7 +32,7 @@ export const QUERY = gql`
       Reaction {
         id
         emote
-        part {
+        project {
           id
           title
         }
@@ -42,7 +42,7 @@ export const QUERY = gql`
       Comment {
         id
         text
-        part {
+        project {
           id
           title
         }

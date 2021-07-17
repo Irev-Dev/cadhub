@@ -7,31 +7,10 @@
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <script>
-      // Install Cascade Studio as a Progressive Web App for Offline Access
-      // This needs to be put before ANY HTTP Requests are made, so it can cache them.
-      var messageHandlers = {};
-      var threejsViewport = {};
-      messageHandlers["resetWorking"] = () => { workerWorking = false; }
-      var cascadeStudioWorker
-      var workerWorking = false
-      var galleryProject = undefined
-      var myLayout, monacoEditor,
-        consoleContainer, consoleGolden, codeContainer, gui,
-        guiPanel, GUIState, count = 0, //focused = true,
-        mainProject = false,
-        // messageHandlers = {},
-        startup,
-        isInitialized = false;
-    </script>
   </head>
   <body>
     <div id="redwood-app">
       <%= prerenderPlaceholder %>
     </div>
-    <div
-      id="cascade-container"
-      style="opacity: 0; overflow: hidden; height: 0"
-    ></div>
   </body>
 </html>

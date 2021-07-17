@@ -56,7 +56,7 @@ const LandingSection = () => {
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-2">
-        {/* <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
+        <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
           What's the potential of Code-CAD?
         </h2>
         <MarketingPoint
@@ -140,9 +140,9 @@ const LandingSection = () => {
             over the next 10 years. As coders proliferate, so will the number of
             areas in which they operate, including CAD.
           </p>
-        </MarketingPoint> */}
+        </MarketingPoint>
       </div>
-      {/* <div className="w-3/4 mx-auto h-px bg-pink-400 mt-32" /> */}
+      <div className="w-3/4 mx-auto h-px bg-pink-400 mt-32" />
       <div className="mt-24">
         <p className="text-center text-pink-400 max-w-xl text-2xl mx-auto font-medium">
           CadHub is a space to share cad projects and it’s our gift to the
@@ -164,13 +164,13 @@ const LandingSection = () => {
             >
               CadQuery
             </OutBound>{' '}
-            {/* with more{' '}
+            with more{' '}
             <OutBound
               className="text-gray-600 underline"
               to="https://github.com/Irev-Dev/cadhub/discussions/212"
             >
               features planned
-            </OutBound> */}
+            </OutBound>
             .
           </p>
           <p className="text-2xl font-medium text-gray-600 px-8 pb-8">
@@ -183,7 +183,7 @@ const LandingSection = () => {
             </OutBound>{' '}
             or
           </p>
-          <Link to={routes.devIde({ cadPackage: 'openScad' })}>
+          <Link to={routes.devIde({ cadPackage: 'openscad' })}>
             <div className="bg-texture bg-purple-800 text-center w-full py-6 rounded-b-md border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl">
               <span className="font-bold text-2xl text-indigo-200">
                 Start Hacking Now
@@ -200,18 +200,6 @@ const LandingSection = () => {
             className="h-12 w-12 animate-bounce text-indigo-300 ml-2"
           />
         </div>
-      </div>
-      <div className="text-center mb-32 max-w-xl mx-auto text-gray-500 pr-6">
-        caveat; the following projects are based on a project we're depricating
-        support for, it's a{' '}
-        <OutBound
-          className="text-gray-600 underline"
-          to="https://github.com/Irev-Dev/cadhub/discussions/261"
-        >
-          long story
-        </OutBound>
-        , though rest-assured saving projects with OpenSCAD and CadQuery will be
-        available soon
       </div>
       <LoginModal
         open={isLoginModalOpen}
