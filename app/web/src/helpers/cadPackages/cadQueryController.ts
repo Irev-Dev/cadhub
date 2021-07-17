@@ -5,9 +5,10 @@ import {
   createUnhealthyResponse,
   timeoutErrorMessage,
   RenderArgs,
+  DefaultKernelExport,
 } from './common'
 
-export const render = async ({
+export const render: DefaultKernelExport['render'] = async ({
   code,
   settings: { quality = 'low' },
 }: RenderArgs) => {
@@ -52,7 +53,7 @@ export const render = async ({
   }
 }
 
-const openscad = {
+const openscad: DefaultKernelExport = {
   render,
   // more functions to come
 }
