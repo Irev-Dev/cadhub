@@ -56,7 +56,7 @@ const LandingSection = () => {
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-2">
-        <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
+        {/* <h2 className="text-indigo-700 text-5xl font-roboto my-16 tracking-widest font-light">
           What's the potential of Code-CAD?
         </h2>
         <MarketingPoint
@@ -140,9 +140,9 @@ const LandingSection = () => {
             over the next 10 years. As coders proliferate, so will the number of
             areas in which they operate, including CAD.
           </p>
-        </MarketingPoint>
+        </MarketingPoint> */}
       </div>
-      <div className="w-3/4 mx-auto h-px bg-pink-400 mt-32" />
+      {/* <div className="w-3/4 mx-auto h-px bg-pink-400 mt-32" /> */}
       <div className="mt-24">
         <p className="text-center text-pink-400 max-w-xl text-2xl mx-auto font-medium">
           CadHub is a space to share cad projects and it’s our gift to the
@@ -164,13 +164,13 @@ const LandingSection = () => {
             >
               CadQuery
             </OutBound>{' '}
-            with more{' '}
+            {/* with more{' '}
             <OutBound
               className="text-gray-600 underline"
               to="https://github.com/Irev-Dev/cadhub/discussions/212"
             >
               features planned
-            </OutBound>
+            </OutBound> */}
             .
           </p>
           <p className="text-2xl font-medium text-gray-600 px-8 pb-8">
