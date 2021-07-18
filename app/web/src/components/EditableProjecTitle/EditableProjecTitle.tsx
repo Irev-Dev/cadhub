@@ -36,8 +36,12 @@ const EditableProjectTitle = ({
       toast.success('Project updated.')
     },
   })
-  const onTitleChange = ({ target }) =>
-    setNewTitle(target.value.replace(/([^a-zA-Z\d_:])/g, '-'))
+  const onTitleChange = ({ target }) => {
+    if (target.value.length > 25) {
+      toast.error('Titles must be 25 or less characters')
+    }
+    setNewTitle(target.value.replace(/([^a-zA-Z\d_:])/g, '-').slice(0, 25))
+  }
   return (
     <>
       {!inEditMode && (
@@ -68,7 +72,7 @@ const EditableProjectTitle = ({
           <span className="flex items-center ml-4 border border-ch-gray-300 rounded-sm">
             <span className="ml-1">/</span>
             <input
-              className="pl-1 bg-ch-gray-900"
+              className="pl-1 w-64 bg-ch-gray-900"
               value={newTitle}
               onChange={onTitleChange}
               ref={inputRef}
