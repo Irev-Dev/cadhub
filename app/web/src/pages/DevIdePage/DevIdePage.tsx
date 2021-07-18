@@ -21,7 +21,7 @@ const DevIdePage = ({ cadPackage, project }: Props) => {
       />
       <Toaster timeout={9000} />
       <IdeContext.Provider value={{ state, thunkDispatch, project }}>
-        <IdeWrapper cadPackage={cadPackage} />
+        <IdeWrapper cadPackage={cadPackage.toLocaleLowerCase()} />
       </IdeContext.Provider>
     </div>
   )
