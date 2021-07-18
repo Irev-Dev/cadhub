@@ -18,7 +18,7 @@ export const useSaveCode = () => {
   if (!!error !== nowError) {
     setNowError(!!error)
   }
-  if (project?.user?.id !== currentUser?.sub) {
+  if (!currentUser || project?.user?.id !== currentUser?.sub) {
     return () => console.log('not your project')
   }
   return (input: Prisma.ProjectUpdateInput) => {

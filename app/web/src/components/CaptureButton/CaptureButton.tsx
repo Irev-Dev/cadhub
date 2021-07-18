@@ -60,7 +60,6 @@ const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
       })
       updateCanvasSize(oldSize)
     } else {
-      console.log(project?.title)
       imgBlob = state.objectData.data
     }
     const config = {

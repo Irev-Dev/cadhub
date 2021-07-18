@@ -6,7 +6,6 @@ import IdeSideBar from 'src/components/IdeSideBar/IdeSideBar'
 import IdeHeader from 'src/components/IdeHeader/IdeHeader'
 import Svg from 'src/components/Svg/Svg'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
-import type { Project } from 'src/components/IdeProjectCell/IdeProjectCell'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 

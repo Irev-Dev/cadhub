@@ -36,14 +36,13 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
   const { camera, gl } = threeInstance
   useEffect(() => {
     onInit(threeInstance)
-  }, [])
-  useEffect(() => {
     // init camera position
     camera.position.x = 200
     camera.position.y = 140
     camera.position.z = 20
     camera.far = 10000
     camera.fov = 22.5 // matches default openscad fov
+    camera.updateProjectionMatrix()
 
     // Order matters with Euler rotations
     // We want it to rotate around the z or vertical axis first then the x axis to match openscad
@@ -163,7 +162,7 @@ const IdeViewer = ({ Loading }) => {
   const indigo900 = '#312E81'
   return (
     <div className="relative h-full bg-ch-gray-800">
-      {state.isLoading && <Loading />}
+      {state.isLoading && Loading}
       {image && (
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${
