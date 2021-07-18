@@ -13,7 +13,6 @@ If you want to be involved in anyway, checkout the [Road Map](https://github.com
 
 ## Getting your dev environment setup
 
-Because we're integrating cascadeStudio, this is done some what crudely for the time being, so you'll need to clone the repo with submodules.
 
 ```terminal
 git clone git@github.com:Irev-Dev/cadhub.git
@@ -21,15 +20,17 @@ git clone git@github.com:Irev-Dev/cadhub.git
 git clone https://github.com/Irev-Dev/cadhub.git
 ```
 
+cd in the app directory
+```
+cd app
+```
+
 Install dependencies
 ```terminal
 yarn install
 ```
 
-Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup) with a couple of exceptions:
-- Run `yarn rw prisma migrate dev` instead of `yarn rw db up` in the guide.
-- Don't worry about changing the `schema.prisma` file.
-- You will need to add a `DATABASE_URL` and test url to you `.env` file at the root of the project.
+Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup).
 
 Run the following
 ``` terminal
