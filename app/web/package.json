@@ -22,7 +22,7 @@
     "@redwoodjs/router": "^0.34.1",
     "@redwoodjs/web": "^0.34.1",
     "@sentry/browser": "^6.5.1",
-    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/aspect-ratio": "0.2.1",
     "browser-fs-access": "^0.17.2",
     "cloudinary-react": "^1.6.7",
     "get-active-classes": "^0.0.11",
