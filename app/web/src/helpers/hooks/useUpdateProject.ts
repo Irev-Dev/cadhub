@@ -7,6 +7,10 @@ const UPDATE_PROJECT_MUTATION_HOOK = gql`
   ) {
     updateProject: updateProject(id: $id, input: $input) {
       id
+      title
+      user {
+        userName
+      }
     }
   }
 `
