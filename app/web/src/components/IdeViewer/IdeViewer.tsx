@@ -163,7 +163,7 @@ const IdeViewer = ({ Loading }) => {
   const indigo900 = '#312E81'
   return (
     <div className="relative h-full bg-ch-gray-800">
-      {state.isLoading && <Loading />}
+      {state.isLoading && Loading}
       {image && (
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${

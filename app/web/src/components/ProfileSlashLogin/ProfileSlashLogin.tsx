@@ -7,6 +7,7 @@ import Popover from '@material-ui/core/Popover'
 import useUser from 'src/helpers/hooks/useUser'
 import ImageUploader from 'src/components/ImageUploader'
 import LoginModal from 'src/components/LoginModal'
+import Gravatar from 'src/components//Gravatar/Gravatar'
 
 const ProfileSlashLogin = () => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()
@@ -43,21 +44,14 @@ const ProfileSlashLogin = () => {
     <div className="flex-shrink-0">
       {isAuthenticated ? (
         <div
-          className="h-8 w-8 border-2 rounded-full border-gray-200 relative text-indigo-200"
+          className="h-8 w-8 relative text-indigo-200"
           aria-describedby={popoverId}
         >
           <button
             className="absolute inset-0 w-full h-full"
             onClick={togglePopover}
           >
-            {!loading && (
-              <ImageUploader
-                className="rounded-full object-cover"
-                aspectRatio={1}
-                imageUrl={user?.image}
-                width={80}
-              />
-            )}
+            {!loading && <Gravatar image={user?.image} />}
           </button>
         </div>
       ) : (
