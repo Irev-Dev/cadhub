@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Dialog from '@material-ui/core/Dialog'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import InputTextForm from 'src/components/InputTextForm'
-import OutBound from 'src/components/OutBound'
+import InputTextForm from 'src/components/InputTextForm/InputTextForm'
+import OutBound from 'src/components/OutBound/OutBound'
 import { Form, Submit } from '@redwoodjs/forms'
 import { useAuth } from '@redwoodjs/auth'
 import { toast } from '@redwoodjs/web/toast'
@@ -25,7 +25,7 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
     try {
       setError('')
       if (checkBox) {
-        subscribe({ email, addMessage: (msg) => toast.error(msg) })
+        subscribe({ email, addMessage: (msg) => toast.error(msg), name })
       }
       await signUp({
         email,
