@@ -9,7 +9,9 @@ function withThunk(dispatch, getState) {
       : dispatch(actionOrThunk)
 }
 
-const initCodeMap = {
+export type CadPackage = 'openscad' | 'cadquery' | 'jscad'
+
+const initCodeMap: {[key in CadPackage]: string} = {
   openscad: `// involute donut
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
@@ -40,6 +42,9 @@ result = (cq.Workplane().circle(diam).extrude(20.0)
 
 show_object(result)
 `,
+jscad: `
+// TODO implement example JSCAD code.
+`
 }
 
 const codeStorageKey = 'Last-editor-code'
@@ -53,7 +58,7 @@ interface XYZ {
 }
 
 export interface State {
-  ideType: 'INIT' | 'openscad' | 'cadquery'
+  ideType: 'INIT' | CadPackage
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
   objectData: {

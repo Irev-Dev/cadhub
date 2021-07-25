@@ -4,6 +4,8 @@ import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { theme } from 'src/../tailwind.config'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
+import type { CadPackage as CadPackageType } from 'src/helpers/hooks/useIdeState'
+import CadPackage from '../CadPackage/CadPackage'
 
 const colors = theme.extend.colors
 
@@ -12,9 +14,10 @@ const IdeEditor = ({ Loading }) => {
   const [theme, setTheme] = useState('vs-dark')
   const saveCode = useSaveCode()
 
-  const ideTypeToLanguageMap = {
+  const ideTypeToLanguageMap: {[key in CadPackageType]: string} = {
     cadquery: 'python',
     openscad: 'cpp',
+    jscad: 'javascript',
   }
   const monaco = useMonaco()
   useEffect(() => {
