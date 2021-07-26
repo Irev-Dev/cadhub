@@ -1,4 +1,3 @@
-import { result } from 'lodash'
 import { RenderArgs, DefaultKernelExport, createUnhealthyResponse, createHealthyResponse } from './common'
 import { MeshPhongMaterial, LineBasicMaterial, BufferGeometry , BufferAttribute, Line, LineSegments, Color, Mesh, Group} from 'three/build/three.module'
 
@@ -63,9 +62,9 @@ export const render: DefaultKernelExport['render'] = async ({
 importScripts(new URL('${scriptUrl}',baseURI))
 let worker = jscadWorker({
   baseURI: baseURI,
-  scope:'worker', 
+  scope:'worker',
   convertToSolids: 'buffers',
-  callback:(params)=>self.postMessage(params), 
+  callback:(params)=>self.postMessage(params),
 })
 self.addEventListener('message', (e)=>worker.postMessage(e.data))
 `
@@ -82,21 +81,21 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
           data.entities.map(CSG2Object3D).filter(o=>o).forEach(o=>group.add(o))
           response = createHealthyResponse( {
             type: 'geometry',
-            data: group,
+            data: group?.children[4]?.geometry,
             consoleMessage: data.scriptStats,
             date: new Date(),
           })
         }
-        callResolve()     
+        callResolve()
       }
     })
 
     callResolve()
     response = null
-    scriptWorker.postMessage({action:'init', baseURI, alias:[]})    
+    scriptWorker.postMessage({action:'init', baseURI, alias:[]})
   }
-  scriptWorker.postMessage({action:'runScript', worker:'script', script:code, url:'jscad_script' })    
-  
+  scriptWorker.postMessage({action:'runScript', worker:'script', script:code, url:'jscad_script' })
+
   let waitResult = new Promise(resolve=>{
     resolveReference = resolve
   })
