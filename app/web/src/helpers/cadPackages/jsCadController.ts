@@ -75,14 +75,18 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
       console.log('message from worker', e.data)
       let data = e.data
       if(data.action == 'entities'){
-        let group = new Group()
-        data.entities.map(CSG2Object3D).filter(o=>o).forEach(o=>group.add(o))
-        response = createHealthyResponse( {
-          type: 'geometry',
-          data: group,
-          consoleMessage: data.scriptStats,
-          date: new Date(),
-        })
+        if(data.error){
+          response = createUnhealthyResponse( new Date(),data.error )
+        }else{
+          let group = new Group()
+          data.entities.map(CSG2Object3D).filter(o=>o).forEach(o=>group.add(o))
+          response = createHealthyResponse( {
+            type: 'geometry',
+            data: group,
+            consoleMessage: data.scriptStats,
+            date: new Date(),
+          })
+        }
         callResolve()     
       }
     })

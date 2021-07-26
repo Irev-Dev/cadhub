@@ -246,7 +246,13 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
   function runMain(params={}){
     console.log('runMain');
     let time = Date.now()
-    let solids = main(params)
+    let solids
+    try{
+      solids = main(params)
+    }catch(e){
+      callback({action:'entities', worker:'render', error:e.message, stack:e.stack.toString()}, transfer)
+      return
+    }
     let solidsTime = Date.now() - time
     scriptStats = `generate solids ${solidsTime}ms`
 
@@ -271,7 +277,13 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
       if(!initialized){
         onInit = ()=>handlers.runScript({script,url, params})
       }    
-      let script_module = requireModule(url,script)
+      let script_module
+      try{
+        script_module = requireModule(url,script)
+      }catch(e){
+        callback({action:'entities', worker:'render', error:e.message, stack:e.stack.toString()})      
+        return
+      }
       main = script_module.exports.main
       let gp = script_module.exports.getParameterDefinitions
       if(gp){
