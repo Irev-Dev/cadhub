@@ -104,7 +104,6 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
   await waitResult
   resolveReference = null
   console.log('response', response)
-  if(!response)
   return response
 }
 
