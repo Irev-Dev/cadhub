@@ -212,8 +212,8 @@ const IdeViewer = ({ Loading }) => {
               })
             }}
           />
-          <ambientLight intensity={1} />
-          <pointLight position={[15, 5, 10]} intensity={4} />
+          <ambientLight intensity={0.3} />
+          <pointLight position={[15, 5, 10]} intensity={0.1} />
           <pointLight position={[-1000, -1000, -1000]} intensity={1} />
           <pointLight position={[-1000, 0, 1000]} intensity={1} />
           {state.objectData?.type === 'png' && (
