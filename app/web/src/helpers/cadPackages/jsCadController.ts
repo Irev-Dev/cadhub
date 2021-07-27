@@ -5,11 +5,11 @@ import { MeshPhongMaterial, LineBasicMaterial, BufferGeometry , BufferAttribute,
 const materials = {
 	mesh: {
 		def: new MeshPhongMaterial( { color: 0x0084d1, flatShading: true } ),
-		material: MeshPhongMaterial,
+		material: (params)=>new MeshPhongMaterial(params),
 	},
 	line: {
 		def: new LineBasicMaterial( { color: 0x0000ff } ),
-		material: LineBasicMaterial,
+		material: ({color,opacity,transparent})=>new LineBasicMaterial({color,opacity,transparent}),
 	},
   lines:null
 }
