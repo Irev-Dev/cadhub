@@ -21,6 +21,9 @@ function Asset({ geometry: incomingGeo }) {
     }
   }, [incomingGeo])
   if (!incomingGeo) return null
+  
+  if (incomingGeo.children) return <primitive object={incomingGeo} />
+
   return (
     <mesh ref={mesh} scale={[1, 1, 1]}>
       <bufferGeometry attach="geometry" ref={ref} />

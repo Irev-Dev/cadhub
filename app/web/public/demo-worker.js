@@ -259,7 +259,12 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
     let transfer = []
     if(convertToSolids === 'buffers'){
       CSGToBuffers.clearCache()
-      entities = solids.map((csg)=>CSGToBuffers(csg, transfer))
+      entities = solids.map((csg)=>{
+        let obj = CSGToBuffers(csg, transfer)
+        obj.color = csg.color
+        obj.transforms = csg.transforms
+        return obj
+      })
     }else if(convertToSolids === 'regl'){    
       const { entitiesFromSolids } = require('@jscad/regl-renderer')
       time = Date.now()

@@ -81,7 +81,7 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
           data.entities.map(CSG2Object3D).filter(o=>o).forEach(o=>group.add(o))
           response = createHealthyResponse( {
             type: 'geometry',
-            data: group?.children[4]?.geometry,
+            data: group,
             consoleMessage: data.scriptStats,
             date: new Date(),
           })
