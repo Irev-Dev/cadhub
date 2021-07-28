@@ -35,8 +35,7 @@ export const makeStlDownloadHandler =
     ideType,
   }: makeStlDownloadHandlerArgs) =>
   () => {
-    const makeStlBlobFromGeo = flow(
-      (geo) => new Mesh(geo, new MeshBasicMaterial()),
+    const makeStlBlobFromMesh = flow(
       (mesh) => new Scene().add(mesh),
       (scene) => new STLExporter().parse(scene),
       (stl) =>
@@ -44,8 +43,11 @@ export const makeStlDownloadHandler =
           type: 'text/plain',
         })
     )
-    const saveFile = (geometry) => {
-      const blob = makeStlBlobFromGeo(geometry)
+    const makeStlBlobFromGeo = flow(
+      (geo) => new Mesh(geo, new MeshBasicMaterial()),
+      (mesh) => makeStlBlobFromMesh(mesh)
+    )
+    const saveFile = (blob) => {
       fileSave(blob, {
         fileName,
         extensions: ['.stl'],
@@ -56,7 +58,9 @@ export const makeStlDownloadHandler =
         type === 'geometry' &&
         (quality === 'high' || ideType === 'openscad')
       ) {
-        saveFile(geometry)
+        saveFile(makeStlBlobFromGeo(geometry))
+      } else if(ideType == 'jscad') {
+        saveFile(makeStlBlobFromMesh(geometry))
       } else {
         thunkDispatch((dispatch, getState) => {
           const state = getState()
