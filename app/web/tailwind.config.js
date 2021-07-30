@@ -22,6 +22,7 @@ module.exports = {
           700: '#2A3038',
           600: '#3B3E4B',
           500: '#9F9FB4',
+          400: '#A4A4B0',
           300: '#CFCFD8',
         },
         'ch-purple': {
@@ -31,6 +32,7 @@ module.exports = {
         },
         'ch-blue': {
           600: '#79B2F8',
+          500: '5098F1',
           300: '#08466F'
         },
         'ch-pink': {
