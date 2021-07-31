@@ -1,6 +1,6 @@
 import { builder } from '@netlify/functions'
 import type { HandlerResponse } from '@netlify/functions'
-import chromium from 'chrome-aws-lambda'
+const { headless, executablePath, puppeteer} = require('chrome-aws-lambda')
 
 const captureWidth = 1200
 const captureHeight = 630
@@ -13,17 +13,17 @@ async function unwrappedHandler (event, context): Promise<HandlerResponse> {
 
   const url = `${process.env.URL}/u${path}/social-card`
 
-  const browser = await chromium.puppeteer.launch({
+  const browser = await puppeteer.launch({
     executablePath: process.env.URL?.includes('localhost')
       ? null
-      : await chromium.executablePath,
+      : await executablePath,
     args: ['--no-sandbox','--disable-web-security','--disable-gpu', '--hide-scrollbars', '--disable-setuid-sandbox'],
     // args: chromium.args,
     defaultViewport: {
       width: captureWidth,
       height: captureHeight + clipY
     },
-    headless: chromium.headless
+    headless: headless
   })
   const page = await browser.newPage()
 
