@@ -3,7 +3,6 @@ import Svg from 'src/components/Svg/Svg'
 import { Popover } from '@headlessui/react'
 import type { CadPackage } from 'src/helpers/hooks/useIdeState'
 
-
 const menuOptions: {
   name: string
   sub: string

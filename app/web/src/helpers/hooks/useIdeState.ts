@@ -11,7 +11,7 @@ function withThunk(dispatch, getState) {
 
 export type CadPackage = 'openscad' | 'cadquery' | 'jscad'
 
-const initCodeMap: {[key in CadPackage]: string} = {
+const initCodeMap: { [key in CadPackage]: string } = {
   openscad: `// involute donut
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
@@ -42,7 +42,7 @@ result = (cq.Workplane().circle(diam).extrude(20.0)
 
 show_object(result)
 `,
-jscad: `
+  jscad: `
 const { booleans, colors, primitives } = require('@jscad/modeling') // modeling comes from the included MODELING library
 
 const { intersect, subtract } = booleans
@@ -68,7 +68,7 @@ const main = ({scale=1}) => {
   return [transpCube, star2D, line2D, ...logo]
 }
 module.exports = {main}
-`
+`,
 }
 
 const codeStorageKey = 'Last-editor-code'

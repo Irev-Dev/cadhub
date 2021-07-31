@@ -59,7 +59,7 @@ export const makeStlDownloadHandler =
         (quality === 'high' || ideType === 'openscad')
       ) {
         saveFile(makeStlBlobFromGeo(geometry))
-      } else if(ideType == 'jscad') {
+      } else if (ideType == 'jscad') {
         saveFile(makeStlBlobFromMesh(geometry))
       } else {
         thunkDispatch((dispatch, getState) => {

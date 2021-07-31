@@ -24,7 +24,7 @@
 const setPoints = (points, p, i)=>{
   points[i++] = p[0]
   points[i++] = p[1]
-  points[i++] = p[2] || 0         
+  points[i++] = p[2] || 0
 }
 
 function CSG2Vertices(csg){
@@ -54,11 +54,11 @@ function CSG2Vertices(csg){
       posOffset  +=2
       for(let i=2; i<len; i++){
         vertices.set(arr[i], vertOffset)
-          
+
           indices[indOffset++] = first
           indices[indOffset++] = first + i -1
-          indices[indOffset++] = first + i 
-          
+          indices[indOffset++] = first + i
+
           vertOffset += 3
           posOffset  += 1
       }
@@ -72,22 +72,22 @@ function CSG2LineVertices(csg){
   if(csg.isClosed) vLen += 3
 
   var vertices = new Float32Array(vLen)
-  
-  
+
+
   csg.points.forEach((p,idx)=>setPoints(vertices, p, idx * 3 ))
-  
+
   if(csg.isClosed){
     setPoints(vertices, csg.points[0], vertices.length - 3 )
   }
   return {vertices, type:'line'}
-}     
+}
 
 function CSG2LineSegmentsVertices(csg){
   let vLen = csg.sides.length * 6
 
   var vertices = new Float32Array(vLen)
   csg.sides.forEach((side,idx)=>{
-    let i = idx * 6 
+    let i = idx * 6
     setPoints(vertices, side[0], i)
     setPoints(vertices, side[1], i+3)
   })
@@ -104,14 +104,14 @@ function CSGCached(func, data, cacheKey, transferable){
   geo = func(data)
 
   // fill transferable array for postMessage optimization
-  if(transferable){       
+  if(transferable){
     const {vertices, indices} = geo
     transferable.push(vertices)
     if(indices) transferable.push(indices)
   }
 
     CSGToBuffers.cache.set(cacheKey, geo)
-    return geo      
+    return geo
 }
 
 function CSGToBuffers(csg, transferable){
@@ -159,7 +159,7 @@ function requireModule(url, source){
     try {
         const exports={};
         if(!source) source = requireFile(url)
-        const module = { id: url, uri: url, exports:exports, source }; //according to node.js modules 
+        const module = { id: url, uri: url, exports:exports, source }; //according to node.js modules
         // fix, add comment to show source on Chrome Dev Tools
         source="//@ sourceURL="+url+"\n" + source;
         //------
@@ -172,7 +172,7 @@ function requireModule(url, source){
     }
 }
 
-require.cache = {}  
+require.cache = {}
 require.alias = {}
 
 
@@ -189,7 +189,7 @@ const initCanvas = (canvas, callback)=>{
     const cmd = {
       worker: 'render',
       dx: lastX - ev.pageX,
-      dy: ev.pageY - lastY     
+      dy: ev.pageY - lastY
     }
 
     const shiftKey = (ev.shiftKey === true) || (ev.touches && ev.touches.length > 2)
@@ -244,7 +244,6 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
   let workerBaseURI, onInit
 
   function runMain(params={}){
-    console.log('runMain');
     let time = Date.now()
     let solids
     try{
@@ -265,7 +264,7 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
         obj.transforms = csg.transforms
         return obj
       })
-    }else if(convertToSolids === 'regl'){    
+    }else if(convertToSolids === 'regl'){
       const { entitiesFromSolids } = require('@jscad/regl-renderer')
       time = Date.now()
       entities = entitiesFromSolids({}, solids)
@@ -281,12 +280,12 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
     runScript: ({script,url, params={}})=>{
       if(!initialized){
         onInit = ()=>handlers.runScript({script,url, params})
-      }    
+      }
       let script_module
       try{
         script_module = requireModule(url,script)
       }catch(e){
-        callback({action:'entities', worker:'render', error:e.message, stack:e.stack.toString()})      
+        callback({action:'entities', worker:'render', error:e.message, stack:e.stack.toString()})
         return
       }
       main = script_module.exports.main
@@ -304,12 +303,12 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
       if(!baseURI && typeof document != 'undefined' && document.baseURI){
         baseURI = document.baseURI
       }
-      
+
       if(baseURI) workerBaseURI = baseURI.toString()
 
       alias.forEach(arr=>{
         let [orig, ...aliases] = arr
-        aliases.forEach(a=>{  
+        aliases.forEach(a=>{
           require.alias[a] = orig
           if(a.toLowerCase().substr(-3)!=='.js') require.alias[a+'.js'] = orig
         })
@@ -392,7 +391,7 @@ let perspectiveCamera
       glOptions: {gl}
     }
     if(type == 'webgl'){
-        setupOptions.glOptions.optionalExtensions = ['oes_element_index_uint']      
+        setupOptions.glOptions.optionalExtensions = ['oes_element_index_uint']
     }
     renderer = prepareRender(setupOptions)
 
@@ -412,7 +411,7 @@ let perspectiveCamera
     axisOptions = {
       visuals: {
         drawCmd: 'drawAxis',
-        show: axis.show || axis.show === undefined 
+        show: axis.show || axis.show === undefined
       },
       size: axis.size || 100,
     }
@@ -492,7 +491,7 @@ let perspectiveCamera
     }
   }
 
-  function resize({width,height}){  
+  function resize({width,height}){
     state.canvas.width = width
     state.canvas.height = height
     perspectiveCamera.setProjection(state.camera, state.camera, { width, height })
@@ -504,7 +503,7 @@ let perspectiveCamera
     pan: ({dx,dy})=>{
       panDelta[0] += dx
       panDelta[1] += dy
-      updateView()  
+      updateView()
     },
     rotate: ({dx,dy})=>{
       rotateDelta[0] -= dx
@@ -550,7 +549,7 @@ return (params)=>{
   workerBaseURI = baseURI
 
   const sendCmd = (params, transfer)=>{
-    if(params.worker === 'render') 
+    if(params.worker === 'render')
       sendToRender(params, transfer)
     else if(params.worker === 'script')
       scriptWorker.postMessage(params, transfer)
@@ -572,7 +571,7 @@ return (params)=>{
     console.log('render in scope: '+scope);
     renderWorker = makeRenderWorker({callback:sendCmd})
     sendToRender = (params, transfer)=>renderWorker.postMessage(params, transfer)
-  } 
+  }
 
   if(scope === 'main'){
 //    let extraScript = renderInWorker ? `,'https://unpkg.com/@jscad/regl-renderer'`:''
@@ -581,8 +580,8 @@ importScripts(new URL('${scriptUrl}',baseURI))
 let worker = jscadWorker({
   baseURI: baseURI,
   convertToSolids: ${convertToSolids},
-  scope:'worker', 
-  callback:(params)=>self.postMessage(params), 
+  scope:'worker',
+  callback:(params)=>self.postMessage(params),
   render:${renderInWorker}
 })
 self.addEventListener('message', (e)=>worker.postMessage(e.data))
@@ -602,7 +601,7 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
     callback({action:'workerInit',worker:'main'})
   }
 
-  if(canvas){  
+  if(canvas){
     // redirect 'render' messages to renderWorker
     sendToRender = (params, transfer)=>renderWorker.postMessage(params, transfer)
     let width  = canvas.width  = canvas.clientWidth
@@ -613,7 +612,7 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
     }
   }
 
-  return {  
+  return {
     updateSize,
     updateParams:({params={}})=>sendCmd({ action:'updateParams', worker:'script', params}),
     runScript: ({script,url=''})=>sendCmd({ action:'runScript', worker:'script', script, url}),

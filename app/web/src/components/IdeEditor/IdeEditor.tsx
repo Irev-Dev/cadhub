@@ -14,7 +14,7 @@ const IdeEditor = ({ Loading }) => {
   const [theme, setTheme] = useState('vs-dark')
   const saveCode = useSaveCode()
 
-  const ideTypeToLanguageMap: {[key in CadPackageType]: string} = {
+  const ideTypeToLanguageMap: { [key in CadPackageType]: string } = {
     cadquery: 'python',
     openscad: 'cpp',
     jscad: 'javascript',
