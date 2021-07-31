@@ -31,14 +31,16 @@ function CSG2Object3D(obj){
 	}
 
 	var geo = new BufferGeometry()
-	if(transforms) geo.applyMatrix4({elements:transforms})
 	geo.setAttribute('position', new BufferAttribute(vertices,3))
 
+	var mesh;
 	switch(obj.type){
-		case 'mesh': geo.setIndex(new BufferAttribute(indices,1)); return new Mesh(geo, material)
-		case 'line': return new Line(geo, material)
-		case 'lines': return new LineSegments(geo, material)
+		case 'mesh': geo.setIndex(new BufferAttribute(indices,1)); mesh = new THREE.Mesh(geo, material); break;
+		case 'line': mesh = new Line(geo, material); break;
+		case 'lines': mesh = new LineSegments(geo, material); break;
 	}
+	if(transforms) mesh.applyMatrix4({elements:transforms})
+	return mesh
 }
 
 let scriptWorker
