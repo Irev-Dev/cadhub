@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@netlify/functions": "^0.7.2",
     "@redwoodjs/api": "^0.34.1",
     "@sentry/node": "^6.5.1",
+    "chrome-aws-lambda": "^10.1.0",
     "cloudinary": "^1.23.0",
     "human-id": "^2.0.1",
-    "nodemailer": "^6.6.2"
+    "nodemailer": "^6.6.2",
+    "puppeteer": "^10.1.0",
+    "puppeteer-core": "^10.1.0"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.2"
