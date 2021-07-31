@@ -4,9 +4,10 @@ import { Image as CloudinaryImage } from 'cloudinary-react'
 interface Props {
   image: string
   className?: string
+  size?: number
 }
 
-const Gravatar = ({ image, className = '' }: Props) => {
+const Gravatar = ({ image, size = 40, className = '' }: Props) => {
   return (
     <div
       className={
@@ -17,7 +18,7 @@ const Gravatar = ({ image, className = '' }: Props) => {
       <CloudinaryImage
         cloudName="irevdev"
         publicId={image || 'CadHub/eia1kwru54g2kf02s2xx'}
-        width={40}
+        width={size}
         crop="scale"
       />
     </div>
