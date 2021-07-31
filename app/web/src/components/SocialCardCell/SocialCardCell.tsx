@@ -41,7 +41,7 @@ export const Success = ({
   const image = userProject?.Project?.mainImage
   const gravatar = userProject?.image
   return (
-    <div className="flex-col flex h-screen bg-ch-gray-800 text-ch-gray-300">
+    <div className="flex-col flex h-screen bg-ch-gray-800 text-ch-gray-300" id="social-card-loaded">
       <div
         className="flex-grow grid"
         style={{ gridTemplateColumns: '7fr 5fr' }}
@@ -82,7 +82,7 @@ export const Success = ({
           </div>
         </div>
         <div className="h-full overflow-hidden relative">
-          <div className="absolute inset-0 flex items-center">
+          <div className="absolute inset-0 flex items-center justify-center">
             <CloudinaryImage
               cloudName="irevdev"
               publicId={image || 'CadHub/eia1kwru54g2kf02s2xx'}

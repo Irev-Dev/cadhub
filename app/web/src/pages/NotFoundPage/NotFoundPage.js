@@ -43,6 +43,7 @@ export default () => (
     <section className="">
       <h1>
         <span className="font-ropa-sans">404 Page Not Found</span>
+        <div className="text-sm">{location.href} 🤷</div>
       </h1>
     </section>
   </MainLayout>
