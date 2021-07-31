@@ -1,3 +1,6 @@
+// TODO this should be in the functions folder.
+// Got the proof of concept working locally, but even though chrome-aws-lambda is supposed to fit into a AWS lambda it did not for me
+// in the mean time this is causing builds to fail so moved it out here.
 import { builder } from '@netlify/functions'
 const { headless, executablePath, puppeteer} = require('chrome-aws-lambda')
 
