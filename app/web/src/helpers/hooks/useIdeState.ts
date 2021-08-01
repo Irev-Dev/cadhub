@@ -9,7 +9,9 @@ function withThunk(dispatch, getState) {
       : dispatch(actionOrThunk)
 }
 
-const initCodeMap = {
+export type CadPackage = 'openscad' | 'cadquery' | 'jscad'
+
+const initCodeMap: { [key in CadPackage]: string } = {
   openscad: `// involute donut
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
@@ -40,6 +42,33 @@ result = (cq.Workplane().circle(diam).extrude(20.0)
 
 show_object(result)
 `,
+  jscad: `
+const { booleans, colors, primitives } = require('@jscad/modeling') // modeling comes from the included MODELING library
+
+const { intersect, subtract } = booleans
+const { colorize } = colors
+const { cube, cuboid, line, sphere, star } = primitives
+
+const main = ({scale=1}) => {
+  const logo = [
+    colorize([1.0, 0.4, 1.0], subtract(
+      cube({ size: 300 }),
+      sphere({ radius: 200 })
+    )),
+    colorize([1.0, 1.0, 0], intersect(
+      sphere({ radius: 130 }),
+      cube({ size: 210 })
+    ))
+  ]
+
+  const transpCube = colorize([1, 0, 0, 0.75], cuboid({ size: [100 * scale, 100, 210 + (200 * scale)] }))
+  const star2D = star({ vertices: 8, innerRadius: 150, outerRadius: 200 })
+  const line2D = colorize([1.0, 0, 0], line([[220, 220], [-220, 220], [-220, -220], [220, -220], [220, 220]]))
+
+  return [transpCube, star2D, line2D, ...logo]
+}
+module.exports = {main}
+`,
 }
 
 const codeStorageKey = 'Last-editor-code'
@@ -53,7 +82,7 @@ interface XYZ {
 }
 
 export interface State {
-  ideType: 'INIT' | 'openscad' | 'cadquery'
+  ideType: 'INIT' | CadPackage
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
   objectData: {

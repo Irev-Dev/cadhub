@@ -1,6 +1,21 @@
 import { Link, routes } from '@redwoodjs/router'
 import Svg from 'src/components/Svg/Svg'
 import { Popover } from '@headlessui/react'
+import type { CadPackage } from 'src/helpers/hooks/useIdeState'
+
+const menuOptions: {
+  name: string
+  sub: string
+  ideType: CadPackage
+}[] = [
+  {
+    name: 'OpenSCAD',
+    sub: 'beta',
+    ideType: 'openscad',
+  },
+  { name: 'CadQuery', sub: 'beta', ideType: 'cadquery' },
+  // { name: 'JSCAD', sub: 'alpha', ideType: 'jscad' }, // TODO #422, add jscad to db schema when were ready to enable saving of jscad projects
+]
 
 const NavPlusButton: React.FC = () => {
   return (
@@ -11,14 +26,7 @@ const NavPlusButton: React.FC = () => {
 
       <Popover.Panel className="absolute z-10 right-0">
         <ul className="bg-gray-200 mt-4 rounded shadow-md overflow-hidden">
-          {[
-            {
-              name: 'OpenSCAD',
-              sub: 'beta',
-              ideType: 'openscad',
-            },
-            { name: 'CadQuery', sub: 'beta', ideType: 'cadquery' },
-          ].map(({ name, sub, ideType }) => (
+          {menuOptions.map(({ name, sub, ideType }) => (
             <li
               key={name}
               className="px-4 py-2 hover:bg-gray-400 text-gray-800"
