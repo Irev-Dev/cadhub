@@ -10,12 +10,9 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 const loader = new TextureLoader()
 const colorMap = loader.load(texture)
 
-let lastGroup
-
 extend({ OrbitControls })
 
 function Asset({ geometry: incomingGeo }) {
-  const state = useThree()
   const mesh = useRef()
   const ref = useRef<any>({})
   useLayoutEffect(() => {
@@ -25,20 +22,10 @@ function Asset({ geometry: incomingGeo }) {
   }, [incomingGeo])
   if (!incomingGeo) return null
 
-  const groupData = incomingGeo.children ? incomingGeo : null
-  if (lastGroup && lastGroup != groupData) {
-    state.scene.remove(lastGroup)
-    lastGroup.children.forEach((c) => c?.geometry?.dispose())
-    // returning <primitive  object={groupData} /> does not add the new group to the scene
-    // there is probably some useRef magic that would make this work, but I don't have time to reseach it
-    /// FIXME - do this properly with useRef or other react magic
-    if (groupData) state.scene.add(groupData)
-  }
-  lastGroup = groupData
-
-  if (groupData) return <primitive object={groupData} />
-
-  if (incomingGeo.children) return <primitive object={incomingGeo} />
+  if (incomingGeo.length)
+    return incomingGeo.map((shape, index) => (
+      <primitive object={shape} key={index} />
+    ))
 
   return (
     <mesh ref={mesh} scale={[1, 1, 1]}>

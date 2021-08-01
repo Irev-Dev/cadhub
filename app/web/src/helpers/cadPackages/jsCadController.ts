@@ -57,7 +57,7 @@ function CSG2Object3D(obj) {
   switch (obj.type) {
     case 'mesh':
       geo.setIndex(new BufferAttribute(indices, 1))
-      mesh = new THREE.Mesh(geo, material)
+      mesh = new Mesh(geo, material)
       break
     case 'line':
       mesh = new Line(geo, material)
@@ -99,20 +99,14 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
     const blob = new Blob([script], { type: 'text/javascript' })
     scriptWorker = new Worker(window.URL.createObjectURL(blob))
     scriptWorker.addEventListener('message', (e) => {
-      console.log('message from worker', e.data)
       const data = e.data
       if (data.action == 'entities') {
         if (data.error) {
           response = createUnhealthyResponse(new Date(), data.error)
         } else {
-          const group = new Group()
-          data.entities
-            .map(CSG2Object3D)
-            .filter((o) => o)
-            .forEach((o) => group.add(o))
           response = createHealthyResponse({
             type: 'geometry',
-            data: group,
+            data: [...data.entities.map(CSG2Object3D).filter((o) => o)],
             consoleMessage: data.scriptStats,
             date: new Date(),
           })
@@ -138,7 +132,6 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
 
   await waitResult
   resolveReference = null
-  console.log('response', response)
   return response
 }
 
