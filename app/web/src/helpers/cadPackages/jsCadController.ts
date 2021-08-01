@@ -13,8 +13,7 @@ import {
   LineSegments,
   Color,
   Mesh,
-  Group,
-} from 'three/build/three.module'
+} from 'three'
 
 const materials = {
   mesh: {
