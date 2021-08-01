@@ -41,7 +41,7 @@ function CSG2Object3D(obj) {
   let material = materialDef.def
   if (color) {
     const c = color
-    material = new materialDef.material({
+    material = materialDef.material({
       color: new Color(c[0], c[1], c[2]),
       flatShading: true,
       opacity: c[3] === void 0 ? 1 : c[3],
