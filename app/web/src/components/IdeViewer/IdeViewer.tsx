@@ -6,6 +6,7 @@ import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import Customizer from 'src/components/Customizer/Customizer'
 
 const loader = new TextureLoader()
 const colorMap = loader.load(texture)
@@ -243,6 +244,7 @@ const IdeViewer = ({ Loading }) => {
           <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
         </div>
       )}
+      <Customizer />
     </div>
   )
 }
