@@ -1,5 +1,6 @@
-import { useRender } from 'src/components/IdeWrapper/useRender'
+import { useRender,  } from 'src/components/IdeWrapper/useRender'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import { genParams, getParams  } from 'src/helpers/cadPackages/jscadParams'
 
 const Customizer = () => {
   const [open, setOpen] = React.useState(true)
@@ -7,16 +8,18 @@ const Customizer = () => {
   const jsCadCustomizerElement = ref.current
   const { state } = useIdeContext()
   const customizerParams = state?.objectData?.customizerParams
-  console.log(state)
-  React.useEffect(() => {
-    console.log({ jsCadCustomizerElement, customizerParams })
-    if (jsCadCustomizerElement && customizerParams) {
-      jsCadCustomizerElement.innerHTML = `<div>${JSON.stringify(
-        customizerParams
-      )}</div>`
-    }
-  }, [jsCadCustomizerElement, customizerParams])
+  const lastParameters = state?.objectData?.lastParameters
   const handleRender = useRender()
+  const handleRender2 = ()=>handleRender(getParams(ref.current))
+
+  React.useEffect(() => {
+    console.log({ jsCadCustomizerElement, customizerParams, lastParameters })
+    if (jsCadCustomizerElement && customizerParams) {
+      genParams(customizerParams, jsCadCustomizerElement, lastParameters || {}, (values)=>{
+        handleRender(values)
+      },[])
+    }
+  }, [jsCadCustomizerElement, customizerParams, lastParameters])
   return (
     <div
       className={`absolute inset-x-0 bottom-0 bg-ch-gray-600 bg-opacity-60 text-ch-gray-300 text-lg font-fira-sans ${
@@ -32,7 +35,7 @@ const Customizer = () => {
         </div>
         <button
           className="px-4 py-1 rounded bg-ch-gray-300 text-ch-gray-800"
-          onClick={handleRender}
+          onClick={handleRender2}
         >
           Update
         </button>

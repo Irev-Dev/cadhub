@@ -43,13 +43,14 @@ result = (cq.Workplane().circle(diam).extrude(20.0)
 show_object(result)
 `,
   jscad: `
+
 const { booleans, colors, primitives } = require('@jscad/modeling') // modeling comes from the included MODELING library
 
 const { intersect, subtract } = booleans
 const { colorize } = colors
 const { cube, cuboid, line, sphere, star } = primitives
 
-const main = ({scale=1}) => {
+const main = ({length=1}) => {
   const logo = [
     colorize([1.0, 0.4, 1.0], subtract(
       cube({ size: 300 }),
@@ -61,13 +62,18 @@ const main = ({scale=1}) => {
     ))
   ]
 
-  const transpCube = colorize([1, 0, 0, 0.75], cuboid({ size: [100 * scale, 100, 210 + (200 * scale)] }))
+  const transpCube = colorize([1, 0, 0, 0.75], cuboid({ size: [100, 100, length] }))
   const star2D = star({ vertices: 8, innerRadius: 150, outerRadius: 200 })
   const line2D = colorize([1.0, 0, 0], line([[220, 220], [-220, 220], [-220, -220], [220, -220], [220, 220]]))
 
   return [transpCube, star2D, line2D, ...logo]
 }
-module.exports = {main}
+const getParameterDefinitions = ()=>{
+  return [
+    {type:'slider', name:'length', initial:210, caption:'Length', min:210, max:1500}
+  ]
+}
+module.exports = {main, getParameterDefinitions}
 `,
 }
 
@@ -90,6 +96,7 @@ export interface State {
     data: any
     quality: 'low' | 'high'
     customizerParams?: any
+    lastParameters?: any
   }
   layout: any
   camera: {
@@ -155,6 +162,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             type: payload.objectData?.type,
             data: payload.objectData?.data,
             customizerParams: payload.customizerParams,
+            lastParameters: payload.lastParameters,
           },
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
@@ -219,6 +227,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
 interface RequestRenderArgs {
   state: State
   dispatch: any
+  parameters: any,
   code: State['code']
   camera: State['camera']
   viewerSize: State['viewerSize']
@@ -234,6 +243,7 @@ export const requestRender = ({
   viewerSize,
   quality = 'low',
   specialCadProcess = null,
+  parameters,
 }: RequestRenderArgs) => {
   if (
     state.ideType !== 'INIT' &&
@@ -244,13 +254,14 @@ export const requestRender = ({
       : cadPackages[state.ideType].render
     return renderFn({
       code,
+      parameters,
       settings: {
         camera,
         viewerSize,
         quality,
       },
     })
-      .then(({ objectData, message, status, customizerParams }) => {
+      .then(({ objectData, message, status, customizerParams, lastParameters }) => {
         if (status === 'error') {
           dispatch({
             type: 'errorRender',
@@ -264,6 +275,7 @@ export const requestRender = ({
               message,
               lastRunCode: code,
               customizerParams,
+              lastParameters,
             },
           })
           return objectData

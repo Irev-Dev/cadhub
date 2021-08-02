@@ -246,6 +246,8 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
   function runMain(params={}){
     let time = Date.now()
     let solids
+    let transfer = []
+    console.log('run main')
     try{
       solids = main(params)
     }catch(e){
@@ -255,7 +257,6 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
     let solidsTime = Date.now() - time
     scriptStats = `generate solids ${solidsTime}ms`
 
-    let transfer = []
     if(convertToSolids === 'buffers'){
       CSGToBuffers.clearCache()
       entities = solids.map((csg)=>{
@@ -549,6 +550,7 @@ return (params)=>{
   workerBaseURI = baseURI
 
   const sendCmd = (params, transfer)=>{
+    console.log('sendCmd', params.worker, params.action, params)
     if(params.worker === 'render')
       sendToRender(params, transfer)
     else if(params.worker === 'script')
