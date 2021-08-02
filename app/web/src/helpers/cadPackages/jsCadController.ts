@@ -108,6 +108,7 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
             data: [...data.entities.map(CSG2Object3D).filter((o) => o)],
             consoleMessage: data.scriptStats,
             date: new Date(),
+            customizerParams: ['param1', 'abc'],
           })
         }
         callResolve()

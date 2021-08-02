@@ -30,6 +30,7 @@ export interface HealthyResponse {
     data: any
     type: 'stl' | 'png' | 'geometry'
   }
+  customizerParams?: any
 }
 
 export function createHealthyResponse({
@@ -37,11 +38,13 @@ export function createHealthyResponse({
   data,
   consoleMessage,
   type,
+  customizerParams,
 }: {
   date: Date
   data: any
   consoleMessage: string
   type: HealthyResponse['objectData']['type']
+  customizerParams?: any
 }): HealthyResponse {
   return {
     status: 'healthy',
@@ -54,6 +57,7 @@ export function createHealthyResponse({
       message: consoleMessage,
       time: date,
     },
+    customizerParams,
   }
 }
 

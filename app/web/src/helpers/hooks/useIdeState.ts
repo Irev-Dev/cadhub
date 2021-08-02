@@ -89,6 +89,7 @@ export interface State {
     type: 'INIT' | 'stl' | 'png' | 'geometry'
     data: any
     quality: 'low' | 'high'
+    customizerParams?: any
   }
   layout: any
   camera: {
@@ -153,6 +154,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             ...state.objectData,
             type: payload.objectData?.type,
             data: payload.objectData?.data,
+            customizerParams: payload.customizerParams,
           },
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
@@ -248,7 +250,7 @@ export const requestRender = ({
         quality,
       },
     })
-      .then(({ objectData, message, status }) => {
+      .then(({ objectData, message, status, customizerParams }) => {
         if (status === 'error') {
           dispatch({
             type: 'errorRender',
@@ -257,7 +259,12 @@ export const requestRender = ({
         } else {
           dispatch({
             type: 'healthyRender',
-            payload: { objectData, message, lastRunCode: code },
+            payload: {
+              objectData,
+              message,
+              lastRunCode: code,
+              customizerParams,
+            },
           })
           return objectData
         }
