@@ -36,7 +36,7 @@ export const makeStlDownloadHandler =
   }: makeStlDownloadHandlerArgs) =>
   () => {
     const makeStlBlobFromMesh = flow(
-      (mesh) => new Scene().add(mesh),
+      (...meshes) => new Scene().add(...meshes),
       (scene) => new STLExporter().parse(scene),
       (stl) =>
         new Blob([stl], {
@@ -60,7 +60,7 @@ export const makeStlDownloadHandler =
       ) {
         saveFile(makeStlBlobFromGeo(geometry))
       } else if (ideType == 'jscad') {
-        saveFile(makeStlBlobFromMesh(geometry))
+        saveFile(makeStlBlobFromMesh(...geometry))
       } else {
         thunkDispatch((dispatch, getState) => {
           const state = getState()
