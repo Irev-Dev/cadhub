@@ -1,4 +1,4 @@
-const GROUP_SELECTOR = 'DIV[type="group"] LABEL'
+const GROUP_SELECTOR = 'DIV[type="group"]'
 const INPUT_SELECTOR = 'INPUT, SELECT'
 
 function forEachInput(target, callback){
@@ -15,7 +15,7 @@ function applyRange(inp){
     let label = inp.previousElementSibling
     if(label.tagName == 'LABEL'){
         let info = label.querySelector('I')
-        if(info) info.innerHTML = '('+inp.value+')'
+        if(info) info.innerHTML = inp.value
     }
 }
 
@@ -88,13 +88,15 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		}
 		def.closed = closed
 		
-		html +=`<div class="form-line" type="${def.type}" closed="${closed ? 1:0}">`
+		html +=`<div class="form-line" type="${def.type}" closed="${closed ? 1:0}`
+		if(type == 'group') html += ` name="${name}"`
+		html +=`">`
 		
 		html += `<label`
 		if(type == 'group') html += ` name="${name}"`
 		html += `>`
 		if(type == 'checkbox') html += funcs[type](def)
-		html += `${caption}<i></i></label>`
+		html += `${caption}<i>${def.value}</i></label>`
 		
 		if(funcs[type] && type != 'checkbox') html += funcs[type](def)
 
@@ -141,7 +143,7 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		callback(getParams(target),true)
 	}
 
-	forEachGroup(target, label=>label.onclick=groupClick)
+	forEachGroup(target, div=>div.onclick=groupClick)
 }
 
 export function getParams(target){
@@ -150,7 +152,7 @@ export function getParams(target){
 
     forEachGroup(target,elem=>{
         let name = elem.getAttribute('name')
-        params[name] = (groupDiv.getAttribute('closed') == '1') ? 'closed':''
+        params[name] = (elem.getAttribute('closed') == '1') ? 'closed':''
     })
 
     forEachInput(target,elem=>{
