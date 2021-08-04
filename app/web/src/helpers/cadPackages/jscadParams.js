@@ -13,7 +13,7 @@ const numeric = {number:1, float:1, int:1, range:1, slider:1}
 
 function applyRange(inp){
     let label = inp.previousElementSibling
-    if(label.tagName == 'LABEL'){
+    if(label && label.tagName == 'LABEL'){
         let info = label.querySelector('I')
         if(info) info.innerHTML = inp.value
     }
@@ -25,17 +25,8 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		group:function({name,type, caption, captions, value, min,max}){
 			return ''
 		},
-		choice:function({name,type, caption, captions, value, values, min, max}){
-			if(!captions) captions = values
-
-			let ret = `<select _type="${type}" name="${name}" numeric="${typeof values[0] == 'number' ? '1':'0'}">`
-
-			for(let i =0; i<values.length; i++){
-				let checked = (value == values[i] || value == captions[i] ) ? 'selected':''
-				ret += `<option value="${values[i]}" ${checked}>${captions[i]}</option>`
-			}
-			return ret + '</select>'
-		},
+		choice:inputChoice,
+		radio:inputRadio,
 		float: inputNumber,
 		range: inputNumber,
 		slider: inputNumber,
@@ -53,9 +44,33 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		},
 		number: inputNumber,
 	}
+
+	function inputRadio({name, type, captions, value, values}){
+		if(!captions) captions = values
+
+		let ret = '<div type="radio">'
+
+		for(let i =0; i<values.length; i++){
+			let checked = (value == values[i] || value == captions[i] ) ? 'selected':''
+			ret += `<label><input type="radio" _type="${type}" name="${name}" numeric="${typeof values[0] == 'number' ? '1':'0'}" value="${values[i]}" ${checked}/>${captions[i]}</label>`
+		}
+		return ret +'</div>'
+	}
 	
+	function inputChoice({name, type, captions, value, values}){
+		if(!captions) captions = values
+
+		let ret = `<select _type="${type}" name="${name}" numeric="${typeof values[0] == 'number' ? '1':'0'}">`
+
+		for(let i =0; i<values.length; i++){
+			let checked = (value == values[i] || value == captions[i] ) ? 'selected':''
+			ret += `<option value="${values[i]}" ${checked}>${captions[i]}</option>`
+		}
+		return ret + '</select>'
+	}
+
 	function inputNumber(def){
-		let {name,type, caption, captions, value, min,max, step, placeholder, live} = def
+		let {name,type, value, min,max, step, placeholder, live} = def
 		if(value === null || value === undefined) value = numeric[type] ? 0:'';
 		let inputType = type
 		if(type == 'int' || type=='float') inputType = 'number'
@@ -88,7 +103,7 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		}
 		def.closed = closed
 		
-		html +=`<div class="form-line" type="${def.type}" closed="${closed ? 1:0}`
+		html +=`<div class="form-line" type="${def.type}" closed="${closed ? 1:0}" `
 		if(type == 'group') html += ` name="${name}"`
 		html +=`">`
 		
@@ -108,8 +123,8 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 	let missingKeys = Object.keys(missing)
 	if(missingKeys.length) console.log('missing param impl',missingKeys);
 
-	function _callback(saveOnly){
-		if(callback) callback(getParams(target))
+	function _callback(source='change'){
+		if(callback) callback(getParams(target), source)
 	}
 
 	html +='<div class="jscad-param-buttons"><div>'
@@ -126,24 +141,27 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		let type = inp.type
 		inp.addEventListener('input', function(evt){
 			applyRange(inp)
-			if(inp.getAttribute('live') == '1') _callback();
+			if(inp.getAttribute('live') === '1') _callback('live');
 		})
-		if(inp.getAttribute('live') != '1') inp.addEventListener('change', _callback)
+		if(inp.getAttribute('live') !== '1') inp.addEventListener('change', _callback)
 		
 	})
 
 	function groupClick(evt){
-		var groupDiv = evt.target.parentNode
+		var groupDiv = evt.target
+		if(groupDiv.tagName === 'LABEL') groupDiv = groupDiv.parentNode
 		var closed = (groupDiv.getAttribute('closed') == '1') ? '0':'1'
 		var name = evt.target.getAttribute('name')
 		do{
 			groupDiv.setAttribute('closed', closed)
 			groupDiv = groupDiv.nextElementSibling
 		}while(groupDiv && groupDiv.getAttribute('type') != 'group')
-		callback(getParams(target),true)
+		_callback('group')
 	}
 
-	forEachGroup(target, div=>div.onclick=groupClick)
+	forEachGroup(target, div=>{
+		div.onclick=groupClick
+	})
 }
 
 export function getParams(target){

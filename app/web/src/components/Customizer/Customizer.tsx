@@ -15,7 +15,12 @@ const Customizer = () => {
   React.useEffect(() => {
     console.log({ jsCadCustomizerElement, customizerParams, lastParameters })
     if (jsCadCustomizerElement && customizerParams) {
-      genParams(customizerParams, jsCadCustomizerElement, lastParameters || {}, (values)=>{
+      genParams(customizerParams, jsCadCustomizerElement, lastParameters || {}, (values, source)=>{
+        console.log('change source', source)
+        if(source === 'group'){
+          // save to local storage but do not render
+          return
+        }
         handleRender(values)
       },[])
     }

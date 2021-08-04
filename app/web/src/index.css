@@ -172,15 +172,22 @@ input.error, textarea.error {
   width: 50%;
   padding: 2px 8px;
 }
+#jscad-customizer-block > .form-line > div{
+  width: 50%;
+}
+#jscad-customizer-block > .form-line > div[type="radio"] > label{
+  display: inline-block;
+  margin-left: 10px;
+}
 
-#jscad-customizer-block > .form-line label i{
+#jscad-customizer-block > .form-line > label i{
   display: none;
   font-style: normal;
 }
 
-#jscad-customizer-block > .form-line[type="range"] label i,
-#jscad-customizer-block > .form-line[type="slider"] label i,
-#jscad-customizer-block > .form-line[type="color"] label i{
+#jscad-customizer-block > .form-line[type="range"] > label i,
+#jscad-customizer-block > .form-line[type="slider"] > label i,
+#jscad-customizer-block > .form-line[type="color"] > label i{
   display: inline-block;  
 }
 
