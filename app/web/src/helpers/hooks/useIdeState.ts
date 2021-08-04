@@ -180,7 +180,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             ...state.objectData,
             type: payload.objectData?.type,
             data: payload.objectData?.data,
-            customizerParams: payload.customizerParams,
+            customizerParams: payload.customizerParams || state.objectData.customizerParams,
             lastParameters: payload.lastParameters,
           },
           consoleMessages: payload.message
