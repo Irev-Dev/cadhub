@@ -103,8 +103,7 @@ export const render: DefaultKernelExport['render'] = async ({
     let parameterDefinitions = []
     scriptWorker.addEventListener('message', (e) => {
       const data = e.data
-      if (data.action == 'parameterDefinitions') {        
-        console.log('message',data)
+      if (data.action == 'parameterDefinitions') {
         parameterDefinitions = data.data
       } else if (data.action == 'entities') {
         if (data.error) {
@@ -123,7 +122,7 @@ export const render: DefaultKernelExport['render'] = async ({
         callResolve()
       }
     })
-    
+
     callResolve()
     response = null
     scriptWorker.postMessage({ action: 'init', baseURI, alias: [] })
