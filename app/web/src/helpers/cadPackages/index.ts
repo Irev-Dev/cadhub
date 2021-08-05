@@ -5,7 +5,7 @@ import openscad from './openScadController'
 import cadquery from './cadQueryController'
 import jscad from './jsCadController'
 
-export const cadPackages: {[key in CadPackage]: DefaultKernelExport} = {
+export const cadPackages: { [key in CadPackage]: DefaultKernelExport } = {
   openscad,
   cadquery,
   jscad,

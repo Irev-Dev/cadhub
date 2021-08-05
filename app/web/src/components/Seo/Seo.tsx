@@ -1,6 +1,16 @@
 import { Helmet } from 'react-helmet'
 
-const Seo = ({ title, description, lang, socialImageUrl}: { title: string; description: string; lang: string; socialImageUrl?: string}) => {
+const Seo = ({
+  title,
+  description,
+  lang,
+  socialImageUrl,
+}: {
+  title: string
+  description: string
+  lang: string
+  socialImageUrl?: string
+}) => {
   return (
     <>
       <Helmet

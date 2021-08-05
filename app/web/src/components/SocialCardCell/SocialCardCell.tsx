@@ -41,7 +41,10 @@ export const Success = ({
   const image = userProject?.Project?.mainImage
   const gravatar = userProject?.image
   return (
-    <div className="flex-col flex h-screen bg-ch-gray-800 text-ch-gray-300" id="social-card-loaded">
+    <div
+      className="flex-col flex h-screen bg-ch-gray-800 text-ch-gray-300"
+      id="social-card-loaded"
+    >
       <div
         className="flex-grow grid"
         style={{ gridTemplateColumns: '7fr 5fr' }}
