@@ -1,12 +1,11 @@
 import { builder } from '@netlify/functions'
-import type { HandlerResponse } from '@netlify/functions'
 import chromium from 'chrome-aws-lambda'
 
 const captureWidth = 1200
 const captureHeight = 630
 const clipY = 0
 
-async function unwrappedHandler (event, context): Promise<HandlerResponse> {
+async function unwrappedHandler (event, context) {
   let path = event.path
     .replace(/.+\/og-image-generator/, '')
     .replace(/\/og-image-.+\.jpg/, '')
