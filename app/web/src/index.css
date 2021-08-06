@@ -179,6 +179,10 @@ input.error, textarea.error {
   display: inline-block;
   margin-left: 10px;
 }
+#jscad-customizer-block > .form-line[type="checkbox"] > label > input{
+  position: absolute;
+  right: 14px;
+}
 
 #jscad-customizer-block > .form-line > label i{
   display: none;

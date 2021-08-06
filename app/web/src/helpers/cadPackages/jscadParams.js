@@ -51,7 +51,7 @@ export function genParams(defs, target, storedParams={}, callback=undefined, but
 		let ret = '<div type="radio">'
 
 		for(let i =0; i<values.length; i++){
-			let checked = (value == values[i] || value == captions[i] ) ? 'selected':''
+			let checked = (value == values[i] || value == captions[i] ) ? 'checked':''
 			ret += `<label><input type="radio" _type="${type}" name="${name}" numeric="${typeof values[0] == 'number' ? '1':'0'}" value="${values[i]}" ${checked}/>${captions[i]}</label>`
 		}
 		return ret +'</div>'
@@ -182,7 +182,10 @@ export function getParams(target){
         }
 
         if(numeric[elem.getAttribute('type')] || elem.getAttribute('numeric') == '1') value = parseFloat(value || 0)
-        params[name] = value
+		
+		if(elem.type == 'radio' && !elem.checked) return // skip if not checked radio button
+        
+		params[name] = value
     })
     return params;
 }

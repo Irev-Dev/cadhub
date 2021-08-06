@@ -14,7 +14,6 @@ const Customizer = () => {
   const handleRender2 = ()=>handleRender(getParams(ref.current))
 
   React.useEffect(() => {
-    console.log({ jsCadCustomizerElement, customizerParams, lastParameters })
     if (jsCadCustomizerElement && customizerParams) {
       genParams(customizerParams, jsCadCustomizerElement, lastParameters || {}, (values, source)=>{
         if(source === 'group'){

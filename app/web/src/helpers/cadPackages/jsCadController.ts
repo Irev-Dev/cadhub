@@ -109,7 +109,6 @@ export const render: DefaultKernelExport['render'] = async ({
         if (data.error) {
           response = createUnhealthyResponse(new Date(), data.error)
         } else {
-          console.log('lastParameters',lastParameters)
           response = createHealthyResponse({
             type: 'geometry',
             data: [...data.entities.map(CSG2Object3D).filter((o) => o)],
