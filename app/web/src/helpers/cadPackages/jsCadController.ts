@@ -86,7 +86,9 @@ export const render: DefaultKernelExport['render'] = async ({
   settings,
 }: RenderArgs) => {
   if (!scriptWorker) {
-    console.trace('************************** creating new worker ************************')
+    console.trace(
+      '************************** creating new worker ************************'
+    )
     const baseURI = document.baseURI.toString()
     const script = `let baseURI = '${baseURI}'
     importScripts(new URL('${scriptUrl}',baseURI))
@@ -127,14 +129,14 @@ export const render: DefaultKernelExport['render'] = async ({
     scriptWorker.postMessage({ action: 'init', baseURI, alias: [] })
   }
 
-  if(parameters){
+  if (parameters) {
     // we are not evaluating code, but reacting to parameters change
     scriptWorker.postMessage({
       action: 'updateParams',
       worker: 'script',
       params: parameters,
     })
-  }else{
+  } else {
     scriptWorker.postMessage({
       action: 'runScript',
       worker: 'script',
@@ -154,7 +156,7 @@ export const render: DefaultKernelExport['render'] = async ({
 
   await waitResult
   resolveReference = null
-  if(parameters) delete response.customizerParams
+  if (parameters) delete response.customizerParams
   return response
 }
 

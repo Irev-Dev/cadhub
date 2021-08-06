@@ -180,7 +180,8 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             ...state.objectData,
             type: payload.objectData?.type,
             data: payload.objectData?.data,
-            customizerParams: payload.customizerParams || state.objectData.customizerParams,
+            customizerParams:
+              payload.customizerParams || state.objectData.customizerParams,
             lastParameters: payload.lastParameters,
           },
           consoleMessages: payload.message
@@ -246,7 +247,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
 interface RequestRenderArgs {
   state: State
   dispatch: any
-  parameters: any,
+  parameters: any
   code: State['code']
   camera: State['camera']
   viewerSize: State['viewerSize']
@@ -280,26 +281,28 @@ export const requestRender = ({
         quality,
       },
     })
-      .then(({ objectData, message, status, customizerParams, lastParameters }) => {
-        if (status === 'error') {
-          dispatch({
-            type: 'errorRender',
-            payload: { message },
-          })
-        } else {
-          dispatch({
-            type: 'healthyRender',
-            payload: {
-              objectData,
-              message,
-              lastRunCode: code,
-              customizerParams,
-              lastParameters,
-            },
-          })
-          return objectData
+      .then(
+        ({ objectData, message, status, customizerParams, lastParameters }) => {
+          if (status === 'error') {
+            dispatch({
+              type: 'errorRender',
+              payload: { message },
+            })
+          } else {
+            dispatch({
+              type: 'healthyRender',
+              payload: {
+                objectData,
+                message,
+                lastRunCode: code,
+                customizerParams,
+                lastParameters,
+              },
+            })
+            return objectData
+          }
         }
-      })
+      )
       .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
   }
 }

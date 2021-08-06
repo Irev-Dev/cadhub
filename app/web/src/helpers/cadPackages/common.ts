@@ -12,7 +12,7 @@ export const stlToGeometry = (url) =>
 
 export interface RenderArgs {
   code: State['code']
-  parameters: any,
+  parameters: any
   settings: {
     camera: State['camera']
     viewerSize: State['viewerSize']
@@ -42,7 +42,7 @@ export function createHealthyResponse({
   type,
   customizerParams,
   lastParameters,
-  }: {
+}: {
   date: Date
   data: any
   consoleMessage: string

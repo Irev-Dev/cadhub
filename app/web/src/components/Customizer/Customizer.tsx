@@ -1,6 +1,6 @@
-import { useRender,  } from 'src/components/IdeWrapper/useRender'
+import { useRender } from 'src/components/IdeWrapper/useRender'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { genParams, getParams  } from 'src/helpers/cadPackages/jscadParams'
+import { genParams, getParams } from 'src/helpers/cadPackages/jscadParams'
 
 const Customizer = () => {
   const [open, setOpen] = React.useState(true)
@@ -11,17 +11,23 @@ const Customizer = () => {
   const customizerParams = state?.objectData?.customizerParams
   const lastParameters = state?.objectData?.lastParameters
   const handleRender = useRender()
-  const handleRender2 = ()=>handleRender(getParams(ref.current))
+  const handleRender2 = () => handleRender(getParams(ref.current))
 
   React.useEffect(() => {
     if (jsCadCustomizerElement && customizerParams) {
-      genParams(customizerParams, jsCadCustomizerElement, lastParameters || {}, (values, source)=>{
-        if(source === 'group'){
-          // save to local storage but do not render
-          return
-        }
-        if(checked) handleRender(values)
-      },[])
+      genParams(
+        customizerParams,
+        jsCadCustomizerElement,
+        lastParameters || {},
+        (values, source) => {
+          if (source === 'group') {
+            // save to local storage but do not render
+            return
+          }
+          if (checked) handleRender(values)
+        },
+        []
+      )
     }
   }, [jsCadCustomizerElement, customizerParams, lastParameters, checked])
   return (
@@ -37,11 +43,17 @@ const Customizer = () => {
           </button>
           <div>Parameters</div>
         </div>
-        <div className='flex items-center'>
-          <input className='mr-6' type='checkbox' checked={checked} onChange={({target}) => {
-            const newValue = !checked
-            if (newValue) handleRender2()
-            setChecked(newValue)}}/>
+        <div className="flex items-center">
+          <input
+            className="mr-6"
+            type="checkbox"
+            checked={checked}
+            onChange={({ target }) => {
+              const newValue = !checked
+              if (newValue) handleRender2()
+              setChecked(newValue)
+            }}
+          />
           <button
             className="px-4 py-1 rounded bg-ch-gray-300 text-ch-gray-800"
             onClick={handleRender2}
@@ -49,7 +61,6 @@ const Customizer = () => {
             Update
           </button>
         </div>
-
       </div>
       <div className={`${open ? 'h-full' : 'h-0'} overflow-y-auto py-3 px-12`}>
         <div id="jscad-customizer-block" ref={ref}>
