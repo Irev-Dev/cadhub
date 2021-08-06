@@ -50,7 +50,7 @@ const { intersect, subtract } = booleans
 const { colorize } = colors
 const { cube, cuboid, line, sphere, star } = primitives
 
-const main = ({length=1}) => {
+const main = ({length=340}) => {
   const logo = [
     colorize([1.0, 0.4, 1.0], subtract(
       cube({ size: 300 }),
