@@ -70,7 +70,7 @@ const main = ({length=1}) => {
 }
 const getParameterDefinitions = ()=>{
   return [
-    {type:'slider', name:'length', initial:210, caption:'Length', min:210, max:1500},
+    {type:'slider', name:'length', initial:340, caption:'Length', min:210, max:1500},
     { name: 'group1', type: 'group', caption: 'Group 1: Text Entry' },
     { name: 'text', type: 'text', initial: '', size: 20, maxLength: 20, caption: 'Plain Text:', placeholder: '20 characters' },
     { name: 'int', type: 'int', initial: 20, min: 1, max: 100, step: 1, caption: 'Integer:' },
