@@ -247,7 +247,6 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
     let time = Date.now()
     let solids
     let transfer = []
-    console.log('run main')
     try{
       solids = main(params)
     }catch(e){
@@ -487,7 +486,6 @@ let perspectiveCamera
     let time = Date.now()
     renderer(renderOptions)
     if(updateRender){
-      console.log(updateRender, ' first render', Date.now()-time);
       updateRender = '';
     }
   }
@@ -550,7 +548,6 @@ return (params)=>{
   workerBaseURI = baseURI
 
   const sendCmd = (params, transfer)=>{
-    console.log('sendCmd', params.worker, params.action, params)
     if(params.worker === 'render')
       sendToRender(params, transfer)
     else if(params.worker === 'script')
@@ -570,7 +567,6 @@ return (params)=>{
   const makeRenderWorkerHere = (scope === 'main' && canvas && !renderInWorker) || (scope === 'worker' && render)
   // worker is in current thread
   if(makeRenderWorkerHere){
-    console.log('render in scope: '+scope);
     renderWorker = makeRenderWorker({callback:sendCmd})
     sendToRender = (params, transfer)=>renderWorker.postMessage(params, transfer)
   }

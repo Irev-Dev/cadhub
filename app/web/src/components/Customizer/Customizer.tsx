@@ -20,11 +20,11 @@ const Customizer = () => {
         jsCadCustomizerElement,
         lastParameters || {},
         (values, source) => {
-          if (source === 'group') {
+          if (source === 'group' || !checked) {
             // save to local storage but do not render
             return
           }
-          if (checked) handleRender(values)
+          handleRender(values)
         },
         []
       )
