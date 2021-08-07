@@ -62,46 +62,12 @@ const Customizer = () => {
           </button>
         </div>
       </div>
-      <div className={`${open ? 'h-full' : 'h-0'} overflow-y-auto py-3 px-12`}>
-        <div id="jscad-customizer-block" ref={ref}>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-          <p>lots of lines should cause scroll</p>
-        </div>
+      <div className={`${open ? 'h-full' : 'h-0'} overflow-y-auto px-12`}>
+        <div
+          id="jscad-customizer-block"
+          ref={ref}
+          // JSCAD param UI injected here.
+        />
       </div>
     </div>
   )
