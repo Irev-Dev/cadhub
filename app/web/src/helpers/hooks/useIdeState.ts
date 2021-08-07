@@ -175,6 +175,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
       case 'updateCode':
         return { ...state, code: payload }
       case 'healthyRender':
+        const currentParameters = (payload.currentParameters && Object.keys(payload.currentParameters).length) ? payload.currentParameters : state.currentParameters
         return {
           ...state,
           objectData: {
@@ -183,7 +184,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             data: payload.objectData?.data,
           },
           customizerParams: payload.customizerParams || state.customizerParams,
-          currentParameters: Object.keys(payload.currentParameters).length ? payload.currentParameters : state.currentParameters,
+          currentParameters,
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
