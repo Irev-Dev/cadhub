@@ -13,6 +13,7 @@ export const useRender = () => {
         code: state.code,
         viewerSize: state.viewerSize,
         camera: state.camera,
+        parameters: state.currentParameters,
       })
     })
     localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)

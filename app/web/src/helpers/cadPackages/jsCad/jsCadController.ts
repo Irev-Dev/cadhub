@@ -3,7 +3,7 @@ import {
   DefaultKernelExport,
   createUnhealthyResponse,
   createHealthyResponse,
-} from './common'
+} from '../common'
 import {
   MeshPhongMaterial,
   LineBasicMaterial,
@@ -70,6 +70,7 @@ function CSG2Object3D(obj) {
 }
 
 let scriptWorker
+let currentParameters = {}
 const scriptUrl = '/demo-worker.js'
 let resolveReference = null
 let response = null
@@ -81,25 +82,32 @@ const callResolve = () => {
 
 export const render: DefaultKernelExport['render'] = async ({
   code,
+  parameters,
   settings,
 }: RenderArgs) => {
   if (!scriptWorker) {
+    console.trace(
+      '************************** creating new worker ************************'
+    )
     const baseURI = document.baseURI.toString()
     const script = `let baseURI = '${baseURI}'
-importScripts(new URL('${scriptUrl}',baseURI))
-let worker = jscadWorker({
-  baseURI: baseURI,
-  scope:'worker',
-  convertToSolids: 'buffers',
-  callback:(params)=>self.postMessage(params),
-})
-self.addEventListener('message', (e)=>worker.postMessage(e.data))
-`
+    importScripts(new URL('${scriptUrl}',baseURI))
+    let worker = jscadWorker({
+      baseURI: baseURI,
+      scope:'worker',
+      convertToSolids: 'buffers',
+      callback:(params)=>self.postMessage(params),
+    })
+    self.addEventListener('message', (e)=>worker.postMessage(e.data))
+    `
     const blob = new Blob([script], { type: 'text/javascript' })
     scriptWorker = new Worker(window.URL.createObjectURL(blob))
+    let parameterDefinitions = []
     scriptWorker.addEventListener('message', (e) => {
       const data = e.data
-      if (data.action == 'entities') {
+      if (data.action == 'parameterDefinitions') {
+        parameterDefinitions = data.data
+      } else if (data.action == 'entities') {
         if (data.error) {
           response = createUnhealthyResponse(new Date(), data.error)
         } else {
@@ -108,6 +116,8 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
             data: [...data.entities.map(CSG2Object3D).filter((o) => o)],
             consoleMessage: data.scriptStats,
             date: new Date(),
+            customizerParams: parameterDefinitions,
+            currentParameters,
           })
         }
         callResolve()
@@ -118,12 +128,27 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
     response = null
     scriptWorker.postMessage({ action: 'init', baseURI, alias: [] })
   }
-  scriptWorker.postMessage({
-    action: 'runScript',
-    worker: 'script',
-    script: code,
-    url: 'jscad_script',
-  })
+
+  if (parameters && currentParameters && JSON.stringify(parameters) !== JSON.stringify(currentParameters)) {
+    // we are not evaluating code, but reacting to parameters change
+    scriptWorker.postMessage({
+      action: 'updateParams',
+      worker: 'script',
+      params: parameters,
+    })
+  } else {
+    scriptWorker.postMessage({
+      action: 'runScript',
+      worker: 'script',
+      script: code,
+      params: parameters || {},
+      url: 'jscad_script',
+    })
+  }
+  // we need this to keep the form filled with same data when new parameter definitions arrive
+  // each render of the script could provide new paramaters. In case some of them are still rpesent
+  // it is expected for them to stay the same and not just reset
+  currentParameters = parameters || {}
 
   const waitResult = new Promise((resolve) => {
     resolveReference = resolve
@@ -131,6 +156,7 @@ self.addEventListener('message', (e)=>worker.postMessage(e.data))
 
   await waitResult
   resolveReference = null
+  if (parameters) delete response.customizerParams
   return response
 }
 

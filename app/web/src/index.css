@@ -115,3 +115,102 @@ input.error, textarea.error {
   border: 1px solid red;
 }
 
+#jscad-customizer-block {
+  padding-bottom: 60px; /* hack because it gets cut off at the bottom for some reason*/
+}
+#jscad-customizer-block > .form-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 15px;
+    position: relative;
+}
+#jscad-customizer-block > .form-line:hover{
+  background: rgba(0,0,0,0.3);
+}
+
+#jscad-customizer-block > .form-line[type="group"]{
+  background: rgba(255, 255, 255, 0.15);
+  padding-left: 50px;
+  padding-bottom: 12px;
+  cursor: pointer;
+}
+#jscad-customizer-block > .form-line[type="group"] > label{
+  cursor: pointer;
+}
+#jscad-customizer-block > .form-line[closed="1"]:not([type="group"]){
+  display: none;
+}
+
+#jscad-customizer-block > .form-line[type="group"]:before {
+  position: absolute;
+  content: ">";
+  left: 18px;
+  top: 13px;
+  font-size: 30px;
+  transform: rotate(90deg);
+  font-family: monospace;
+
+}
+#jscad-customizer-block > .form-line[type="group"][closed="1"]:before {
+  transform: rotate(0deg);
+}
+
+#jscad-customizer-block > .form-line select,
+#jscad-customizer-block > .form-line input[type="text"],
+#jscad-customizer-block > .form-line input[type="range"],
+#jscad-customizer-block > .form-line input[type="slider"],
+#jscad-customizer-block > .form-line input[type="number"],
+#jscad-customizer-block > .form-line input[type="int"],
+#jscad-customizer-block > .form-line input[type="date"],
+#jscad-customizer-block > .form-line input[type="email"],
+#jscad-customizer-block > .form-line input[type="url"],
+#jscad-customizer-block > .form-line input[type="password"]
+{
+  background: rgba(73, 73, 73, 0.65); 
+  border: 1px solid #FFFFFF;
+  width: 50%;
+  padding: 2px 8px;
+}
+#jscad-customizer-block > .form-line > div{
+  width: 50%;
+}
+#jscad-customizer-block > .form-line > div[type="radio"] > label{
+  display: inline-block;
+  margin-left: 10px;
+}
+#jscad-customizer-block > .form-line[type="checkbox"] > label > input{
+  position: absolute;
+  right: 14px;
+}
+
+#jscad-customizer-block > .form-line > label i{
+  display: none;
+  font-style: normal;
+}
+
+#jscad-customizer-block > .form-line[type="range"] > label i,
+#jscad-customizer-block > .form-line[type="slider"] > label i,
+#jscad-customizer-block > .form-line[type="color"] > label i{
+  display: inline-block;  
+}
+
+#jscad-customizer-block > .form-line input[type="range"]{
+  position: relative;
+  top: 6px;
+}
+#jscad-customizer-block > .form-line > label > i{
+  position: absolute;
+  top: 2px;
+  left: 70%;
+}
+
+#jscad-customizer-block .form-line label{
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+
+  color: #CFCFD8;
+}

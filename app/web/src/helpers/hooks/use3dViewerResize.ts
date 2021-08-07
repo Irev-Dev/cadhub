@@ -26,6 +26,7 @@ export const use3dViewerResize = () => {
             code: state.code,
             viewerSize: { width, height },
             camera: state.camera,
+            parameters: state.currentParameters,
           })
         }
       })

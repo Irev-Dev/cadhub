@@ -12,6 +12,7 @@ export const stlToGeometry = (url) =>
 
 export interface RenderArgs {
   code: State['code']
+  parameters?: RawCustomizerParams
   settings: {
     camera: State['camera']
     viewerSize: State['viewerSize']
@@ -30,6 +31,12 @@ export interface HealthyResponse {
     data: any
     type: 'stl' | 'png' | 'geometry'
   }
+  customizerParams?: any[]
+  currentParameters?: RawCustomizerParams
+}
+
+export interface RawCustomizerParams {
+  [paramName: string]: number | string | boolean
 }
 
 export function createHealthyResponse({
@@ -37,11 +44,15 @@ export function createHealthyResponse({
   data,
   consoleMessage,
   type,
+  customizerParams,
+  currentParameters,
 }: {
   date: Date
   data: any
   consoleMessage: string
   type: HealthyResponse['objectData']['type']
+  customizerParams?: any
+  currentParameters?: any
 }): HealthyResponse {
   return {
     status: 'healthy',
@@ -54,6 +65,8 @@ export function createHealthyResponse({
       message: consoleMessage,
       time: date,
     },
+    customizerParams,
+    currentParameters,
   }
 }
 

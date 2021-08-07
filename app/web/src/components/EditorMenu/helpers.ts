@@ -74,6 +74,7 @@ export const makeStlDownloadHandler =
             camera: state.camera,
             quality: 'high',
             specialCadProcess,
+            parameters: state.currentParameters,
           }).then((result) => result && saveFile(result.data))
         })
       }

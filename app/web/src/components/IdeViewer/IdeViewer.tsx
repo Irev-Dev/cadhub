@@ -6,6 +6,8 @@ import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import Customizer from 'src/components/Customizer/Customizer'
+ import DelayedPingAnimation from 'src/components/DelayedPingAnimation/DelayedPingAnimation'
 
 const loader = new TextureLoader()
 const colorMap = loader.load(texture)
@@ -210,6 +212,7 @@ const IdeViewer = ({ Loading }) => {
                     code: state.code,
                     viewerSize: state.viewerSize,
                     camera,
+                    parameters: state.currentParameters,
                   })
                 }
               })
@@ -238,11 +241,8 @@ const IdeViewer = ({ Loading }) => {
           />
         </Canvas>
       </div>
-      {state.isLoading && (
-        <div className="inset-0 absolute flex items-center justify-center">
-          <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-        </div>
-      )}
+      <DelayedPingAnimation isLoading={state.isLoading} />
+      <Customizer />
     </div>
   )
 }

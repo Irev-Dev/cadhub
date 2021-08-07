@@ -246,6 +246,7 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
   function runMain(params={}){
     let time = Date.now()
     let solids
+    let transfer = []
     try{
       solids = main(params)
     }catch(e){
@@ -255,7 +256,6 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
     let solidsTime = Date.now() - time
     scriptStats = `generate solids ${solidsTime}ms`
 
-    let transfer = []
     if(convertToSolids === 'buffers'){
       CSGToBuffers.clearCache()
       entities = solids.map((csg)=>{
@@ -486,7 +486,6 @@ let perspectiveCamera
     let time = Date.now()
     renderer(renderOptions)
     if(updateRender){
-      console.log(updateRender, ' first render', Date.now()-time);
       updateRender = '';
     }
   }
@@ -568,7 +567,6 @@ return (params)=>{
   const makeRenderWorkerHere = (scope === 'main' && canvas && !renderInWorker) || (scope === 'worker' && render)
   // worker is in current thread
   if(makeRenderWorkerHere){
-    console.log('render in scope: '+scope);
     renderWorker = makeRenderWorker({callback:sendCmd})
     sendToRender = (params, transfer)=>renderWorker.postMessage(params, transfer)
   }
