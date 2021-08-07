@@ -22,7 +22,7 @@ const Customizer = () => {
         currentParameters || {},
         (values, source) => {
           thunkDispatch({ type: 'setCurrentCustomizerParams', payload: values })
-          if (shouldLiveUpdate) {
+          if (shouldLiveUpdate && source !== 'group') {
             handleRender()
           }
         },
