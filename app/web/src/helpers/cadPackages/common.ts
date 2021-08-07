@@ -35,6 +35,10 @@ export interface HealthyResponse {
   lastParameters?: any
 }
 
+export interface RawCustomizerParams {
+  [paramName: string]: number | string | boolean
+}
+
 export function createHealthyResponse({
   date,
   data,

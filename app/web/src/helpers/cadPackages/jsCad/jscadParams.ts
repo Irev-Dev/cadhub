@@ -1,20 +1,25 @@
+import type { RawCustomizerParams } from '../common'
+
 const GROUP_SELECTOR = 'DIV[type="group"]'
 const INPUT_SELECTOR = 'INPUT, SELECT'
 
-function forEachInput(target, callback) {
+function forEachInput(
+  target: HTMLElement,
+  callback: (e: HTMLInputElement) => void
+) {
   target.querySelectorAll(INPUT_SELECTOR).forEach(callback)
 }
 
-function forEachGroup(target, callback) {
+function forEachGroup(target: HTMLElement, callback: (e: HTMLElement) => void) {
   target.querySelectorAll(GROUP_SELECTOR).forEach(callback)
 }
 
 const numeric = { number: 1, float: 1, int: 1, range: 1, slider: 1 }
 
 function applyRange(inp) {
-  let label = inp.previousElementSibling
+  const label = inp.previousElementSibling
   if (label && label.tagName == 'LABEL') {
-    let info = label.querySelector('I')
+    const info = label.querySelector('I')
     if (info) info.innerHTML = inp.value
   }
 }
@@ -26,10 +31,8 @@ export function genParams(
   callback = undefined,
   buttons = ['reset', 'save', 'load', 'edit', 'link']
 ) {
-  let funcs = {
-    group: function ({ name, type, caption, captions, value, min, max }) {
-      return ''
-    },
+  const funcs = {
+    group: () => '',
     choice: inputChoice,
     radio: inputRadio,
     float: inputNumber,
@@ -43,17 +46,8 @@ export function genParams(
     password: inputNumber,
     color: inputNumber,
     // TODO radio similar options as choice
-    checkbox: function ({
-      name,
-      type,
-      caption,
-      captions,
-      value,
-      checked,
-      min,
-      max,
-    }) {
-      let checkedStr = value === 'checked' || value === true ? 'checked' : ''
+    checkbox: function ({ name, value }) {
+      const checkedStr = value === 'checked' || value === true ? 'checked' : ''
       return `<input type="checkbox" name="${name}" ${checkedStr}/>`
     },
     number: inputNumber,
@@ -65,7 +59,8 @@ export function genParams(
     let ret = '<div type="radio">'
 
     for (let i = 0; i < values.length; i++) {
-      let checked = value == values[i] || value == captions[i] ? 'checked' : ''
+      const checked =
+        value == values[i] || value == captions[i] ? 'checked' : ''
       ret += `<label><input type="radio" _type="${type}" name="${name}" numeric="${
         typeof values[0] == 'number' ? '1' : '0'
       }" value="${values[i]}" ${checked}/>${captions[i]}</label>`
@@ -81,7 +76,8 @@ export function genParams(
     }">`
 
     for (let i = 0; i < values.length; i++) {
-      let checked = value == values[i] || value == captions[i] ? 'selected' : ''
+      const checked =
+        value == values[i] || value == captions[i] ? 'selected' : ''
       ret += `<option value="${values[i]}" ${checked}>${captions[i]}</option>`
     }
     return ret + '</select>'
@@ -93,7 +89,7 @@ export function genParams(
     let inputType = type
     if (type == 'int' || type == 'float') inputType = 'number'
     if (type == 'range' || type == 'slider') inputType = 'range'
-    var str = `<input _type="${type}" type="${inputType}" name="${name}"`
+    let str = `<input _type="${type}" type="${inputType}" name="${name}"`
     if (step !== undefined) str += ` step="${step || ''}"`
     if (min !== undefined) str += ` min="${min || ''}"`
     if (max !== undefined) str += ` max="${max || ''}"`
@@ -105,10 +101,10 @@ export function genParams(
 
   let html = ''
   let closed = false
-  let missing = {}
+  const missing = {}
 
   defs.forEach((def) => {
-    let { type, caption, name } = def
+    const { type, caption, name } = def
 
     if (storedParams[name] !== undefined) {
       def.value = storedParams[name]
@@ -140,7 +136,7 @@ export function genParams(
     html += '</div>\n'
   })
 
-  let missingKeys = Object.keys(missing)
+  const missingKeys = Object.keys(missing)
   if (missingKeys.length) console.log('missing param impl', missingKeys)
 
   function _callback(source = 'change') {
@@ -148,9 +144,9 @@ export function genParams(
   }
 
   html += '<div class="jscad-param-buttons"><div>'
-  buttons.forEach((b) => {
-    if (typeof b === 'string') b = { id: b, name: b }
-    let { id, name } = b
+  buttons.forEach((button) => {
+    const { id, name } =
+      typeof button === 'string' ? { id: button, name: button } : button
     html += `<button action="${id}"><b>${name}</b></button>`
   })
   html += '</div></div>'
@@ -158,7 +154,7 @@ export function genParams(
   target.innerHTML = html
 
   forEachInput(target, (inp) => {
-    let type = inp.type
+    const type = inp.type
     inp.addEventListener('input', function (evt) {
       applyRange(inp)
       if (inp.getAttribute('live') === '1') _callback('live')
@@ -168,10 +164,9 @@ export function genParams(
   })
 
   function groupClick(evt) {
-    var groupDiv = evt.target
+    let groupDiv = evt.target
     if (groupDiv.tagName === 'LABEL') groupDiv = groupDiv.parentNode
-    var closed = groupDiv.getAttribute('closed') == '1' ? '0' : '1'
-    var name = evt.target.getAttribute('name')
+    const closed = groupDiv.getAttribute('closed') == '1' ? '0' : '1'
     do {
       groupDiv.setAttribute('closed', closed)
       groupDiv = groupDiv.nextElementSibling
@@ -184,20 +179,20 @@ export function genParams(
   })
 }
 
-export function getParams(target) {
-  let params = {}
+export function getParams(target: HTMLElement): RawCustomizerParams {
+  const params = {}
   if (!target) return params
 
   forEachGroup(target, (elem) => {
-    let name = elem.getAttribute('name')
+    const name = elem.getAttribute('name')
     params[name] = elem.getAttribute('closed') == '1' ? 'closed' : ''
   })
 
   forEachInput(target, (elem) => {
-    let name = elem.name
-    let value = elem.value
+    const name = elem.name
+    let value: RawCustomizerParams[string] = elem.value
     if (elem.tagName == 'INPUT') {
-      if (elem.type == 'checkbox') value = elem.checked
+      if (elem.type == 'checkbox') value = elem?.checked
       if (elem.type == 'range' || elem.type == 'color') applyRange(elem)
     }
 
@@ -205,7 +200,7 @@ export function getParams(target) {
       numeric[elem.getAttribute('type')] ||
       elem.getAttribute('numeric') == '1'
     )
-      value = parseFloat(value || 0)
+      value = parseFloat(String(value || 0))
 
     if (elem.type == 'radio' && !elem.checked) return // skip if not checked radio button
 

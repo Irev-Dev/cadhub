@@ -3,7 +3,7 @@ import type { CadPackage } from 'src/helpers/hooks/useIdeState'
 
 import openscad from './openScadController'
 import cadquery from './cadQueryController'
-import jscad from './jsCadController'
+import jscad from './jsCad/jsCadController'
 
 export const cadPackages: { [key in CadPackage]: DefaultKernelExport } = {
   openscad,

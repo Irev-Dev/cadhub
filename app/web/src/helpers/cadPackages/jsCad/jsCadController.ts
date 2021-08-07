@@ -3,7 +3,7 @@ import {
   DefaultKernelExport,
   createUnhealthyResponse,
   createHealthyResponse,
-} from './common'
+} from '../common'
 import {
   MeshPhongMaterial,
   LineBasicMaterial,

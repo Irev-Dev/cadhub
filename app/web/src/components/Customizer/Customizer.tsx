@@ -1,6 +1,6 @@
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { genParams, getParams } from 'src/helpers/cadPackages/jscadParams'
+import { genParams, getParams } from 'src/helpers/cadPackages/jsCad/jscadParams'
 
 const Customizer = () => {
   const [open, setOpen] = React.useState(true)
