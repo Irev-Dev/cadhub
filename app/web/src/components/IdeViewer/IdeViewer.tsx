@@ -211,6 +211,7 @@ const IdeViewer = ({ Loading }) => {
                     code: state.code,
                     viewerSize: state.viewerSize,
                     camera,
+                    parameters: state.currentParameters,
                   })
                 }
               })

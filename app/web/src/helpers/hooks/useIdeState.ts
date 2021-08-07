@@ -183,7 +183,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             data: payload.objectData?.data,
           },
           customizerParams: payload.customizerParams || state.customizerParams,
-          currentParameters: payload.currentParameters,
+          currentParameters: Object.keys(payload.currentParameters).length ? payload.currentParameters : state.currentParameters,
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
@@ -198,6 +198,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
           isLoading: false,
         }
       case 'setCurrentCustomizerParams':
+        if (!Object.keys(payload).length) return state
         return {
           ...state,
           currentParameters: payload,

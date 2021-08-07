@@ -12,7 +12,7 @@ export const stlToGeometry = (url) =>
 
 export interface RenderArgs {
   code: State['code']
-  parameters: any
+  parameters?: RawCustomizerParams
   settings: {
     camera: State['camera']
     viewerSize: State['viewerSize']

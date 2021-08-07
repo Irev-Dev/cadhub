@@ -129,7 +129,7 @@ export const render: DefaultKernelExport['render'] = async ({
     scriptWorker.postMessage({ action: 'init', baseURI, alias: [] })
   }
 
-  if (parameters) {
+  if (parameters && currentParameters && JSON.stringify(parameters) !== JSON.stringify(currentParameters)) {
     // we are not evaluating code, but reacting to parameters change
     scriptWorker.postMessage({
       action: 'updateParams',
