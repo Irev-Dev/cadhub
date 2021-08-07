@@ -94,7 +94,7 @@ export function genParams(
     if (min !== undefined) str += ` min="${min || ''}"`
     if (max !== undefined) str += ` max="${max || ''}"`
     if (value !== undefined) str += ` value="${value}"`
-    if (live !== undefined) str += ` live="${live ? 1 : 0}"`
+    str += ` live="${live ? 1 : 0}"`
     if (placeholder !== undefined) str += ` placeholder="${placeholder}"`
     return str + '/>'
   }
@@ -160,7 +160,7 @@ export function genParams(
       if (inp.getAttribute('live') === '1') _callback('live')
     })
     if (inp.getAttribute('live') !== '1')
-      inp.addEventListener('change', _callback)
+      inp.addEventListener('change', ()=>_callback('change'))
   })
 
   function groupClick(evt) {
