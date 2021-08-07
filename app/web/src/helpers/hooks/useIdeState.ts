@@ -1,6 +1,7 @@
 import { useReducer } from 'react'
 import { cadPackages } from 'src/helpers/cadPackages'
 import type { RootState } from '@react-three/fiber'
+import type { RawCustomizerParams } from 'src/helpers/cadPackages/common'
 
 function withThunk(dispatch, getState) {
   return (actionOrThunk) =>
@@ -114,9 +115,9 @@ export interface State {
     type: 'INIT' | 'stl' | 'png' | 'geometry'
     data: any
     quality: 'low' | 'high'
-    customizerParams?: any
-    lastParameters?: any
   }
+  customizerParams?: any[]
+  currentParameters?: RawCustomizerParams
   layout: any
   camera: {
     dist?: number
@@ -180,10 +181,9 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             ...state.objectData,
             type: payload.objectData?.type,
             data: payload.objectData?.data,
-            customizerParams:
-              payload.customizerParams || state.objectData.customizerParams,
-            lastParameters: payload.lastParameters,
           },
+          customizerParams: payload.customizerParams || state.customizerParams,
+          currentParameters: payload.currentParameters,
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
             : payload.message,
@@ -196,6 +196,11 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             ? [...state.consoleMessages, payload.message]
             : payload.message,
           isLoading: false,
+        }
+      case 'setCurrentCustomizerParams':
+        return {
+          ...state,
+          currentParameters: payload,
         }
       case 'setLayout':
         return {
@@ -282,7 +287,13 @@ export const requestRender = ({
       },
     })
       .then(
-        ({ objectData, message, status, customizerParams, lastParameters }) => {
+        ({
+          objectData,
+          message,
+          status,
+          customizerParams,
+          currentParameters,
+        }) => {
           if (status === 'error') {
             dispatch({
               type: 'errorRender',
@@ -296,7 +307,7 @@ export const requestRender = ({
                 message,
                 lastRunCode: code,
                 customizerParams,
-                lastParameters,
+                currentParameters,
               },
             })
             return objectData

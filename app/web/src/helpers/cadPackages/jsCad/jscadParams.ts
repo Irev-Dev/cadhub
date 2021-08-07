@@ -28,7 +28,7 @@ export function genParams(
   defs,
   target,
   storedParams = {},
-  callback = undefined,
+  callback: (values: RawCustomizerParams, source: any) => void = undefined,
   buttons = ['reset', 'save', 'load', 'edit', 'link']
 ) {
   const funcs = {
@@ -140,7 +140,7 @@ export function genParams(
   if (missingKeys.length) console.log('missing param impl', missingKeys)
 
   function _callback(source = 'change') {
-    if (callback) callback(getParams(target), source)
+    if (callback && source !== 'group') callback(getParams(target), source)
   }
 
   html += '<div class="jscad-param-buttons"><div>'
@@ -179,7 +179,7 @@ export function genParams(
   })
 }
 
-export function getParams(target: HTMLElement): RawCustomizerParams {
+function getParams(target: HTMLElement): RawCustomizerParams {
   const params = {}
   if (!target) return params
 

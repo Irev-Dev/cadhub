@@ -31,8 +31,8 @@ export interface HealthyResponse {
     data: any
     type: 'stl' | 'png' | 'geometry'
   }
-  customizerParams?: any
-  lastParameters?: any
+  customizerParams?: any[]
+  currentParameters?: RawCustomizerParams
 }
 
 export interface RawCustomizerParams {
@@ -45,14 +45,14 @@ export function createHealthyResponse({
   consoleMessage,
   type,
   customizerParams,
-  lastParameters,
+  currentParameters,
 }: {
   date: Date
   data: any
   consoleMessage: string
   type: HealthyResponse['objectData']['type']
   customizerParams?: any
-  lastParameters?: any
+  currentParameters?: any
 }): HealthyResponse {
   return {
     status: 'healthy',
@@ -66,7 +66,7 @@ export function createHealthyResponse({
       time: date,
     },
     customizerParams,
-    lastParameters,
+    currentParameters,
   }
 }
 

@@ -1,35 +1,33 @@
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { genParams, getParams } from 'src/helpers/cadPackages/jsCad/jscadParams'
+import { genParams } from 'src/helpers/cadPackages/jsCad/jscadParams'
 
 const Customizer = () => {
   const [open, setOpen] = React.useState(true)
   const [checked, setChecked] = React.useState(false)
   const ref = React.useRef()
   const jsCadCustomizerElement = ref.current
-  const { state } = useIdeContext()
-  const customizerParams = state?.objectData?.customizerParams
-  const lastParameters = state?.objectData?.lastParameters
+  const { state, thunkDispatch } = useIdeContext()
+  const customizerParams = state?.customizerParams
+  const currentParameters = state?.currentParameters
   const handleRender = useRender()
-  const handleRender2 = () => handleRender(getParams(ref.current))
 
   React.useEffect(() => {
     if (jsCadCustomizerElement && customizerParams) {
       genParams(
         customizerParams,
         jsCadCustomizerElement,
-        lastParameters || {},
+        currentParameters || {},
         (values, source) => {
-          if (source === 'group' || !checked) {
-            // save to local storage but do not render
-            return
+          thunkDispatch({ type: 'setCurrentCustomizerParams', payload: values })
+          if (checked) {
+            handleRender()
           }
-          handleRender(values)
         },
         []
       )
     }
-  }, [jsCadCustomizerElement, customizerParams, lastParameters, checked])
+  }, [jsCadCustomizerElement, customizerParams, currentParameters, checked])
   return (
     <div
       className={`absolute inset-x-0 bottom-0 bg-ch-gray-600 bg-opacity-60 text-ch-gray-300 text-lg font-fira-sans ${
@@ -48,15 +46,15 @@ const Customizer = () => {
             className="mr-6"
             type="checkbox"
             checked={checked}
-            onChange={({ target }) => {
+            onChange={() => {
               const newValue = !checked
-              if (newValue) handleRender2()
+              if (newValue) handleRender()
               setChecked(newValue)
             }}
           />
           <button
             className="px-4 py-1 rounded bg-ch-gray-300 text-ch-gray-800"
-            onClick={handleRender2}
+            onClick={handleRender}
           >
             Update
           </button>

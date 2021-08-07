@@ -70,7 +70,7 @@ function CSG2Object3D(obj) {
 }
 
 let scriptWorker
-let lastParameters = {}
+let currentParameters = {}
 const scriptUrl = '/demo-worker.js'
 let resolveReference = null
 let response = null
@@ -117,7 +117,7 @@ export const render: DefaultKernelExport['render'] = async ({
             consoleMessage: data.scriptStats,
             date: new Date(),
             customizerParams: parameterDefinitions,
-            lastParameters,
+            currentParameters,
           })
         }
         callResolve()
@@ -148,7 +148,7 @@ export const render: DefaultKernelExport['render'] = async ({
   // we need this to keep the form filled with same data when new parameter definitions arrive
   // each render of the script could provide new paramaters. In case some of them are still rpesent
   // it is expected for them to stay the same and not just reset
-  lastParameters = parameters || {}
+  currentParameters = parameters || {}
 
   const waitResult = new Promise((resolve) => {
     resolveReference = resolve

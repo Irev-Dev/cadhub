@@ -1,10 +1,9 @@
 import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import type { RawCustomizerParams } from 'src/helpers/cadPackages/common'
 
 export const useRender = () => {
   const { state, thunkDispatch } = useIdeContext()
-  return (parameters?: RawCustomizerParams) => {
+  return () => {
     thunkDispatch((dispatch, getState) => {
       const state = getState()
       dispatch({ type: 'setLoading' })
@@ -14,7 +13,7 @@ export const useRender = () => {
         code: state.code,
         viewerSize: state.viewerSize,
         camera: state.camera,
-        parameters,
+        parameters: state.currentParameters,
       })
     })
     localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
