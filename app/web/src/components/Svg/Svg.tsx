@@ -27,6 +27,7 @@ type SvgNames =
   | 'refresh'
   | 'save'
   | 'share'
+  | 'switch-horizontal'
   | 'terminal'
   | 'trash'
   | 'x'
@@ -500,6 +501,21 @@ const Svg = ({
         <path
           d="M14.4224 0.355957L21.9999 7.44407L14.4224 14.4997V10.1184C-0.365345 10.1184 0.407131 17.6436 0.407131 17.6436C0.407131 17.6436 -3.73829 4.71837 14.4224 4.71837L14.4224 0.355957Z"
           fill="currentColor"
+        />
+      </svg>
+    ),
+    'switch-horizontal': (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={strokeWidth}
+          d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
         />
       </svg>
     ),
