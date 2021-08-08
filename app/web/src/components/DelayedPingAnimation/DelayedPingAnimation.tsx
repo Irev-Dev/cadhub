@@ -1,7 +1,9 @@
-
-
 let timeoutId = 0
-const DelayedPingAnimation = ({isLoading: isLoading}: {isLoading: boolean}) => {
+const DelayedPingAnimation = ({
+  isLoading: isLoading,
+}: {
+  isLoading: boolean
+}) => {
   const [showLoading, setShowLoading] = React.useState(false)
   React.useEffect(() => {
     if (!isLoading && showLoading) {
@@ -18,11 +20,12 @@ const DelayedPingAnimation = ({isLoading: isLoading}: {isLoading: boolean}) => {
     }
   }, [isLoading])
 
-  if (showLoading && isLoading) return (
-    <div className="inset-0 absolute flex items-center justify-center">
-      <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
-    </div>
-  )
+  if (showLoading && isLoading)
+    return (
+      <div className="inset-0 absolute flex items-center justify-center">
+        <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
+      </div>
+    )
   return null
 }
 

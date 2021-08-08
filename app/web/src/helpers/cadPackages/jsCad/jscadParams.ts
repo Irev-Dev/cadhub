@@ -160,7 +160,7 @@ export function genParams(
       if (inp.getAttribute('live') === '1') _callback('live')
     })
     if (inp.getAttribute('live') !== '1')
-      inp.addEventListener('change', ()=>_callback('change'))
+      inp.addEventListener('change', () => _callback('change'))
   })
 
   function groupClick(evt) {

@@ -175,7 +175,11 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
       case 'updateCode':
         return { ...state, code: payload }
       case 'healthyRender':
-        const currentParameters = (payload.currentParameters && Object.keys(payload.currentParameters).length) ? payload.currentParameters : state.currentParameters
+        const currentParameters =
+          payload.currentParameters &&
+          Object.keys(payload.currentParameters).length
+            ? payload.currentParameters
+            : state.currentParameters
         return {
           ...state,
           objectData: {

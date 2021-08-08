@@ -7,7 +7,7 @@ import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import Customizer from 'src/components/Customizer/Customizer'
- import DelayedPingAnimation from 'src/components/DelayedPingAnimation/DelayedPingAnimation'
+import DelayedPingAnimation from 'src/components/DelayedPingAnimation/DelayedPingAnimation'
 
 const loader = new TextureLoader()
 const colorMap = loader.load(texture)
