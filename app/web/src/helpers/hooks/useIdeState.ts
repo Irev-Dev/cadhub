@@ -51,27 +51,27 @@ const { intersect, subtract } = booleans
 const { colorize } = colors
 const { cube, cuboid, line, sphere, star } = primitives
 
-const main = ({length=340}) => {
+const main = ({length=200}) => {
   const logo = [
     colorize([1.0, 0.4, 1.0], subtract(
-      cube({ size: 300 }),
-      sphere({ radius: 200 })
+      cube({ size: 75 }),
+      sphere({ radius: 50 })
     )),
     colorize([1.0, 1.0, 0], intersect(
-      sphere({ radius: 130 }),
-      cube({ size: 210 })
+      sphere({ radius: 32 }),
+      cube({ size: 50 })
     ))
   ]
 
-  const transpCube = colorize([1, 0, 0, 0.75], cuboid({ size: [100, 100, length] }))
-  const star2D = star({ vertices: 8, innerRadius: 150, outerRadius: 200 })
-  const line2D = colorize([1.0, 0, 0], line([[220, 220], [-220, 220], [-220, -220], [220, -220], [220, 220]]))
+  const transpCube = colorize([1, 0, 0, 0.75], cuboid({ size: [30, 30, length] }))
+  const star2D = star({ vertices: 8, innerRadius: 38, outerRadius: 60 })
+  const line2D = colorize([1.0, 0, 0], line([[70, 70], [-70, 70], [-70, -70], [70, -70], [70, 70]]))
 
   return [transpCube, star2D, line2D, ...logo]
 }
 const getParameterDefinitions = ()=>{
   return [
-    {type:'slider', name:'length', initial:340, caption:'Length', min:210, max:1500},
+    {type:'slider', name:'length', initial:200, caption:'Length', min:100, max:500},
     { name: 'group1', type: 'group', caption: 'Group 1: Text Entry' },
     { name: 'text', type: 'text', initial: '', size: 20, maxLength: 20, caption: 'Plain Text:', placeholder: '20 characters' },
     { name: 'int', type: 'int', initial: 20, min: 1, max: 100, step: 1, caption: 'Integer:' },
