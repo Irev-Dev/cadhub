@@ -16,6 +16,7 @@
     "@headlessui/react": "^1.0.0",
     "@material-ui/core": "^4.11.0",
     "@monaco-editor/react": "^4.0.11",
+    "@react-three/drei": "^7.3.1",
     "@react-three/fiber": "^7.0.5",
     "@redwoodjs/auth": "^0.34.1",
     "@redwoodjs/forms": "^0.34.1",

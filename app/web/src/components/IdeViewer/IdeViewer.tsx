@@ -1,6 +1,7 @@
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useRef, useState, useEffect, useLayoutEffect } from 'react'
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
+import { PerspectiveCamera } from '@react-three/drei'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
@@ -42,6 +43,7 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
   const controls = useRef<any>()
   const threeInstance = useThree()
   const { camera, gl } = threeInstance
+  camera.up.set(0, 0, 1)
   useEffect(() => {
     onInit(threeInstance)
     // init camera position
@@ -117,7 +119,7 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
         oldCurrent.removeEventListener('start', dragStart)
       }
     }
-  }, [])
+  }, [camera, controls])
 
   useFrame(() => controls.current?.update())
   return (
@@ -218,6 +220,7 @@ const IdeViewer = ({ Loading }) => {
               })
             }}
           />
+          <PerspectiveCamera makeDefault />
           <ambientLight intensity={0.3} />
           <pointLight position={[15, 5, 10]} intensity={0.1} />
           <pointLight position={[-1000, -1000, -1000]} intensity={1} />
