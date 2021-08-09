@@ -12,7 +12,6 @@ const DelayedPingAnimation = ({
     } else if (isLoading && !showLoading) {
       timeoutId = setTimeout(() => {
         setShowLoading(isLoading)
-        console.log('setloading')
       }, 300) as unknown as number
     } else if (!isLoading) {
       setShowLoading(isLoading)

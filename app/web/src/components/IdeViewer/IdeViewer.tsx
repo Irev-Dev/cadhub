@@ -1,7 +1,7 @@
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useRef, useState, useEffect, useLayoutEffect } from 'react'
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
-import { PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera, useEdgeSplit } from '@react-three/drei'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
@@ -16,7 +16,7 @@ const colorMap = loader.load(texture)
 extend({ OrbitControls })
 
 function Asset({ geometry: incomingGeo }) {
-  const mesh = useRef()
+  const mesh = useEdgeSplit(12*Math.PI/180, true)
   const ref = useRef<any>({})
   useLayoutEffect(() => {
     if (incomingGeo?.attributes) {
@@ -43,7 +43,6 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
   const controls = useRef<any>()
   const threeInstance = useThree()
   const { camera, gl } = threeInstance
-  camera.up.set(0, 0, 1)
   useEffect(() => {
     onInit(threeInstance)
     // init camera position
@@ -57,14 +56,10 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
     // Order matters with Euler rotations
     // We want it to rotate around the z or vertical axis first then the x axis to match openscad
     // in Three.js Y is the vertical axis (Z for openscad)
-    camera.rotation._order = 'YXZ'
-    const getRotations = () => {
+    camera.rotation._order = 'ZYX'
+    const getRotations = (): number[] => {
       const { x, y, z } = camera?.rotation || {}
-      const rad2Deg = 180 / Math.PI
-      const scadX = (x + Math.PI / 2) * rad2Deg
-      const scadZ = y * rad2Deg
-      const scadY = z * rad2Deg
-      return [scadX, scadY, scadZ]
+      return [x, y, z].map((rot) => (rot * 180) / Math.PI)
     }
     const getPositions = () => {
       // Difficult to make this clean since I'm not sure why it works
@@ -80,14 +75,9 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
         camera.position,
         cameraViewVector
       )
+      const { x, y, z } = head2Head.add(camera.position)
       return {
-        // I can't seem to get normal vector addition to work
-        // but this works
-        position: {
-          x: camera.position.x + head2Head.x,
-          y: -camera.position.z - head2Head.z,
-          z: camera.position.y + head2Head.y,
-        },
+        position: { x, y, z },
         dist: camera.position.length(),
       }
     }
@@ -220,20 +210,22 @@ const IdeViewer = ({ Loading }) => {
               })
             }}
           />
-          <PerspectiveCamera makeDefault />
+          <PerspectiveCamera makeDefault up={[0, 0, 1]} />
           <ambientLight intensity={0.3} />
           <pointLight position={[15, 5, 10]} intensity={0.1} />
           <pointLight position={[-1000, -1000, -1000]} intensity={1} />
           <pointLight position={[-1000, 0, 1000]} intensity={1} />
+          <gridHelper
+            args={[200, 20, 0xff5555, 0x555555]}
+            material-opacity={0.2}
+            material-transparent
+            rotation-x={Math.PI / 2}
+          />
           {state.objectData?.type === 'png' && (
             <>
               <Sphere position={[0, 0, 0]} color={pink400} />
               <Box position={[0, 50, 0]} size={[1, 100, 1]} color={indigo900} />
-              <Box
-                position={[0, 0, -50]}
-                size={[1, 1, 100]}
-                color={indigo300}
-              />
+              <Box position={[0, 0, 50]} size={[1, 1, 100]} color={indigo300} />
               <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
             </>
           )}
