@@ -16,13 +16,7 @@ const colorMap = loader.load(texture)
 extend({ OrbitControls })
 
 function Asset({ geometry: incomingGeo }) {
-  const mesh = useEdgeSplit(12*Math.PI/180, true)
-  const ref = useRef<any>({})
-  useLayoutEffect(() => {
-    if (incomingGeo?.attributes) {
-      ref.current.attributes = incomingGeo.attributes
-    }
-  }, [incomingGeo])
+  const mesh = useEdgeSplit((12 * Math.PI) / 180, true)
   if (!incomingGeo) return null
 
   if (incomingGeo.length)
@@ -31,8 +25,7 @@ function Asset({ geometry: incomingGeo }) {
     ))
 
   return (
-    <mesh ref={mesh} scale={[1, 1, 1]}>
-      <bufferGeometry attach="geometry" ref={ref} />
+    <mesh ref={mesh} scale={[1, 1, 1]} geometry={incomingGeo}>
       <meshStandardMaterial map={colorMap} color="#F472B6" />
     </mesh>
   )
@@ -229,11 +222,9 @@ const IdeViewer = ({ Loading }) => {
               <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
             </>
           )}
-          <Asset
-            geometry={
-              state.objectData?.type === 'geometry' && state.objectData?.data
-            }
-          />
+          {state.objectData?.type === 'geometry' && state.objectData?.data && (
+            <Asset geometry={state.objectData?.data} />
+          )}
         </Canvas>
       </div>
       <DelayedPingAnimation isLoading={state.isLoading} />
