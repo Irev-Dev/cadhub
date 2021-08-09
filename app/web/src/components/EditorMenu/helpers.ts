@@ -75,7 +75,9 @@ export const makeStlDownloadHandler =
             quality: 'high',
             specialCadProcess,
             parameters: state.currentParameters,
-          }).then((result) => result && saveFile(result.data))
+          }).then(
+            (result) => result && saveFile(makeStlBlobFromGeo(result.data))
+          )
         })
       }
     }

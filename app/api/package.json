@@ -7,11 +7,9 @@
     "@sentry/node": "^6.5.1",
     "cloudinary": "^1.23.0",
     "human-id": "^2.0.1",
-    "nodemailer": "^6.6.2",
-    "puppeteer-core": "^10.1.0"
+    "nodemailer": "^6.6.2"
   },
   "devDependencies": {
-    "@netlify/functions": "^0.7.2",
     "@types/nodemailer": "^6.4.2"
   }
 }
