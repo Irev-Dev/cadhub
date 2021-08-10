@@ -1,8 +1,7 @@
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { useRef, useState, useEffect, useLayoutEffect } from 'react'
-import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
-import { PerspectiveCamera, useEdgeSplit } from '@react-three/drei'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { useRef, useState, useEffect } from 'react'
+import { Canvas, useThree } from '@react-three/fiber'
+import { PerspectiveCamera, useEdgeSplit, GizmoHelper, GizmoViewport, OrbitControls } from '@react-three/drei'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
@@ -12,8 +11,6 @@ import DelayedPingAnimation from 'src/components/DelayedPingAnimation/DelayedPin
 
 const loader = new TextureLoader()
 const colorMap = loader.load(texture)
-
-extend({ OrbitControls })
 
 function Asset({ geometry: incomingGeo }) {
   const mesh = useEdgeSplit((12 * Math.PI) / 180, true)
@@ -46,9 +43,6 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
     camera.fov = 22.5 // matches default openscad fov
     camera.updateProjectionMatrix()
 
-    // Order matters with Euler rotations
-    // We want it to rotate around the z or vertical axis first then the x axis to match openscad
-    // in Three.js Y is the vertical axis (Z for openscad)
     camera.rotation._order = 'ZYX'
     const getRotations = (): number[] => {
       const { x, y, z } = camera?.rotation || {}
@@ -104,12 +98,11 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
     }
   }, [camera, controls])
 
-  useFrame(() => controls.current?.update())
   return (
-    <orbitControls
+    <OrbitControls
+      makeDefault
       ref={controls}
       args={[camera, gl.domElement]}
-      rotateSpeed={0.5}
     />
   )
 }
@@ -214,6 +207,19 @@ const IdeViewer = ({ Loading }) => {
             material-transparent
             rotation-x={Math.PI / 2}
           />
+          <GizmoHelper
+            alignment={'top-left'}
+            margin={[80, 80]}
+          >
+          <GizmoViewport
+            axisColors={[
+              'red',
+              'green',
+              'blue',
+            ]}
+            labelColor='black'
+          />
+          </GizmoHelper>
           {state.objectData?.type === 'png' && (
             <>
               <Sphere position={[0, 0, 0]} color={pink400} />
