@@ -4,11 +4,11 @@ import { useRef, useState, useEffect } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
   PerspectiveCamera,
-  useEdgeSplit,
   GizmoHelper,
   GizmoViewport,
   OrbitControls,
 } from '@react-three/drei'
+import { useEdgeSplit } from 'src/helpers/hooks/useEdegeSplit'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
@@ -19,11 +19,13 @@ import DelayedPingAnimation from 'src/components/DelayedPingAnimation/DelayedPin
 const loader = new TextureLoader()
 const colorMap = loader.load(texture)
 
+const thresholdAngle = 12
+
 function Asset({ geometry: incomingGeo }) {
-  const mesh = useEdgeSplit((12 * Math.PI) / 180, true)
+  const mesh = useEdgeSplit((thresholdAngle * Math.PI) / 180, true, incomingGeo)
   const edges = React.useMemo(
     () =>
-      incomingGeo.length ? null : new THREE.EdgesGeometry(incomingGeo, 15),
+      incomingGeo.length ? null : new THREE.EdgesGeometry(incomingGeo, thresholdAngle),
     [incomingGeo]
   )
   if (!incomingGeo) return null
