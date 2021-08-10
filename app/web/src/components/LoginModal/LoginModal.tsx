@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
@@ -10,6 +11,12 @@ import { toast } from '@redwoodjs/web/toast'
 import { Link, routes } from '@redwoodjs/router'
 import { subscribe } from 'src/helpers/subscribe'
 
+const useStyles = makeStyles({
+  root: {
+    transform: `translate3d(0,0,50px)`,
+  },
+})
+
 const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
   const { logIn, signUp } = useAuth()
 
@@ -20,6 +27,7 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
   }
   const [checkBox, setCheckBox] = useState(true)
   const [error, setError] = useState('')
+  const classes = useStyles()
 
   const onSubmitSignUp = async ({ email, password, name, userName }) => {
     try {
@@ -47,7 +55,7 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
     }
   }
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} className={classes.root}>
       <div className="bg-gray-100 max-w-2xl rounded-lg shadow-lg">
         <Tabs
           value={tab}
