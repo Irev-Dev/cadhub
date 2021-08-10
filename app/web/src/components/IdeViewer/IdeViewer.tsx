@@ -1,7 +1,14 @@
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import * as THREE from 'three'
 import { useRef, useState, useEffect } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
-import { PerspectiveCamera, useEdgeSplit, GizmoHelper, GizmoViewport, OrbitControls } from '@react-three/drei'
+import {
+  PerspectiveCamera,
+  useEdgeSplit,
+  GizmoHelper,
+  GizmoViewport,
+  OrbitControls,
+} from '@react-three/drei'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
@@ -14,6 +21,11 @@ const colorMap = loader.load(texture)
 
 function Asset({ geometry: incomingGeo }) {
   const mesh = useEdgeSplit((12 * Math.PI) / 180, true)
+  const edges = React.useMemo(
+    () =>
+      incomingGeo.length ? null : new THREE.EdgesGeometry(incomingGeo, 15),
+    [incomingGeo]
+  )
   if (!incomingGeo) return null
 
   if (incomingGeo.length)
@@ -22,9 +34,14 @@ function Asset({ geometry: incomingGeo }) {
     ))
 
   return (
-    <mesh ref={mesh} scale={[1, 1, 1]} geometry={incomingGeo}>
-      <meshStandardMaterial map={colorMap} color="#F472B6" />
-    </mesh>
+    <group dispose={null}>
+      <mesh ref={mesh} scale={[1, 1, 1]} geometry={incomingGeo}>
+        <meshStandardMaterial map={colorMap} color="#F472B6" />
+      </mesh>
+      <lineSegments geometry={edges} renderOrder={100} opac>
+        <lineBasicMaterial color="#555588" opacity={0.5} transparent />
+      </lineSegments>
+    </group>
   )
 }
 
@@ -99,11 +116,7 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
   }, [camera, controls])
 
   return (
-    <OrbitControls
-      makeDefault
-      ref={controls}
-      args={[camera, gl.domElement]}
-    />
+    <OrbitControls makeDefault ref={controls} args={[camera, gl.domElement]} />
   )
 }
 
@@ -207,18 +220,11 @@ const IdeViewer = ({ Loading }) => {
             material-transparent
             rotation-x={Math.PI / 2}
           />
-          <GizmoHelper
-            alignment={'top-left'}
-            margin={[80, 80]}
-          >
-          <GizmoViewport
-            axisColors={[
-              'red',
-              'green',
-              'blue',
-            ]}
-            labelColor='black'
-          />
+          <GizmoHelper alignment={'top-left'} margin={[80, 80]}>
+            <GizmoViewport
+              axisColors={['red', 'green', 'blue']}
+              labelColor="black"
+            />
           </GizmoHelper>
           {state.objectData?.type === 'png' && (
             <>
