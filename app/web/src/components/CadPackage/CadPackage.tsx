@@ -12,7 +12,7 @@ const CadPackage = ({ cadPackage, className = '' }: CadPackageProps) => {
   return (
     <div
       className={
-        `flex items-center gap-2 cursor-default text-gray-100 ${
+        `grid grid-flow-col-dense items-center gap-2 cursor-default text-gray-100 ${
           isOpenScad && 'bg-yellow-800'
         } ${isCadQuery && 'bg-ch-blue-300'} bg-opacity-30 ` + className
       }

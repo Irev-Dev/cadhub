@@ -35,12 +35,12 @@ const KeyValue = ({
   if (!children || hide) return null
   return (
     <div>
-      <div className="text-ch-blue-600 font-fira-code flex text-sm">
+      <div className="text-ch-blue-600 font-fira-code flex text-sm whitespace-nowrap">
         {keyName}
         {canEdit &&
           (isEditable ? (
             <button
-              className="ml-4 flex p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
+              className="ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
               id="rename-button"
               onClick={onEdit}
             >
@@ -128,146 +128,148 @@ const ProjectProfile = ({
             projectId={project?.id}
           />
         </div>
-        <div className="relative flex-grow">
-          <div className="grid grid-cols-1 md:auto-cols-preview-layout grid-flow-row-dense absolute inset-0">
+        <div className="relative flex-grow h-full">
+          <div className="grid grid-cols-1 md:auto-cols-preview-layout grid-flow-row-dense absolute inset-0 h-full">
             {/* Viewer */}
             <div className="md:col-start-2 w-full min-h-md">
               <ProfileViewer />
             </div>
 
             {/* Side panel */}
-            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 flex flex-col gap-6 overflow-y-auto">
-              <h3 className="text-5xl capitalize text-ch-gray-300">
-                {project?.title.replace(/-/g, ' ')}
-              </h3>
-              <div className="flex items-center text-gray-100">
-                <span className="pr-4">Built with</span>
-                <CadPackage
-                  cadPackage={project?.cadPackage}
-                  className="px-3 py-2 rounded"
-                />
-              </div>
-              <KeyValue
-                keyName="Description"
-                hide={!project?.description && !canEdit}
-                canEdit={canEdit}
-                onEdit={() => {
-                  if (!isEditable) {
-                    setIsEditable(true)
-                  } else {
-                    onEditSaveClick()
-                    setIsEditable(false)
-                  }
-                }}
-                isEditable={isEditable}
-              >
-                <div
-                  id="description-wrap"
-                  name="description"
-                  className={
-                    'markdown-overrides rounded shadow-md bg-white pl-6 pb-2 mt-2' +
-                    (isEditable ? ' min-h-md' : '')
-                  }
-                  onClick={(e) =>
-                    e?.target?.id === 'description-wrap' &&
-                    editorRef?.current?.focusAtEnd()
-                  }
-                >
-                  <Editor
-                    ref={editorRef}
-                    defaultValue={project?.description || ''}
-                    readOnly={!isEditable}
-                    onChange={onDescriptionChange}
+            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 overflow-y-auto">
+              <div className="grid grid-flow-row-dense gap-6">
+                <h3 className="text-5xl capitalize text-ch-gray-300">
+                  {project?.title.replace(/-/g, ' ')}
+                </h3>
+                <div className="flex items-center text-gray-100">
+                  <span className="pr-4">Built with</span>
+                  <CadPackage
+                    cadPackage={project?.cadPackage}
+                    className="px-3 py-2 rounded"
                   />
                 </div>
-              </KeyValue>
-              <div className="flex gap-6">
-                <KeyValue keyName="Created on">
-                  {new Date(project?.createdAt).toDateString()}
+                <KeyValue
+                  keyName="Description"
+                  hide={!project?.description && !canEdit}
+                  canEdit={canEdit}
+                  onEdit={() => {
+                    if (!isEditable) {
+                      setIsEditable(true)
+                    } else {
+                      onEditSaveClick()
+                      setIsEditable(false)
+                    }
+                  }}
+                  isEditable={isEditable}
+                >
+                  <div
+                    id="description-wrap"
+                    name="description"
+                    className={
+                      'markdown-overrides rounded shadow-md bg-white pl-6 pb-2 mt-2' +
+                      (isEditable ? ' min-h-md' : '')
+                    }
+                    onClick={(e) =>
+                      e?.target?.id === 'description-wrap' &&
+                      editorRef?.current?.focusAtEnd()
+                    }
+                  >
+                    <Editor
+                      ref={editorRef}
+                      defaultValue={project?.description || ''}
+                      readOnly={!isEditable}
+                      onChange={onDescriptionChange}
+                    />
+                  </div>
                 </KeyValue>
-                <KeyValue keyName="Updated on">
-                  {new Date(project?.updatedAt).toDateString()}
+                <div className="grid grid-flow-col-dense gap-6">
+                  <KeyValue keyName="Created on">
+                    {new Date(project?.createdAt).toDateString()}
+                  </KeyValue>
+                  <KeyValue keyName="Updated on">
+                    {new Date(project?.updatedAt).toDateString()}
+                  </KeyValue>
+                </div>
+                <KeyValue keyName="Reactions">
+                  <EmojiReaction
+                    emotes={emotes}
+                    userEmotes={userEmotes}
+                    onEmote={onReaction}
+                    onShowProjectReactions={() => setIsReactionsModalOpen(true)}
+                  />
                 </KeyValue>
-              </div>
-              <KeyValue keyName="Reactions">
-                <EmojiReaction
-                  emotes={emotes}
-                  userEmotes={userEmotes}
-                  onEmote={onReaction}
-                  onShowProjectReactions={() => setIsReactionsModalOpen(true)}
-                />
-              </KeyValue>
-              <KeyValue keyName="Comments" hide={!currentUser}>
-                {!isEditable && (
-                  <>
-                    {currentUser && (
-                      <>
-                        <div className="pt-1">
-                          <textarea
-                            className="w-full h-32 rounded shadow-inner outline-none resize-none p-3 bg-ch-gray-600 placeholder-ch-gray-500 font-fira-sans"
-                            placeholder="Have a question about this model, or a helpful tip about how to improve it? Remember, be nice!"
-                            value={comment}
-                            onChange={({ target }) => setComment(target.value)}
-                          />
-                        </div>
-                        <Button
-                          className={getActiveClasses(
-                            'ml-auto hover:bg-opacity-100 bg-ch-pink-800 bg-opacity-30 mt-4 mb-6 text-ch-gray-300',
-                            { 'bg-indigo-200': currentUser }
-                          )}
-                          shouldAnimateHover
-                          disabled={!currentUser}
-                          iconName={''}
-                          onClick={onCommentClear}
-                        >
-                          Comment
-                        </Button>
-                      </>
-                    )}
-                    <ul>
-                      {project?.Comment.map(({ text, user, id, createdAt }) => (
-                        <li key={id} className="mb-5">
-                          <div className="flex justify-between">
-                            <Link
-                              className="flex items-center"
-                              to={routes.user({ userName: user?.userName })}
-                            >
-                              <Gravatar
-                                image={user?.image}
-                                className="w-10 h-10 mr-4"
-                              />
-                              {user?.userName}
-                            </Link>
-                            <div className="font-fira-code text-ch-blue-600 flex items-center">
-                              {new Date(createdAt).toDateString()}
+                <KeyValue keyName="Comments" hide={!currentUser}>
+                  {!isEditable && (
+                    <>
+                      {currentUser && (
+                        <>
+                          <div className="pt-1">
+                            <textarea
+                              className="w-full h-32 rounded shadow-inner outline-none resize-none p-3 bg-ch-gray-600 placeholder-ch-gray-500 font-fira-sans"
+                              placeholder="Have a question about this model, or a helpful tip about how to improve it? Remember, be nice!"
+                              value={comment}
+                              onChange={({ target }) => setComment(target.value)}
+                            />
+                          </div>
+                          <Button
+                            className={getActiveClasses(
+                              'ml-auto hover:bg-opacity-100 bg-ch-pink-800 bg-opacity-30 mt-4 mb-6 text-ch-gray-300',
+                              { 'bg-indigo-200': currentUser }
+                            )}
+                            shouldAnimateHover
+                            disabled={!currentUser}
+                            iconName={''}
+                            onClick={onCommentClear}
+                          >
+                            Comment
+                          </Button>
+                        </>
+                      )}
+                      <ul>
+                        {project?.Comment.map(({ text, user, id, createdAt }) => (
+                          <li key={id} className="mb-5">
+                            <div className="flex justify-between">
+                              <Link
+                                className="flex items-center"
+                                to={routes.user({ userName: user?.userName })}
+                              >
+                                <Gravatar
+                                  image={user?.image}
+                                  className="w-10 h-10 mr-4"
+                                />
+                                {user?.userName}
+                              </Link>
+                              <div className="font-fira-code text-ch-blue-600 flex items-center">
+                                {new Date(createdAt).toDateString()}
+                              </div>
                             </div>
-                          </div>
-                          <div className="ml-5 border-l-2 pl-5 my-3 border-ch-gray-300 text-ch-gray-300">
-                            {text}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                            <div className="ml-5 border-l-2 pl-5 my-3 border-ch-gray-300 text-ch-gray-300">
+                              {text}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </KeyValue>
+                {canEdit && (
+                  <>
+                    <h4 className="mt-10 text-red-600">Danger Zone</h4>
+                    <Button
+                      className={getActiveClasses(
+                        'mr-auto bg-red-500 mb-6 text-ch-gray-300',
+                        { 'bg-indigo-200': currentUser }
+                      )}
+                      shouldAnimateHover
+                      disabled={!currentUser}
+                      iconName={'trash'}
+                      onClick={() => setIsConfirmDialogOpen(true)}
+                    >
+                      Delete Project
+                    </Button>
                   </>
                 )}
-              </KeyValue>
-              {canEdit && (
-                <>
-                  <h4 className="mt-10 text-red-600">Danger Zone</h4>
-                  <Button
-                    className={getActiveClasses(
-                      'mr-auto bg-red-500 mb-6 text-ch-gray-300',
-                      { 'bg-indigo-200': currentUser }
-                    )}
-                    shouldAnimateHover
-                    disabled={!currentUser}
-                    iconName={'trash'}
-                    onClick={() => setIsConfirmDialogOpen(true)}
-                  >
-                    Delete Project
-                  </Button>
-                </>
-              )}
+              </div>
             </div>
           </div>
         </div>

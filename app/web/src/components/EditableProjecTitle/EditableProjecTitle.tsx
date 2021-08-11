@@ -84,7 +84,7 @@ const EditableProjectTitle = ({
           </span>
           <div className="flex items-center h-full">
             <button
-              className="ml-4 flex p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
+              className="ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
               id="rename-button"
               onClick={() =>
                 updateProject({ variables: { id, input: { title: newTitle } } })

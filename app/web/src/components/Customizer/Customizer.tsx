@@ -43,7 +43,7 @@ const Customizer = () => {
       }`}
     >
       <div className="flex justify-between px-6 py-2 items-center">
-        <div className="flex gap-6 items-center">
+        <div className="grid grid-flow-col-dense gap-6 items-center">
           <button className="px-2" onClick={() => setOpen(!open)}>
             <Svg
               name="chevron-down"
