@@ -67,14 +67,15 @@ const unWrappedHandler = async (req, _context) => {
       })
     const userNameSeed = enforceAlphaNumeric(user?.user_metadata?.userName)
     const userName = await generateUniqueString(userNameSeed, isUniqueCallback) // TODO maybe come up with a better default userName?
+    const name = user?.user_metadata?.full_name
     const input = {
       email,
       userName,
-      name: user?.user_metadata?.full_name,
+      name,
       id: user.id,
     }
     await createUserInsecure({ input })
-    await sendMail({
+    const kurtNotification = sendMail({
       to: 'k.hutten@protonmail.ch',
       from: {
         address: 'news@mail.cadhub.xyz',
@@ -83,6 +84,36 @@ const unWrappedHandler = async (req, _context) => {
       subject: `New Cadhub User`,
       text: JSON.stringify(input, null, 2),
     })
+    const welcomeMsg = sendMail({
+      to: email,
+      from: {
+        address: 'news@mail.cadhub.xyz',
+        name: 'CadHub',
+      },
+      subject: `${name} - Some things you should know about CadHub`,
+      text: `Hi, My name's Kurt.
+
+I started CadHub because I wanted a community hub for people who like CodeCAD as much of I do, you should know that the development of CadHub is very much a community effort as well and if you want get involved the discord is the best place to start https://discord.gg/SD7zFRNjGH.
+Long term I hope that CadHub will help push CodeCad as a paradigm forward, as there are clear benefits such as: CI/CD for parts, GIT based workflow and CodeCAD parts are normally much more robust to changes to parametric variables because the author can add logic to accommodate big changes where as GUI-CAD usually relies on blackbox heuristics when and is more brittle. Sorry I'm getting into the weeds, if you want to read more on the paradigm see our blog https://learn.cadhub.xyz/.
+
+One very easy way to help out is to simply add any OpenSCAD or CadQuery models you have to the website, building out the library of parts atm is very important.
+
+Hit me up anytime for questions or concerns.
+Cheers,
+Kurt.
+
+k.hutten@protonmail.ch
+https://twitter.com/IrevDev
+irevdev#1888 - discord
+
+`,
+    })
+
+    try {
+      await Promise.all([kurtNotification, welcomeMsg])
+    } catch (e) {
+      console.log('Problem sending emails', e)
+    }
 
     return {
       statusCode: 200,
