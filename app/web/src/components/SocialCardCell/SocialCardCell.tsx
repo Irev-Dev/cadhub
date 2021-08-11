@@ -100,7 +100,7 @@ export const Success = ({
         className="h-24 grid bg-ch-gray-900 relative"
         style={{ gridTemplateColumns: '7fr 5fr' }}
       >
-        <div className="flex items-center justify-center gap-16">
+        <div className="grid grid-flow-col-dense items-center justify-center gap-16">
           {[
             {
               svg: 'reactions',
@@ -113,7 +113,7 @@ export const Success = ({
               count: 0,
             },
           ].map(({ svg, title, count }, index) => (
-            <div className="flex gap-4" key={index}>
+            <div className="grid grid-flow-col-dense gap-4" key={index}>
               <Svg className="w-10" name={svg} />
               <div className="flex flex-col">
                 <div className="text-3xl">{count}</div>

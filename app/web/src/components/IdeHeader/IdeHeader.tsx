@@ -67,7 +67,7 @@ const IdeHeader = ({
     <div className="h-16 w-full bg-ch-gray-900 flex justify-between items-center text-lg">
       {_projectId ? (
         <div className="h-full text-gray-300 flex items-center">
-          <span className="bg-ch-gray-700 h-full flex items-center gap-2 px-4">
+          <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
             <Gravatar
               image={project?.user?.image || projectOwnerImage}
               className="w-10"
@@ -91,7 +91,7 @@ const IdeHeader = ({
       ) : (
         <div />
       )}
-      <div className="text-gray-200 flex gap-4 mr-4 items-center">
+      <div className="text-gray-200 grid grid-flow-col-dense gap-4 mr-4 items-center">
         {canEdit && !projectTitle && (
           <CaptureButton
             canEdit={canEdit}
