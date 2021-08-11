@@ -76,12 +76,10 @@ const EditableProjectTitle = ({
               value={newTitle}
               onChange={onTitleChange}
               ref={inputRef}
-              onBlur={({ relatedTarget }) => {
-                if (relatedTarget?.id !== 'rename-button') {
-                  setInEditMode(false)
-                  setNewTitle(projectTitle)
-                }
-              }}
+              onBlur={() => setTimeout(() => {
+                setInEditMode(false)
+                setNewTitle(projectTitle)
+              }, 300)}
             />
           </span>
           <div className="flex items-center h-full">
