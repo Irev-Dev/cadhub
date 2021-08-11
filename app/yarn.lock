@@ -7859,9 +7859,9 @@ detect-file@^1.0.0:
   integrity sha1-8NZtA2cqglyxtzvbP+YjEMjlUrc=
 
 detect-gpu@^3.0.0:
-  version "3.1.12"
-  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-3.1.12.tgz#fc343765d9e4c1a5c6543441ae246778c5e87569"
-  integrity sha512-cjSD8wyHykxun3TdEv2HfQZOs5iBmQFf/xoVWTrnz3Ktvjn5vNs6vAoFzsyTrW4KPtOtzCnJHrkc3YKj81Okkw==
+  version "3.1.11"
+  resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-3.1.11.tgz#433f07fb8e505cb5e8975d23820fd4d00ec65f9b"
+  integrity sha512-JcmbzhdVfOPf0wNheytEEVD+tRZ3Lj6XQUBGKNdDjWW5Fb9xitTuBXdXnB1vcLy5DQMeSzYGFJVI66uAk4vnvA==
   dependencies:
     webgl-constants "^1.1.1"
 
@@ -17239,9 +17239,9 @@ text-table@0.2.0, text-table@^0.2.0:
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
 three-mesh-bvh@^0.4.1:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.4.2.tgz#d6ad431a1a1e5bce6f309e27cbb2db0142c9fb27"
-  integrity sha512-dApttQDxi8aFaRqRJt6JQ+UYUQpIwZ4Zu4VhoVv9GugTaT0gFcPeo7ud9dzmq6HsLGX8p2i7VrO/zLu7mQ4VDQ==
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.4.1.tgz#ba0bf1dac7cbd41f2132c8446545c8ad9fbeb892"
+  integrity sha512-1ALlGVjArZpi0SdqZhjwFA3DZHgBF/Uo4LnL8G7PczI7rpOoBK87CaBL073DVrrbIE4OONJvpq/PEzluKoRHbg==
 
 three-stdlib@^2.4.0:
   version "2.4.0"
