@@ -59,9 +59,9 @@ const EmojiReaction = ({
       <div
         className={getActiveClasses('relative overflow-hidden pt-1', className)}
       >
-        <div className="z-10 flex items-center gap-4 h-10">
+        <div className="z-10 flex items-center h-10">
           <div
-            className="h-full w-10"
+            className="h-full w-10 mr-4"
             aria-describedby={popoverId}
             onClick={togglePopover}
           >

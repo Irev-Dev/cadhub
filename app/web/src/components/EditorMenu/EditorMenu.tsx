@@ -29,7 +29,7 @@ const EditorMenu = () => {
         <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
           <Svg name="drag-grid" className="w-4 p-px" />
         </div>
-        <div className="flex gap-6 px-5">
+        <div className="grid grid-flow-col-dense gap-6 px-5">
           <FileDropdown
             handleRender={onRender}
             handleStlDownload={handleStlDownload}

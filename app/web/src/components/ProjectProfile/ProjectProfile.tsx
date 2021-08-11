@@ -35,12 +35,12 @@ const KeyValue = ({
   if (!children || hide) return null
   return (
     <div>
-      <div className="text-ch-blue-600 font-fira-code flex text-sm">
+      <div className="text-ch-blue-600 font-fira-code flex text-sm whitespace-nowrap">
         {keyName}
         {canEdit &&
           (isEditable ? (
             <button
-              className="ml-4 flex p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
+              className="ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
               id="rename-button"
               onClick={onEdit}
             >
@@ -136,7 +136,7 @@ const ProjectProfile = ({
             </div>
 
             {/* Side panel */}
-            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 flex flex-col gap-6 overflow-y-auto">
+            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 grid grid-flow-row-dense gap-6 overflow-y-auto">
               <h3 className="text-5xl capitalize text-ch-gray-300">
                 {project?.title.replace(/-/g, ' ')}
               </h3>
@@ -181,7 +181,7 @@ const ProjectProfile = ({
                   />
                 </div>
               </KeyValue>
-              <div className="flex gap-6">
+              <div className="grid grid-flow-col-dense gap-6">
                 <KeyValue keyName="Created on">
                   {new Date(project?.createdAt).toDateString()}
                 </KeyValue>
