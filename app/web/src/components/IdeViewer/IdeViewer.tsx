@@ -25,7 +25,9 @@ function Asset({ geometry: incomingGeo }) {
   const mesh = useEdgeSplit((thresholdAngle * Math.PI) / 180, true, incomingGeo)
   const edges = React.useMemo(
     () =>
-      incomingGeo.length ? null : new THREE.EdgesGeometry(incomingGeo, thresholdAngle),
+      incomingGeo.length
+        ? null
+        : new THREE.EdgesGeometry(incomingGeo, thresholdAngle),
     [incomingGeo]
   )
   if (!incomingGeo) return null
@@ -211,11 +213,20 @@ const IdeViewer = ({ Loading }) => {
               })
             }}
           />
-          <PerspectiveCamera makeDefault up={[0, 0, 1]} />
+          <PerspectiveCamera makeDefault up={[0, 0, 1]}>
+            <pointLight position={[0, 0, 100]} intensity={1.2} />
+          </PerspectiveCamera>
           <ambientLight intensity={0.3} />
-          <pointLight position={[15, 5, 10]} intensity={0.1} />
-          <pointLight position={[-1000, -1000, -1000]} intensity={1} />
-          <pointLight position={[-1000, 0, 1000]} intensity={1} />
+          <pointLight
+            position={[-1000, -1000, -1000]}
+            color="#5555FF"
+            intensity={0.5}
+          />
+          <pointLight
+            position={[-1000, 0, 1000]}
+            color="#5555FF"
+            intensity={0.5}
+          />
           <gridHelper
             args={[200, 20, 0xff5555, 0x555555]}
             material-opacity={0.2}
