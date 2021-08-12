@@ -208,7 +208,9 @@ const ProjectProfile = ({
                               className="w-full h-32 rounded shadow-inner outline-none resize-none p-3 bg-ch-gray-600 placeholder-ch-gray-500 font-fira-sans"
                               placeholder="Have a question about this model, or a helpful tip about how to improve it? Remember, be nice!"
                               value={comment}
-                              onChange={({ target }) => setComment(target.value)}
+                              onChange={({ target }) =>
+                                setComment(target.value)
+                              }
                             />
                           </div>
                           <Button
@@ -226,28 +228,30 @@ const ProjectProfile = ({
                         </>
                       )}
                       <ul>
-                        {project?.Comment.map(({ text, user, id, createdAt }) => (
-                          <li key={id} className="mb-5">
-                            <div className="flex justify-between">
-                              <Link
-                                className="flex items-center"
-                                to={routes.user({ userName: user?.userName })}
-                              >
-                                <Gravatar
-                                  image={user?.image}
-                                  className="w-10 h-10 mr-4"
-                                />
-                                {user?.userName}
-                              </Link>
-                              <div className="font-fira-code text-ch-blue-600 flex items-center">
-                                {new Date(createdAt).toDateString()}
+                        {project?.Comment.map(
+                          ({ text, user, id, createdAt }) => (
+                            <li key={id} className="mb-5">
+                              <div className="flex justify-between">
+                                <Link
+                                  className="flex items-center"
+                                  to={routes.user({ userName: user?.userName })}
+                                >
+                                  <Gravatar
+                                    image={user?.image}
+                                    className="w-10 h-10 mr-4"
+                                  />
+                                  {user?.userName}
+                                </Link>
+                                <div className="font-fira-code text-ch-blue-600 flex items-center">
+                                  {new Date(createdAt).toDateString()}
+                                </div>
                               </div>
-                            </div>
-                            <div className="ml-5 border-l-2 pl-5 my-3 border-ch-gray-300 text-ch-gray-300">
-                              {text}
-                            </div>
-                          </li>
-                        ))}
+                              <div className="ml-5 border-l-2 pl-5 my-3 border-ch-gray-300 text-ch-gray-300">
+                                {text}
+                              </div>
+                            </li>
+                          )
+                        )}
                       </ul>
                     </>
                   )}

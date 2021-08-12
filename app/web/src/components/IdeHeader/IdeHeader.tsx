@@ -95,6 +95,8 @@ const IdeHeader = ({
         {canEdit && !projectTitle && (
           <CaptureButton
             canEdit={canEdit}
+            projectTitle={project?.title}
+            userName={project?.user?.userName}
             shouldUpdateImage={!project?.mainImage}
             TheButton={({ onClick }) => (
               <TopButton

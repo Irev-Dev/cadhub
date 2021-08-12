@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
