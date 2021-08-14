@@ -64,7 +64,7 @@ const CaptureButton = ({
     let imgBlob
     let image64
     if (!isOpenScadImage) {
-      imgBlob = canvasToBlob(threeInstance, { width: 400, height: 300 })
+      imgBlob = canvasToBlob(threeInstance, { width: 500, height: 375 })
       image64 = blobTo64(
         await canvasToBlob(threeInstance, { width: 500, height: 522 })
       )
