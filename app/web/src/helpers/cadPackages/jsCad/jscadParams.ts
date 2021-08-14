@@ -199,9 +199,11 @@ function getParams(target: HTMLElement): RawCustomizerParams {
     if (
       numeric[elem.getAttribute('type')] ||
       elem.getAttribute('numeric') == '1'
-    )
+    ){
       value = parseFloat(String(value || 0))
-
+    }else if (value && typeof(value) === 'string' && /^(\d+|\d+\.\d+)$/.test(value.trim())){
+      value = parseFloat(String(value || 0))
+    }
     if (elem.type == 'radio' && !elem.checked) return // skip if not checked radio button
 
     params[name] = value
