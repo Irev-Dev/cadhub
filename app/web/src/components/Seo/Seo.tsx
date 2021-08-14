@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet'
+import { useIsBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const Seo = ({
   title = "CadHub",
@@ -11,6 +12,7 @@ const Seo = ({
   lang: string
   socialImageUrl?: string
 }) => {
+  const browser = useIsBrowser()
   return (
     <>
       <Helmet
@@ -24,7 +26,7 @@ const Seo = ({
         <meta name="description" content={description} />
 
         {/*  Facebook Meta Tags */}
-        <meta property="og:url" content={location.href} />
+        {browser && <meta property="og:url" content={location.href} />}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -33,7 +35,7 @@ const Seo = ({
         {/* Twitter Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="cadhub.xyz" />
-        <meta property="twitter:url" content={location.href} />
+        {browser && <meta property="twitter:url" content={location.href} />}
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={socialImageUrl} />
