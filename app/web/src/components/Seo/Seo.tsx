@@ -2,8 +2,8 @@ import { Helmet } from 'react-helmet'
 import { useIsBrowser } from '@redwoodjs/prerender/browserUtils'
 
 const Seo = ({
-  title = "CadHub",
-  description = "Edit this part of CadHub",
+  title = 'CadHub',
+  description = 'Edit this part of CadHub',
   lang = 'en-US',
   socialImageUrl,
 }: {

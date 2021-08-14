@@ -9,7 +9,12 @@ const IdeProjectPage = ({ userName, projectTitle }) => {
   )}`
   return (
     <>
-      <Seo title={projectTitle} description={projectTitle} socialImageUrl={socialImageUrl} lang="en-US" />
+      <Seo
+        title={projectTitle}
+        description={projectTitle}
+        socialImageUrl={socialImageUrl}
+        lang="en-US"
+      />
       <IdeProjectCell userName={userName} projectTitle={projectTitle} />
     </>
   )
