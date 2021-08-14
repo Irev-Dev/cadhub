@@ -4,8 +4,19 @@ import Popover from '@material-ui/core/Popover'
 import Svg from 'src/components/Svg/Svg'
 import Button from 'src/components/Button/Button'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import { canvasToBlob, blobTo64 } from 'src/helpers/canvasToBlob'
 import { useUpdateProject } from 'src/helpers/hooks/useUpdateProject'
-import { uploadToCloudinary } from 'src/helpers/cloudinary'
+import {
+  useUpdateSocialCard,
+  makeSocialPublicId,
+} from 'src/helpers/hooks/useUpdateSocialCard'
+import {
+  uploadToCloudinary,
+  serverVerifiedImageUpload,
+} from 'src/helpers/cloudinary'
+import SocialCardCell from 'src/components/SocialCardCell/SocialCardCell'
+import { toJpeg } from 'html-to-image'
+import { useAuth } from '@redwoodjs/auth'
 
 const anchorOrigin = {
   vertical: 'bottom',
@@ -16,51 +27,50 @@ const transformOrigin = {
   horizontal: 'center',
 }
 
-const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
+const CaptureButton = ({
+  canEdit,
+  TheButton,
+  shouldUpdateImage,
+  projectTitle,
+  userName,
+}) => {
   const [captureState, setCaptureState] = useState<any>({})
   const [anchorEl, setAnchorEl] = useState(null)
   const [whichPopup, setWhichPopup] = useState(null)
   const { state, project } = useIdeContext()
+  const ref = React.useRef<HTMLDivElement>(null)
   const { updateProject } = useUpdateProject({
     onCompleted: () => toast.success('Image updated'),
   })
+  const { updateSocialCard } = useUpdateSocialCard({})
+  const { getToken } = useAuth()
+
+  const getSocialBlob = async (): Promise<string> => {
+    const tokenPromise = getToken()
+    const blob = await toJpeg(ref.current, { cacheBust: true, quality: 0.75 })
+    const token = await tokenPromise
+    const { publicId } = await serverVerifiedImageUpload(
+      blob,
+      project?.id,
+      token,
+      makeSocialPublicId(userName, projectTitle)
+    )
+    return publicId
+  }
 
   const onCapture = async () => {
     const threeInstance = state.threeInstance
     const isOpenScadImage = state?.objectData?.type === 'png'
     let imgBlob
+    let image64
     if (!isOpenScadImage) {
-      const updateCanvasSize = ({
-        width,
-        height,
-      }: {
-        width: number
-        height: number
-      }) => {
-        threeInstance.camera.aspect = width / height
-        threeInstance.camera.updateProjectionMatrix()
-        threeInstance.gl.setSize(width, height)
-        threeInstance.gl.render(
-          threeInstance.scene,
-          threeInstance.camera,
-          null,
-          false
-        )
-      }
-      const oldSize = threeInstance.size
-      updateCanvasSize({ width: 400, height: 300 })
-      imgBlob = new Promise((resolve, reject) => {
-        threeInstance.gl.domElement.toBlob(
-          (blob) => {
-            resolve(blob)
-          },
-          'image/jpeg',
-          1
-        )
-      })
-      updateCanvasSize(oldSize)
+      imgBlob = canvasToBlob(threeInstance, { width: 400, height: 300 })
+      image64 = blobTo64(
+        await canvasToBlob(threeInstance, { width: 500, height: 522 })
+      )
     } else {
       imgBlob = state.objectData.data
+      image64 = blobTo64(state.objectData.data)
     }
     const config = {
       image: await imgBlob,
@@ -69,11 +79,22 @@ const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
       callback: uploadAndUpdateImage,
       cloudinaryImgURL: '',
       updated: false,
+      image64: await image64,
     }
+    setCaptureState(config)
 
     async function uploadAndUpdateImage() {
-      // Upload the image to Cloudinary
-      const cloudinaryImgURL = await uploadToCloudinary(config.image)
+      const [cloudinaryImgURL, socialCloudinaryURL] = await Promise.all([
+        uploadToCloudinary(config.image),
+        getSocialBlob(),
+      ])
+
+      updateSocialCard({
+        variables: {
+          projectId: project?.id,
+          url: socialCloudinaryURL,
+        },
+      })
 
       // Save the screenshot as the mainImage
       updateProject({
@@ -92,9 +113,8 @@ const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
     if (shouldUpdateImage) {
       config.cloudinaryImgURL = (await uploadAndUpdateImage()).public_id
       config.updated = true
+      setCaptureState(config)
     }
-
-    return config
   }
 
   const handleDownload = (url) => {
@@ -123,7 +143,7 @@ const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
           <TheButton
             onClick={async (event) => {
               handleClick({ event, whichPopup: 'capture' })
-              setCaptureState(await onCapture())
+              onCapture()
             }}
           />
           <Popover
@@ -163,7 +183,7 @@ const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
                           name="refresh"
                           className="mr-2 w-4 text-indigo-600"
                         />{' '}
-                        Update Part Image
+                        Update Project Image
                       </button>
                     ) : (
                       <div className="flex justify-center mb-4">
@@ -187,6 +207,20 @@ const CaptureButton = ({ canEdit, TheButton, shouldUpdateImage }) => {
                   </div>
                 </div>
               )}
+              <div className="rounded-lg shadow-md mt-4 overflow-hidden">
+                <div
+                  className="transform scale-50 origin-top-left"
+                  style={{ width: '600px', height: '315px' }}
+                >
+                  <div style={{ width: '1200px', height: '630px' }} ref={ref}>
+                    <SocialCardCell
+                      userName={userName}
+                      projectTitle={projectTitle}
+                      image64={captureState.image64}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </Popover>
         </div>

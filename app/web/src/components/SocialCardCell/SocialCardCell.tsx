@@ -37,12 +37,13 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({
   userProject,
+  variables: { image64 },
 }: CellSuccessProps<FindSocialCardQuery>) => {
   const image = userProject?.Project?.mainImage
   const gravatar = userProject?.image
   return (
     <div
-      className="flex-col flex h-screen bg-ch-gray-800 text-ch-gray-300"
+      className="flex-col flex h-full bg-ch-gray-800 text-ch-gray-300"
       id="social-card-loaded"
     >
       <div
@@ -65,7 +66,7 @@ export const Success = ({
                 {gravatar && (
                   <Gravatar image={gravatar} className="w-14 h-14" size={60} />
                 )}
-                <div className="text-2xl font-fira-sans ml-6">
+                <div className="text-2xl font-fira-sans ml-6 whitespace-nowrap">
                   {userProject?.userName}
                 </div>
               </div>
@@ -86,13 +87,19 @@ export const Success = ({
         </div>
         <div className="h-full overflow-hidden relative">
           <div className="absolute inset-0 flex items-center justify-center">
-            <CloudinaryImage
-              cloudName="irevdev"
-              publicId={image || 'CadHub/eia1kwru54g2kf02s2xx'}
-              width={500}
-              height={522}
-              crop="crop"
-            />
+            {image64 ? (
+              <div
+                style={{ backgroundImage: `url(${image64})` }}
+                className="w-full h-full bg-no-repeat bg-center"
+              />
+            ) : (
+              <div
+                style={{
+                  backgroundImage: `url(http://res.cloudinary.com/irevdev/image/upload/c_crop,h_522,w_500/v1/${image})`,
+                }}
+                className="w-full h-full bg-no-repeat bg-center bg-blend-difference bg-contain bg-ch-gray-800"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -133,7 +140,7 @@ export const Success = ({
               CadHub
             </h2>
             <div
-              className="text-pink-400 text-sm font-bold font-ropa-sans hidden md:block"
+              className="text-pink-400 text-sm font-bold font-ropa-sans hidden md:block whitespace-nowrap"
               style={{ paddingBottom: '2rem', marginLeft: '-1.8rem' }}
             >
               pre-alpha

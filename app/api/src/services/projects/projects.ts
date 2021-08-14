@@ -130,6 +130,8 @@ export const deleteProject = async ({ id }: Prisma.ProjectWhereUniqueInput) => {
 export const Project = {
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.project.findUnique({ where: { id: root.id } }).user(),
+  socialCard: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
+    db.project.findUnique({ where: { id: root.id } }).socialCard(),
   Comment: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.project
       .findUnique({ where: { id: root.id } })

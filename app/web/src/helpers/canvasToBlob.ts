@@ -33,3 +33,16 @@ export const canvasToBlob = async (
   updateCanvasSize(oldSize)
   return imgBlobPromise
 }
+
+export const blobTo64 = async (blob: Blob): Promise<string> => {
+  return new Promise(async (resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+      }
+    }
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  })
+}

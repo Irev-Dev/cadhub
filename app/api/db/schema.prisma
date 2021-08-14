@@ -56,10 +56,22 @@ model Project {
   userId      String
   deleted     Boolean  @default(false)
   cadPackage  CadPackage @default(openscad)
+  socialCard  SocialCard?
 
   Comment  Comment[]
   Reaction ProjectReaction[]
   @@unique([title, userId])
+}
+
+model SocialCard {
+  id          String   @id @default(uuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  url         String? // link to cloudinary
+  outOfDate   Boolean  @default(true)
 }
 
 model ProjectReaction {
