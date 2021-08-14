@@ -5,16 +5,15 @@ import Seo from 'src/components/Seo/Seo'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
 import { Toaster } from '@redwoodjs/web/toast'
+import { makeSocialPublicId } from 'src/helpers/hooks/useUpdateSocialCard'
 
 const ProjectPage = ({ userName, projectTitle }) => {
   const { currentUser } = useAuth()
   const [state, thunkDispatch] = useIdeState()
-  const cacheInvalidator = new Date()
-    .toISOString()
-    .split('-')
-    .slice(0, 2)
-    .join('-')
-  const socialImageUrl = `/.netlify/functions/og-image-generator/${userName}/${projectTitle}/og-image-${cacheInvalidator}.jpg`
+  const socialImageUrl = `http://res.cloudinary.com/irevdev/image/upload/c_scale,w_1200/v1/CadHub/${makeSocialPublicId(
+    userName,
+    projectTitle
+  )}`
   return (
     <>
       <Seo

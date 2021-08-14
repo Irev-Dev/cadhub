@@ -11,6 +11,7 @@ export const schema = gql`
     userId: String!
     deleted: Boolean!
     cadPackage: CadPackage!
+    socialCard: SocialCard
     Comment: [Comment]!
     Reaction(userId: String): [ProjectReaction]!
   }

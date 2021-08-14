@@ -76,10 +76,12 @@ const EditableProjectTitle = ({
               value={newTitle}
               onChange={onTitleChange}
               ref={inputRef}
-              onBlur={() => setTimeout(() => {
-                setInEditMode(false)
-                setNewTitle(projectTitle)
-              }, 300)}
+              onBlur={() =>
+                setTimeout(() => {
+                  setInEditMode(false)
+                  setNewTitle(projectTitle)
+                }, 300)
+              }
             />
           </span>
           <div className="flex items-center h-full">

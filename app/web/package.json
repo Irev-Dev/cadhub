@@ -28,6 +28,7 @@
     "cloudinary-react": "^1.6.7",
     "get-active-classes": "^0.0.11",
     "gotrue-js": "^0.9.27",
+    "html-to-image": "^1.7.0",
     "lodash": "^4.17.21",
     "netlify-identity-widget": "^1.9.1",
     "pako": "^2.0.3",

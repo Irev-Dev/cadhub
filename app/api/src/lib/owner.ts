@@ -5,10 +5,16 @@ export const requireOwnership = async ({
   userId,
   userName,
   projectId,
-}: { userId?: string; userName?: string; projectId?: string } = {}) => {
+  sub,
+}: {
+  userId?: string
+  userName?: string
+  projectId?: string
+  sub?: string
+} = {}) => {
   // IMPORTANT, don't forget to await this function, as it will only block
   // unwanted db actions if it has time to look up resources in the db.
-  if (!context.currentUser) {
+  if (!(context?.currentUser || sub)) {
     throw new AuthenticationError("You don't have permission to do that.")
   }
   if (!userId && !userName && !projectId) {
@@ -22,7 +28,7 @@ export const requireOwnership = async ({
     return
   }
 
-  const netlifyUserId = context.currentUser?.sub
+  const netlifyUserId = context?.currentUser?.sub || sub
   if (userId && userId !== netlifyUserId) {
     throw new ForbiddenError("You don't own this resource.")
   }
