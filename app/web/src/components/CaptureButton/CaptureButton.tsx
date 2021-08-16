@@ -92,7 +92,7 @@ const CaptureButton = ({
 
     // if there isn't a screenshot saved yet, just go ahead and save right away
     if (shouldUpdateImage) {
-      config.cloudinaryImgURL = (await uploadAndUpdateImage()).public_id
+      config.cloudinaryImgURL = await uploadAndUpdateImage()
       config.updated = true
       setCaptureState(config)
     }
@@ -155,7 +155,7 @@ const CaptureButton = ({
                           const cloudinaryImg = await captureState.callback()
                           setCaptureState({
                             ...captureState,
-                            currImage: cloudinaryImg.public_id,
+                            currImage: cloudinaryImg,
                             updated: true,
                           })
                         }}
