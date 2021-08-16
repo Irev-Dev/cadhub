@@ -93,12 +93,27 @@ interface UpdateProjectArgs extends Prisma.ProjectWhereUniqueInput {
 }
 
 export const updateProject = async ({ id, input }: UpdateProjectArgs) => {
+  const checkSocialCardValidity = async (
+    projectId: string,
+    input: UpdateProjectArgs['input'],
+    oldProject: ProjectType
+  ) => {
+    const titleChange = input.title && input.title !== oldProject.title
+    const descriptionChange =
+      input.description && input.description !== oldProject.description
+    if (titleChange || descriptionChange) {
+      return db.socialCard.update({
+        data: { outOfDate: true },
+        where: { projectId },
+      })
+    }
+  }
   requireAuth()
-  await requireOwnership({ projectId: id })
+  const originalProject = await requireProjectOwnership({ projectId: id })
   if (input.title) {
     input.title = enforceAlphaNumeric(input.title)
   }
-  const originalProject = await db.project.findUnique({ where: { id } })
+  const socialCardPromise = checkSocialCardValidity(id, input, originalProject)
   const imageToDestroy =
     originalProject.mainImage !== input.mainImage &&
     input.mainImage &&
@@ -112,8 +127,9 @@ export const updateProject = async ({ id, input }: UpdateProjectArgs) => {
       `image destroyed, publicId: ${imageToDestroy}, projectId: ${id}, replacing image is ${input.mainImage}`
     )
     // destroy after the db has been updated
-    destroyImage({ publicId: imageToDestroy })
+    await destroyImage({ publicId: imageToDestroy })
   }
+  await socialCardPromise
   return update
 }
 
