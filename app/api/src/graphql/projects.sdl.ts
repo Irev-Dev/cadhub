@@ -48,6 +48,11 @@ export const schema = gql`
     createProject(input: CreateProjectInput!): Project!
     forkProject(input: CreateProjectInput!): Project!
     updateProject(id: String!, input: UpdateProjectInput!): Project!
+    updateProjectImages(
+      id: String!
+      mainImage64: String
+      socialCard64: String
+    ): Project!
     deleteProject(id: String!): Project!
   }
 `

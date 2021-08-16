@@ -27,7 +27,7 @@ export const canvasToBlob = async (
         resolve(blob)
       },
       'image/jpeg',
-      1
+      0.75
     )
   })
   updateCanvasSize(oldSize)
