@@ -19,6 +19,11 @@ export function useEdgeSplit(
       original.current = ref.current.geometry.clone()
       modifier.current = new EdgeSplitModifier()
     }
+  }, [])
+
+  React.useEffect(() => {
+    original.current = dependantGeometry.clone()
+    modifier.current = new EdgeSplitModifier()
   }, [dependantGeometry])
 
   React.useEffect(() => {
