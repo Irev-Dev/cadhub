@@ -59,35 +59,34 @@ const CaptureButton = ({
     setCaptureState(config)
 
     async function uploadAndUpdateImage() {
-      const derp = async () => {
+      const upload = async () => {
         const socialCard64 = toJpeg(ref.current, {
           cacheBust: true,
           quality: 0.7,
         })
 
-        const promise1 = updateProjectImages({
+        // uploading in two separate mutations because of the 100kb limit of the lambda functions
+        const imageUploadPromise1 = updateProjectImages({
           variables: {
             id: project?.id,
-            // socialCard64,
             mainImage64: await config.image64,
           },
         })
-        const promise2 = updateProjectImages({
+        const imageUploadPromise2 = updateProjectImages({
           variables: {
             id: project?.id,
             socialCard64: await socialCard64,
           },
         })
-        return Promise.all([promise2, promise1])
+        return Promise.all([imageUploadPromise2, imageUploadPromise1])
       }
-      const promise = derp()
+      const promise = upload()
       toast.promise(promise, {
         loading: 'Saving Image/s',
         success: <b>Image/s saved!</b>,
         error: <b>Problem saving.</b>,
       })
       const [{ data }] = await promise
-      console.log(data?.updateProjectImages)
       return data?.updateProjectImages?.mainImage
     }
 

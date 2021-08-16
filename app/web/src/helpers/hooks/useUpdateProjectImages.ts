@@ -29,3 +29,8 @@ export const useUpdateProjectImages = ({ onCompleted = () => {} }) => {
 
   return { updateProjectImages, loading, error }
 }
+
+export const makeSocialPublicId = (
+  userName: string,
+  projectTitle: string
+): string => `u-${userName}-slash-p-${projectTitle}`

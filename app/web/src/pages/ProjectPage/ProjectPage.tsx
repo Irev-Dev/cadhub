@@ -5,7 +5,7 @@ import Seo from 'src/components/Seo/Seo'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
 import { Toaster } from '@redwoodjs/web/toast'
-import { makeSocialPublicId } from 'src/helpers/hooks/useUpdateSocialCard'
+import { makeSocialPublicId } from 'src/helpers/hooks/useUpdateProjectImages'
 
 const ProjectPage = ({ userName, projectTitle }) => {
   const { currentUser } = useAuth()
