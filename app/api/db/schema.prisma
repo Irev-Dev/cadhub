@@ -65,8 +65,8 @@ model Project {
 
 model SocialCard {
   id          String   @id @default(uuid())
-  projectId   String
-  project     Project   @relation(fields: [projectId], references: [id])
+  projectId   String   @unique
+  project     Project  @relation(fields: [projectId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

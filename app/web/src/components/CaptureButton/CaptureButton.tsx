@@ -5,18 +5,10 @@ import Svg from 'src/components/Svg/Svg'
 import Button from 'src/components/Button/Button'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { canvasToBlob, blobTo64 } from 'src/helpers/canvasToBlob'
-import { useUpdateProject } from 'src/helpers/hooks/useUpdateProject'
-import {
-  useUpdateSocialCard,
-  makeSocialPublicId,
-} from 'src/helpers/hooks/useUpdateSocialCard'
-import {
-  uploadToCloudinary,
-  serverVerifiedImageUpload,
-} from 'src/helpers/cloudinary'
+import { useUpdateProjectImages } from 'src/helpers/hooks/useUpdateProjectImages'
+
 import SocialCardCell from 'src/components/SocialCardCell/SocialCardCell'
 import { toJpeg } from 'html-to-image'
-import { useAuth } from '@redwoodjs/auth'
 
 const anchorOrigin = {
   vertical: 'bottom',
@@ -39,24 +31,7 @@ const CaptureButton = ({
   const [whichPopup, setWhichPopup] = useState(null)
   const { state, project } = useIdeContext()
   const ref = React.useRef<HTMLDivElement>(null)
-  const { updateProject } = useUpdateProject({
-    onCompleted: () => toast.success('Image updated'),
-  })
-  const { updateSocialCard } = useUpdateSocialCard({})
-  const { getToken } = useAuth()
-
-  const getSocialBlob = async (): Promise<string> => {
-    const tokenPromise = getToken()
-    const blob = await toJpeg(ref.current, { cacheBust: true, quality: 0.75 })
-    const token = await tokenPromise
-    const { publicId } = await serverVerifiedImageUpload(
-      blob,
-      project?.id,
-      token,
-      makeSocialPublicId(userName, projectTitle)
-    )
-    return publicId
-  }
+  const { updateProjectImages } = useUpdateProjectImages({})
 
   const onCapture = async () => {
     const threeInstance = state.threeInstance
@@ -84,29 +59,36 @@ const CaptureButton = ({
     setCaptureState(config)
 
     async function uploadAndUpdateImage() {
-      const [cloudinaryImgURL, socialCloudinaryURL] = await Promise.all([
-        uploadToCloudinary(config.image),
-        getSocialBlob(),
-      ])
+      const derp = async () => {
+        const socialCard64 = toJpeg(ref.current, {
+          cacheBust: true,
+          quality: 0.7,
+        })
 
-      updateSocialCard({
-        variables: {
-          projectId: project?.id,
-          url: socialCloudinaryURL,
-        },
-      })
-
-      // Save the screenshot as the mainImage
-      updateProject({
-        variables: {
-          id: project?.id,
-          input: {
-            mainImage: cloudinaryImgURL.public_id,
+        const promise1 = updateProjectImages({
+          variables: {
+            id: project?.id,
+            // socialCard64,
+            mainImage64: await config.image64,
           },
-        },
+        })
+        const promise2 = updateProjectImages({
+          variables: {
+            id: project?.id,
+            socialCard64: await socialCard64,
+          },
+        })
+        return Promise.all([promise2, promise1])
+      }
+      const promise = derp()
+      toast.promise(promise, {
+        loading: 'Saving Image/s',
+        success: <b>Image/s saved!</b>,
+        error: <b>Problem saving.</b>,
       })
-
-      return cloudinaryImgURL
+      const [{ data }] = await promise
+      console.log(data?.updateProjectImages)
+      return data?.updateProjectImages?.mainImage
     }
 
     // if there isn't a screenshot saved yet, just go ahead and save right away
