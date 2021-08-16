@@ -23,6 +23,9 @@ const UPDATE_USER_MUTATION = gql`
     updateUserByUserName(userName: $userName, input: $input) {
       id
       userName
+      bio
+      name
+      image
     }
   }
 `
