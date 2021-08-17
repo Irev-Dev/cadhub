@@ -15,8 +15,8 @@ const DevIdePage = ({ cadPackage, project }: Props) => {
   return (
     <div className="h-screen flex flex-col">
       <Seo
-        title="new ide in development"
-        description="new ide in development"
+        title="IDE in development"
+        description="IDE in development"
         lang="en-US"
       />
       <Toaster timeout={9000} />
