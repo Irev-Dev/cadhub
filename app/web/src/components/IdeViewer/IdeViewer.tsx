@@ -10,7 +10,7 @@ import {
   Environment,
   useTexture,
 } from '@react-three/drei'
-import { useEdgeSplit } from 'src/helpers/hooks/useEdegeSplit'
+import { useEdgeSplit } from 'src/helpers/hooks/useEdgeSplit'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
 import texture from './dullFrontLitMetal.png'
