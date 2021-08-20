@@ -12,6 +12,7 @@ import {
 } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership, requireProjectOwnership } from 'src/lib/owner'
+import { socialCard } from '../socialCards/socialCards'
 
 export const projects = ({ userName }) => {
   if (!userName) {
@@ -102,14 +103,18 @@ export const updateProject = async ({ id, input }: UpdateProjectArgs) => {
     const descriptionChange =
       input.description && input.description !== oldProject.description
     if (titleChange || descriptionChange) {
-      return db.socialCard.update({
-        data: { outOfDate: true },
-        where: { projectId },
-      })
+        const socialCard = await db.socialCard.findUnique({where: {projectId}})
+        if (socialCard) {
+          return db.socialCard.update({
+            data: { outOfDate: true },
+            where: { id: socialCard.id },
+          })
+        }
     }
   }
   requireAuth()
   const originalProject = await requireProjectOwnership({ projectId: id })
+  console.log('yooooo', originalProject)
   if (input.title) {
     input.title = enforceAlphaNumeric(input.title)
   }
