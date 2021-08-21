@@ -2,11 +2,22 @@
 
 type CadhubTypeNames = 'number' | 'string' | 'boolean'
 
+export interface CadhubStringOption {
+  name: string
+  value: string
+}
+
+export interface CadhubNumberOption {
+  name: string
+  value: number
+}
+
 interface CadhubParamBase {
   type: CadhubTypeNames
   caption: string
   name: string
 }
+
 export interface CadhubStringParam extends CadhubParamBase {
   type: 'string'
   initial: string
@@ -25,11 +36,25 @@ export interface CadhubNumberParam extends CadhubParamBase {
   step?: number
   decimal?: number
 }
+export interface CadhubStringChoiceParam extends CadhubParamBase {
+  type: 'string'
+  input: 'choice'
+  initial: string
+  options: Array<string> | Array<CadhubStringOption> 
+}
+export interface CadhubNumberChoiceParam extends CadhubParamBase {
+  type: 'number'
+  input: 'choice'
+  initial: number
+  options: Array<number> | Array<CadhubNumberOption> 
+}
 
 export type CadhubParams =
   | CadhubStringParam
   | CadhubBooleanParam
   | CadhubNumberParam
+  | CadhubStringChoiceParam
+  | CadhubNumberChoiceParam
 
 // OpenSCAD
 const openscadValues = `

@@ -1,4 +1,4 @@
-import { CadhubParams } from 'src/components/Customizer/customizerConverter'
+import { CadhubNumberChoiceParam, CadhubNumberOption, CadhubParams, CadhubStringChoiceParam, CadhubStringOption } from 'src/components/Customizer/customizerConverter'
 
 type JscadTypeNames =
   | 'group'
@@ -124,6 +124,38 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
             name: param.name,
             initial: !!param.initial,
           }
+          case 'choice':
+            if(typeof param.values[0] === 'number'){
+              let options:Array<CadhubNumberOption> = []
+              let captions = param.captions || param.values
+              param.values.forEach((value,i)=>{
+                options[i] = {name:String(captions[i]), value:Number(value)}
+              })
+              return  {
+                type:  'number',
+                input: 'choice',
+                caption: param.caption,
+                name: param.name,
+                initial: Number(param.initial),
+                options
+              }
+            }else{
+              let options:Array<CadhubStringOption> = []
+              let captions = param.captions || param.values
+              param.values.forEach((value,i)=>{
+                options[i] = {name:String(captions[i]), value:String(value)}
+              })
+              return  {
+                type:  'string',
+                input: 'choice',
+                caption: param.caption,
+                name: param.name,
+                initial: String(param.initial),
+                options
+              }              
+            }
+
+
       }
     })
     .filter((a) => a)
