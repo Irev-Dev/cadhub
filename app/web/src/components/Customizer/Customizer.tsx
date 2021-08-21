@@ -190,6 +190,15 @@ function NumberParam({
   const handleRender = useRender()
   const liveRenderHandler = debounce((a) => handleRender(a), 250)
   const step = param.step || 1
+  const live = false // TODO get from param
+  let decimal = 0
+  if('decimal' in param){
+    decimal = param.decimal
+  }else{
+    let str = String(step)
+    const idx = str.indexOf('.')
+    if(idx !== -1) decimal = str.length - idx - 1
+  }
   const commitChange = () => {
     let num = localValue
     if (typeof param.step === 'number') {
@@ -201,7 +210,7 @@ function NumberParam({
     if (typeof param.max === 'number') {
       num = Math.min(param.max, num)
     }
-    num = Number(num.toFixed(2))
+    num = Number(num.toFixed(decimal))
     localValueSetter(num)
     onChange(num)
   }
@@ -248,8 +257,9 @@ function NumberParam({
           onMouseMove={({ movementX }) => {
             if (isLocked && movementX) {
               pixelsDraggedSetter(pixelsDragged + (movementX * step) / 8) // one step per 8 pixels
-              localValueSetter(Number(pixelsDragged.toFixed(2)))
-              liveRenderHandler({[param.name]: Number(pixelsDragged.toFixed(2))})
+              const decimalFixed = Number((Math.round(pixelsDragged / step) * step).toFixed(decimal))
+              localValueSetter(decimalFixed)
+              if(live) liveRenderHandler({[param.name]: decimalFixed})
             }
           }}
         >
