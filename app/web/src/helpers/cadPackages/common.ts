@@ -21,6 +21,8 @@ export interface RenderArgs {
   }
 }
 
+export type ArtifactTypes = 'stl' | 'png' | 'geometry' | 'r3f-component'
+
 export interface HealthyResponse {
   status: 'healthy'
   message: {
@@ -30,7 +32,7 @@ export interface HealthyResponse {
   }
   objectData: {
     data: any
-    type: 'stl' | 'png' | 'geometry'
+    type: ArtifactTypes
   }
   customizerParams?: any[]
   currentParameters?: RawCustomizerParams

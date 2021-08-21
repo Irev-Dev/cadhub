@@ -1,7 +1,10 @@
 import { useReducer } from 'react'
 import { cadPackages } from 'src/helpers/cadPackages'
 import type { RootState } from '@react-three/fiber'
-import type { RawCustomizerParams } from 'src/helpers/cadPackages/common'
+import type {
+  RawCustomizerParams,
+  ArtifactTypes,
+} from 'src/helpers/cadPackages/common'
 import { CadhubParams } from 'src/components/Customizer/customizerConverter'
 
 function withThunk(dispatch, getState) {
@@ -113,7 +116,7 @@ export interface State {
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
   objectData: {
-    type: 'INIT' | 'stl' | 'png' | 'geometry'
+    type: 'INIT' | ArtifactTypes
     data: any
     quality: 'low' | 'high'
   }

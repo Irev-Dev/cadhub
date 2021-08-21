@@ -31,44 +31,59 @@ const materials = {
 }
 materials.lines = materials.line
 
-function CSG2Object3D(obj) {
-  const { vertices, indices, color, transforms } = obj
+interface CsgObj {
+  vertices: Float32Array
+  indices: Uint16Array
+  color?: [number, number, number, number]
+  transforms: number[]
+  type: 'mesh' | 'line' | 'lines'
+}
 
-  const materialDef = materials[obj.type]
-  if (!materialDef) {
-    console.error('Can not hangle object type: ' + obj.type, obj)
-    return null
-  }
+function CSGArray2R3fComponent(Csgs: CsgObj[]): React.ReactNode {
+  return () =>
+    Csgs.map(({ vertices, indices, color, transforms, type }, index) => {
+      const materialDef = materials[type]
+      if (!materialDef) {
+        console.error('Can not hangle object type: ' + type, {
+          vertices,
+          indices,
+          color,
+          transforms,
+          type,
+        })
+        return null
+      }
 
-  let material = materialDef.def
-  if (color) {
-    const c = color
-    material = materialDef.material({
-      color: new Color(c[0], c[1], c[2]),
-      flatShading: true,
-      opacity: c[3] === void 0 ? 1 : c[3],
-      transparent: c[3] != 1 && c[3] !== void 0,
+      let material = materialDef.def
+      if (color) {
+        const [r, g, b, opacity] = color
+        material = materialDef.material({
+          color: new Color(r, g, b),
+          flatShading: true,
+          opacity: opacity === void 0 ? 1 : opacity,
+          transparent: opacity != 1 && opacity !== void 0,
+        })
+      }
+
+      const geo = new BufferGeometry()
+      geo.setAttribute('position', new BufferAttribute(vertices, 3))
+
+      let mesh
+      switch (type) {
+        case 'mesh':
+          geo.setIndex(new BufferAttribute(indices, 1))
+          mesh = new Mesh(geo, material)
+          break
+        case 'line':
+          mesh = new Line(geo, material)
+          break
+        case 'lines':
+          mesh = new LineSegments(geo, material)
+          break
+      }
+      if (transforms) mesh.applyMatrix4({ elements: transforms })
+      return <primitive object={mesh} key={index} />
     })
-  }
-
-  const geo = new BufferGeometry()
-  geo.setAttribute('position', new BufferAttribute(vertices, 3))
-
-  let mesh
-  switch (obj.type) {
-    case 'mesh':
-      geo.setIndex(new BufferAttribute(indices, 1))
-      mesh = new Mesh(geo, material)
-      break
-    case 'line':
-      mesh = new Line(geo, material)
-      break
-    case 'lines':
-      mesh = new LineSegments(geo, material)
-      break
-  }
-  if (transforms) mesh.applyMatrix4({ elements: transforms })
-  return mesh
 }
 
 let scriptWorker
@@ -143,8 +158,8 @@ export const render: DefaultKernelExport['render'] = async ({
         } else {
           workerHelper.resolver(
             createHealthyResponse({
-              type: 'geometry',
-              data: data.entities.map(CSG2Object3D).filter((o) => o),
+              type: 'r3f-component',
+              data: CSGArray2R3fComponent(data.entities),
               consoleMessage: data.scriptStats,
               date: new Date(),
               customizerParams: jsCadToCadhubParams(parameterDefinitions || []),

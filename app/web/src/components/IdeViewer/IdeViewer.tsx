@@ -31,11 +31,6 @@ function Asset({ geometry: incomingGeo }) {
   const colorMap = useTexture(texture)
   if (!incomingGeo) return null
 
-  if (incomingGeo.length)
-    return incomingGeo.map((shape, index) => (
-      <primitive object={shape} key={index} />
-    ))
-
   return (
     <group dispose={null}>
       <mesh ref={mesh} scale={[1, 1, 1]} geometry={incomingGeo}>
@@ -166,6 +161,10 @@ const IdeViewer = ({ Loading }) => {
     setImage(state.objectData?.type === 'png' && state.objectData?.data)
     setIsDragging(false)
   }, [state.objectData?.type, state.objectData?.data])
+  const R3FComponent = React.useMemo(
+    () => state.objectData?.type === 'r3f-component' && state.objectData?.data,
+    [state.objectData?.type, state.objectData?.data]
+  )
 
   // the following are tailwind colors in hex, can't use these classes to color three.js meshes.
   const pink400 = '#F472B6'
@@ -268,6 +267,7 @@ const IdeViewer = ({ Loading }) => {
           {state.objectData?.type === 'geometry' && state.objectData?.data && (
             <Asset geometry={state.objectData?.data} />
           )}
+          {R3FComponent && <R3FComponent />}
         </Canvas>
       </div>
       <DelayedPingAnimation isLoading={state.isLoading} />
