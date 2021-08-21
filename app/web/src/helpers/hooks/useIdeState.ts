@@ -2,6 +2,7 @@ import { useReducer } from 'react'
 import { cadPackages } from 'src/helpers/cadPackages'
 import type { RootState } from '@react-three/fiber'
 import type { RawCustomizerParams } from 'src/helpers/cadPackages/common'
+import { CadhubParams } from 'src/components/Customizer/customizerConverter'
 
 function withThunk(dispatch, getState) {
   return (actionOrThunk) =>
@@ -69,14 +70,14 @@ const main = ({length=200}) => {
 
   return [transpCube, star2D, line2D, ...logo]
 }
-const getParameterDefinitions = ()=>{
+const getParameterDefinitions = () => {
   return [
     {type:'slider', name:'length', initial:200, caption:'Length', min:100, max:500},
     { name: 'group1', type: 'group', caption: 'Group 1: Text Entry' },
-    { name: 'text', type: 'text', initial: '', size: 20, maxLength: 20, caption: 'Plain Text:', placeholder: '20 characters' },
+    { name: 'text', type: 'text', initial: '', size: 20, maxLength: 20, caption: 'Hook’s “thickness” = object\’s width = print’s height', placeholder: '20 characters' },
     { name: 'int', type: 'int', initial: 20, min: 1, max: 100, step: 1, caption: 'Integer:' },
     { name: 'number', type: 'number', initial: 2.0, min: 1.0, max: 10.0, step: 0.1, caption: 'Number:' },
-    { name: 'date', type: 'date', initial: '2020-01-01', min: '2020-01-01', max: '2030-12-31', caption: 'Date:', placeholder: 'YYYY-MM-DD' },
+    { name: 'date', type: 'date', initial: '2020-01-01', min: '2020-01-01', max: '2030-12-31', caption: 'Choose between classic hook with screw holes (0) or “bracket” system (1)', placeholder: 'YYYY-MM-DD' },
     { name: 'email', type: 'email', initial: 'me@example.com', caption: 'Email:' },
     { name: 'url', type: 'url', initial: 'www.example.com', size: 40, maxLength: 40, caption: 'Url:', placeholder: '40 characters' },
     { name: 'password', type: 'password', initial: '', caption: 'Password:' },
@@ -116,7 +117,7 @@ export interface State {
     data: any
     quality: 'low' | 'high'
   }
-  customizerParams?: any[]
+  customizerParams: CadhubParams[]
   currentParameters?: RawCustomizerParams
   layout: any
   camera: {
@@ -152,6 +153,7 @@ export const initialState: State = {
     data: null,
     quality: 'low',
   },
+  customizerParams: [],
   layout: initialLayout,
   camera: {},
   viewerSize: { width: 0, height: 0 },
@@ -175,11 +177,17 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
       case 'updateCode':
         return { ...state, code: payload }
       case 'healthyRender':
-        const currentParameters =
-          payload.currentParameters &&
-          Object.keys(payload.currentParameters).length
-            ? payload.currentParameters
-            : state.currentParameters
+        const customizerParams: CadhubParams[] = payload?.customizerParams
+          ?.length
+          ? payload.customizerParams
+          : state.customizerParams
+        const currentParameters = {}
+        customizerParams.forEach((param) => {
+          currentParameters[param.name] =
+            typeof state?.currentParameters?.[param.name] !== 'undefined'
+              ? state?.currentParameters?.[param.name]
+              : param.initial
+        })
         return {
           ...state,
           objectData: {
@@ -187,7 +195,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
             type: payload.objectData?.type,
             data: payload.objectData?.data,
           },
-          customizerParams: payload.customizerParams || state.customizerParams,
+          customizerParams,
           currentParameters,
           consoleMessages: payload.message
             ? [...state.consoleMessages, payload.message]
@@ -203,7 +211,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
           isLoading: false,
         }
       case 'setCurrentCustomizerParams':
-        if (!Object.keys(payload).length) return state
+        if (!Object.keys(payload || {}).length) return state
         return {
           ...state,
           currentParameters: payload,

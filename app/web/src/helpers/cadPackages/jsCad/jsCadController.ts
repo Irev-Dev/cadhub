@@ -1,6 +1,7 @@
 import {
   RenderArgs,
   DefaultKernelExport,
+  RenderResponse,
   createUnhealthyResponse,
   createHealthyResponse,
 } from '../common'
@@ -14,6 +15,7 @@ import {
   Color,
   Mesh,
 } from 'three'
+import { jsCadToCadhubParams } from './jscadParams'
 
 const materials = {
   mesh: {
@@ -70,15 +72,46 @@ function CSG2Object3D(obj) {
 }
 
 let scriptWorker
-let currentParameters = {}
-const scriptUrl = '/demo-worker.js'
-let resolveReference = null
-let response = null
 
-const callResolve = () => {
-  if (resolveReference) resolveReference()
-  resolveReference
+type ResolveFn = (RenderResponse) => void
+
+class WorkerHelper {
+  callResolve: null | ResolveFn = null
+  previousCode = ''
+  resolver = (response: RenderResponse) => {
+    this.callResolve && this.callResolve(response)
+    this.callResolve = null
+  }
+  render = (
+    code: string,
+    parameters: { [key: string]: any }
+  ): Promise<RenderResponse> => {
+    const response: Promise<RenderResponse> = new Promise(
+      (resolve: ResolveFn) => {
+        this.callResolve = resolve
+      }
+    )
+    if (!(code && this.previousCode !== code)) {
+      // we are not evaluating code, but reacting to parameters change
+      scriptWorker.postMessage({
+        action: 'updateParams',
+        worker: 'script',
+        params: parameters,
+      })
+    } else {
+      scriptWorker.postMessage({
+        action: 'runScript',
+        worker: 'script',
+        script: code,
+        params: parameters || {},
+        url: 'jscad_script',
+      })
+    }
+    this.previousCode = code
+    return response
+  }
 }
+const workerHelper = new WorkerHelper()
 
 export const render: DefaultKernelExport['render'] = async ({
   code,
@@ -86,10 +119,8 @@ export const render: DefaultKernelExport['render'] = async ({
   settings,
 }: RenderArgs) => {
   if (!scriptWorker) {
-    console.trace(
-      '************************** creating new worker ************************'
-    )
     const baseURI = document.baseURI.toString()
+    const scriptUrl = '/demo-worker.js'
     const script = `let baseURI = '${baseURI}'
     importScripts(new URL('${scriptUrl}',baseURI))
     let worker = jscadWorker({
@@ -103,65 +134,31 @@ export const render: DefaultKernelExport['render'] = async ({
     const blob = new Blob([script], { type: 'text/javascript' })
     scriptWorker = new Worker(window.URL.createObjectURL(blob))
     let parameterDefinitions = []
-    scriptWorker.addEventListener('message', (e) => {
-      const data = e.data
+    scriptWorker.addEventListener('message', ({ data }) => {
       if (data.action == 'parameterDefinitions') {
         parameterDefinitions = data.data
       } else if (data.action == 'entities') {
         if (data.error) {
-          response = createUnhealthyResponse(new Date(), data.error)
+          workerHelper.resolver(createUnhealthyResponse(new Date(), data.error))
         } else {
-          response = createHealthyResponse({
-            type: 'geometry',
-            data: [...data.entities.map(CSG2Object3D).filter((o) => o)],
-            consoleMessage: data.scriptStats,
-            date: new Date(),
-            customizerParams: parameterDefinitions,
-            currentParameters,
-          })
+          workerHelper.resolver(
+            createHealthyResponse({
+              type: 'geometry',
+              data: data.entities.map(CSG2Object3D).filter((o) => o),
+              consoleMessage: data.scriptStats,
+              date: new Date(),
+              customizerParams: jsCadToCadhubParams(parameterDefinitions || []),
+            })
+          )
         }
-        callResolve()
       }
     })
 
-    callResolve()
-    response = null
+    workerHelper.resolver()
     scriptWorker.postMessage({ action: 'init', baseURI, alias: [] })
   }
 
-  if (
-    parameters &&
-    currentParameters &&
-    JSON.stringify(parameters) !== JSON.stringify(currentParameters)
-  ) {
-    // we are not evaluating code, but reacting to parameters change
-    scriptWorker.postMessage({
-      action: 'updateParams',
-      worker: 'script',
-      params: parameters,
-    })
-  } else {
-    scriptWorker.postMessage({
-      action: 'runScript',
-      worker: 'script',
-      script: code,
-      params: parameters || {},
-      url: 'jscad_script',
-    })
-  }
-  // we need this to keep the form filled with same data when new parameter definitions arrive
-  // each render of the script could provide new paramaters. In case some of them are still rpesent
-  // it is expected for them to stay the same and not just reset
-  currentParameters = parameters || {}
-
-  const waitResult = new Promise((resolve) => {
-    resolveReference = resolve
-  })
-
-  await waitResult
-  resolveReference = null
-  if (parameters) delete response.customizerParams
-  return response
+  return workerHelper.render(code, parameters)
 }
 
 const jsCadController: DefaultKernelExport = {

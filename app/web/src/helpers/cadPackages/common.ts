@@ -1,5 +1,6 @@
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { State } from 'src/helpers/hooks/useIdeState'
+import { CadhubParams } from 'src/components/Customizer/customizerConverter'
 
 export const lambdaBaseURL =
   process.env.CAD_LAMBDA_BASE_URL ||
@@ -45,14 +46,12 @@ export function createHealthyResponse({
   consoleMessage,
   type,
   customizerParams,
-  currentParameters,
 }: {
   date: Date
   data: any
   consoleMessage: string
   type: HealthyResponse['objectData']['type']
-  customizerParams?: any
-  currentParameters?: any
+  customizerParams?: CadhubParams[]
 }): HealthyResponse {
   return {
     status: 'healthy',
@@ -66,7 +65,6 @@ export function createHealthyResponse({
       time: date,
     },
     customizerParams,
-    currentParameters,
   }
 }
 
@@ -99,6 +97,7 @@ export function createUnhealthyResponse(
 
 export const timeoutErrorMessage = `timeout: We're currently limited to a 30s execution time. You can try again, sometimes it works the second time`
 
+export type RenderResponse = HealthyResponse | ErrorResponse
 export interface DefaultKernelExport {
-  render: (arg: RenderArgs) => Promise<HealthyResponse | ErrorResponse>
+  render: (arg: RenderArgs) => Promise<RenderResponse>
 }
