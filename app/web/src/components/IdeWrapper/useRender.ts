@@ -3,7 +3,7 @@ import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 
 export const useRender = () => {
   const { state, thunkDispatch } = useIdeContext()
-  return () => {
+  return (paramOverrides: {[key: string]: any} = {}) => {
     thunkDispatch((dispatch, getState) => {
       const state = getState()
       dispatch({ type: 'setLoading' })
@@ -13,7 +13,10 @@ export const useRender = () => {
         code: state.code,
         viewerSize: state.viewerSize,
         camera: state.camera,
-        parameters: state.currentParameters,
+        parameters: {
+          ...state.currentParameters,
+          ...paramOverrides,
+        },
       })
     })
     localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)

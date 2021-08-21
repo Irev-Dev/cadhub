@@ -7,6 +7,7 @@ import {
   CadhubBooleanParam,
   CadhubNumberParam,
 } from './customizerConverter'
+import { debounce } from 'lodash'
 
 const Customizer = () => {
   const [open, setOpen] = React.useState(false)
@@ -186,6 +187,8 @@ function NumberParam({
   const [localValue, localValueSetter] = React.useState(0)
   const [isLocked, isLockedSetter] = React.useState(false)
   const [pixelsDragged, pixelsDraggedSetter] = React.useState(0)
+  const handleRender = useRender()
+  const liveRenderHandler = debounce((a) => handleRender(a), 250)
   const step = param.step || 1
   const commitChange = () => {
     let num = localValue
@@ -246,6 +249,7 @@ function NumberParam({
             if (isLocked && movementX) {
               pixelsDraggedSetter(pixelsDragged + (movementX * step) / 8) // one step per 8 pixels
               localValueSetter(Number(pixelsDragged.toFixed(2)))
+              liveRenderHandler({[param.name]: Number(pixelsDragged.toFixed(2))})
             }
           }}
         >
