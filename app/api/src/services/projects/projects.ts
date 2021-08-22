@@ -103,13 +103,15 @@ export const updateProject = async ({ id, input }: UpdateProjectArgs) => {
     const descriptionChange =
       input.description && input.description !== oldProject.description
     if (titleChange || descriptionChange) {
-        const socialCard = await db.socialCard.findUnique({where: {projectId}})
-        if (socialCard) {
-          return db.socialCard.update({
-            data: { outOfDate: true },
-            where: { id: socialCard.id },
-          })
-        }
+      const socialCard = await db.socialCard.findUnique({
+        where: { projectId },
+      })
+      if (socialCard) {
+        return db.socialCard.update({
+          data: { outOfDate: true },
+          where: { id: socialCard.id },
+        })
+      }
     }
   }
   requireAuth()
