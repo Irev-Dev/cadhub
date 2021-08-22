@@ -96,7 +96,7 @@ const unWrappedHandler = async (req, _context) => {
 I started CadHub because I wanted a community hub for people who like CodeCAD as much of I do, you should know that the development of CadHub is very much a community effort as well and if you want get involved the discord is the best place to start https://discord.gg/SD7zFRNjGH.
 Long term I hope that CadHub will help push CodeCad as a paradigm forward, as there are clear benefits such as: CI/CD for parts, GIT based workflow and CodeCAD parts are normally much more robust to changes to parametric variables because the author can add logic to accommodate big changes where as GUI-CAD usually relies on blackbox heuristics and is more brittle. Sorry I'm getting into the weeds, if you want to read more on the paradigm see our blog https://learn.cadhub.xyz/.
 
-One very easy way to help out is to simply add any OpenSCAD or CadQuery models you have to the website, building out the library of parts atm is very important.
+One very easy way to help out is to give the repo a star (https://github.com/Irev-Dev/cadhub), or simply add any OpenSCAD or CadQuery models you have to the website, building out the library of parts atm is very important.
 
 Hit me up anytime for questions or concerns.
 Cheers,
