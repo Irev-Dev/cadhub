@@ -15,14 +15,29 @@ const IdeConsole = () => {
       <div>
         {state.consoleMessages?.map(({ type, message, time }, index) => (
           <pre
-            className="font-mono text-sm text-gray-300"
+            className="font-mono text-sm text-gray-400"
             key={`${message} ${index}`}
           >
             <div className="text-xs font-bold pt-2 text-ch-blue-600">
               {time?.toLocaleString()}
             </div>
             <div className={(type === 'error' ? 'text-red-400' : '') + ' pl-4'}>
-              {message}
+              {message.split('\n').map((line, index) => {
+                return (
+                  <div key={index}>
+                    {line.startsWith('ECHO:') ? (
+                      <span className="text-xs">
+                        ECHO:{' '}
+                        <span className="text-purple-300 font-semibold text-base">
+                          {line.slice(6)}
+                        </span>
+                      </span>
+                    ) : (
+                      line
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </pre>
         ))}
