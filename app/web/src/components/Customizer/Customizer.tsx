@@ -6,6 +6,9 @@ import {
   CadhubStringParam,
   CadhubBooleanParam,
   CadhubNumberParam,
+  CadhubStringChoiceParam,
+  CadhubNumberChoiceParam,
+  CadhubChoiceParam,
 } from './customizerConverter'
 
 const Customizer = () => {
@@ -79,12 +82,16 @@ const Customizer = () => {
           {customizerParams.map((param, index) => {
             const otherProps = {
               value: currentParameters[param.name],
-              onChange: (value) => updateCustomizerParam(param.name, value),
+              onChange: (value) => updateCustomizerParam(param.name, param.type == 'number' ? Number(value) : value),
             }
-            if (param.type === 'string') {
-              return <StringParam key={index} param={param} {...otherProps} />
+            if(param.input === 'choice-string' || param.input === 'choice-number'){
+              return <StringChoiceParam key={index} param={param} {...otherProps} />
+            // }else if(param.input === 'choice-number'){
+            //     return <StringChoiceParam key={index} param={param} {...otherProps} />
+            }else if (param.type === 'string') {
+                return <StringParam key={index} param={param} {...otherProps} />
             } else if (param.type === 'number') {
-              return <NumberParam key={index} param={param} {...otherProps} />
+                return <NumberParam key={index} param={param} {...otherProps} />
             } else if (param.type === 'boolean') {
               return <BooleanParam key={index} param={param} {...otherProps} />
             }
@@ -169,6 +176,28 @@ function StringParam({
         placeholder={param.placeholder}
         onChange={({ target }) => onChange(target?.value)}
       />
+    </CustomizerParamBase>
+  )
+}
+
+function StringChoiceParam({
+  param,
+  value,
+  onChange,
+}: {
+  param: CadhubChoiceParam
+  value: any
+  onChange: Function
+}) {
+  return (
+    <CustomizerParamBase name={param.name} caption={param.caption}>
+      <select
+        className="bg-transparent h-8 border border-ch-gray-300 px-2 text-sm w-full"
+        value={value}
+        onChange={({ target }) => onChange(target?.value)}
+      >
+      {param.options.map(opt=><option value={opt.value} key={opt.name}>{opt.name}</option>)}
+      </select>
     </CustomizerParamBase>
   )
 }

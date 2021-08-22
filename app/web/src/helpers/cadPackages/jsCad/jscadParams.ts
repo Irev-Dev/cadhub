@@ -87,6 +87,7 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
         case 'int':
           return {
             type: 'number',
+            input: 'default-number',
             caption: param.caption,
             name: param.name,
             initial: param.initial,
@@ -103,6 +104,7 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
         case 'date':
           return {
             type: 'string',
+            input: 'default-string',
             caption: param.caption,
             name: param.name,
             initial: param.initial,
@@ -120,11 +122,13 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
         case 'checkbox':
           return {
             type: 'boolean',
+            input: 'default-boolean',
             caption: param.caption,
             name: param.name,
             initial: !!param.initial,
           }
           case 'choice':
+          case 'radio':
             if(typeof param.values[0] === 'number'){
               let options:Array<CadhubNumberOption> = []
               let captions = param.captions || param.values
@@ -133,7 +137,7 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
               })
               return  {
                 type:  'number',
-                input: 'choice',
+                input: 'choice-number',
                 caption: param.caption,
                 name: param.name,
                 initial: Number(param.initial),
@@ -147,7 +151,7 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
               })
               return  {
                 type:  'string',
-                input: 'choice',
+                input: 'choice-string',
                 caption: param.caption,
                 name: param.name,
                 initial: String(param.initial),

@@ -51,7 +51,7 @@ show_object(result)
 
 const jscad = require('@jscad/modeling')
 // https://openjscad.xyz/docs/module-modeling_primitives.html
-const { circle, rectangle, cube, cuboid, sphere, cylinder } = jscad.primitives 
+const { circle, rectangle, cube, cuboid, sphere, cylinder } = jscad.primitives
 
 const { rotate, scale, translate } = jscad.transforms
 const { degToRad } = jscad.utils // because jscad uses radians for rotations
@@ -62,7 +62,7 @@ const { union, intersect, subtract } = jscad.booleans
 function main({//@jscad-params
     // Box example
     width=40, // Width
-    length=20, // Length 
+    length=20, // Length
     height=10, // Height
     hole=3,// Hole for cables diameter (0=no hole)
     wall=1, // wall {min:0.5, step:0.5}
@@ -77,7 +77,7 @@ function main({//@jscad-params
         model = subtract( model,
             translate([width/2-wall/2], rotate([0, degToRad(90), 0 ], cylinder({radius:hole/2, height:wall})))
         )
-    } 
+    }
     return rotate([0,0, degToRad(90)], model)
 }
 
