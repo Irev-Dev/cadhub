@@ -28,7 +28,7 @@ const Customizer = () => {
   return (
     <div
       className={`absolute inset-x-0 bottom-0 bg-ch-gray-600 bg-opacity-60 text-ch-gray-300 text-lg font-fira-sans ${
-        open ? 'h-2/3' : ''
+        open ? 'h-1/3' : ''
       }`}
     >
       <div className="flex justify-between px-6 py-2 items-center">
