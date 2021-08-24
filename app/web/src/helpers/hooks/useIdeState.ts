@@ -48,56 +48,69 @@ result = (cq.Workplane().circle(diam).extrude(20.0)
 show_object(result)
 `,
   jscad: `
+const jscad = require('@jscad/modeling')
+// https://openjscad.xyz/docs/module-modeling_primitives.html
+const { circle, rectangle, cube, cuboid, sphere, cylinder } = jscad.primitives 
 
-const { booleans, colors, primitives } = require('@jscad/modeling') // modeling comes from the included MODELING library
+const { rotate, scale } = jscad.transforms
+const { degToRad } = jscad.utils // because jscad uses radians for rotations
+const { colorize } = jscad.colors
+// https://openjscad.xyz/docs/module-modeling_booleans.html
+const { union, intersect } = jscad.booleans
 
-const { intersect, subtract } = booleans
-const { colorize } = colors
-const { cube, cuboid, line, sphere, star } = primitives
+// guessing where are those holes if miscalculated can ba a pain
+// use this to preview the subtract. 
+// it is also massively faster than the actual subtract (so it may help while testing)
+let previewSubtract = false
 
-const main = ({length=200}) => {
-  const logo = [
-    colorize([1.0, 0.4, 1.0], subtract(
-      cube({ size: 75 }),
-      sphere({ radius: 50 })
-    )),
-    colorize([1.0, 1.0, 0], intersect(
-      sphere({ radius: 32 }),
-      cube({ size: 50 })
-    ))
-  ]
+function main({//@jscad-params
+    // Box example
+    width=40, // Width
+    length=20, // Length 
+    height=10, // Height
+    hole=3,// Hole for cables diameter (0=no hole)
+    wall=1, // wall {min:0.5, step:0.5}
+}){
 
-  const transpCube = colorize([1, 0, 0, 0.75], cuboid({ size: [30, 30, length] }))
-  const star2D = star({ vertices: 8, innerRadius: 38, outerRadius: 60 })
-  const line2D = colorize([1.0, 0, 0], line([[70, 70], [-70, 70], [-70, -70], [70, -70], [70, 70]]))
-
-  return [transpCube, star2D, line2D, ...logo]
+    let wallOffset = wall * 2
+    let model = subtract(
+        cuboid({size:[width, length, height]}),
+        translate([0,0,wall], cuboid({size:[width-wallOffset, length-wallOffset, height+wall]})),
+    )
+    if(hole){
+        model = subtract( model,
+            translate([width/2-wall/2], rotate([0, degToRad(90), 0 ], cylinder({radius:hole/2, height:wall})))
+        )
+    } 
+    return model
 }
-const getParameterDefinitions = () => {
-  return [
-    {type:'slider', name:'length', initial:200, caption:'Length', min:100, max:500},
-    { name: 'group1', type: 'group', caption: 'Group 1: Text Entry' },
-    { name: 'text', type: 'text', initial: '', size: 20, maxLength: 20, caption: 'Hook’s “thickness” = object\’s width = print’s height', placeholder: '20 characters' },
-    { name: 'int', type: 'int', initial: 20, min: 1, max: 100, step: 1, caption: 'Integer:' },
-    { name: 'number', type: 'number', initial: 2.0, min: 1.0, max: 10.0, step: 0.1, caption: 'Number:' },
-    { name: 'date', type: 'date', initial: '2020-01-01', min: '2020-01-01', max: '2030-12-31', caption: 'Choose between classic hook with screw holes (0) or “bracket” system (1)', placeholder: 'YYYY-MM-DD' },
-    { name: 'email', type: 'email', initial: 'me@example.com', caption: 'Email:' },
-    { name: 'url', type: 'url', initial: 'www.example.com', size: 40, maxLength: 40, caption: 'Url:', placeholder: '40 characters' },
-    { name: 'password', type: 'password', initial: '', caption: 'Password:' },
 
-    { name: 'group2', type: 'group', caption: 'Group 2: Interactive Controls' },
-    { name: 'checkbox', type: 'checkbox', checked: true, initial: '20', caption: 'Checkbox:' },
-    { name: 'color', type: 'color', initial: '#FFB431', caption: 'Color:' },
-    { name: 'slider', type: 'slider', initial: 3, min: 1, max: 10, step: 1, caption: 'Slider:' },
-    { name: 'choice1', type: 'choice', caption: 'Dropdown Menu:', values: [0, 1, 2, 3], captions: ['No', 'Yes', 'Maybe', 'So so'], initial: 2 },
-    { name: 'choice3', type: 'choice', caption: 'Dropdown Menu:', values: ['No', 'Yes', 'Maybe', 'So so'], initial: 'No' },
-    { name: 'choice2', type: 'radio', caption: 'Radio Buttons:', values:[0, 1, 2, 3], captions: ['No', 'Yes', 'Maybe', 'So so'], initial: 2 },
 
-    { name: 'group3', type: 'group', initial: 'closed', caption: 'Group 3: Initially Closed Group' },
-    { name: 'checkbox2', type: 'checkbox', checked: true, initial: '20', caption: 'Optional Checkbox:' },
-  ]
+
+// subtract with preview ability
+function subtract(model, ...rest){
+    if(previewSubtract){
+        return [
+            ...rest,
+            colorize([1,1,1,0.5],model),
+        ]
+    }
+    return jscad.booleans.subtract(model, ...rest)
 }
-module.exports = {main, getParameterDefinitions}
+
+// FIX for color retention for translate until jscad improves transforms 
+function translate(xyz, ...models){
+    return jscad.utils.flatten(models).map(m=>{
+        let color = m.color
+        let out = jscad.transforms.translate(xyz,m)
+        out.color = color
+        return out
+    })
+}
+
+
+module.exports = {main}
+
 `,
 }
 
