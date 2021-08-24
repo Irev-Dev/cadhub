@@ -16,7 +16,7 @@ const FullScriptEncoding = () => {
         className="py-1 px-2 mt-4 text-xs border border-ch-purple-450 w-full"
       />
       <button
-        className="w-full bg-ch-purple-450 hover:bg-ch-purple-400 py-1 rounded-b text-gray-300"
+        className="w-full bg-ch-purple-450 hover:bg-ch-purple-400 py-1 text-gray-300"
         onClick={() => copyTextToClipboard(encodedLink)}
       >
         Copy URL
