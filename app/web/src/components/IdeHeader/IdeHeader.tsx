@@ -152,8 +152,8 @@ const IdeHeader = ({
                 {open && (
                   <Popover.Panel className="absolute z-10 mt-4 right-0">
                     <Tabs
-                      className="bg-gray-300 rounded-md shadow-md overflow-hidden text-gray-700"
-                      selectedTabClassName="bg-gray-200"
+                      className="bg-ch-purple-gray-200 rounded-md shadow-md overflow-hidden text-gray-700"
+                      selectedTabClassName="bg-ch-gray-700 text-white"
                     >
                       <TabPanel>
                         <FullScriptEncoding />
