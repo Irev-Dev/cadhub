@@ -27,8 +27,12 @@ module.exports = {
         },
         'ch-purple': {
           400: '#3B0480',
+          450: '#671BC6',
           500: '#8732F2',
           600: '#A663FA',
+        },
+        'ch-purple-gray': {
+          200: '#DBDBEC',
         },
         'ch-blue': {
           600: '#79B2F8',

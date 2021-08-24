@@ -53,7 +53,7 @@ const ExternalScript = () => {
   }
   return (
     <div className="p-4">
-      <p className="text-sm pb-4">
+      <p className="text-sm pb-4 border-b border-gray-700">
         Paste an external url containing a {cadName} script to generate a new
         CadHub url for this resource.{' '}
         <OutBound
@@ -66,9 +66,9 @@ const ExternalScript = () => {
       </p>
       {['INIT', 'ERROR'].includes(asyncState) && (
         <>
-          <p>Paste url</p>
+          <p className="mt-4">Paste url</p>
           <input
-            className="p-1 text-xs rounded border border-gray-700 w-full"
+            className="p-1 text-xs border border-ch-purple-450 w-full"
             value={rawUrl}
             onChange={onChange}
             onPaste={onPaste}
@@ -91,23 +91,23 @@ const ExternalScript = () => {
           <input
             value={makeExternalUrl(rawUrl).replace(/^.+:\/\//g, '')}
             readOnly
-            className="p-1 mt-4 text-xs rounded-t border border-gray-700 w-full"
+            className="py-1 px-2 mt-4 text-xs border border-ch-purple-450 w-full"
           />
           <button
-            className="w-full bg-gray-700 py-1 rounded-b text-gray-300"
+            className="w-full bg-ch-purple-450 hover:bg-ch-purple-400 py-1 text-gray-300"
             onClick={() => copyTextToClipboard(makeExternalUrl(rawUrl))}
           >
             Copy URL
           </button>
           <div className="flex flex-col gap-2 pt-2">
             <button
-              className="bg-gray-500 p-1 px-2 rounded text-gray-300"
+              className="bg-gray-500 hover:bg-gray-600 p-1 px-2 text-gray-200"
               onClick={onCopyRender}
             >
               Copy &amp; Render
             </button>
             <button
-              className="bg-gray-500 p-1 px-2 rounded text-gray-300"
+              className="bg-gray-500 hover:bg-gray-600 p-1 px-2 text-gray-200"
               onClick={() => {
                 setAsyncState('INIT')
                 setRawUrl('')
