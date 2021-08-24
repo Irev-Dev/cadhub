@@ -48,20 +48,16 @@ result = (cq.Workplane().circle(diam).extrude(20.0)
 show_object(result)
 `,
   jscad: `
+
 const jscad = require('@jscad/modeling')
 // https://openjscad.xyz/docs/module-modeling_primitives.html
 const { circle, rectangle, cube, cuboid, sphere, cylinder } = jscad.primitives 
 
-const { rotate, scale } = jscad.transforms
+const { rotate, scale, translate } = jscad.transforms
 const { degToRad } = jscad.utils // because jscad uses radians for rotations
 const { colorize } = jscad.colors
 // https://openjscad.xyz/docs/module-modeling_booleans.html
-const { union, intersect } = jscad.booleans
-
-// guessing where are those holes if miscalculated can ba a pain
-// use this to preview the subtract. 
-// it is also massively faster than the actual subtract (so it may help while testing)
-let previewSubtract = false
+const { union, intersect, subtract } = jscad.booleans
 
 function main({//@jscad-params
     // Box example
@@ -82,32 +78,8 @@ function main({//@jscad-params
             translate([width/2-wall/2], rotate([0, degToRad(90), 0 ], cylinder({radius:hole/2, height:wall})))
         )
     } 
-    return model
+    return rotate([0,0, degToRad(90)], model)
 }
-
-
-
-// subtract with preview ability
-function subtract(model, ...rest){
-    if(previewSubtract){
-        return [
-            ...rest,
-            colorize([1,1,1,0.5],model),
-        ]
-    }
-    return jscad.booleans.subtract(model, ...rest)
-}
-
-// FIX for color retention for translate until jscad improves transforms 
-function translate(xyz, ...models){
-    return jscad.utils.flatten(models).map(m=>{
-        let color = m.color
-        let out = jscad.transforms.translate(xyz,m)
-        out.color = color
-        return out
-    })
-}
-
 
 module.exports = {main}
 
