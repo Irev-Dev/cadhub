@@ -130,7 +130,6 @@ const workerHelper = new WorkerHelper()
 
 export const render: DefaultKernelExport['render'] = async ({
   code,
-  parameters,
   settings,
 }: RenderArgs) => {
   if (!scriptWorker) {
@@ -169,11 +168,11 @@ export const render: DefaultKernelExport['render'] = async ({
       }
     })
 
-    workerHelper.resolver()
+    workerHelper.resolver(null)
     scriptWorker.postMessage({ action: 'init', baseURI, alias: [] })
   }
 
-  return workerHelper.render(code, parameters)
+  return workerHelper.render(code, settings.parameters)
 }
 
 const jsCadController: DefaultKernelExport = {

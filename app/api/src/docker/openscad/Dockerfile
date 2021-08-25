@@ -6,10 +6,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 # double check this below, I'm not sure we need inkscape etc
 RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb imagemagick unzip inkscape
-RUN add-apt-repository ppa:openscad/releases
-RUN apt-get update -qq
-RUN apt-get install -y -qq openscad
 RUN apt-get install -y curl wget
+RUN touch /etc/apt/sources.list.d/openscad.list
+RUN echo "deb https://download.opensuse.org/repositories/home:/t-paul/xUbuntu_20.04/ ./" >> /etc/apt/sources.list.d/openscad.list
+RUN wget -qO - https://files.openscad.org/OBS-Repository-Key.pub | apt-key add -
+RUN apt-get update -qq
+RUN apt-get install -y openscad-nightly
 
 # install node14, see comment at the to of node14source_setup.sh
 ADD common/node14source_setup.sh /nodesource_setup.sh
@@ -44,7 +46,9 @@ RUN echo "OPENSCADPATH=/var/task/openscad" >>/etc/profile && \
   wget -P /var/task/openscad/ https://github.com/Irev-Dev/Round-Anything/archive/refs/tags/1.0.4.zip && \
   unzip /var/task/openscad/1.0.4
 # Add our own theming (based on DeepOcean with a different "background" and "opencsg-face-back")
-COPY openscad/cadhubtheme.json /usr/share/openscad/color-schemes/render/
+COPY openscad/cadhubtheme.json /usr/share/openscad-nightly/color-schemes/render/
+
+RUN echo "cadhub-concat-split" > /var/task/cadhub-concat-split
 
 COPY openscad/*.js /var/task/
 COPY common/*.js /var/common/

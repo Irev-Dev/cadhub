@@ -57,8 +57,6 @@ const preview = async (req, _context, callback) => {
           s3,
           tk
         ),
-        consoleMessage:
-          previousAsset.consoleMessage || previousAssetPng.consoleMessage,
         type,
       }),
     }
@@ -67,7 +65,10 @@ const preview = async (req, _context, callback) => {
   }
 
   const { file, settings } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath } = await runScad({ file, settings })
+  const { error, consoleMessage, fullPath, customizerPath } = await runScad({
+    file,
+    settings,
+  })
   await storeAssetAndReturnUrl({
     error,
     callback,
@@ -100,14 +101,16 @@ const stl = async (req, _context, callback) => {
       statusCode: 200,
       body: JSON.stringify({
         url: getObjectUrl({ ...params }, s3, tk),
-        consoleMessage: previousAsset.consoleMessage,
       }),
     }
     callback(null, response)
     return
   }
-  const { file } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath } = await stlExport({ file })
+  const { file, settings } = JSON.parse(eventBody)
+  const { error, consoleMessage, fullPath, customizerPath } = await stlExport({
+    file,
+    settings,
+  })
   await storeAssetAndReturnUrl({
     error,
     callback,
@@ -121,6 +124,6 @@ const stl = async (req, _context, callback) => {
 }
 
 module.exports = {
-  stl: middy(stl).use(cors()),
+  stl: middy(loggerWrap(stl)).use(cors()),
   preview: middy(loggerWrap(preview)).use(cors()),
 }

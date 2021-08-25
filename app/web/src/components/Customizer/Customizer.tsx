@@ -8,7 +8,6 @@ import {
   CadhubNumberParam,
   CadhubStringChoiceParam,
   CadhubNumberChoiceParam,
-  CadhubChoiceParam,
 } from './customizerConverter'
 
 const Customizer = () => {
@@ -82,17 +81,22 @@ const Customizer = () => {
           {customizerParams.map((param, index) => {
             const otherProps = {
               value: currentParameters[param.name],
-              onChange: (value) => updateCustomizerParam(param.name, param.type == 'number' ? Number(value) : value),
+              onChange: (value) =>
+                updateCustomizerParam(
+                  param.name,
+                  param.type == 'number' ? Number(value) : value
+                ),
             }
-            if(param.input === 'choice-string' || param.input === 'choice-number'){
-              return <StringChoiceParam key={index} param={param} {...otherProps} />
-            // }else if(param.input === 'choice-number'){
-            //     return <StringChoiceParam key={index} param={param} {...otherProps} />
-            }else if (param.type === 'string') {
-                return <StringParam key={index} param={param} {...otherProps} />
-            } else if (param.type === 'number') {
-                return <NumberParam key={index} param={param} {...otherProps} />
-            } else if (param.type === 'boolean') {
+            if (
+              param.input === 'choice-string' ||
+              param.input === 'choice-number'
+            ) {
+              return <ChoiceParam key={index} param={param} {...otherProps} />
+            } else if (param.input === 'default-string') {
+              return <StringParam key={index} param={param} {...otherProps} />
+            } else if (param.input === 'default-number') {
+              return <NumberParam key={index} param={param} {...otherProps} />
+            } else if (param.input === 'default-boolean') {
               return <BooleanParam key={index} param={param} {...otherProps} />
             }
             return <div key={index}>{JSON.stringify(param)}</div>
@@ -180,12 +184,12 @@ function StringParam({
   )
 }
 
-function StringChoiceParam({
+function ChoiceParam({
   param,
   value,
   onChange,
 }: {
-  param: CadhubChoiceParam
+  param: CadhubStringChoiceParam | CadhubNumberChoiceParam
   value: any
   onChange: Function
 }) {
@@ -196,7 +200,11 @@ function StringChoiceParam({
         value={value}
         onChange={({ target }) => onChange(target?.value)}
       >
-      {param.options.map(opt=><option value={opt.value} key={opt.name}>{opt.name}</option>)}
+        {param.options.map((opt) => (
+          <option value={opt.value} key={opt.name}>
+            {opt.name}
+          </option>
+        ))}
       </select>
     </CustomizerParamBase>
   )

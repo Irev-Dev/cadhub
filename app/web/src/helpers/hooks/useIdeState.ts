@@ -51,13 +51,12 @@ show_object(result)
 
 const jscad = require('@jscad/modeling')
 // https://openjscad.xyz/docs/module-modeling_primitives.html
-const { circle, rectangle, cube, cuboid, sphere, cylinder } = jscad.primitives
+const { cuboid, cylinder } = jscad.primitives
 
-const { rotate, scale, translate } = jscad.transforms
+const { rotate, translate } = jscad.transforms
 const { degToRad } = jscad.utils // because jscad uses radians for rotations
-const { colorize } = jscad.colors
 // https://openjscad.xyz/docs/module-modeling_booleans.html
-const { union, intersect, subtract } = jscad.booleans
+const { subtract } = jscad.booleans
 
 function main({//@jscad-params
     // Box example
@@ -66,6 +65,7 @@ function main({//@jscad-params
     height=10, // Height
     hole=3,// Hole for cables diameter (0=no hole)
     wall=1, // wall {min:0.5, step:0.5}
+    flip=0, // print orientation {type: 'choice', values: [0, 90, 180]}
 }){
 
     let wallOffset = wall * 2
@@ -78,7 +78,7 @@ function main({//@jscad-params
             translate([width/2-wall/2], rotate([0, degToRad(90), 0 ], cylinder({radius:hole/2, height:wall})))
         )
     }
-    return rotate([0,0, degToRad(90)], model)
+    return rotate([degToRad(flip), 0, degToRad(90)], model)
 }
 
 module.exports = {main}
@@ -281,8 +281,8 @@ export const requestRender = ({
       : cadPackages[state.ideType].render
     return renderFn({
       code,
-      parameters,
       settings: {
+        parameters,
         camera,
         viewerSize,
         quality,

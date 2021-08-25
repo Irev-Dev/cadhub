@@ -6,6 +6,7 @@ import {
   timeoutErrorMessage,
   RenderArgs,
   DefaultKernelExport,
+  splitGziped,
 } from './common'
 
 export const render: DefaultKernelExport['render'] = async ({
@@ -41,11 +42,19 @@ export const render: DefaultKernelExport['render'] = async ({
       return createUnhealthyResponse(new Date(), timeoutErrorMessage)
     }
     const data = await response.json()
-    const geometry = await stlToGeometry(data.url)
+    const newData = await fetch(data.url).then(async (a) => {
+      const blob = await a.blob()
+      const text = await new Response(blob).text()
+      const { consoleMessage } = splitGziped(text)
+      return {
+        data: await stlToGeometry(window.URL.createObjectURL(blob)),
+        consoleMessage,
+      }
+    })
     return createHealthyResponse({
       type: 'geometry',
-      data: geometry,
-      consoleMessage: data.consoleMessage,
+      data: newData.data,
+      consoleMessage: newData.consoleMessage,
       date: new Date(),
     })
   } catch (e) {
