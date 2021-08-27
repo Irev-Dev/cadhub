@@ -270,7 +270,7 @@ function NumberParam({
   onChange: (value: any) => void
 }) {
   const [isFocused, isFocusedSetter] = React.useState(false)
-  const [localValue, localValueSetter] = React.useState(0)
+  const [localValue, localValueSetter] = React.useState(value)
   const [isLocked, isLockedSetter] = React.useState(false)
   const [pixelsDragged, pixelsDraggedSetter] = React.useState(0)
   const step = param.step || 1
