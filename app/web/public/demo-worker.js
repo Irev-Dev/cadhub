@@ -271,7 +271,7 @@ function parseParams(script){
                 caption = caption.substring(0,idx).trim()
             }
             defs.push({name, type: 'group', caption, ...def.options})
-                        
+
         }else{
             const idx = line.indexOf('/')
             if(idx === -1){
@@ -316,7 +316,7 @@ function parseComment(comment, line){
     const prefix = comment.substring(0,2)
     if(prefix === '//') comment = comment.substring(2)
     if(prefix === '/*') comment = comment.substring(2, comment.length-2)
-    
+
     comment = comment.trim()
 
     const ret = {}
@@ -331,7 +331,7 @@ function parseComment(comment, line){
     	}
         comment = comment.substring(0,idx).trim()
     }
-    
+
     ret.caption = comment
 
     return ret
@@ -347,7 +347,7 @@ function parseDef(code, line){
         return {name:code, type:'text'}
     }else{
         let initial = code.substring(idx+1).trim()
-        
+
         const ret = {type:'text', name:code.substring(0,idx).trim()}
 
         if(initial === 'true' || initial === 'false'){
@@ -394,7 +394,7 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
       solids = []
       function flatten(arr){
         if(arr){
-          if(arr instanceof Array) 
+          if(arr instanceof Array)
             arr.forEach(flatten)
           else
             solids.push(arr)
@@ -454,7 +454,6 @@ const makeScriptWorker = ({callback, convertToSolids})=>{
           }
         })
       }
-      console.log('paramsDef', paramsDef)
       if(paramsDef.length) callback({action:'parameterDefinitions', worker:'main', data:paramsDef})
 
       runMain(params)

@@ -43,6 +43,7 @@ RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.2-beta.2/cq-cli
 RUN unzip cq-cli-Linux-x86_64.zip
 
 RUN chmod +x cq-cli/cq-cli
+RUN echo "cadhub-concat-split" > /var/task/cadhub-concat-split
 
 COPY cadquery/*.js /var/task/
 COPY common/*.js /var/common/

@@ -1,4 +1,10 @@
-import { CadhubParams } from 'src/components/Customizer/customizerConverter'
+import {
+  CadhubNumberChoiceParam,
+  CadhubNumberOption,
+  CadhubParams,
+  CadhubStringChoiceParam,
+  CadhubStringOption,
+} from 'src/components/Customizer/customizerConverter'
 
 type JscadTypeNames =
   | 'group'
@@ -19,6 +25,7 @@ interface JscadParamBase {
   type: JscadTypeNames
   caption: string
   name: string
+  initial?: number | string | boolean
 }
 interface JscadGroupParam extends JscadParamBase {
   type: 'group'
@@ -81,14 +88,18 @@ type JsCadParams =
 export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
   return input
     .map((param): CadhubParams => {
+      const common: { caption: string; name: string } = {
+        caption: param.caption,
+        name: param.name,
+      }
       switch (param.type) {
         case 'slider':
         case 'number':
         case 'int':
           return {
             type: 'number',
-            caption: param.caption,
-            name: param.name,
+            input: 'default-number',
+            ...common,
             initial: param.initial,
             min: param.min,
             max: param.max,
@@ -103,8 +114,8 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
         case 'date':
           return {
             type: 'string',
-            caption: param.caption,
-            name: param.name,
+            input: 'default-string',
+            ...common,
             initial: param.initial,
             placeholder:
               param.type === 'text' ||
@@ -120,9 +131,38 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
         case 'checkbox':
           return {
             type: 'boolean',
-            caption: param.caption,
-            name: param.name,
+            input: 'default-boolean',
+            ...common,
             initial: !!param.initial,
+          }
+        case 'choice':
+        case 'radio':
+          if (typeof param.values[0] === 'number') {
+            const options: Array<CadhubNumberOption> = []
+            const captions = param.captions || param.values
+            param.values.forEach((value, i) => {
+              options[i] = { name: String(captions[i]), value: Number(value) }
+            })
+            return {
+              type: 'number',
+              input: 'choice-number',
+              ...common,
+              initial: Number(param.initial),
+              options,
+            }
+          } else {
+            const options: Array<CadhubStringOption> = []
+            const captions = param.captions || param.values
+            param.values.forEach((value, i) => {
+              options[i] = { name: String(captions[i]), value: String(value) }
+            })
+            return {
+              type: 'string',
+              input: 'choice-string',
+              ...common,
+              initial: String(param.initial),
+              options,
+            }
           }
       }
     })

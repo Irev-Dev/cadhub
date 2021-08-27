@@ -3,24 +3,19 @@ const { promises } = require('fs')
 const { writeFile } = promises
 const { createHash } = require('crypto')
 
-const CONSOLE_MESSAGE_KEY = 'console-message-b64'
-function putConsoleMessageInMetadata(consoleMessage) {
-  return {
-    [CONSOLE_MESSAGE_KEY]: Buffer.from(consoleMessage, 'utf-8').toString(
-      'base64'
-    ),
+async function writeFiles(files = [], tempFile) {
+  console.log(`file to write: ${files.length}`)
+
+  try {
+    await runCommand(`mkdir /tmp/${tempFile}`)
+  } catch (e) {
+    //
   }
-}
-function getConsoleMessageFromMetadata(metadata) {
-  return Buffer.from(metadata[CONSOLE_MESSAGE_KEY], 'base64').toString('utf-8')
-}
-
-async function makeFile(file, extension = '.scad', makeHash) {
-  const tempFile = 'a' + makeHash() // 'a' ensure nothing funny happens if it start with a bad character like "-", maybe I should pick a safer id generator :shrug:
-  console.log(`file to write: ${file}`)
-
-  await runCommand(`mkdir /tmp/${tempFile}`)
-  await writeFile(`/tmp/${tempFile}/main${extension}`, file)
+  await Promise.all(
+    files.map(({ file, fileName }) =>
+      writeFile(`/tmp/${tempFile}/${fileName}`, file)
+    )
+  )
   return tempFile
 }
 
@@ -54,10 +49,8 @@ function makeHash(script) {
 
 async function checkIfAlreadyExists(params, s3) {
   try {
-    const objectHead = await s3.headObject(params).promise()
-    const consoleMessage = getConsoleMessageFromMetadata(objectHead.Metadata)
-    console.log('consoleMessage', consoleMessage)
-    return { isAlreadyInBucket: true, consoleMessage }
+    await s3.headObject(params).promise()
+    return { isAlreadyInBucket: true }
   } catch (e) {
     console.log("couldn't find it", e)
     return { isAlreadyInBucket: false }
@@ -117,7 +110,7 @@ async function storeAssetAndReturnUrl({
     let buffer
 
     try {
-      buffer = await readFile(`${fullPath}.gz`)
+      buffer = await readFile(fullPath)
     } catch (e) {
       console.log('read file error', e)
       const response = {
@@ -136,7 +129,6 @@ async function storeAssetAndReturnUrl({
         CacheControl: `max-age=${FiveDays}`, // browser caching to stop downloads of the same part
         ContentType: 'text/stl',
         ContentEncoding: 'gzip',
-        Metadata: putConsoleMessageInMetadata(consoleMessage),
       })
       .promise()
     console.log('stored object', storedRender)
@@ -146,7 +138,6 @@ async function storeAssetAndReturnUrl({
       statusCode: 200,
       body: JSON.stringify({
         url,
-        consoleMessage,
       }),
     }
     callback(null, response)
@@ -156,7 +147,7 @@ async function storeAssetAndReturnUrl({
 
 module.exports = {
   runCommand,
-  makeFile,
+  writeFiles,
   makeHash,
   checkIfAlreadyExists,
   getObjectUrl,

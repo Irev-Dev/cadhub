@@ -13,8 +13,8 @@ export const stlToGeometry = (url) =>
 
 export interface RenderArgs {
   code: State['code']
-  parameters?: RawCustomizerParams
   settings: {
+    parameters?: RawCustomizerParams
     camera: State['camera']
     viewerSize: State['viewerSize']
     quality: State['objectData']['quality']
@@ -102,4 +102,17 @@ export const timeoutErrorMessage = `timeout: We're currently limited to a 30s ex
 export type RenderResponse = HealthyResponse | ErrorResponse
 export interface DefaultKernelExport {
   render: (arg: RenderArgs) => Promise<RenderResponse>
+}
+
+export const splitGziped = (text: string) => {
+  const concatSplitStr = 'cadhub-concat-split'
+  const splitIndex = text.indexOf(concatSplitStr)
+  const json = text.slice(splitIndex + concatSplitStr.length)
+
+  try {
+    return JSON.parse(json)
+  } catch (e) {
+    console.log(json, e)
+    return {}
+  }
 }

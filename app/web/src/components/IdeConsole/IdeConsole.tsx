@@ -22,7 +22,7 @@ const IdeConsole = () => {
               {time?.toLocaleString()}
             </div>
             <div className={(type === 'error' ? 'text-red-400' : '') + ' pl-4'}>
-              {message.split('\n').map((line, index) => {
+              {(message || '').split('\n').map((line, index) => {
                 return (
                   <div key={index}>
                     {line.startsWith('ECHO:') ? (

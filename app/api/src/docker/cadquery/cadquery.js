@@ -31,7 +31,6 @@ const stl = async (req, _context, callback) => {
       statusCode: 200,
       body: JSON.stringify({
         url: getObjectUrl(params, s3, tk),
-        consoleMessage: previousAsset.consoleMessage,
       }),
     }
     callback(null, response)

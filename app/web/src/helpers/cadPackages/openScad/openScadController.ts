@@ -5,7 +5,9 @@ import {
   createUnhealthyResponse,
   timeoutErrorMessage,
   RenderArgs,
-} from './common'
+  splitGziped,
+} from '../common'
+import { openScadToCadhubParams } from './openScadParams'
 
 export const render = async ({ code, settings }: RenderArgs) => {
   const pixelRatio = window.devicePixelRatio || 1
@@ -17,6 +19,7 @@ export const render = async ({ code, settings }: RenderArgs) => {
   const body = JSON.stringify({
     settings: {
       size,
+      parameters: settings.parameters,
       camera: {
         // rounding to give our caching a chance to sometimes work
         ...settings.camera,
@@ -56,15 +59,25 @@ export const render = async ({ code, settings }: RenderArgs) => {
     }
     const data = await response.json()
     const type = data.type !== 'stl' ? 'png' : 'geometry'
-    const newData =
-      data.type !== 'stl'
-        ? fetch(data.url).then((a) => a.blob())
-        : stlToGeometry(data.url)
+    const newData = await fetch(data.url).then(async (a) => {
+      const blob = await a.blob()
+      const text = await new Response(blob).text()
+      const { consoleMessage, customizerParams } = splitGziped(text)
+      return {
+        data:
+          data.type !== 'stl'
+            ? blob
+            : await stlToGeometry(window.URL.createObjectURL(blob)),
+        consoleMessage,
+        customizerParams,
+      }
+    })
     return createHealthyResponse({
       type,
-      data: await newData,
-      consoleMessage: data.consoleMessage,
+      data: newData.data,
+      consoleMessage: newData.consoleMessage,
       date: new Date(),
+      customizerParams: openScadToCadhubParams(newData.customizerParams || []),
     })
   } catch (e) {
     return createUnhealthyResponse(new Date())
@@ -93,12 +106,22 @@ export const stl = async ({ code, settings }: RenderArgs) => {
       return createUnhealthyResponse(new Date(), timeoutErrorMessage)
     }
     const data = await response.json()
-    const geometry = await stlToGeometry(data.url)
+    const newData = await fetch(data.url).then(async (a) => {
+      const blob = await a.blob()
+      const text = await new Response(blob).text()
+      const { consoleMessage, customizerParams } = splitGziped(text)
+      return {
+        data: await stlToGeometry(window.URL.createObjectURL(blob)),
+        consoleMessage,
+        customizerParams,
+      }
+    })
     return createHealthyResponse({
       type: 'geometry',
-      data: geometry,
-      consoleMessage: data.consoleMessage,
+      data: newData.data,
+      consoleMessage: newData.consoleMessage,
       date: new Date(),
+      customizerParams: openScadToCadhubParams(newData.customizerParams || []),
     })
   } catch (e) {
     return createUnhealthyResponse(new Date())
