@@ -19,12 +19,13 @@
     "@monaco-editor/react": "^4.0.11",
     "@react-three/drei": "^7.3.1",
     "@react-three/fiber": "^7.0.5",
-    "@redwoodjs/auth": "^0.35.2",
-    "@redwoodjs/forms": "^0.35.2",
-    "@redwoodjs/router": "^0.35.2",
-    "@redwoodjs/web": "^0.35.2",
+    "@redwoodjs/auth": "^0.36.2",
+    "@redwoodjs/forms": "^0.36.2",
+    "@redwoodjs/router": "^0.36.2",
+    "@redwoodjs/web": "^0.36.2",
     "@sentry/browser": "^6.5.1",
     "@tailwindcss/aspect-ratio": "0.2.1",
+    "axios": "^0.21.1",
     "browser-fs-access": "^0.17.2",
     "cloudinary-react": "^1.6.7",
     "get-active-classes": "^0.0.11",
@@ -40,7 +41,7 @@
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
     "react-image-crop": "^8.6.6",
-    "react-mosaic-component": "^4.1.1",
+    "react-mosaic-component": "^5.0.0",
     "react-tabs": "^3.2.2",
     "rich-markdown-editor": "^11.0.2",
     "styled-components": "^5.2.0",
@@ -48,10 +49,10 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",
-    "autoprefixer": "^10.2.5",
+    "autoprefixer": "^10.3.1",
     "html-webpack-plugin": "^4.5.0",
-    "postcss": "^8.2.13",
-    "postcss-loader": "4.0.2",
-    "tailwindcss": "^2.1.2"
+    "postcss": "^8.3.6",
+    "postcss-loader": "^6.1.1",
+    "tailwindcss": "^2.2.7"
   }
 }
