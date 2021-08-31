@@ -2,7 +2,7 @@
 module.exports = {
   title: 'CadHub',
   tagline: '',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://learn.cadhub.xyz',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
