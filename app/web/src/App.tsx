@@ -1,7 +1,7 @@
 import { AuthProvider } from '@redwoodjs/auth'
 import GoTrue from 'gotrue-js'
 
-import { FatalErrorBoundary } from '@redwoodjs/web'
+import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import ReactGA from 'react-ga'
@@ -20,11 +20,13 @@ const goTrueClient = new GoTrue({
 
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
-    <AuthProvider client={goTrueClient} type="goTrue">
-      <RedwoodApolloProvider>
-        <Routes />
-      </RedwoodApolloProvider>
-    </AuthProvider>
+    <RedwoodProvider>
+      <AuthProvider client={goTrueClient} type="goTrue">
+        <RedwoodApolloProvider>
+          <Routes />
+        </RedwoodApolloProvider>
+      </AuthProvider>
+    </RedwoodProvider>
   </FatalErrorBoundary>
 )
 
