@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "^0.34.1",
+    "@redwoodjs/api": "^0.36.2",
     "@sentry/node": "^6.5.1",
     "cloudinary": "^1.23.0",
     "human-id": "^2.0.1",

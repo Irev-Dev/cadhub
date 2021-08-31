@@ -112,7 +112,6 @@ export const splitGziped = (text: string) => {
   try {
     return JSON.parse(json)
   } catch (e) {
-    console.log(json, e)
     return {}
   }
 }
