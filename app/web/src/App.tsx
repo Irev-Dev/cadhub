@@ -10,6 +10,7 @@ ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID)
 
 import Routes from 'src/Routes'
 
+import './font-imports.css'
 import './scaffold.css'
 import './index.css'
 

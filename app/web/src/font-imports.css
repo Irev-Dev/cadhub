@@ -1,0 +1,9 @@
+@import 'https://fonts.googleapis.com/css2?family=Ropa+Sans&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap';
+
+/*
+Putting fonts in a separate css files is a robust way of making sure imports work with post-css
+https://tailwindcss.com/docs/using-with-preprocessors#build-time-imports
+*/

@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./src/**/*.html', './src/**/*.js', './src/**/*.ts', './src/**/*.tsx'],
+  purge: ['src/**/*.{js,jsx,ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -49,10 +49,10 @@ module.exports = {
         grab: 'grab'
       },
       fontFamily: {
-        'ropa-sans': ['Ropa Sans', 'Arial', 'sans-serif'],
+        'ropa-sans': ['"Ropa Sans"', 'Arial', 'sans-serif'],
         roboto: ['Roboto', 'Arial', 'sans-serif'],
-        'fira-code': ['Fira Code', 'monospace'],
-        'fira-sans': ['Fira Sans', 'sans-seri'],
+        'fira-code': ['"Fira Code"', 'monospace'],
+        'fira-sans': ['"Fira Sans"', 'sans-serif'],
       },
       gridAutoColumns: {
         'preview-layout': 'minmax(30rem, 1fr) minmax(auto, 2fr)',
