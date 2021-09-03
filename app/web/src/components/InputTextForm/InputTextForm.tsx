@@ -3,7 +3,9 @@ import { TextField, FieldError } from '@redwoodjs/forms'
 import { useFormContext } from 'react-hook-form'
 
 const InputText = ({ type = 'text', className, name, validation }) => {
-  const { formState: { errors } } = useFormContext()
+  const {
+    formState: { errors },
+  } = useFormContext()
   return (
     <>
       <div className={getActiveClasses('relative inline-block', className)}>

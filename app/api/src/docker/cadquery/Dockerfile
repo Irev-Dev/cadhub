@@ -8,7 +8,7 @@ RUN apt-get update -qq
 RUN apt-get install -y wget
 
 # install node14, see comment at the to of node14source_setup.sh
-ADD common/node14source_setup.sh /nodesource_setup.sh
+ADD src/docker/common/node14source_setup.sh /nodesource_setup.sh
 RUN ["chmod", "+x", "/nodesource_setup.sh"]
 RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
@@ -26,13 +26,14 @@ RUN apt-get update && \
 # Add the lambda emulator for local dev, (see entrypoint.sh for where it's used),
 # I have the file locally (gitignored) to speed up build times (as it downloads everytime),
 # but you can use the http version of the below ADD command or download it yourself from that url.
-ADD common/aws-lambda-rie /usr/local/bin/aws-lambda-rie
+ADD src/docker/common/aws-lambda-rie /usr/local/bin/aws-lambda-rie
 # ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie /usr/local/bin/aws-lambda-rie
 RUN ["chmod", "+x", "/usr/local/bin/aws-lambda-rie"]
 
 WORKDIR /var/task/
-COPY cadquery/package*.json /var/task/
+COPY package*.json /var/task/
 RUN npm install
+RUN npm install aws-lambda-ric@1.0.0
 
 
 # Get the distribution copy of cq-cli
@@ -45,9 +46,11 @@ RUN unzip cq-cli-Linux-x86_64.zip
 RUN chmod +x cq-cli/cq-cli
 RUN echo "cadhub-concat-split" > /var/task/cadhub-concat-split
 
-COPY cadquery/*.js /var/task/
-COPY common/*.js /var/common/
-COPY common/entrypoint.sh /entrypoint.sh
+# using built javascript from dist
+# run `yarn rw build` before bulding this image
+COPY dist/docker/cadquery/*.js /var/task/js/
+COPY dist/docker/common/*.js /var/task/common/
+COPY src/docker/common/entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-CMD [ "cadquery.stl" ]
+CMD [ "js/cadquery.stl" ]

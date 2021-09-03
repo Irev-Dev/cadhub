@@ -41,20 +41,16 @@ export const render: DefaultKernelExport['render'] = async ({
     if (response.status === 502) {
       return createUnhealthyResponse(new Date(), timeoutErrorMessage)
     }
-    const data = await response.json()
-    const newData = await fetch(data.url).then(async (a) => {
-      const blob = await a.blob()
-      const text = await new Response(blob).text()
-      const { consoleMessage } = splitGziped(text)
-      return {
-        data: await stlToGeometry(window.URL.createObjectURL(blob)),
-        consoleMessage,
-      }
-    })
+    const blob = await response.blob()
+    const text = await new Response(blob).text()
+    const { consoleMessage, customizerParams, type } = splitGziped(text)
     return createHealthyResponse({
-      type: 'geometry',
-      data: newData.data,
-      consoleMessage: newData.consoleMessage,
+      type: type !== 'stl' ? 'png' : 'geometry',
+      data:
+        type !== 'stl'
+          ? blob
+          : await stlToGeometry(window.URL.createObjectURL(blob)),
+      consoleMessage,
       date: new Date(),
     })
   } catch (e) {

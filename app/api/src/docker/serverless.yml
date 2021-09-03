@@ -3,7 +3,8 @@ service: cad-lambdas
 #app: your-app-name
 #org: your-org-name
 
-# plugins:
+plugins:
+  - serverless-binary-cors
 #   - serverless-offline
 
 # You can pin your service to only deploy with a specific Serverless version
@@ -17,13 +18,18 @@ provider:
     images:
       # this image is built locally and push to ECR
       openscadimage:
-        path: ./
-        file: ./openscad/Dockerfile
+        path: ../../
+        file: ./src/docker/openscad/Dockerfile
       cadqueryimage:
-        path: ./
-        file: ./cadquery/Dockerfile
+        path: ../../
+        file: ./src/docker/cadquery/Dockerfile
   apiGateway:
     metrics: true
+    binaryMediaTypes:
+      # we need to allow binary types to be able to send back images and stls, but it would be better to be more specific
+      # ie image/png etc. as */* treats everything as binary including the json body as the input the lambdas
+      # which mean we need to decode the input bode from base64, but the images break with anything other than */* :(
+      - '*/*'
 
 # you can overwrite defaults here
 #  stage: dev
@@ -52,7 +58,7 @@ functions:
     image:
       name: openscadimage
       command:
-        - openscad.preview
+        - js/openscad.preview
       entryPoint:
         - '/entrypoint.sh'
     events:
@@ -67,7 +73,7 @@ functions:
     image:
       name: openscadimage
       command:
-        - openscad.stl
+        - js/openscad.stl
       entryPoint:
         - '/entrypoint.sh'
     events:
@@ -82,7 +88,7 @@ functions:
     image:
       name: cadqueryimage
       command:
-        - cadquery.stl
+        - js/cadquery.stl
       entryPoint:
         - '/entrypoint.sh'
     events:

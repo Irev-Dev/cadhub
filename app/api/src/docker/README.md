@@ -1,11 +1,12 @@
 # Serverless
 
-We're using the serverless from work for deployment
+We're using the serverless framework for deployment
 
 ```
-sls deploy --stage stagename
+yarn rw build api && sls deploy --stage <stagename>
 ```
 But [Kurt Hutten](https://github.com/Irev-Dev) is the only one with credentials for deployment atm, though if you wanted to set your own account you could deploy to that if you wanted to test.
+Deploying has `yarn rw build` first because the image uses built js files
 
 ## Testing changes locally
 
@@ -18,17 +19,16 @@ The docker build relies on a git ignored file, the aws-lambda-rie. [Download it]
 
 you will also need to create a .env in `app/api/src/docker/.env` for the following env-vars `DEV_AWS_SECRET_ACCESS_KEY, DEV_AWS_ACCESS_KEY_ID and DEV_BUCKET`. Ask @irev-dev for credentials and he can sort you out.
 
-Then cd into this folder `cd api/src/docker` and:
+Run
 
 ```bash
-docker-compose up --build
+yarn cad
 ```
 The first time you run this, it has to build the main image it will take some time, but launching again will be quicker.
 
 After which we'll also spin up a light express server to act as an emulator to transform some the request from the front end into how the lambda's expect them (This emulates the aws-api-gateway which changes tranforms the inbound requests somewhat).
 ```
-yarn install
-yarn emulate
+yarn aws-emulate
 ```
 You can now add CAD_LAMBDA_BASE_URL="http://localhost:8080" to you .env file and restart your main dev process (`yarn rw dev`) comment that line out if you want to go back to using the aws endpoint (and restart the dev process).
 
