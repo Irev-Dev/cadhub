@@ -2,8 +2,12 @@ const { exec } = require('child_process')
 const { promises } = require('fs')
 const { writeFile } = promises
 const { createHash } = require('crypto')
+import { readFile } from 'fs/promises'
 
-async function writeFiles(files = [], tempFile) {
+export async function writeFiles(
+  files: { file: string; fileName: string }[] = [],
+  tempFile: string
+): Promise<string> {
   console.log(`file to write: ${files.length}`)
 
   try {
@@ -19,7 +23,7 @@ async function writeFiles(files = [], tempFile) {
   return tempFile
 }
 
-async function runCommand(command, timeout = 5000) {
+export async function runCommand(command, timeout = 5000): Promise<string> {
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -77,7 +81,7 @@ function getObjectUrl(params, s3, tk) {
   )
 }
 
-function loggerWrap(handler) {
+export function loggerWrap(handler) {
   return (req, _context, callback) => {
     try {
       return handler(req, _context, callback)
@@ -87,15 +91,16 @@ function loggerWrap(handler) {
   }
 }
 
-async function storeAssetAndReturnUrl({
+export async function storeAssetAndReturnUrl({
   error,
   callback,
   fullPath,
   consoleMessage,
-  key,
-  s3,
-  params,
-  tk,
+}: {
+  error: string
+  callback: Function
+  fullPath: string
+  consoleMessage: string
 }) {
   if (error) {
     const response = {
@@ -106,11 +111,10 @@ async function storeAssetAndReturnUrl({
     return
   } else {
     console.log(`got result in route: ${consoleMessage}, file is: ${fullPath}`)
-    const { readFile } = require('fs/promises')
-    let buffer
+    let buffer = ''
 
     try {
-      buffer = await readFile(fullPath)
+      buffer = await readFile(fullPath, { encoding: 'base64' })
     } catch (e) {
       console.log('read file error', e)
       const response = {
@@ -120,37 +124,16 @@ async function storeAssetAndReturnUrl({
       callback(null, response)
       return
     }
-    const FiveDays = 432000
-    const storedRender = await s3
-      .putObject({
-        Bucket: process.env.BUCKET,
-        Key: key,
-        Body: buffer,
-        CacheControl: `max-age=${FiveDays}`, // browser caching to stop downloads of the same part
-        ContentType: 'text/stl',
-        ContentEncoding: 'gzip',
-      })
-      .promise()
-    console.log('stored object', storedRender)
-    const url = getObjectUrl(params, s3, tk)
-    console.log('url', url)
     const response = {
       statusCode: 200,
-      body: JSON.stringify({
-        url,
-      }),
+      body: buffer,
+      isBase64Encoded: true,
+      headers: {
+        'Content-Type': 'application/javascript',
+        'Content-Encoding': 'gzip',
+      },
     }
     callback(null, response)
     return
   }
-}
-
-module.exports = {
-  runCommand,
-  writeFiles,
-  makeHash,
-  checkIfAlreadyExists,
-  getObjectUrl,
-  loggerWrap,
-  storeAssetAndReturnUrl,
 }

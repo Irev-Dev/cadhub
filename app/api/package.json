@@ -3,13 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@redwoodjs/api": "^0.36.2",
+    "@redwoodjs/api": "^0.36.3",
     "@sentry/node": "^6.5.1",
+    "axios": "^0.21.1",
     "cloudinary": "^1.23.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "human-id": "^2.0.1",
-    "nodemailer": "^6.6.2"
+    "middy": "^0.36.0",
+    "nanoid": "^3.1.20",
+    "nodemailer": "^6.6.2",
+    "serverless-binary-cors": "^0.0.1"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.2"
+    "@types/nodemailer": "^6.4.2",
+    "concurrently": "^6.0.0",
+    "nodemon": "^2.0.7"
   }
 }

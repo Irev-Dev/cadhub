@@ -2,10 +2,14 @@ services:
 
   openscad-preview:
     build:
-      context: ./
-      dockerfile: ./openscad/Dockerfile
+      context: ../../
+      dockerfile: ./src/docker/openscad/Dockerfile
     image: openscad
-    command: openscad.preview
+    command: js/openscad.preview
+    # Adding volumes so that the containers can be restarted for js only changes in local dev
+    volumes:
+      - ../../dist/docker/openscad:/var/task/js/
+      - ../../dist/docker/common:/var/task/common/
     ports:
       - "5052:8080"
     environment:
@@ -15,7 +19,10 @@ services:
 
   openscad-stl:
     image: openscad
-    command: openscad.stl
+    volumes:
+      - ../../dist/docker/openscad:/var/task/js/
+      - ../../dist/docker/common:/var/task/common/
+    command: js/openscad.stl
     ports:
       - "5053:8080"
     environment:
@@ -25,9 +32,12 @@ services:
 
   cadquery-stl:
     build:
-      context: ./
-      dockerfile: ./cadquery/Dockerfile
-    command: cadquery.stl
+      context: ../../
+      dockerfile: ./src/docker/cadquery/Dockerfile
+    volumes:
+      - ../../dist/docker/cadquery:/var/task/js/
+      - ../../dist/docker/common:/var/task/common/
+    command: js/cadquery.stl
     ports:
       - 5060:8080
     environment:

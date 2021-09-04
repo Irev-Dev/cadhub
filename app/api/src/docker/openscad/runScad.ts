@@ -1,5 +1,5 @@
-const { writeFiles, runCommand } = require('../common/utils')
-const { nanoid } = require('nanoid')
+import { writeFiles, runCommand } from '../common/utils'
+import { nanoid } from 'nanoid'
 const { readFile } = require('fs/promises')
 
 const OPENSCAD_COMMON = `xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" openscad-nightly`
@@ -8,7 +8,7 @@ const OPENSCAD_COMMON = `xvfb-run --auto-servernum --server-args "-screen 0 1024
 const cleanOpenScadError = (error) =>
   error.replace(/["|']\/tmp\/.+\/main.scad["|']/g, "'main.scad'")
 
-module.exports.runScad = async ({
+export const runScad = async ({
   file,
   settings: {
     size: { x = 500, y = 500 } = {},
@@ -19,7 +19,12 @@ module.exports.runScad = async ({
       dist = 200,
     } = {},
   } = {}, // TODO add view settings
-} = {}) => {
+} = {}): Promise<{
+  error?: string
+  consoleMessage?: string
+  fullPath?: string
+  customizerPath?: string
+}> => {
   const tempFile = await writeFiles(
     [
       { file, fileName: 'main.scad' },
@@ -62,6 +67,7 @@ module.exports.runScad = async ({
           file: JSON.stringify({
             customizerParams: params,
             consoleMessage,
+            type: 'png',
           }),
           fileName: 'metadata.json',
         },
@@ -78,7 +84,7 @@ module.exports.runScad = async ({
   }
 }
 
-module.exports.stlExport = async ({ file, settings: { parameters } } = {}) => {
+export const stlExport = async ({ file, settings: { parameters } } = {}) => {
   const tempFile = await writeFiles(
     [
       { file, fileName: 'main.scad' },
@@ -116,6 +122,7 @@ module.exports.stlExport = async ({ file, settings: { parameters } } = {}) => {
           file: JSON.stringify({
             customizerParams: params,
             consoleMessage,
+            type: 'stl',
           }),
           fileName: 'metadata.json',
         },
