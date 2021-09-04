@@ -16,10 +16,12 @@ const makeRequest = (route, port) => [
     console.log(`making post request to ${port}, ${route}`)
     try {
       const { data } = await axios.post(invocationURL(port), {
-        body: JSON.stringify(req.body),
+        body: Buffer.from(JSON.stringify(req.body)).toString('base64'),
       })
       res.status(data.statusCode)
-      res.send(data.body)
+      res.setHeader('Content-Type', 'application/javascript')
+      res.setHeader('Content-Encoding', 'gzip')
+      res.send(Buffer.from(data.body, 'base64'))
     } catch (e) {
       res.status(500)
       res.send()

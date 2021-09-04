@@ -11,8 +11,9 @@ const ExternalScript = () => {
   const handleRender = useRender()
   const [rawUrl, setRawUrl] = useState('')
   const [script, setScript] = useState('')
-  const [asyncState, setAsyncState] =
-    useState<'INIT' | 'SUCCESS' | 'ERROR' | 'LOADING'>('INIT')
+  const [asyncState, setAsyncState] = useState<
+    'INIT' | 'SUCCESS' | 'ERROR' | 'LOADING'
+  >('INIT')
 
   const cadName = ideTypeNameMap[state.ideType]
 

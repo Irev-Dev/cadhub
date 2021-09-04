@@ -1,7 +1,7 @@
-const { writeFiles, runCommand } = require('../common/utils')
-const { nanoid } = require('nanoid')
+import { writeFiles, runCommand } from '../common/utils'
+import { nanoid } from 'nanoid'
 
-module.exports.runCQ = async ({
+export const runCQ = async ({
   file,
   settings: { deflection = 0.3 } = {},
 } = {}) => {
@@ -27,6 +27,7 @@ module.exports.runCQ = async ({
         {
           file: JSON.stringify({
             consoleMessage,
+            type: 'stl',
           }),
           fileName: 'metadata.json',
         },
