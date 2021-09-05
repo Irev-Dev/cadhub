@@ -21,7 +21,7 @@ const DelayedPingAnimation = ({
 
   if (showLoading && isLoading)
     return (
-      <div className="inset-0 absolute flex items-center justify-center">
+      <div className="inset-0 absolute flex items-center justify-center pointer-events-none">
         <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
       </div>
     )

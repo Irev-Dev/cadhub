@@ -178,7 +178,6 @@ const IdeViewer = ({ Loading }) => {
       : 1.2
   return (
     <div className="relative h-full bg-ch-gray-800">
-      {state.isLoading && Loading}
       {image && (
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${
