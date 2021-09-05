@@ -22,7 +22,7 @@ const SmallLoadingPing = (
 )
 
 export const BigLoadingPing = (
-  <div className="inset-0 absolute flex items-center justify-center bg-ch-gray-800">
+  <div className="inset-0 absolute flex items-center justify-center bg-ch-gray-800 pointer-events-none">
     <div className="h-16 w-16 bg-pink-600 rounded-full animate-ping"></div>
   </div>
 )
