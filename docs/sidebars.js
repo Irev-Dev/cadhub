@@ -28,6 +28,7 @@ module.exports = {
       ],
     },
     'general-cadhub/external-resource-url',
-    'general-cadhub/openscad-previews'
+    'general-cadhub/openscad-previews',
+    'general-cadhub/openscad-fonts'
   ],
 }
