@@ -7,7 +7,12 @@ const OpenscadStaticImageMessage = () => {
     return null
   }
   return (
-    <OutBound to="https://learn.cadhub.xyz/docs/general-cadhub/openscad-previews" className="text-ch-gray-300 border-ch-gray-300 rounded-md mr-12 px-2 py-1 text-xs">Why reload each camera move?</OutBound>
+    <OutBound
+      to="https://learn.cadhub.xyz/docs/general-cadhub/openscad-previews"
+      className="text-ch-gray-300 border-ch-gray-300 rounded-md mr-12 px-2 py-1 text-xs"
+    >
+      Why reload each camera move?
+    </OutBound>
   )
 }
 
