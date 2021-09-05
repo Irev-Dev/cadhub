@@ -16,6 +16,7 @@ import Gravatar from 'src/components/Gravatar/Gravatar'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import ProfileViewer from '../ProfileViewer/ProfileViewer'
 import Svg from 'src/components/Svg/Svg'
+import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessage/OpenscadStaticImageMessage'
 
 const KeyValue = ({
   keyName,
@@ -133,6 +134,9 @@ const ProjectProfile = ({
             {/* Viewer */}
             <div className="md:col-start-2 w-full min-h-md relative">
               <ProfileViewer />
+              <div className="absolute right-0 top-0">
+                <OpenscadStaticImageMessage />
+              </div>
             </div>
 
             {/* Side panel */}

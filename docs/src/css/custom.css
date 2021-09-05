@@ -16,6 +16,16 @@
   font-size: 56px;
 } */
 
+.footer__items .footer__item a span {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__items--right a span {
+  display: flex;
+  align-items: center;
+}
+
 @layer base {
   h1 {
     @apply text-4xl font-bold
