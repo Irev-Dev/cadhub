@@ -32,5 +32,9 @@
   "engines": {
     "node": ">=14",
     "yarn": ">=1.15"
+  },
+  "dependencies": {
+    "hotkeys-js": "^3.8.7",
+    "react-hotkeys-hook": "^3.4.0"
   }
 }
