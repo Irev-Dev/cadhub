@@ -47,14 +47,12 @@ export const Success = ({
       : userProject?.Project?.description || ''
   return (
     <div
-      className="flex-col flex h-full bg-ch-gray-800 text-ch-gray-300"
+      className="grid h-screen bg-ch-gray-800 text-ch-gray-300"
       id="social-card-loaded"
+      style={{ gridTemplateRows: ' 555fr 18fr' }}
     >
-      <div
-        className="flex-grow grid"
-        style={{ gridTemplateColumns: '7fr 5fr' }}
-      >
-        <div className="bg-ch-gray-800 relative">
+      <div className="h-full grid" style={{ gridTemplateColumns: '7fr 5fr' }}>
+        <div className="bg-ch-gray-800 relative overflow-hidden min-w-0">
           <div className="absolute bottom-0 left-0 transform scale-200 aspect-h-1 h-full -translate-x-24 translate-y-24 rotate-45 rounded-full overflow-hidden"></div>
 
           <div className="relative bg-ch-gray-760 bg-opacity-90 pt-10 pl-20 pr-12 h-full backdrop-filter backdrop-blur">
@@ -77,7 +75,7 @@ export const Success = ({
               {userProject?.Project?.title.replace(/-/g, ' ')}
             </h1>
 
-            <p className="mt-10 text-3xl font-fira-sans text-ch-gray-400">
+            <p className="mt-10 text-3xl font-fira-sans text-ch-gray-400 overflow-hidden">
               {truncatedDescription}
             </p>
           </div>
@@ -104,7 +102,7 @@ export const Success = ({
         className="h-28 grid bg-ch-gray-900 relative"
         style={{ gridTemplateColumns: '7fr 5fr' }}
       >
-        <div className="grid grid-flow-col-dense items-center justify-center gap-16">
+        <div className="grid grid-flow-col-dense items-center justify-center gap-16 mb-2">
           {[
             {
               svg: 'reactions',
@@ -126,7 +124,7 @@ export const Success = ({
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mb-2">
           <Svg className="w-10 md:w-16" name="favicon" />
           <div className="ml-2 md:ml-6 flex">
             {/* Because of how specific these styles are to this heading/logo and it doesn't need to be replicated else where as well as it's very precise with the placement of "pre-alpha" I think it's appropriate. */}
@@ -138,8 +136,8 @@ export const Success = ({
             </h2>
           </div>
         </div>
+        <div className="h-3 absolute inset-x-0 bottom-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
       </div>
-      <div className="h-3 relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
     </div>
   )
 }
