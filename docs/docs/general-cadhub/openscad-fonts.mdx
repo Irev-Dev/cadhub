@@ -2,122 +2,258 @@
 title: OpenSCAD Fonts
 ---
 
-Fonts that are available for use within the CadHub OpenSCAD IDE listed below, or see this [Cadhub Project](https://cadhub.xyz/u/irevdev/all-scad-fonts) for a demo of them in use.
+<!--
 
-There's also a [relevant discussion](https://github.com/Irev-Dev/cadhub/issues/488#issuecomment-913222319) about potentially adding a font select in the customizer.
+Note to contributes
+The fonts list was produced with the following code, using `fc-list` to get the initial string.
+incase it needs to be updated later
 
+var raw = `/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf: DejaVu Serif:style=Bold
+/usr/share/fonts/opentype/urw-base35/URWBookman-LightItalic.otf: URW Bookman:style=Light Italic
+/usr/share/fonts/opentype/urw-base35/URWBookman-Light.otf: URW Bookman:style=Light
+/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf: DejaVu Sans Mono:style=Book
+/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-Italic.otf: Nimbus Mono PS:style=Italic
+/usr/share/fonts/opentype/urw-base35/P052-Italic.otf: P052:style=Italic
+/usr/share/fonts/type1/urw-base35/URWGothic-BookOblique.t1: URW Gothic:style=Book Oblique
+/usr/share/fonts/type1/gsfonts/n021024l.pfb: Nimbus Roman No9 L:style=Medium Italic
+/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf: DejaVu Sans:style=Book
+/usr/share/fonts/opentype/urw-base35/NimbusSans-Regular.otf: Nimbus Sans:style=Regular
+/usr/share/fonts/type1/urw-base35/URWBookman-DemiItalic.t1: URW Bookman:style=Demi Italic
+/usr/share/fonts/opentype/urw-base35/NimbusSansNarrow-Oblique.otf: Nimbus Sans Narrow:style=Oblique
+/usr/share/fonts/type1/urw-base35/NimbusSans-Regular.t1: Nimbus Sans:style=Regular
+/usr/share/fonts/opentype/urw-base35/C059-Roman.otf: C059:style=Roman
+/usr/share/fonts/type1/gsfonts/n021004l.pfb: Nimbus Roman No9 L:style=Medium
+/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-BoldItalic.otf: Nimbus Mono PS:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/URWGothic-DemiOblique.t1: URW Gothic:style=Demi Oblique
+/usr/share/fonts/type1/gsfonts/p052023l.pfb: URW Palladio L:style=Italic
+/usr/share/fonts/type1/gsfonts/n022003l.pfb: Nimbus Mono L:style=Regular
+/usr/share/fonts/type1/gsfonts/z003034l.pfb: URW Chancery L:style=Medium Italic
+/usr/share/fonts/type1/urw-base35/URWBookman-LightItalic.t1: URW Bookman:style=Light Italic
+/usr/share/fonts/opentype/urw-base35/NimbusSansNarrow-BoldOblique.otf: Nimbus Sans Narrow:style=Bold Oblique
+/usr/share/fonts/type1/gsfonts/c059013l.pfb: Century Schoolbook L:style=Roman
+/usr/share/fonts/type1/urw-base35/NimbusSansNarrow-BoldOblique.t1: Nimbus Sans Narrow:style=Bold Oblique
+/usr/share/fonts/opentype/urw-base35/NimbusSans-Bold.otf: Nimbus Sans:style=Bold
+/usr/share/fonts/type1/urw-base35/NimbusMonoPS-Italic.t1: Nimbus Mono PS:style=Italic
+/usr/share/fonts/type1/urw-base35/NimbusRoman-BoldItalic.t1: Nimbus Roman:style=Bold Italic
+/usr/share/fonts/opentype/urw-base35/Z003-MediumItalic.otf: Z003:style=Medium Italic
+/usr/share/fonts/opentype/urw-base35/NimbusSans-BoldItalic.otf: Nimbus Sans:style=Bold Italic
+/usr/share/fonts/opentype/urw-base35/URWGothic-Book.otf: URW Gothic:style=Book
+/usr/share/fonts/type1/gsfonts/d050000l.pfb: Dingbats:style=Regular
+/usr/share/fonts/type1/gsfonts/n021023l.pfb: Nimbus Roman No9 L:style=Regular Italic
+/usr/share/fonts/opentype/urw-base35/D050000L.otf: D050000L:style=Regular
+/usr/share/fonts/type1/gsfonts/n019063l.pfb: Nimbus Sans L:style=Regular Condensed Italic
+/usr/share/fonts/opentype/urw-base35/C059-BdIta.otf: C059:style=Bold Italic
+/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf: DejaVu Sans:style=Bold
+/usr/share/fonts/type1/gsfonts/a010013l.pfb: URW Gothic L:style=Book
+/usr/share/fonts/opentype/urw-base35/NimbusRoman-Regular.otf: Nimbus Roman:style=Regular
+/usr/share/fonts/opentype/urw-base35/C059-Italic.otf: C059:style=Italic
+/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-Bold.otf: Nimbus Mono PS:style=Bold
+/usr/share/fonts/opentype/urw-base35/NimbusRoman-Bold.otf: Nimbus Roman:style=Bold
+/usr/share/fonts/type1/urw-base35/NimbusSansNarrow-Bold.t1: Nimbus Sans Narrow:style=Bold
+/usr/share/fonts/opentype/urw-base35/NimbusRoman-BoldItalic.otf: Nimbus Roman:style=Bold Italic
+/usr/share/fonts/type1/gsfonts/n019064l.pfb: Nimbus Sans L:style=Bold Condensed Italic
+/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf: Droid Sans Fallback:style=Regular
+/usr/share/fonts/type1/gsfonts/p052004l.pfb: URW Palladio L:style=Bold
+/usr/share/fonts/type1/urw-base35/C059-Roman.t1: C059:style=Roman
+/usr/share/fonts/type1/urw-base35/NimbusRoman-Italic.t1: Nimbus Roman:style=Italic
+/usr/share/fonts/opentype/urw-base35/NimbusSans-Italic.otf: Nimbus Sans:style=Italic
+/usr/share/fonts/type1/gsfonts/n022023l.pfb: Nimbus Mono L:style=Regular Oblique
+/usr/share/fonts/type1/urw-base35/URWBookman-Demi.t1: URW Bookman:style=Demi
+/usr/share/fonts/type1/gsfonts/a010015l.pfb: URW Gothic L:style=Demi
+/usr/share/fonts/type1/urw-base35/URWGothic-Book.t1: URW Gothic:style=Book
+/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf: DejaVu Sans Mono:style=Bold
+/usr/share/fonts/type1/urw-base35/NimbusRoman-Regular.t1: Nimbus Roman:style=Regular
+/usr/share/fonts/opentype/urw-base35/NimbusMonoPS-Regular.otf: Nimbus Mono PS:style=Regular
+/usr/share/fonts/opentype/urw-base35/NimbusSansNarrow-Regular.otf: Nimbus Sans Narrow:style=Regular
+/usr/share/fonts/type1/gsfonts/n019043l.pfb: Nimbus Sans L:style=Regular Condensed
+/usr/share/fonts/opentype/urw-base35/URWBookman-Demi.otf: URW Bookman:style=Demi
+/usr/share/fonts/type1/urw-base35/NimbusMonoPS-Regular.t1: Nimbus Mono PS:style=Regular
+/usr/share/fonts/type1/urw-base35/NimbusSans-BoldItalic.t1: Nimbus Sans:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/NimbusSans-Bold.t1: Nimbus Sans:style=Bold
+/usr/share/fonts/type1/gsfonts/n019044l.pfb: Nimbus Sans L:style=Bold Condensed
+/usr/share/fonts/type1/urw-base35/NimbusMonoPS-BoldItalic.t1: Nimbus Mono PS:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/StandardSymbolsPS.t1: Standard Symbols PS:style=Regular
+/usr/share/fonts/opentype/urw-base35/URWGothic-Demi.otf: URW Gothic:style=Demi
+/usr/share/fonts/type1/gsfonts/a010033l.pfb: URW Gothic L:style=Book Oblique
+/usr/share/fonts/type1/gsfonts/n021003l.pfb: Nimbus Roman No9 L:style=Regular
+/usr/share/fonts/type1/gsfonts/s050000l.pfb: Standard Symbols L:style=Regular
+/usr/share/fonts/opentype/urw-base35/NimbusSansNarrow-Bold.otf: Nimbus Sans Narrow:style=Bold
+/usr/share/fonts/opentype/urw-base35/URWBookman-DemiItalic.otf: URW Bookman:style=Demi Italic
+/usr/share/fonts/opentype/urw-base35/URWGothic-BookOblique.otf: URW Gothic:style=Book Oblique
+/usr/share/fonts/type1/gsfonts/b018035l.pfb: URW Bookman L:style=Demi Bold Italic
+/usr/share/fonts/type1/gsfonts/c059033l.pfb: Century Schoolbook L:style=Italic
+/usr/share/fonts/type1/urw-base35/Z003-MediumItalic.t1: Z003:style=Medium Italic
+/usr/share/fonts/type1/urw-base35/P052-BoldItalic.t1: P052:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/C059-Italic.t1: C059:style=Italic
+/usr/share/fonts/type1/gsfonts/a010035l.pfb: URW Gothic L:style=Demi Oblique
+/usr/share/fonts/type1/urw-base35/P052-Roman.t1: P052:style=Roman
+/usr/share/fonts/type1/urw-base35/NimbusRoman-Bold.t1: Nimbus Roman:style=Bold
+/usr/share/fonts/type1/urw-base35/NimbusSansNarrow-Oblique.t1: Nimbus Sans Narrow:style=Oblique
+/usr/share/fonts/opentype/urw-base35/P052-BoldItalic.otf: P052:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/D050000L.t1: D050000L:style=Regular
+/usr/share/fonts/opentype/urw-base35/StandardSymbolsPS.otf: Standard Symbols PS:style=Regular
+/usr/share/fonts/type1/gsfonts/n019023l.pfb: Nimbus Sans L:style=Regular Italic
+/usr/share/fonts/type1/gsfonts/b018012l.pfb: URW Bookman L:style=Light
+/usr/share/fonts/truetype/noto/NotoMono-Regular.ttf: Noto Mono:style=Regular
+/usr/share/fonts/type1/urw-base35/URWGothic-Demi.t1: URW Gothic:style=Demi
+/usr/share/fonts/type1/urw-base35/NimbusSans-Italic.t1: Nimbus Sans:style=Italic
+/usr/share/fonts/type1/urw-base35/C059-BdIta.t1: C059:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/NimbusMonoPS-Bold.t1: Nimbus Mono PS:style=Bold
+/usr/share/fonts/type1/gsfonts/c059016l.pfb: Century Schoolbook L:style=Bold
+/usr/share/fonts/type1/gsfonts/n022004l.pfb: Nimbus Mono L:style=Bold
+/usr/share/fonts/type1/gsfonts/n019024l.pfb: Nimbus Sans L:style=Bold Italic
+/usr/share/fonts/type1/gsfonts/b018032l.pfb: URW Bookman L:style=Light Italic
+/usr/share/fonts/type1/gsfonts/p052003l.pfb: URW Palladio L:style=Roman
+/usr/share/fonts/opentype/urw-base35/URWGothic-DemiOblique.otf: URW Gothic:style=Demi Oblique
+/usr/share/fonts/type1/urw-base35/P052-Bold.t1: P052:style=Bold
+/usr/share/fonts/type1/gsfonts/n019004l.pfb: Nimbus Sans L:style=Bold
+/usr/share/fonts/type1/gsfonts/b018015l.pfb: URW Bookman L:style=Demi Bold
+/usr/share/fonts/type1/gsfonts/n022024l.pfb: Nimbus Mono L:style=Bold Oblique
+/usr/share/fonts/type1/urw-base35/P052-Italic.t1: P052:style=Italic
+/usr/share/fonts/type1/urw-base35/NimbusSansNarrow-Regular.t1: Nimbus Sans Narrow:style=Regular
+/usr/share/fonts/type1/urw-base35/C059-Bold.t1: C059:style=Bold
+/usr/share/fonts/type1/gsfonts/c059036l.pfb: Century Schoolbook L:style=Bold Italic
+/usr/share/fonts/type1/gsfonts/p052024l.pfb: URW Palladio L:style=Bold Italic
+/usr/share/fonts/type1/urw-base35/URWBookman-Light.t1: URW Bookman:style=Light
+/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf: DejaVu Serif:style=Book
+/usr/share/fonts/opentype/urw-base35/P052-Roman.otf: P052:style=Roman
+/usr/share/fonts/opentype/urw-base35/C059-Bold.otf: C059:style=Bold
+/usr/share/fonts/opentype/urw-base35/P052-Bold.otf: P052:style=Bold
+/usr/share/fonts/opentype/urw-base35/NimbusRoman-Italic.otf: Nimbus Roman:style=Italic
+/usr/share/fonts/type1/gsfonts/n019003l.pfb: Nimbus Sans L:style=Regular`
+
+var lines = raw.split(`\n`)
+var cleanLine = lines.map(line => line.split(':').slice(1)).sort(([basea], [baseb]) => basea > baseb ? 1 : -1)
+var store = {}
+cleanLine.forEach(([base, style]) => {
+  const trimmedBase = base.trim()
+  if(store[trimmedBase]) {
+    store[trimmedBase].push(style.split('=')[1])
+  } else {
+    store[trimmedBase] = [style.split('=')[1]]
+  }
+})
+var str = ''
+var arrayForOpenSCAD = []
+Object.entries(store).forEach(([font, styles]) => {
+  const uniqueStyles = [...new Set(styles)]
+  str = str + `font: ${font}\nstyles: ${uniqueStyles.join(', ')}\n\n`
+  arrayForOpenSCAD.push([font, ...uniqueStyles])
+})
+console.log(str)
+console.log(JSON.stringify(arrayForOpenSCAD,null, 2))
+
+-->
+
+Fonts that are available for use within the CadHub OpenSCAD IDE listed at the bottom of this page.
+
+### Using fonts
+The way to use the fonts with `text()` is to ether use
+`font="<fontName>"`
+or
+`font="<fontName>:style=<styleName>"`
+
+An example of both would be:
 ```
-DejaVu Serif
-URW Bookman
-URW Bookman
-DejaVu Sans Mono
-Nimbus Mono PS
-P052
-URW Gothic
-Nimbus Roman No9 L
-DejaVu Sans
-Nimbus Sans
-URW Bookman
-Nimbus Sans Narrow
-Nimbus Sans
-C059
-Nimbus Roman No9 L
-Nimbus Mono PS
-URW Gothic
-URW Palladio L
-Nimbus Mono L
-URW Chancery L
-URW Bookman
-Nimbus Sans Narrow
-Century Schoolbook L
-Nimbus Sans Narrow
-Nimbus Sans
-Nimbus Mono PS
-Nimbus Roman
-Z003
-Nimbus Sans
-URW Gothic
-Dingbats
-Nimbus Roman No9 L
-D050000L
-Nimbus Sans L
-C059
-DejaVu Sans
-URW Gothic L
-Nimbus Roman
-C059
-Nimbus Mono PS
-Nimbus Roman
-Nimbus Sans Narrow
-Nimbus Roman
-Nimbus Sans L
-Droid Sans Fallback
-URW Palladio L
-C059
-Nimbus Roman
-Nimbus Sans
-Nimbus Mono L
-URW Bookman
-URW Gothic L
-URW Gothic
-DejaVu Sans Mono
-Nimbus Roman
-Nimbus Mono PS
-Nimbus Sans Narrow
-Nimbus Sans L
-URW Bookman
-Nimbus Mono PS
-Nimbus Sans
-Nimbus Sans
-Nimbus Sans L
-Nimbus Mono PS
-Standard Symbols PS
-URW Gothic
-URW Gothic L
-Nimbus Roman No9 L
-Standard Symbols L
-Nimbus Sans Narrow
-URW Bookman
-URW Gothic
-URW Bookman L
-Century Schoolbook L
-Z003
-P052
-C059
-URW Gothic L
-P052
-Nimbus Roman
-Nimbus Sans Narrow
-P052
-D050000L
-Standard Symbols PS
-Nimbus Sans L
-URW Bookman L
-Noto Mono
-URW Gothic
-Nimbus Sans
-C059
-Nimbus Mono PS
-Century Schoolbook L
-Nimbus Mono L
-Nimbus Sans L
-URW Bookman L
-URW Palladio L
-URW Gothic
-P052
-Nimbus Sans L
-URW Bookman L
-Nimbus Mono L
-P052
-Nimbus Sans Narrow
-C059
-Century Schoolbook L
-URW Palladio L
-URW Bookman
-DejaVu Serif
-P052
-C059
-P052
-Nimbus Roman
-Nimbus Sans L
+sampleText="the quick brown fox jumped over the lazy dog";
+text(sampleText, font = "DejaVu Sans", size=6);
+translate([0,-10,0])
+  text(sampleText, font = "DejaVu Sans:style=bold", size=6);
+```
+
+### Use with the customizer
+If you would like to offer font selection to users with the customizer, the best way is to add a curated list using a select.
+
+For example:
+```
+// font selection
+font = "DejaVu Serif"; // ["DejaVu Serif", "URW Gothic L", "URW Bookman"]
+```
+
+<!-- Will show the following input in the customizer. -->
+
+### Relevant Links
+- [Cadhub Project](https://cadhub.xyz/u/irevdev/all-scad-fonts) for a demo of them in use
+- [Relevant discussion](https://github.com/Irev-Dev/cadhub/issues/488#issuecomment-913222319) about potentially adding a font select in the customizer.
+- [OpenSCAD `text()` docs](https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Text)
+
+### Fonts
+```
+font: C059
+styles: Bold, Bold Italic, Italic, Roman
+
+font: Century Schoolbook L
+styles: Bold Italic, Bold, Italic, Roman
+
+font: D050000L
+styles: Regular
+
+font: DejaVu Sans
+styles: Bold, Book
+
+font: DejaVu Sans Mono
+styles: Bold, Book
+
+font: DejaVu Serif
+styles: Book, Bold
+
+font: Dingbats
+styles: Regular
+
+font: Droid Sans Fallback
+styles: Regular
+
+font: Nimbus Mono L
+styles: Bold Oblique, Bold, Regular Oblique, Regular
+
+font: Nimbus Mono PS
+styles: Bold, Bold Italic, Regular, Italic
+
+font: Nimbus Roman
+styles: Italic, Bold, Regular, Bold Italic
+
+font: Nimbus Roman No9 L
+styles: Regular, Regular Italic, Medium, Medium Italic
+
+font: Nimbus Sans
+styles: Italic, Bold, Bold Italic, Regular
+
+font: Nimbus Sans L
+styles: Regular, Bold, Bold Italic, Regular Italic, Bold Condensed, Regular Condensed, Bold Condensed Italic, Regular Condensed Italic
+
+font: Nimbus Sans Narrow
+styles: Regular, Oblique, Bold, Bold Oblique
+
+font: Noto Mono
+styles: Regular
+
+font: P052
+styles: Bold, Roman, Italic, Bold Italic
+
+font: Standard Symbols L
+styles: Regular
+
+font: Standard Symbols PS
+styles: Regular
+
+font: URW Bookman
+styles: Light, Demi Italic, Demi, Light Italic
+
+font: URW Bookman L
+styles: Demi Bold, Light Italic, Light, Demi Bold Italic
+
+font: URW Chancery L
+styles: Medium Italic
+
+font: URW Gothic
+styles: Demi Oblique, Demi, Book Oblique, Book
+
+font: URW Gothic L
+styles: Demi Oblique, Book Oblique, Demi, Book
+
+font: URW Palladio L
+styles: Bold Italic, Roman, Bold, Italic
+
+font: Z003
+styles: Medium Italic
 ```
