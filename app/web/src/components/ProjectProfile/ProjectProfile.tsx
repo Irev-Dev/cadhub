@@ -41,7 +41,7 @@ const KeyValue = ({
         {canEdit &&
           (isEditable ? (
             <button
-              className="ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
+              className="font-fira-sans items-center ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
               id="rename-button"
               onClick={onEdit}
             >
@@ -170,7 +170,7 @@ const ProjectProfile = ({
                     id="description-wrap"
                     name="description"
                     className={
-                      'markdown-overrides rounded shadow-md bg-white pl-6 pb-2 mt-2' +
+                      'markdown-overrides rounded-sm pb-2 mt-2' +
                       (isEditable ? ' min-h-md' : '')
                     }
                     onClick={(e) =>
