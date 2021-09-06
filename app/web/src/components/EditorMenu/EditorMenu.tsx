@@ -7,15 +7,12 @@ import { makeStlDownloadHandler, PullTitleFromFirstLine } from './helpers'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import CadPackage from 'src/components/CadPackage/CadPackage'
 import { EditorMenuConfig, EditorMenuItemConfig, editorMenuConfig } from './menuConfig'
+import AllShortcutsModal from './AllShortcutsModal'
 
 const EditorMenu = () => {
   const handleRender = useRender()
   const saveCode = useSaveCode()
   const { state, thunkDispatch } = useIdeContext()
-  const onRender = () => {
-    handleRender()
-    saveCode({ code: state.code })
-  }
   const handleStlDownload = makeStlDownloadHandler({
     type: state.objectData?.type,
     ideType: state.ideType,
@@ -30,7 +27,7 @@ const EditorMenu = () => {
       useHotkeys(shortcut, callback), [state])
   )
   
-  return (
+  return (<>
     <div className="flex justify-between bg-ch-gray-760 text-gray-100">
       <div className="flex items-center h-9 w-full cursor-grab">
         <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
@@ -38,8 +35,10 @@ const EditorMenu = () => {
         </div>
         <div className="grid grid-flow-col-dense gap-6 px-5">
           { editorMenuConfig.map(menu => (
-            <Dropdown label={menu.label} disabled={menu.disabled}>
-              { menu.items.map(itemConfig => <DropdownItem config={itemConfig} key={ menu.label +"-"+ itemConfig.label} />) }
+            <Dropdown label={menu.label} disabled={menu.disabled} key={menu.label +"-dropdown"}>
+              { menu.items.map(itemConfig => (
+                <DropdownItem config={itemConfig} key={ menu.label +"-"+ itemConfig.label} />)
+              ) }
             </Dropdown>
           )) }
         </div>
@@ -53,69 +52,13 @@ const EditorMenu = () => {
       </div>
       <CadPackage cadPackage={state.ideType} className="px-3" />
     </div>
-  )
+    <AllShortcutsModal/>
+  </>)
 }
 
 export default EditorMenu
 
-function FileDropdown({ handleRender, handleStlDownload }) {
-  return (
-    <Dropdown name="File">
-      <Menu.Item>
-        {({ active }) => (
-          <button
-            className={`${active && 'bg-gray-600'} px-2 py-1`}
-            onClick={handleRender}
-          >
-            Save &amp; Render{' '}
-            <span className="text-gray-400 pl-4">
-              {/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? (
-                <>
-                  <Svg
-                    name="mac-cmd-key"
-                    className="h-3 w-3 inline-block text-left"
-                  />
-                  S
-                </>
-              ) : (
-                'Ctrl S'
-              )}
-            </span>
-          </button>
-        )}
-      </Menu.Item>
-      <Menu.Item>
-        {({ active }) => (
-          <button
-            className={`${active && 'bg-gray-600'} px-2 py-1 text-left`}
-            onClick={handleStlDownload}
-          >
-            Download STL
-          </button>
-        )}
-      </Menu.Item>
-    </Dropdown>
-  )
-}
-
-function ViewDropdown({ handleLayoutReset }) {
-  return (
-    <Dropdown name="View">
-      <Menu.Item>
-        {({ active }) => (
-          <button
-            className={`${active && 'bg-gray-600'} px-2 py-1`}
-            onClick={handleLayoutReset}
-          >
-            Reset layout
-          </button>
-        )}
-      </Menu.Item>
-    </Dropdown>
-  )
-}
-
-function DropdownItem(config) {
+function DropdownItem({ config }) {
   return (
     <Menu.Item>
       {({ active }) => (
@@ -143,7 +86,7 @@ function Dropdown({
   return (
     <div className="relative">
       <Menu>
-        <Menu.Button className={"text-gray-100" + (disabled ? "cursor-not-allowed" : "")} disabled={disabled}>{label}</Menu.Button>
+        <Menu.Button className={"text-gray-100" + (disabled ? " text-gray-400 cursor-not-allowed" : "")} disabled={disabled}>{label}</Menu.Button>
         { children &&
         <Menu.Items className="absolute flex flex-col mt-4 bg-ch-gray-760 rounded text-gray-100 overflow-hidden whitespace-nowrap border border-ch-gray-700">
           {children}
