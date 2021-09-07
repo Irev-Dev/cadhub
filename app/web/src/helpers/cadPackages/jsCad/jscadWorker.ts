@@ -1,25 +1,3 @@
-(function(f) {
-    if (typeof exports === "object" && typeof module !== "undefined") {
-        module.exports = f()
-    } else if (typeof define === "function" && define.amd) {
-        define([], f)
-    } else {
-        var g;
-        if (typeof window !== "undefined") {
-            g = window
-        } else if (typeof global !== "undefined") {
-            g = global
-        } else if (typeof self !== "undefined") {
-            g = self
-        } else {
-            g = this
-        }
-        g.jscadWorker = f()
-    }
-})(function() {
-// multi purpose module
-
-
 
 const setPoints = (points, p, i)=>{
   points[i++] = p[0]
@@ -176,56 +154,6 @@ require.cache = {}
 require.alias = {}
 
 
-const initCanvas = (canvas, callback)=>{
-
-  // convert HTML events (mouse movement) to viewer changes
-  let lastX = 0
-  let lastY = 0
-
-  let pointerDown = false
-
-  const moveHandler = (ev) => {
-    if(!pointerDown) return
-    const cmd = {
-      worker: 'render',
-      dx: lastX - ev.pageX,
-      dy: ev.pageY - lastY
-    }
-
-    const shiftKey = (ev.shiftKey === true) || (ev.touches && ev.touches.length > 2)
-    cmd.action = shiftKey ? 'pan':'rotate'
-    callback(cmd)
-
-    lastX = ev.pageX
-    lastY = ev.pageY
-
-    ev.preventDefault()
-  }
-  const downHandler = (ev) => {
-    pointerDown = true
-    lastX = ev.pageX
-    lastY = ev.pageY
-    canvas.setPointerCapture(ev.pointerId)
-    ev.preventDefault()
-  }
-
-  const upHandler = (ev) => {
-    pointerDown = false
-    canvas.releasePointerCapture(ev.pointerId)
-    ev.preventDefault()
-  }
-
-  const wheelHandler = (ev) => {
-    callback({action:'zoom', dy:ev.deltaY, worker: 'render'})
-    ev.preventDefault()
-  }
-
-  canvas.onpointermove = moveHandler
-  canvas.onpointerdown = downHandler
-  canvas.onpointerup = upHandler
-  canvas.onwheel = wheelHandler
-}
-
 const cmdHandler = (handlers)=>(cmd)=>{
   const fn = handlers[cmd.action]
   if (!fn) throw new Error('no handler for type: ' + cmd.action)
@@ -239,7 +167,7 @@ function parseParams(script){
     let lines = script.split('\n').map(l=>l.trim())
 
     lines = lines.map((l,i)=>{
-    	return {code:l, line:i+1, group: l[0] == '/' && !lines[i+1]}
+        return {code:l, line:i+1, group: l[0] == '/' && !lines[i+1]}
     }).filter(l=>l.code)
 
     let i = 0, line, next, lineNum
@@ -322,13 +250,13 @@ function parseComment(comment, line){
     const ret = {}
     const idx = comment.indexOf('{')
     if(idx !== -1){
-    	try{
-	        ret.options = eval('('+comment.substring(idx)+')')
-    	}catch(e){
-    		console.log('Error in line '+line);
-    		console.log(comment);
-    		throw e
-    	}
+        try{
+            ret.options = eval('('+comment.substring(idx)+')')
+        }catch(e){
+            console.log('Error in line '+line);
+            console.log(comment);
+            throw e
+        }
         comment = comment.substring(0,idx).trim()
     }
 
@@ -365,8 +293,8 @@ function parseDef(code, line){
             try {
                 ret.initial = eval(initial)
             } catch (e) {
-	    		console.log('Error in line '+line);
-	    		console.log(code);
+                console.log('Error in line '+line);
+                console.log(code);
                 console.log('problem evaluating inital value:', initial)
                 e = new EvalError(e.message, 'code', line);
                 e.lineNumber = line
@@ -380,9 +308,8 @@ function parseDef(code, line){
 
 
 
-
 const makeScriptWorker = ({callback, convertToSolids})=>{
-  let workerBaseURI, onInit
+  let onInit, main, scriptStats, entities
 
 
   function runMain(params={}){
@@ -695,92 +622,41 @@ let perspectiveCamera
 }
 
 
-
-
-
-
-
-
-
-
-return (params)=>{
-  let { canvas, baseURI=(typeof document === 'undefined') ? '':document.location.toString(), scope='main', renderInWorker, render, callback=()=>{}, scriptUrl='demo-worker.js', alias, convertToSolids=false } = params
+function start(params) {
+  let {
+    callback=()=>{},
+    convertToSolids=false
+  } = params
   // by default 'render' messages go outside of this instance (result of modeling)
-  let sendToRender = callback
-  let scriptWorker, renderWorker
-  workerBaseURI = baseURI
+  let scriptWorker
 
   const sendCmd = (params, transfer)=>{
-    if(params.worker === 'render')
-      sendToRender(params, transfer)
-    else if(params.worker === 'script')
-      scriptWorker.postMessage(params, transfer)
+    if(params.worker === 'script') scriptWorker.postMessage(params, transfer)
     else{
-      // parameter definitions will arrive from scriptWorker
       callback(params, transfer)
     }
   }
 
-  const updateSize = function({width,height}){
-    sendCmd({ action:'resize', worker:'render', width: canvas.offsetWidth, height: canvas.offsetHeight})
-  }
 
 
-  renderInWorker = !!(canvas && renderInWorker && canvas.transferControlToOffscreen)
-  const makeRenderWorkerHere = (scope === 'main' && canvas && !renderInWorker) || (scope === 'worker' && render)
-  // worker is in current thread
-  if(makeRenderWorkerHere){
-    renderWorker = makeRenderWorker({callback:sendCmd})
-    sendToRender = (params, transfer)=>renderWorker.postMessage(params, transfer)
-  }
-
-  if(scope === 'main'){
-//    let extraScript = renderInWorker ? `,'https://unpkg.com/@jscad/regl-renderer'`:''
-    let script =`let baseURI = '${baseURI}'
-importScripts(new URL('${scriptUrl}',baseURI))
-let worker = jscadWorker({
-  baseURI: baseURI,
-  convertToSolids: ${convertToSolids},
-  scope:'worker',
-  callback:(params)=>self.postMessage(params),
-  render:${renderInWorker}
-})
-self.addEventListener('message', (e)=>worker.postMessage(e.data))
-`
-    let blob = new Blob([script],{type: 'text/javascript'})
-    scriptWorker = new Worker(window.URL.createObjectURL(blob))
-    scriptWorker.addEventListener('message',(e)=>sendCmd(e.data))
-    scriptWorker.postMessage({action:'init', baseURI, alias})
-    if(renderInWorker) renderWorker = scriptWorker
-
-    if(canvas){
-      initCanvas(canvas, sendCmd)
-      window.addEventListener('resize',updateSize)
-    }
-  }else{
-    scriptWorker = makeScriptWorker({callback:sendCmd, convertToSolids})
-    callback({action:'workerInit',worker:'main'})
-  }
-
-  if(canvas){
-    // redirect 'render' messages to renderWorker
-    sendToRender = (params, transfer)=>renderWorker.postMessage(params, transfer)
-    let width  = canvas.width  = canvas.clientWidth
-    let height = canvas.height = canvas.clientHeight
-    if(scope == 'main'){
-      const offscreen = renderInWorker ? canvas.transferControlToOffscreen() : canvas
-      renderWorker.postMessage({action:'init', worker:'render', canvas:offscreen, width, height}, [offscreen])
-    }
-  }
+  scriptWorker = makeScriptWorker({callback:sendCmd, convertToSolids})
+  callback({action:'workerInit',worker:'main'})
 
   return {
-    updateSize,
     updateParams:({params={}})=>sendCmd({ action:'updateParams', worker:'script', params}),
     runScript: ({script,url=''})=>sendCmd({ action:'runScript', worker:'script', script, url}),
     postMessage: sendCmd,
   }
 }
 
+const init = start({
+  convertToSolids: 'buffers',
+  callback:(params)=>self.postMessage(params),
+})
 
-// multi purpose module
-});
+self.onmessage = ({data}) => {
+  if (data.action === 'init') {
+    workerBaseURI = data.baseURI
+  }
+  init.postMessage(data, null)
+};
