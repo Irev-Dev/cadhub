@@ -3,7 +3,7 @@ import OutBound from 'src/components/OutBound'
 
 const Footer = () => {
   return (
-    <div className="bg-indigo-900 text-indigo-200 font-roboto mt-20 text-sm">
+    <div className="bg-indigo-900 text-indigo-200 font-roboto text-sm">
       <div className="flex h-16 md:justify-end items-center mx-2 md:mx-16 flex-wrap">
         <OutBound className="mr-8" to="https://github.com/Irev-Dev/cadhub">
           Github

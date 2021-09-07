@@ -7,6 +7,7 @@ export const QUERY = gql`
     projects {
       id
       title
+      cadPackage
       mainImage
       createdAt
       updatedAt

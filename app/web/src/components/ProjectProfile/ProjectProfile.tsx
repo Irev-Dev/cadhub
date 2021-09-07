@@ -36,7 +36,7 @@ const KeyValue = ({
   if (!children || hide) return null
   return (
     <div>
-      <div className="text-ch-blue-600 font-fira-code flex text-sm whitespace-nowrap">
+      <div className="text-ch-blue-400 font-fira-code flex text-sm whitespace-nowrap">
         {keyName}
         {canEdit &&
           (isEditable ? (
@@ -246,7 +246,7 @@ const ProjectProfile = ({
                                   />
                                   {user?.userName}
                                 </Link>
-                                <div className="font-fira-code text-ch-blue-600 flex items-center">
+                                <div className="font-fira-code text-ch-blue-400 flex items-center">
                                   {new Date(createdAt).toDateString()}
                                 </div>
                               </div>
