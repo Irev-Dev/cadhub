@@ -21,7 +21,7 @@ const AllShortcutsModal = () => {
         <Dialog open={open} onClose={() => setOpen(false)} className={classes.root}>
         <div className="bg-ch-gray-700 font-fira-sans max-w-7xl rounded shadow-lg text-ch-gray-300 p-4">
             <h2 className="text-2xl mb-4">All Shortcuts</h2>
-        { editorMenuConfig.map(menu => menu.items.length ? (
+        { editorMenuConfig.filter(menu => menu.items.length).map(menu =>
             <section key={"allshortcuts-"+menu.name}
             className="my-6">
                 <h3 className="text-xl border-b-2 pb-2 mb-2">{ menu.label }</h3>
@@ -32,7 +32,7 @@ const AllShortcutsModal = () => {
                 </div>
             ))}
             </section>
-        ) : <></>)}
+        )}
         </div>
         </Dialog>
     )

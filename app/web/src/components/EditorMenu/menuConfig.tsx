@@ -1,10 +1,12 @@
 import React from 'react'
-import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import { makeStlDownloadHandler, PullTitleFromFirstLine } from './helpers'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
-import Svg from 'src/components/Svg/Svg'
+import { DropdownItem } from './Dropdowns'
 
+export function cmdOrCtrl() {
+    return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? '⌘' : 'Ctrl'
+}
 
 const fileMenuConfig = {
     name: 'file',
@@ -14,30 +16,51 @@ const fileMenuConfig = {
         {
             label: 'Save & Render',
             shortcut: 'ctrl+s, command+s',
-            shortcutLabel: <><CmdOrCtrl/> S</>,
-            // This is my main issue. How do I pass in a callback that relies on the hooks and state within the component?
-            // Put another way, how do I make the state and hooks used within a component configurable from outside the component itself?
-            callback: (e, /* { options } */) => {
-                // These do not work
-                // const handleRender = useRender()
-                // const saveCode = useSaveCode()
-                // handleRender()
-                // saveCode({ code: state.code })
-                e.preventDefault()
-                alert('Saving & Rendering!')
+            shortcutLabel: cmdOrCtrl() + ' S',
+            component: (props) => {
+                const { state, config } = props
+                const handleRender = useRender()
+                const saveCode = useSaveCode()
+                function onRender(e) {
+                    e.preventDefault()
+                    handleRender()
+                    saveCode({ code: state.code })
+                }
+
+                config.callback = onRender
+                
+                return <DropdownItem {...props} />
             },
         },
         {
             label: 'Download STL',
             shortcut: 'ctrl+shift+d, command+shift+d',
-            shortcutLabel: <><CmdOrCtrl/> Shift D</>,
-            callback: () => alert('Downloading STL!'),
+            shortcutLabel: cmdOrCtrl() + ' Shift D',
+            component: (props) => {
+                const { state, thunkDispatch, config } = props
+                const handleStlDownload = makeStlDownloadHandler({
+                    type: state.objectData?.type,
+                    ideType: state.ideType,
+                    geometry: state.objectData?.data,
+                    quality: state.objectData?.quality,
+                    fileName: PullTitleFromFirstLine(state.code || ''),
+                    thunkDispatch,
+                })
+
+                config.callback = handleStlDownload
+
+                return <DropdownItem {...props} />
+            }
         },
         {
             label: 'Cook Donut',
-            shortcut: 'ctrl+d, command+d',
-            shortcutLabel: <><CmdOrCtrl/> D</>,
-            callback: () => alert('Donut is cooked!'),
+            shortcut: 'ctrl+os+d',
+            shortcutLabel: cmdOrCtrl() + ' D',
+            component: (props) => {
+                const { config } = props
+                config.callback = () => alert('Donut is cooked!')
+                return <DropdownItem {...props} />
+            }
         }
     ]
 }
@@ -57,8 +80,12 @@ const viewMenuConfig = {
         {
             label: 'Reset layout',
             shortcut: 'ctrl+alt+r, command+alt+r',
-            shortcutLabel: <><CmdOrCtrl/> Alt R</>,
-            callback: () => alert('Resetting the layout!'),
+            shortcutLabel: cmdOrCtrl() + ' Alt R',
+            component: (props) => {
+                const { config, thunkDispatch } = props
+                config.callback = () => thunkDispatch({ type: 'resetLayout' })
+                return <DropdownItem {...props } />
+            }
         },
     ],
 }
@@ -82,8 +109,4 @@ export interface EditorMenuConfig {
     label: string,
     disabled: boolean,
     items: Array<EditorMenuItemConfig>,
-}
-
-function CmdOrCtrl() {
-    return <span> { /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? '⌘' : 'Ctrl' }</span>
 }
