@@ -18,7 +18,7 @@ const IdeConsole = () => {
             className="font-mono text-sm text-gray-400"
             key={`${message} ${index}`}
           >
-            <div className="text-xs font-bold pt-2 text-ch-blue-600">
+            <div className="text-xs font-bold pt-2 text-ch-blue-400">
               {time?.toLocaleString()}
             </div>
             <div className={(type === 'error' ? 'text-red-400' : '') + ' pl-4'}>

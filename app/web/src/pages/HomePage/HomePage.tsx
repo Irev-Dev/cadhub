@@ -12,7 +12,9 @@ const ProjectsPage = () => {
         lang="en-US"
       />
       <LandingSection />
-      <ProjectsCell shouldFilterProjectsWithoutImage />
+      <div className="bg-ch-gray-800 py-20">
+        <ProjectsCell shouldFilterProjectsWithoutImage />
+      </div>
     </MainLayout>
   )
 }

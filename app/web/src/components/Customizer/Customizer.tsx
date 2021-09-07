@@ -222,7 +222,7 @@ function ChoiceParam({
                   className={({ active }) =>
                     `${
                       active
-                        ? 'text-ch-blue-600 bg-ch-gray-700'
+                        ? 'text-ch-blue-400 bg-ch-gray-700'
                         : 'text-ch-gray-300'
                     }
                           cursor-default select-none relative py-2 pl-10 pr-4`
@@ -241,7 +241,7 @@ function ChoiceParam({
                       {selected ? (
                         <span
                           className={`${
-                            active ? 'text-ch-blue-600' : 'text-ch-gray-300'
+                            active ? 'text-ch-blue-400' : 'text-ch-gray-300'
                           }
                                 absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
