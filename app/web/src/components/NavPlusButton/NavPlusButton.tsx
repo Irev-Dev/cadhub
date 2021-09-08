@@ -20,7 +20,7 @@ const menuOptions: {
 const NavPlusButton: React.FC = () => {
   return (
     <Popover className="relative outline-none w-full h-full">
-      <Popover.Button className="h-full w-full outline-none">
+      <Popover.Button className="h-full w-full outline-none hover:bg-ch-gray-550 border rounded-full">
         <Svg name="plus" className="text-gray-200" />
       </Popover.Button>
 
