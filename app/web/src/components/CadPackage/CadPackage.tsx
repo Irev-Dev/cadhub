@@ -1,11 +1,21 @@
-import { ideTypeNameMap } from 'src/helpers/hooks/useIdeContext'
+export type CadPackageType = 'openscad' | 'cadquery' | 'jscad'
 
-interface CadPackageProps {
-  cadPackage: string
-  className?: string
+export const ideTypeNameMap = {
+  openscad: 'OpenSCAD',
+  cadquery: 'CadQuery',
 }
 
-const CadPackage = ({ cadPackage, className = '' }: CadPackageProps) => {
+interface CadPackageProps {
+  cadPackage: CadPackageType
+  className?: string
+  dotClass?: string
+}
+
+const CadPackage = ({
+  cadPackage,
+  className = '',
+  dotClass = 'w-5 h-5',
+}: CadPackageProps) => {
   const cadName = ideTypeNameMap[cadPackage] || ''
   const isOpenScad = cadPackage === 'openscad'
   const isCadQuery = cadPackage === 'cadquery'
@@ -14,13 +24,13 @@ const CadPackage = ({ cadPackage, className = '' }: CadPackageProps) => {
       className={
         `grid grid-flow-col-dense items-center gap-2 cursor-default text-gray-100 ${
           isOpenScad && 'bg-yellow-800'
-        } ${isCadQuery && 'bg-ch-blue-300'} bg-opacity-30 ` + className
+        } ${isCadQuery && 'bg-ch-blue-700'} bg-opacity-30 ` + className
       }
     >
       <div
         className={`${isOpenScad && 'bg-yellow-200'} ${
           isCadQuery && 'bg-blue-800'
-        } w-5 h-5 rounded-full`}
+        } ${dotClass} rounded-full`}
       />
       <div>{cadName}</div>
     </div>

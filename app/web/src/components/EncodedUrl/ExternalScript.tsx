@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useIdeContext, ideTypeNameMap } from 'src/helpers/hooks/useIdeContext'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
+import { ideTypeNameMap } from 'src/components/CadPackage/CadPackage'
 import OutBound from 'src/components/OutBound/OutBound'
 import { prepareEncodedUrl, makeExternalUrl } from './helpers'
 import { copyTextToClipboard } from 'src/helpers/clipboard'

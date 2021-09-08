@@ -13,6 +13,13 @@
  * END --- TAILWIND GENERATOR EDIT
  */
 
+@layer base {
+  body {
+    font-family: 'Fira Sans', ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+}
+
+
 .markdown-overrides h4 {
   @apply text-lg font-bold;
 }

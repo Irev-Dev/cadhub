@@ -1,12 +1,12 @@
 import { Link, routes } from '@redwoodjs/router'
 import Svg from 'src/components/Svg/Svg'
 import { Popover } from '@headlessui/react'
-import type { CadPackage } from 'src/helpers/hooks/useIdeState'
+import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 const menuOptions: {
   name: string
   sub: string
-  ideType: CadPackage
+  ideType: CadPackageType
 }[] = [
   {
     name: 'OpenSCAD',
@@ -20,7 +20,7 @@ const menuOptions: {
 const NavPlusButton: React.FC = () => {
   return (
     <Popover className="relative outline-none w-full h-full">
-      <Popover.Button className="h-full w-full outline-none">
+      <Popover.Button className="h-full w-full outline-none hover:bg-ch-gray-550 border rounded-full">
         <Svg name="plus" className="text-gray-200" />
       </Popover.Button>
 

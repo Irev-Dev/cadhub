@@ -13,6 +13,9 @@ module.exports = {
       borderRadius: {
         half: '50%',
       },
+      boxShadow: {
+        ch: '0 4px 4px 0 rgba(0, 0, 0, 0.25), 0 4px 4px 0 rgba(13, 13, 19, 0.15)',
+      },
       colors: {
         'ch-gray': {
           900: '#0D0D13',
@@ -21,6 +24,7 @@ module.exports = {
           760: '#232532',
           700: '#2A3038',
           600: '#3B3E4B',
+          550: '#63636A',
           500: '#9F9FB4',
           400: '#A4A4B0',
           300: '#CFCFD8',
@@ -35,9 +39,10 @@ module.exports = {
           200: '#DBDBEC',
         },
         'ch-blue': {
-          600: '#79B2F8',
+          700: '#08466F',
+          650: '#0958BA',
           500: '5098F1',
-          300: '#08466F'
+          400: '#79B2F8',
         },
         'ch-pink': {
           800: '#93064F',

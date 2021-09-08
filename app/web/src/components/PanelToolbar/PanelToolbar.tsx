@@ -23,10 +23,10 @@ const PanelToolbar = ({
           aria-label={`${panelName} settings`}
           disabled
         >
-          <Svg name="gear" className="w-7 p-px" />
+          <Svg name="gear" className="w-7 p-0.5" />
         </button>
         {mosaicWindowActions.connectDragSource(
-          <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
+          <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-1.5 h-full flex items-center">
             <Svg name="drag-grid" className="w-4 p-px" />
           </div>
         )}

@@ -16,6 +16,7 @@ import {
   Mesh,
 } from 'three'
 import { jsCadToCadhubParams } from './jscadParams'
+import TheWorker from 'worker-loader!./jscadWorker'
 
 const materials = {
   mesh: {
@@ -134,19 +135,7 @@ export const render: DefaultKernelExport['render'] = async ({
 }: RenderArgs) => {
   if (!scriptWorker) {
     const baseURI = document.baseURI.toString()
-    const scriptUrl = '/demo-worker.js'
-    const script = `let baseURI = '${baseURI}'
-    importScripts(new URL('${scriptUrl}',baseURI))
-    let worker = jscadWorker({
-      baseURI: baseURI,
-      scope:'worker',
-      convertToSolids: 'buffers',
-      callback:(params)=>self.postMessage(params),
-    })
-    self.addEventListener('message', (e)=>worker.postMessage(e.data))
-    `
-    const blob = new Blob([script], { type: 'text/javascript' })
-    scriptWorker = new Worker(window.URL.createObjectURL(blob))
+    scriptWorker = new TheWorker()
     let parameterDefinitions = []
     scriptWorker.addEventListener('message', ({ data }) => {
       if (data.action == 'parameterDefinitions') {

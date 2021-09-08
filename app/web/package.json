@@ -47,7 +47,8 @@
     "react-tabs": "^3.2.2",
     "rich-markdown-editor": "^11.0.2",
     "styled-components": "^5.2.0",
-    "three": "^0.130.1"
+    "three": "^0.130.1",
+    "worker-loader": "^3.0.8"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",
