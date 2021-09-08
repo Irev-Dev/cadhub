@@ -3,6 +3,7 @@ import { useRender } from 'src/components/IdeWrapper/useRender'
 import { makeStlDownloadHandler, PullTitleFromFirstLine } from './helpers'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import { DropdownItem } from './Dropdowns'
+import { useShortcutsModalContext } from './AllShortcutsModal'
 
 export function cmdOrCtrl() {
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? '⌘' : 'Ctrl'
@@ -83,8 +84,8 @@ const viewMenuConfig = {
       shortcutLabel: 'Ctrl Shift /',
       component: (props) => {
         const { config } = props
-        const [open, setOpen] = useShortcutModalContext()
-        config.callback = () => setOpen(true)
+        const { toggleOpen } = useShortcutsModalContext()
+        config.callback = toggleOpen
         return <DropdownItem {...props} />
       },
     },

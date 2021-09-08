@@ -8,6 +8,7 @@ import Svg from 'src/components/Svg/Svg'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
+import { ShortcutsModalContext } from 'src/components/EditorMenu/AllShortcutsModal'
 
 interface Props {
   cadPackage: string
@@ -22,18 +23,25 @@ const IdeWrapper = ({ cadPackage }: Props) => {
     saveCode({ code: state.code })
   }
   useIdeInit(cadPackage, project?.code || state?.code)
+  const [shortcutModalOpen, setShortcutModalOpen] = useState(false)
+  const shortcutModalContextValues = {
+    open: shortcutModalOpen,
+    toggleOpen: () => setShortcutModalOpen(!shortcutModalOpen),
+  }
 
   return (
     <div className="h-full flex">
-      <div className="w-16 bg-ch-gray-700 flex-shrink-0">
-        <IdeSideBar />
-      </div>
-      <div className="h-full flex flex-grow flex-col">
-        <nav className="flex">
-          <IdeHeader handleRender={onRender} />
-        </nav>
-        <IdeContainer />
-      </div>
+      <ShortcutsModalContext.Provider value={shortcutModalContextValues}>
+        <div className="w-16 bg-ch-gray-700 flex-shrink-0">
+          <IdeSideBar />
+        </div>
+        <div className="h-full flex flex-grow flex-col">
+          <nav className="flex">
+            <IdeHeader handleRender={onRender} />
+          </nav>
+          <IdeContainer />
+        </div>
+      </ShortcutsModalContext.Provider>
     </div>
   )
 }

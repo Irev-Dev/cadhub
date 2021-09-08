@@ -1,5 +1,5 @@
 import { Menu } from '@headlessui/react'
-import { useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
@@ -14,19 +14,37 @@ const useStyles = makeStyles({
   },
 })
 
+interface ShortcutsModalContextType {
+  open: boolean
+  toggleOpen: () => any
+}
+
+export const ShortcutsModalContext = createContext<ShortcutsModalContextType>({
+  open: false,
+  toggleOpen: () => {},
+})
+
+export function useShortcutsModalContext() {
+  return useContext(ShortcutsModalContext)
+}
+
 const AllShortcutsModal = () => {
   const classes = useStyles()
-  const [open, setOpen] = useState(false)
-  useHotkeys(SHORTCUT, () => setOpen(!open), [open])
+  const { open, toggleOpen } = useShortcutsModalContext()
 
   return (
     <>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
-        className={classes.root}
+        onClose={() => toggleOpen()}
+        className={classes.root + ' bg-transparent'}
+        PaperProps={{
+          style: {
+            backgroundColor: 'transparent',
+          },
+        }}
       >
-        <div className="bg-ch-gray-700 font-fira-sans max-w-7xl rounded shadow-lg text-ch-gray-300 p-4">
+        <div className="bg-ch-gray-700 font-fira-sans shadow-lg text-ch-gray-300 p-4">
           <h2 className="text-2xl mb-4">All Shortcuts</h2>
           {editorMenuConfig
             .filter((menu) => menu.items.length)
@@ -35,7 +53,7 @@ const AllShortcutsModal = () => {
                 <h3 className="text-xl border-b-2 pb-2 mb-2">{menu.label}</h3>
                 {menu.items.map((item) => (
                   <div
-                    className="flex gap-8 justify-between"
+                    className="flex gap-16 justify-between"
                     key={'allshortcuts-' + menu.name + '-' + item.label}
                   >
                     <p>{item.label}</p>
