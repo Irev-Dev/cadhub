@@ -18,22 +18,8 @@ const AllShortcutsModal = () => {
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     useHotkeys(SHORTCUT, () => setOpen(!open), [open])
-    const { state, thunkDispatch } = useIdeContext()
 
     return (<>
-        <div className="hidden">
-          <Menu>
-          { editorMenuConfig.filter(menu => menu.items.length).map(menu =>
-            menu.items.map(item => (
-                <item.component
-                  state={state}
-                  thunkDispatch={thunkDispatch}
-                  config={item}
-                  key={menu.label +"-"+ item.label } />
-              ))
-            )}
-          </Menu>
-        </div>
         <Dialog open={open} onClose={() => setOpen(false)} className={classes.root}>
         <div className="bg-ch-gray-700 font-fira-sans max-w-7xl rounded shadow-lg text-ch-gray-300 p-4">
             <h2 className="text-2xl mb-4">All Shortcuts</h2>

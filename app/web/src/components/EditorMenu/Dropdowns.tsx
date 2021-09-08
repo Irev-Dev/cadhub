@@ -35,12 +35,14 @@ export function Dropdown({
     return (
       <div className="relative">
         <Menu>
+        {({ open }) => (<>
           <Menu.Button className={"text-gray-100" + (disabled ? " text-gray-400 cursor-not-allowed" : "")} disabled={disabled}>{label}</Menu.Button>
           { children &&
-          <Menu.Items className="absolute flex flex-col mt-4 bg-ch-gray-760 rounded text-gray-100 overflow-hidden whitespace-nowrap border border-ch-gray-700">
+          <Menu.Items static className={(open ? "" : "hidden ") + "absolute flex flex-col mt-4 bg-ch-gray-760 rounded text-gray-100 overflow-hidden whitespace-nowrap border border-ch-gray-700"}>
             {children}
           </Menu.Items>
           }
+        </>)}
         </Menu>
       </div>
     )
