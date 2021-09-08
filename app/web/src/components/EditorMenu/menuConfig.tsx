@@ -54,7 +54,7 @@ const fileMenuConfig = {
         },
         {
             label: 'Cook Donut',
-            shortcut: 'ctrl+os+d',
+            shortcut: 'ctrl+d, command+d',
             shortcutLabel: cmdOrCtrl() + ' D',
             component: (props) => {
                 const { config } = props
