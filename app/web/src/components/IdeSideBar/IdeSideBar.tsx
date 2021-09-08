@@ -14,7 +14,7 @@ const IdeSideBar = () => {
         aria-label="IDE settings"
         disabled
       >
-        <Svg name="big-gear" />
+        <Svg name="gear" />
       </button>
     </div>
   )
