@@ -2,11 +2,9 @@ import { Menu } from '@headlessui/react'
 import { useHotkeys } from 'react-hotkeys-hook';
 
 export function DropdownItem({ config, state, thunkDispatch }) {
-    console.log({ name: config.label, shortcut: config.shortcut, callback: handleClick})
     useHotkeys(config.shortcut, handleClick)
 
     function handleClick(e) {
-        console.log(e, config)
         e.preventDefault()
         config.callback(e, {state, thunkDispatch})
     }
@@ -14,11 +12,11 @@ export function DropdownItem({ config, state, thunkDispatch }) {
       <Menu.Item>
         {({ active }) => (
         <button
-          className={`${active && 'bg-gray-600'} px-2 py-1 text-left`}
+          className={`${active && 'bg-gray-600'} px-2 py-1 flex justify-between`}
           onClick={handleClick}
         >
           {config.label}
-          {config.shortcutLabel && <span className="text-gray-400 pl-4">{ config.shortcutLabel }</span> }
+          {config.shortcutLabel && <span className="text-gray-400 pl-6 text-right">{ config.shortcutLabel }</span> }
         </button>
       )}
       </Menu.Item>

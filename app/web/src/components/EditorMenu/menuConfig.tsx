@@ -51,16 +51,6 @@ const fileMenuConfig = {
 
                 return <DropdownItem {...props} />
             }
-        },
-        {
-            label: 'Cook Donut',
-            shortcut: 'ctrl+d, command+d',
-            shortcutLabel: cmdOrCtrl() + ' D',
-            component: (props) => {
-                const { config } = props
-                config.callback = () => alert('Donut is cooked!')
-                return <DropdownItem {...props} />
-            }
         }
     ]
 }
