@@ -26,7 +26,7 @@ const EditorMenu = () => {
   return (
     <div className="flex justify-between bg-ch-gray-760 text-gray-100">
       <div className="flex items-center h-9 w-full cursor-grab">
-        <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-2 h-full flex items-center">
+        <div className=" text-ch-gray-760 bg-ch-gray-300 cursor-grab px-1.5 h-full flex items-center">
           <Svg name="drag-grid" className="w-4 p-px" />
         </div>
         <div className="grid grid-flow-col-dense gap-6 px-5">

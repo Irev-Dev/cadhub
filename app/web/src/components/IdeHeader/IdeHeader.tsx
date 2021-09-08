@@ -102,9 +102,9 @@ const IdeHeader = ({
               <TopButton
                 onClick={onClick}
                 name="Save Project Image"
-                className=" bg-ch-gray-300 bg-opacity-70 hover:bg-opacity-90 text-ch-gray-900"
+                className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
               >
-                <Svg name="camera" className="w-6 h-6" />
+                <Svg name="camera" className="w-6 h-6 text-ch-blue-400" />
               </TopButton>
             )}
           />
