@@ -1,5 +1,9 @@
-import { ideTypeNameMap } from 'src/helpers/hooks/useIdeContext'
-import type { CadPackage as CadPackageType } from 'src/helpers/hooks/useIdeState'
+export type CadPackageType = 'openscad' | 'cadquery' | 'jscad'
+
+export const ideTypeNameMap = {
+  openscad: 'OpenSCAD',
+  cadquery: 'CadQuery',
+}
 
 interface CadPackageProps {
   cadPackage: CadPackageType

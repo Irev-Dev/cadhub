@@ -17,8 +17,3 @@ export const IdeContext = createContext<IdeContextType>({
 export function useIdeContext() {
   return useContext(IdeContext)
 }
-
-export const ideTypeNameMap = {
-  openscad: 'OpenSCAD',
-  cadquery: 'CadQuery',
-}

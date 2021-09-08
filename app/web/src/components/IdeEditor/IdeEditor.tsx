@@ -4,7 +4,7 @@ import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { theme } from 'src/../config/tailwind.config'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
-import type { CadPackage as CadPackageType } from 'src/helpers/hooks/useIdeState'
+import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 const colors = theme.extend.colors
 

@@ -1,11 +1,11 @@
 import { DefaultKernelExport } from './common'
-import type { CadPackage } from 'src/helpers/hooks/useIdeState'
+import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 import openscad from './openScad/openScadController'
 import cadquery from './cadQueryController'
 import jscad from './jsCad/jsCadController'
 
-export const cadPackages: { [key in CadPackage]: DefaultKernelExport } = {
+export const cadPackages: { [key in CadPackageType]: DefaultKernelExport } = {
   openscad,
   cadquery,
   jscad,

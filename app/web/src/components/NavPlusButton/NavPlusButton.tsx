@@ -1,12 +1,12 @@
 import { Link, routes } from '@redwoodjs/router'
 import Svg from 'src/components/Svg/Svg'
 import { Popover } from '@headlessui/react'
-import type { CadPackage } from 'src/helpers/hooks/useIdeState'
+import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 const menuOptions: {
   name: string
   sub: string
-  ideType: CadPackage
+  ideType: CadPackageType
 }[] = [
   {
     name: 'OpenSCAD',

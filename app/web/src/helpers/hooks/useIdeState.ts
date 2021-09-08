@@ -13,10 +13,9 @@ function withThunk(dispatch, getState) {
       ? actionOrThunk(dispatch, getState)
       : dispatch(actionOrThunk)
 }
+import { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
-export type CadPackage = 'openscad' | 'cadquery' | 'jscad'
-
-const initCodeMap: { [key in CadPackage]: string } = {
+const initCodeMap: { [key in CadPackageType]: string } = {
   openscad: `// involute donut
 
 // ^ first comment is used for download title (i.e "involute-donut.stl")
@@ -97,7 +96,7 @@ interface XYZ {
 }
 
 export interface State {
-  ideType: 'INIT' | CadPackage
+  ideType: 'INIT' | CadPackageType
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
   objectData: {
