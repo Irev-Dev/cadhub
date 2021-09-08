@@ -1,12 +1,7 @@
-import { Menu } from '@headlessui/react'
-import { createContext, useContext, useEffect, useState } from 'react'
-import { useHotkeys } from 'react-hotkeys-hook'
+import { createContext, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import { editorMenuConfig } from './menuConfig'
-import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-
-const SHORTCUT = 'ctrl+shift+/'
 
 const useStyles = makeStyles({
   root: {
