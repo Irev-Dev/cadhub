@@ -19,9 +19,9 @@ export const runCQ = async ({
     `--outputopts "deflection:${deflection};angularDeflection:${deflection};"`,
   ].join(' ')
   console.log('command', command)
-
+  let consoleMessage = ''
   try {
-    const consoleMessage = await runCommand(command, 30000)
+    consoleMessage = await runCommand(command, 30000)
     await writeFiles(
       [
         {
@@ -36,10 +36,10 @@ export const runCQ = async ({
     )
     await runCommand(
       `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
-      15000
+      15000, true
     )
     return { consoleMessage, fullPath }
   } catch (error) {
-    return { error, fullPath }
+    return { error: consoleMessage, fullPath }
   }
 }
