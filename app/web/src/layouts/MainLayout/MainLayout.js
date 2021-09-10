@@ -93,18 +93,18 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   return (
     <div>
       <header id="cadhub-main-header">
-        <nav className="flex justify-between h-20 md:px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
+        <nav className="flex justify-between h-16 px-4 bg-ch-gray-900">
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
-                <div className="rounded-full overflow-hidden ml-2 md:ml-8">
-                  <Svg className="w-10 md:w-16" name="favicon" />
+                <div className="rounded-full overflow-hidden ml-2">
+                  <Svg className="w-10" name="favicon" />
                 </div>
               </Link>
             </li>
             <li>
               <Tooltip title="Very alpha, there's lots of work todo">
-                <div className="ml-2 md:ml-12 flex">
+                <div className="ml-4 flex">
                   {/* Because of how specific these styles are to this heading/logo and it doesn't need to be replicated else where as well as it's very precise with the placement of "pre-alpha" I think it's appropriate. */}
                   <h2
                     className="text-indigo-300 text-2xl md:text-5xl font-ropa-sans py-1 md:tracking-wider"

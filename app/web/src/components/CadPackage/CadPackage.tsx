@@ -1,8 +1,9 @@
 export type CadPackageType = 'openscad' | 'cadquery' | 'jscad'
 
-export const ideTypeNameMap = {
+export const ideTypeNameMap: { [key in CadPackageType]: string } = {
   openscad: 'OpenSCAD',
   cadquery: 'CadQuery',
+  jscad: 'JSCAD',
 }
 
 interface CadPackageProps {
@@ -19,18 +20,21 @@ const CadPackage = ({
   const cadName = ideTypeNameMap[cadPackage] || ''
   const isOpenScad = cadPackage === 'openscad'
   const isCadQuery = cadPackage === 'cadquery'
+  const isJsCad = cadPackage === 'jscad'
   return (
     <div
       className={
-        `grid grid-flow-col-dense items-center gap-2 cursor-default text-gray-100 ${
+        `grid grid-flow-col-dense items-center gap-2 text-gray-100 ${
           isOpenScad && 'bg-yellow-800'
-        } ${isCadQuery && 'bg-ch-blue-700'} bg-opacity-30 ` + className
+        } ${isCadQuery && 'bg-ch-blue-700'} ${
+          isJsCad && 'bg-ch-purple-500'
+        } bg-opacity-30 ` + className
       }
     >
       <div
         className={`${isOpenScad && 'bg-yellow-200'} ${
           isCadQuery && 'bg-blue-800'
-        } ${dotClass} rounded-full`}
+        } ${isJsCad && 'bg-yellow-300'} ${dotClass} rounded-full`}
       />
       <div>{cadName}</div>
     </div>
