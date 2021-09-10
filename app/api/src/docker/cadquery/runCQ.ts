@@ -36,7 +36,8 @@ export const runCQ = async ({
     )
     await runCommand(
       `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
-      15000, true
+      15000,
+      true
     )
     return { consoleMessage, fullPath }
   } catch (error) {
