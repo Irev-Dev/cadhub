@@ -4,6 +4,8 @@ import GoTrue from 'gotrue-js'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import ReactGA from 'react-ga'
 
 ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID)
@@ -19,12 +21,25 @@ const goTrueClient = new GoTrue({
   setCookie: true,
 })
 
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      light: '#C99DFF',
+      main: '#A663FA',
+      dark: '#3B0480',
+    }
+  },
+})
+
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider>
       <AuthProvider client={goTrueClient} type="goTrue">
         <RedwoodApolloProvider>
-          <Routes />
+          <ThemeProvider theme={theme}>
+            <Routes />
+          </ThemeProvider>
         </RedwoodApolloProvider>
       </AuthProvider>
     </RedwoodProvider>

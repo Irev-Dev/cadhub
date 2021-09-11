@@ -55,8 +55,16 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
     }
   }
   return (
-    <Dialog open={open} onClose={onClose} className={classes.root}>
-      <div className="bg-gray-100 max-w-2xl rounded-lg shadow-lg">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      className={classes.root}
+      PaperProps={{
+        style: {
+          backgroundColor: 'transparent',
+        },
+      }}>
+      <div className="bg-ch-gray-700 max-w-2xl rounded-lg shadow-lg text-ch-gray-300">
         <Tabs
           value={tab}
           onChange={onTabChange}
@@ -89,8 +97,8 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
 
 const Field = ({ name, type = 'text', validation }) => (
   <>
-    <span className="capitalize text-gray-500 text-sm align-middle my-3">
-      {name}:
+    <span className="capitalize text-ch-gray-300 text-right text-sm align-middle my-3">
+      {name}
     </span>
     <InputTextForm
       type={type}
@@ -102,8 +110,8 @@ const Field = ({ name, type = 'text', validation }) => (
 )
 
 const HeroButton = ({ text }) => (
-  <Submit className="bg-texture bg-purple-800 py-6 w-full flex items-center justify-center rounded-b border border-indigo-300 border-opacity-0 hover:border-opacity-100 hover:shadow-xl">
-    <span className="font-bold text-2xl text-indigo-200">{text}</span>
+  <Submit className="bg-texture bg-ch-purple-400 bg-opacity-50 py-6 w-full flex items-center justify-center rounded-b border border-indigo-300 border-opacity-0 hover:bg-opacity-80 hover:shadow-xl">
+    <span className="text-3xl text-ch-purple-600">{text}</span>
   </Submit>
 )
 
@@ -129,13 +137,14 @@ const SignInForm = ({ onSubmitSignIn }) => (
           type="password"
           validation={{ required: true }}
         />
+        <div></div>
+        <Link
+          to={routes.accountRecovery()}
+          className="underline text-sm text-ch-gray-400 block mt-4"
+        >
+          forgot your password?
+        </Link>
       </div>
-      <Link
-        to={routes.accountRecovery()}
-        className="underline text-sm text-gray-500 block text-center"
-      >
-        forgot your password?
-      </Link>
     </div>
     <HeroButton text="Sign In" />
   </Form>
@@ -174,22 +183,22 @@ const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox, onClose }) => (
           type="password"
           validation={{ required: true }}
         />
-      </div>
-      <div className="flex pt-4">
         <input
           type="checkbox"
+          id="signup-toc"
+          className="justify-self-end mr-2"
           checked={checkBox}
           onChange={() => setCheckBox(!checkBox)}
         />{' '}
-        <span className="pl-4 text-gray-500 text-sm max-w-sm">
+        <label htmlFor="signup-toc" className="text-ch-gray-400 text-sm mt-4 cursor-pointer">
           Stay up-to-date with CadHub's progress with the founder's (
           <OutBound className="underline" to="https://twitter.com/IrevDev">
             Kurt's
           </OutBound>
           ) newsletter
-        </span>
+        </label>
       </div>
-      <span className="text-sm text-gray-500 block text-center pt-4">
+      <span className="text-sm text-ch-gray-400 block text-center pt-4">
         Use of CadHub requires you to abide by our{' '}
         <Link
           onClick={onClose}
