@@ -23,7 +23,11 @@ export async function writeFiles(
   return tempFile
 }
 
-export async function runCommand(command, timeout = 5000): Promise<string> {
+export async function runCommand(
+  command,
+  timeout = 5000,
+  shouldRejectStdErr = false
+): Promise<string> {
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -35,6 +39,10 @@ export async function runCommand(command, timeout = 5000): Promise<string> {
       }
       if (stderr) {
         console.log(`stderr: ${stderr}`)
+        if (shouldRejectStdErr) {
+          reject(stderr)
+          return
+        }
         resolve(stderr)
         return
       }
@@ -105,7 +113,8 @@ export async function storeAssetAndReturnUrl({
   if (error) {
     const response = {
       statusCode: 400,
-      body: JSON.stringify({ error, fullPath }),
+      body: Buffer.from(JSON.stringify({ error, fullPath })).toString('base64'),
+      isBase64Encoded: true,
     }
     callback(null, response)
     return
@@ -119,7 +128,10 @@ export async function storeAssetAndReturnUrl({
       console.log('read file error', e)
       const response = {
         statusCode: 400,
-        body: JSON.stringify({ error: consoleMessage, fullPath }),
+        body: Buffer.from(
+          JSON.stringify({ error: consoleMessage, fullPath })
+        ).toString('base64'),
+        isBase64Encoded: true,
       }
       callback(null, response)
       return

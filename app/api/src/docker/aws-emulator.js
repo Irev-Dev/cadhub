@@ -20,8 +20,12 @@ const makeRequest = (route, port) => [
       })
       res.status(data.statusCode)
       res.setHeader('Content-Type', 'application/javascript')
-      res.setHeader('Content-Encoding', 'gzip')
-      res.send(Buffer.from(data.body, 'base64'))
+      if (data.headers && data.headers['Content-Encoding'] === 'gzip') {
+        res.setHeader('Content-Encoding', 'gzip')
+        res.send(Buffer.from(data.body, 'base64'))
+      } else {
+        res.send(Buffer.from(data.body, 'base64'))
+      }
     } catch (e) {
       res.status(500)
       res.send()
