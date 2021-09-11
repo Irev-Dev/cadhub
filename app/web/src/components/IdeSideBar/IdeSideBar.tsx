@@ -61,8 +61,8 @@ const IdeSideBar = () => {
         </div>
       </fieldset>
       { sidebarCombinedConfig.find(item => item.name === selectedTab)?.panel && (
-        <div className="w-56 bg-ch-gray-800 text-ch-gray-300" style={{ height: 'calc(100% - 6px)', margin: '3px'}}>
-          <h2 className="flex items-center h-9 px-4 bg-ch-gray-760">{ selectedTab }</h2>
+        <div className="w-56 bg-ch-gray-900 text-ch-gray-300 border border-ch-pink-800 border-opacity-30" style={{ height: 'calc(100% - 6px)', margin: '3px'}}>
+          <h2 className="flex items-center h-9 px-4 bg-ch-pink-800 bg-opacity-30">{ selectedTab }</h2>
           { sidebarCombinedConfig.find(item => item.name === selectedTab).panel }
         </div>
       ) }
