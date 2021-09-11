@@ -24,15 +24,17 @@ const IdeWrapper = ({ cadPackage }: Props) => {
   useIdeInit(cadPackage, project?.code || state?.code)
 
   return (
-    <div className="h-full flex">
-      <div className="w-14 bg-ch-gray-700 flex-shrink-0">
-        <IdeSideBar />
-      </div>
-      <div className="h-full flex flex-grow flex-col">
-        <nav className="flex">
+    <div className="h-full flex flex-col">
+      <nav className="flex">
           <IdeHeader handleRender={onRender} />
-        </nav>
-        <IdeContainer />
+      </nav>
+      <div className="h-full flex flex-grow bg-ch-gray-900">
+        <div className="flex-shrink-0">
+          <IdeSideBar />
+        </div>
+        <div className="h-full flex flex-grow">
+          <IdeContainer />
+        </div>
       </div>
     </div>
   )

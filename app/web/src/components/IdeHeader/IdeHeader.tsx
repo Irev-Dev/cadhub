@@ -65,8 +65,13 @@ const IdeHeader = ({
 
   return (
     <div className="h-16 w-full bg-ch-gray-900 flex justify-between items-center text-lg">
-      {_projectId ? (
-        <div className="h-full text-gray-300 flex items-center">
+      <div className="h-full text-gray-300 flex items-center">
+        <div className="w-14 h-16 flex items-center justify-center bg-ch-gray-900">
+          <Link to={routes.home()}>
+            <Svg className="w-12 p-0.5" name="favicon" />
+          </Link>
+        </div>
+        {_projectId && <>
           <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
             <Gravatar
               image={project?.user?.image || projectOwnerImage}
@@ -87,10 +92,8 @@ const IdeHeader = ({
             canEdit={canEdit}
             shouldRouteToIde={!projectTitle}
           />
-        </div>
-      ) : (
-        <div />
-      )}
+        </>}
+      </div>
       <div className="text-gray-200 grid grid-flow-col-dense gap-4 mr-4 items-center">
         {canEdit && !projectTitle && (
           <CaptureButton
