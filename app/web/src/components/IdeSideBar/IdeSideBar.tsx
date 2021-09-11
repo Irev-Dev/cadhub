@@ -1,49 +1,6 @@
-import { ReactNode, useState } from 'react'
-import { Link, routes } from '@redwoodjs/router'
-import { Tab } from '@headlessui/react'
-import Svg, { SvgNames } from 'src/components/Svg/Svg'
-
-interface SidebarConfigType {
-  name: string,
-  icon: SvgNames,
-  disabled: boolean,
-  panel: ReactNode | null,
-}
-
-const sidebarTopConfig : SidebarConfigType[] = [
-  {
-    name: 'Files',
-    icon: 'files',
-    disabled: false,
-    panel: <h2>Some Files!</h2>,
-  },
-  {
-    name: 'GitHub',
-    icon: 'github',
-    disabled: false,
-    panel: <h2>Le GitHub Integration™️</h2>,
-  },
-  {
-    name: 'Visibility',
-    icon: 'eye',
-    disabled: true,
-    panel: null,
-  },
-]
-
-const sidebarBottomConfig : SidebarConfigType[] = [
-  {
-    name: 'Settings',
-    icon: 'gear',
-    disabled: true,
-    panel: null,
-  },
-]
-
-const combinedConfig = [
-  ...sidebarTopConfig,
-  ...sidebarBottomConfig,
-]
+import { useState } from 'react'
+import Svg from 'src/components/Svg/Svg'
+import { sidebarTopConfig, sidebarBottomConfig, sidebarCombinedConfig } from './sidebarConfig'
 
 function TabToggle({ item, className = "", active, onChange, onClick }) {
   return (
@@ -79,8 +36,8 @@ const IdeSideBar = () => {
   }
 
   return (
-    <section className="flex h-full bg-ch-gray-700">
-      <fieldset className="h-full flex flex-col justify-between border-r-2 border-ch-gray-900">
+    <section className="flex h-full bg-ch-gray-900">
+      <fieldset className="h-full flex flex-col justify-between bg-ch-gray-700">
         <div>
           { sidebarTopConfig.map((topItem, i) => (
             <TabToggle
@@ -102,9 +59,10 @@ const IdeSideBar = () => {
           ))}
         </div>
       </fieldset>
-      { combinedConfig.find(item => item.name === selectedTab)?.panel && (
-        <div className="w-56 h-full bg-ch-gray-700 py-4 px-2 text-ch-gray-300 border-t-2 border-ch-gray-900">
-          { combinedConfig.find(item => item.name === selectedTab).panel }
+      { sidebarCombinedConfig.find(item => item.name === selectedTab)?.panel && (
+        <div className="w-56 bg-ch-gray-800 text-ch-gray-300" style={{ height: 'calc(100% - 6px)', margin: '3px'}}>
+          <h2 className="py-2 px-4 bg-ch-gray-760 mb-2">{ selectedTab }</h2>
+          { sidebarCombinedConfig.find(item => item.name === selectedTab).panel }
         </div>
       ) }
     </section>
