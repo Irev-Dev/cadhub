@@ -8,20 +8,15 @@ const InputText = ({ type = 'text', className, name, validation }) => {
   } = useFormContext()
   return (
     <>
-      <div className={getActiveClasses('relative inline-block', className)}>
+      <div className={getActiveClasses('relative mt-5', className)}>
         <FieldError
-          className="absolute -my-4 text-sm text-red-500 font-ropa-sans"
+          className="absolute -my-5 text-sm text-red-500 font-ropa-sans"
           name={name}
-        />
-        <div
-          className={getActiveClasses(
-            'absolute inset-0 mb-2 rounded bg-gray-200 shadow-inner',
-            { 'border border-red-500': errors[name] }
-          )}
         />
         <TextField
           className={getActiveClasses(
-            'pl-2 pt-1 text-indigo-800 font-medium mb-px pb-px bg-transparent relative w-full'
+            'text-ch-gray-300 rounded-none bg-ch-gray-600 border border-transparent focus:border-ch-gray-300 px-2 py-1 relative w-full',
+            { 'border border-red-600': errors[name] }
           )}
           name={name}
           readOnly={false}

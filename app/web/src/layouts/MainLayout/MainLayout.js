@@ -125,7 +125,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           <ul className="flex items-center">
             <li
               className={getActiveClasses(
-                'mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center'
+                'mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center'
               )}
             >
               <NavPlusButton />
@@ -150,10 +150,10 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               <li>
                 <a
                   href="#"
-                  className="text-indigo-200 font-semibold underline mr-2"
+                  className="text-ch-gray-300 mr-2 px-4 py-2 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
                   onClick={recordedLogin}
                 >
-                  Sign in/up
+                  Sign In/Up
                 </a>
               </li>
             )}
