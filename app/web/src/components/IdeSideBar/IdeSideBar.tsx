@@ -5,7 +5,6 @@ import { sidebarTopConfig, sidebarBottomConfig, sidebarCombinedConfig } from './
 function TabToggle({ item, className = "", active, onChange, onClick }) {
   return (
   <label
-    key={'tab-'+item.name}
     className={`tabToggle${item.disabled ? ' disabled' : ''}${active ? ' active' : ''} ${className}`}>
     <input name="sidebar-tabs"
       type="radio"
@@ -45,6 +44,7 @@ const IdeSideBar = () => {
               active={ selectedTab === topItem.name }
               onChange={ () => setSelectedTab(topItem.name) }
               onClick={ onTabClick(topItem.name) }
+              key={ 'tab-' + i }
             />
           ))}
         </div>
@@ -55,13 +55,14 @@ const IdeSideBar = () => {
             active={ selectedTab === bottomItem.name }
             onChange={ () => setSelectedTab(bottomItem.name) }
             onClick={ onTabClick(bottomItem.name) }
+            key={ 'tab-' + (sidebarTopConfig.length+i) }
           />
           ))}
         </div>
       </fieldset>
       { sidebarCombinedConfig.find(item => item.name === selectedTab)?.panel && (
         <div className="w-56 bg-ch-gray-800 text-ch-gray-300" style={{ height: 'calc(100% - 6px)', margin: '3px'}}>
-          <h2 className="py-2 px-4 bg-ch-gray-760 mb-2">{ selectedTab }</h2>
+          <h2 className="flex items-center h-9 px-4 bg-ch-gray-760">{ selectedTab }</h2>
           { sidebarCombinedConfig.find(item => item.name === selectedTab).panel }
         </div>
       ) }

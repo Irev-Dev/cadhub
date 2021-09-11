@@ -40,10 +40,6 @@
   .tabToggle.disabled {
     @apply text-ch-gray-550 cursor-not-allowed;
   }
-
-  .sidebarContainer {
-    @apply p-2;
-  }
 }
 
 
