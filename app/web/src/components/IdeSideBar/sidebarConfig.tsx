@@ -1,11 +1,11 @@
-import { ReactFragment, ReactNode, useEffect, useReducer, useState } from 'react'
+import React, { ReactNode } from 'react'
 import { SvgNames } from 'src/components/Svg/Svg'
 
 interface SidebarConfigType {
     name: string,
     icon: SvgNames,
     disabled: boolean,
-    panel: ReactFragment | null,
+    panel: ReactNode | null,
 }
 
 export const sidebarTopConfig : SidebarConfigType[] = [
@@ -67,14 +67,7 @@ export const sidebarBottomConfig : SidebarConfigType[] = [
         name: 'Settings',
         icon: 'gear',
         disabled: false,
-        panel: <article className="">
-        { settingsConfig.map(item => (
-            <details key={'settings-tray-'+item.name}>
-                <summary className="px-2 py-1 bg-ch-pink-800 bg-opacity-20 my-px">{ item.title }</summary>
-                { item.content }
-            </details>
-        ))}
-        </article>,
+        panel: <SettingsMenu />,
     },
 ]
 
@@ -84,12 +77,11 @@ export const sidebarCombinedConfig = [
 ]
 
 function SettingsMenu() {
-    console.log('hello?', settingsConfig)
     return (
-        <article className="px-2 py-4">
+        <article className="">
         { settingsConfig.map(item => (
             <details key={'settings-tray-'+item.name}>
-                <summary>{ item.title }</summary>
+                <summary className="px-2 py-2 bg-ch-pink-800 bg-opacity-10 my-px">{ item.title }</summary>
                 { item.content }
             </details>
         ))}
