@@ -1,9 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import Svg from 'src/components/Svg/Svg'
 import { Popover } from '@headlessui/react'
-import CadPackage, {
-  CadPackageType,
-} from 'src/components/CadPackage/CadPackage'
+import { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 const menuOptions: {
   name: string
@@ -24,9 +22,15 @@ const menuOptions: {
     sub: 'beta',
     bgClasses: 'bg-ch-blue-700',
     dotClasses: 'bg-blue-800',
-    ideType: 'cadquery'
+    ideType: 'cadquery',
   },
-  // { name: 'JSCAD', sub: 'alpha', ideType: 'jscad' }, // TODO #422, add jscad to db schema when were ready to enable saving of jscad projects
+  {
+    name: 'JSCAD',
+    sub: 'beta',
+    bgClasses: 'bg-ch-purple-500',
+    dotClasses: 'bg-yellow-300',
+    ideType: 'jscad',
+  },
 ]
 
 const NavPlusButton: React.FC = () => {
@@ -43,7 +47,10 @@ const NavPlusButton: React.FC = () => {
           {menuOptions.map(({ name, sub, ideType, bgClasses, dotClasses }) => (
             <li
               key={name}
-              className={bgClasses+" px-4 py-1 my-4 bg-opacity-30 hover:bg-opacity-70 grid grid-flow-col-dense items-center gap-2"}
+              className={
+                bgClasses +
+                ' px-4 py-1 my-4 bg-opacity-30 hover:bg-opacity-70 grid grid-flow-col-dense items-center gap-2'
+              }
             >
               <div className={dotClasses + " justify-self-center w-5 h-5 rounded-full"}></div>
               <Link to={routes.draftProject({ cadPackage: ideType })}>

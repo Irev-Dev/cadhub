@@ -1,10 +1,11 @@
 import { Canvas, useLoader, useFrame } from '@react-three/fiber'
 import { Suspense } from 'react'
-import { Html } from '@react-three/drei'
+import { Html, Stats } from '@react-three/drei'
 import CadPackage, {
   CadPackageType,
 } from 'src/components/CadPackage/CadPackage'
-import { navigate, routes } from '@redwoodjs/router'
+import { navigate, routes, Link } from '@redwoodjs/router'
+import { useInView } from 'react-intersection-observer'
 
 import Svg, { SvgNames } from 'src/components/Svg/Svg'
 import Gravatar from 'src/components/Gravatar/Gravatar'
@@ -45,25 +46,32 @@ export const Hero = () => {
       <ModelSection assetUrl="/coffee-lid.stl" offset={heroOffset} scale={0.06}>
         <div className="grid lg:grid-cols-2 py-32">
           <div className="flex items-end justify-center row-start-2 lg:row-start-1 pt-96 lg:pt-0 pr-12 pl-6">
-            <div className="grid grid-flow-col gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch">
-              <div className="pl-4">
-                <Gravatar
-                  image="CadHub/xvrnxvarkv8tdzo4n65u"
-                  className="w-12 h-12 mr-4"
-                  size={60}
-                />
+            <Link
+              to={routes.project({
+                userName: 'irevdev',
+                projectTitle: 'coffee-lid',
+              })}
+            >
+              <div className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch">
+                <div className="pl-1 sm:pl-4">
+                  <Gravatar
+                    image="CadHub/xvrnxvarkv8tdzo4n65u"
+                    className="w-12 h-12 mr-4"
+                    size={60}
+                  />
+                </div>
+                <div>
+                  <div className="text-xl sm:text-3xl">Coffee Lid</div>
+                  <div>IrevDev</div>
+                </div>
+                <div className="flex self-start">
+                  <CadPackage
+                    cadPackage="cadquery"
+                    className="px-3 py-1  sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
+                  />
+                </div>
               </div>
-              <div>
-                <div className="text-3xl">Coffee Lid</div>
-                <div>IrevDev</div>
-              </div>
-              <div className="flex self-start">
-                <CadPackage
-                  cadPackage="cadquery"
-                  className="px-3 py-1 text-xl rounded transform translate-x-10"
-                />
-              </div>
-            </div>
+            </Link>
           </div>
 
           <div className="col-start-1 lg:col-start-2 px-4">
@@ -100,12 +108,7 @@ export const Hero = () => {
       </ModelSection>
       <ChooseYourCharacter />
       <Community />
-      <ModelSection
-        assetUrl="/hinge.stl"
-        offset={tutOffset}
-        scale={0.12}
-        preset="lobby"
-      >
+      <ModelSection assetUrl="/hinge.stl" offset={tutOffset} scale={0.12}>
         <div className="max-w-7xl mx-auto grid py-16 overflow-hidden">
           <div className="py-0 pb-32 lg:py-32 ml-4 col-start-1 lg:col-start-1 pr-12 pl-6">
             <div className="text-4xl mb-6 text-ch-gray-300">Learn Code-CAD</div>
@@ -126,25 +129,34 @@ export const Hero = () => {
           </div>
 
           <div className="flex items-end justify-center row-start-2 lg:row-start-1 lg:col-start-2 pt-96 lg:pt-0 lg:pr-10">
-            <div className="grid grid-flow-col gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch">
-              <div className="pl-4">
-                <Gravatar
-                  image="CadHub/xvrnxvarkv8tdzo4n65u"
-                  className="w-12 h-12 mr-4"
-                  size={60}
-                />
+            <Link
+              to={routes.project({
+                userName: 'irevdev',
+                projectTitle: 'tutorial-hinge',
+              })}
+            >
+              <div className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch">
+                <div className="pl-1 sm:pl-4">
+                  <Gravatar
+                    image="CadHub/xvrnxvarkv8tdzo4n65u"
+                    className="w-12 h-12 mr-4"
+                    size={60}
+                  />
+                </div>
+                <div>
+                  <div className="text-lg sm:text-2xl w-28 sm:w-auto">
+                    Print in Place Hinge
+                  </div>
+                  <div>IrevDev</div>
+                </div>
+                <div className="flex self-start">
+                  <CadPackage
+                    cadPackage="openscad"
+                    className="px-3 py-1 sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
+                  />
+                </div>
               </div>
-              <div>
-                <div className="text-2xl">Print in Place Hinge</div>
-                <div>IrevDev</div>
-              </div>
-              <div className="flex self-start">
-                <CadPackage
-                  cadPackage="openscad"
-                  className="px-3 py-1 text-xl rounded transform translate-x-10"
-                />
-              </div>
-            </div>
+            </Link>
           </div>
         </div>
       </ModelSection>
@@ -155,39 +167,47 @@ export const Hero = () => {
   )
 }
 
+const DisableRender = () => useFrame(() => null, 1000)
+
 function ModelSection({
   assetUrl,
   offset,
   children,
-  preset,
   scale,
 }: {
   assetUrl: string
   offset: number[]
   children: React.ReactNode
-  preset?: string
   scale: number
 }) {
+  const { ref, inView } = useInView()
   return (
     <div className="relative">
       {children}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" ref={ref}>
         <Canvas
           linear
           dpr={[1, 2]}
           orthographic
           camera={{ zoom: 75, position: [0, 0, 500] }}
         >
+          {!inView && <DisableRender />}
+          <pointLight position={[2, 3, 5]} color="#FFFFFF" intensity={2} />
+          <pointLight position={[2, 3, -5]} color="#FFFFFF" intensity={2} />
+          <pointLight position={[-6, 3, -5]} color="#FFFFFF" intensity={2} />
+          <pointLight position={[-6, 3, 5]} color="#FFFFFF" intensity={2} />
+
+          <pointLight position={[2, 1.5, 0]} color="#0000FF" intensity={2} />
+          <pointLight position={[2, 1.5, 0]} color="#FF0000" intensity={2} />
           <Suspense
             fallback={<Html center className="loading" children="Loading..." />}
           >
-            <Coffee
-              assetUrl={assetUrl}
-              offset={offset}
-              preset={preset}
-              scale={scale}
-            />
+            <Coffee assetUrl={assetUrl} offset={offset} scale={scale} />
           </Suspense>
+
+          {/* uncomment for framerate and render time */}
+          {/* <Stats showPanel={0} className="three-debug-panel-1" /> */}
+          {/* <Stats showPanel={1} className="three-debug-panel-2" /> */}
         </Canvas>
       </div>
     </div>
@@ -229,7 +249,7 @@ function ChooseYourCharacter() {
             desc: string
           }) => (
             <li key={cadPackage} className="flex items-center">
-              <div className="mr-12">
+              <div className="mr-4 sm:mr-12">
                 <button
                   onClick={() => navigate(routes.draftProject({ cadPackage }))}
                   className="flex-shrink-0 cursor-pointer"
@@ -464,9 +484,12 @@ function Footer() {
         </p>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 flex-grow pl-20 row-start-2 lg:col-start-2 lg:row-start-1 mt-20 lg:mt-0">
+      <div className="grid sm:grid-cols-4 gap-4 flex-grow pl-20 row-start-2 lg:col-start-2 lg:row-start-1 mt-20 lg:mt-0">
         {section.map(({ header, links }) => (
-          <ul className="text-ch-gray-300 font-fira-sans" key={header}>
+          <ul
+            className="text-ch-gray-300 font-fira-sans pt-8 sm:pt-0"
+            key={header}
+          >
             <li className="text-xl font-bold">{header}</li>
             {links.map(({ name, url }) => (
               <li className="text-lg mt-6 font-light" key={url}>

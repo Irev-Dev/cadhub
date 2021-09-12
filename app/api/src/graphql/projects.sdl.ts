@@ -19,6 +19,7 @@ export const schema = gql`
   enum CadPackage {
     openscad
     cadquery
+    jscad
   }
 
   type Query {

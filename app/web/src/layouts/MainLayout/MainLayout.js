@@ -93,7 +93,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   return (
     <div className="min-h-screen flex flex-col ch-scrollbar">
       <header id="cadhub-main-header">
-        <nav className="flex justify-between h-16 px-4 bg-ch-gray-900">
+        <nav className="flex justify-between h-16 sm:px-4 bg-ch-gray-900">
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
@@ -125,7 +125,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           <ul className="flex items-center">
             <li
               className={getActiveClasses(
-                'mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center'
+                'mr-1 sm:mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center'
               )}
             >
               <NavPlusButton />
@@ -169,7 +169,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               <li>
                 <a
                   href="#"
-                  className="text-ch-gray-300 mr-2 px-4 py-2 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
+                  className="text-ch-gray-300 mr-1 sm:mr-2 px-2 sm:px-4 py-2 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
                   onClick={recordedLogin}
                 >
                   Sign In/Up
