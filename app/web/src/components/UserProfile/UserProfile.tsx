@@ -4,17 +4,23 @@ import { Link, navigate, routes } from '@redwoodjs/router'
 import ProjectsOfUser from 'src/components/ProjectsOfUserCell'
 import IdeHeader from 'src/components/IdeHeader/IdeHeader'
 import Svg from 'src/components/Svg/Svg'
-import { fieldsConfig, fieldReducer, UserProfileType, FieldConfigType } from './userProfileConfig'
+import {
+  fieldsConfig,
+  fieldReducer,
+  UserProfileType,
+  FieldConfigType,
+} from './userProfileConfig'
 
 function buildFieldsConfig(fieldsConfig, user) {
-  Object.entries(fieldsConfig).forEach(([key, field] : [string, FieldConfigType]) => {
-    field.currentValue = field.newValue = user[key]
-    field.name = key
-  })
+  Object.entries(fieldsConfig).forEach(
+    ([key, field]: [string, FieldConfigType]) => {
+      field.currentValue = field.newValue = user[key]
+      field.name = key
+    }
+  )
 
   return fieldsConfig
 }
-
 
 const UserProfile = ({
   user,
@@ -23,11 +29,13 @@ const UserProfile = ({
   onSave,
   error,
   projects,
-} : UserProfileType) => {
+}: UserProfileType) => {
   const { currentUser } = useAuth()
   const hasEditPermission = currentUser?.sub === user.id
   useEffect(() => {
-    isEditable && !hasEditPermission && navigate(routes.user({ userName: user.userName }))
+    isEditable &&
+      !hasEditPermission &&
+      navigate(routes.user({ userName: user.userName }))
   }, [currentUser])
 
   const initializedFields = buildFieldsConfig(fieldsConfig, user)
@@ -49,8 +57,7 @@ const UserProfile = ({
             projectOwnerImage={user?.image}
             projectOwnerId={user?.id}
           >
-            
-            <span></span> 
+            <span></span>
           </IdeHeader>
         </div>
         <div className="relative flex-grow h-full">
@@ -63,7 +70,7 @@ const UserProfile = ({
                     <fields.image.component
                       field={fields.image}
                       user={user}
-                      save={onSave} 
+                      save={onSave}
                       hasEditPermission={hasEditPermission}
                     />
                   </div>
@@ -95,14 +102,14 @@ const UserProfile = ({
                 />
               </div>
               <div className="my-5">
-                <fields.createdAt.component
-                  field={fields.createdAt}
-                />
+                <fields.createdAt.component field={fields.createdAt} />
               </div>
             </section>
             {/* Viewer */}
             <div className="py-10 px-8 w-full h-full relative bg-ch-gray-800 md:overflow-y-auto ch-scrollbar">
-              <h3 className="text-2xl text-ch-gray-500 mb-4 md:hidden">Projects</h3>
+              <h3 className="text-2xl text-ch-gray-500 mb-4 md:hidden">
+                Projects
+              </h3>
               <ProjectsOfUser userName={user?.userName} />
             </div>
           </div>

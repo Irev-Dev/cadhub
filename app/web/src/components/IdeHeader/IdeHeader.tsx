@@ -95,16 +95,17 @@ const IdeHeader = ({
         <div />
       )}
       <div className="text-gray-200 grid grid-flow-col-dense gap-4 mr-4 items-center">
-        { (!children)
-          ? <DefaultTopButtons
+        {!children ? (
+          <DefaultTopButtons
             project={project}
             projectTitle={projectTitle}
             _projectOwner={_projectOwner}
             handleRender={handleRender}
             canEdit={canEdit}
           />
-          : children 
-        }
+        ) : (
+          children
+        )}
         {/* <TopButton>Fork</TopButton> */}
         <div className="h-8 w-8">
           <NavPlusButton />
@@ -117,88 +118,95 @@ const IdeHeader = ({
 
 export default IdeHeader
 
-
-function DefaultTopButtons({ project, projectTitle, _projectOwner, handleRender, canEdit }) {
-  return (<>
-    {canEdit && !projectTitle && (
-      <CaptureButton
-        canEdit={canEdit}
-        projectTitle={project?.title}
-        userName={project?.user?.userName}
-        shouldUpdateImage={!project?.mainImage}
-        TheButton={({ onClick }) => (
-          <TopButton
-            onClick={onClick}
-            name="Save Project Image"
-            className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-          >
-            <Svg name="camera" className="w-6 h-6 text-ch-blue-400" />
-          </TopButton>
-        )}
-      />
-    )}
-    {!projectTitle && (
-      <TopButton
-        className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-        onClick={handleRender}
-        name={canEdit ? 'Save' : 'Preview'}
-      >
-        <Svg
-          name={canEdit ? 'floppy-disk' : 'photograph'}
-          className="w-6 h-6 text-ch-pink-500"
+function DefaultTopButtons({
+  project,
+  projectTitle,
+  _projectOwner,
+  handleRender,
+  canEdit,
+}) {
+  return (
+    <>
+      {canEdit && !projectTitle && (
+        <CaptureButton
+          canEdit={canEdit}
+          projectTitle={project?.title}
+          userName={project?.user?.userName}
+          shouldUpdateImage={!project?.mainImage}
+          TheButton={({ onClick }) => (
+            <TopButton
+              onClick={onClick}
+              name="Save Project Image"
+              className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+            >
+              <Svg name="camera" className="w-6 h-6 text-ch-blue-400" />
+            </TopButton>
+          )}
         />
-      </TopButton>
-    )}
-    {projectTitle && (
-      <TopButton
-        className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-        onClick={() =>
-          navigate(routes.ide({ userName: _projectOwner, projectTitle }))
-        }
-        name="Editor"
-      >
-        <Svg name="terminal" className="w-6 h-6 text-ch-pink-500" />
-      </TopButton>
-    )}
-    <Popover className="relative outline-none w-full h-full">
-      {({ open }) => {
-        return (
-          <>
-            <Popover.Button className="h-full w-full outline-none">
-              <TopButton
-                Tag="div"
-                name="Share"
-                className=" bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-              >
-                <Svg
-                  name="share"
-                  className="w-6 h-6 text-ch-purple-500 mt-1"
-                />
-              </TopButton>
-            </Popover.Button>
-            {open && (
-              <Popover.Panel className="absolute z-10 mt-4 right-0">
-                <Tabs
-                  className="bg-ch-purple-gray-200 rounded-md shadow-md overflow-hidden text-gray-700"
-                  selectedTabClassName="bg-ch-gray-700 text-white"
+      )}
+      {!projectTitle && (
+        <TopButton
+          className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+          onClick={handleRender}
+          name={canEdit ? 'Save' : 'Preview'}
+        >
+          <Svg
+            name={canEdit ? 'floppy-disk' : 'photograph'}
+            className="w-6 h-6 text-ch-pink-500"
+          />
+        </TopButton>
+      )}
+      {projectTitle && (
+        <TopButton
+          className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+          onClick={() =>
+            navigate(routes.ide({ userName: _projectOwner, projectTitle }))
+          }
+          name="Editor"
+        >
+          <Svg name="terminal" className="w-6 h-6 text-ch-pink-500" />
+        </TopButton>
+      )}
+      <Popover className="relative outline-none w-full h-full">
+        {({ open }) => {
+          return (
+            <>
+              <Popover.Button className="h-full w-full outline-none">
+                <TopButton
+                  Tag="div"
+                  name="Share"
+                  className=" bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
                 >
-                  <TabPanel>
-                    <FullScriptEncoding />
-                  </TabPanel>
-                  <TabPanel>
-                    <ExternalScript />
-                  </TabPanel>
+                  <Svg
+                    name="share"
+                    className="w-6 h-6 text-ch-purple-500 mt-1"
+                  />
+                </TopButton>
+              </Popover.Button>
+              {open && (
+                <Popover.Panel className="absolute z-10 mt-4 right-0">
+                  <Tabs
+                    className="bg-ch-purple-gray-200 rounded-md shadow-md overflow-hidden text-gray-700"
+                    selectedTabClassName="bg-ch-gray-700 text-white"
+                  >
+                    <TabPanel>
+                      <FullScriptEncoding />
+                    </TabPanel>
+                    <TabPanel>
+                      <ExternalScript />
+                    </TabPanel>
 
-                  <TabList className="flex whitespace-nowrap text-gray-700 border-t border-gray-700">
-                    <Tab className="p-3 px-5">encoded script</Tab>
-                    <Tab className="p-3 px-5">external script</Tab>
-                  </TabList>
-                </Tabs>
-              </Popover.Panel>
-            )}
-          </>
-        )
-      }}
-    </Popover>
-  </>)
+                    <TabList className="flex whitespace-nowrap text-gray-700 border-t border-gray-700">
+                      <Tab className="p-3 px-5">encoded script</Tab>
+                      <Tab className="p-3 px-5">external script</Tab>
+                    </TabList>
+                  </Tabs>
+                </Popover.Panel>
+              )}
+            </>
+          )
+        }}
+      </Popover>
+    </>
+  )
 }

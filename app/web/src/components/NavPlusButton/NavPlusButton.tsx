@@ -52,7 +52,11 @@ const NavPlusButton: React.FC = () => {
                 ' px-4 py-1 my-4 bg-opacity-30 hover:bg-opacity-70 grid grid-flow-col-dense items-center gap-2'
               }
             >
-              <div className={dotClasses + " justify-self-center w-5 h-5 rounded-full"}></div>
+              <div
+                className={
+                  dotClasses + ' justify-self-center w-5 h-5 rounded-full'
+                }
+              ></div>
               <Link to={routes.draftProject({ cadPackage: ideType })}>
                 <div>{name}</div>
                 <div className="text-xs text-ch-gray-400 font-light">{sub}</div>

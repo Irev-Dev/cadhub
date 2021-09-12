@@ -257,4 +257,3 @@ const ProjectProfile = ({
 }
 
 export default ProjectProfile
-

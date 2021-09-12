@@ -37,9 +37,7 @@ const AccountRecoveryPage = () => {
             className="grid items-center gap-2"
             style={{ gridTemplateColumns: 'auto 1fr' }}
           >
-            <span className="capitalize text-ch-gray-300 text-sm">
-              email
-            </span>
+            <span className="capitalize text-ch-gray-300 text-sm">email</span>
             <InputTextForm
               className="text-xl"
               name="email"

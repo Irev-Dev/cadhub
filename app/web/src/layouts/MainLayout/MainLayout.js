@@ -135,7 +135,8 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                 <Popover className="relative outline-none w-full h-full">
                   <Popover.Button
                     disabled={!isAuthenticated || !currentUser}
-                    className="h-full w-full outline-none border-ch-gray-400 border-2 rounded-full">
+                    className="h-full w-full outline-none border-ch-gray-400 border-2 rounded-full"
+                  >
                     {!loading && (
                       <ImageFallback
                         width={80}
@@ -144,8 +145,8 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                       />
                     )}
                   </Popover.Button>
-                  { currentUser && (
-                  <Popover.Panel className="w-48 absolute z-10 right-0 bg-ch-gray-700 mt-4 px-3 py-2 rounded shadow-md overflow-hidden text-ch-gray-300">
+                  {currentUser && (
+                    <Popover.Panel className="w-48 absolute z-10 right-0 bg-ch-gray-700 mt-4 px-3 py-2 rounded shadow-md overflow-hidden text-ch-gray-300">
                       <Link to={routes.user({ userName: user?.userName })}>
                         <h3 className="text-lg hover:text-ch-pink-300">
                           Hello {user?.name}
@@ -154,14 +155,18 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                       <hr className="my-2" />
                       <Link
                         className="my-2 mt-4 block hover:text-ch-pink-300"
-                        to={routes.user({ userName: user?.userName })}>
+                        to={routes.user({ userName: user?.userName })}
+                      >
                         <div>View Your Profile</div>
                       </Link>
-                      <a href="#" onClick={logOut}
-                        className="text-ch-gray-400 hover:text-ch-pink-300">
+                      <a
+                        href="#"
+                        onClick={logOut}
+                        className="text-ch-gray-400 hover:text-ch-pink-300"
+                      >
                         Logout
                       </a>
-                  </Popover.Panel>
+                    </Popover.Panel>
                   )}
                 </Popover>
               </li>

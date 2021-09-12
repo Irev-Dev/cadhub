@@ -49,9 +49,7 @@ const UpdatePasswordPage = () => {
                 required: true,
               }}
             />
-            <span className="capitalize text-ch-gray-300 text-sm">
-              confirm
-            </span>
+            <span className="capitalize text-ch-gray-300 text-sm">confirm</span>
             <InputTextForm
               className="text-xl"
               name="confirm"
