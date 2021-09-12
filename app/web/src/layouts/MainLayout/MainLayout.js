@@ -91,7 +91,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
     }
   }, [hash, client])
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col ch-scrollbar">
       <header id="cadhub-main-header">
         <nav className="flex justify-between h-16 px-4 bg-ch-gray-900">
           <ul className="flex items-center">
@@ -140,7 +140,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                       <ImageFallback
                         width={80}
                         className="rounded-full object-cover"
-                        imageUrl={user?.image}
+                        imageId={user?.image}
                       />
                     )}
                   </Popover.Button>

@@ -51,7 +51,7 @@ const ProfileSlashLogin = () => {
               <ImageFallback
                 width={80}
                 className="rounded-full object-cover"
-                imageUrl={user?.image}
+                imageId={user?.image}
               />
             )}
           </Popover.Button>
@@ -79,10 +79,10 @@ const ProfileSlashLogin = () => {
         <div>
           <a
             href="#"
-            className="text-indigo-200 font-semibold underline mr-2"
+            className="text-ch-gray-300 mr-2 px-4 py-2 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
             onClick={recordedLogin}
           >
-            Sign in/up
+            Sign In/Up
           </a>
         </div>
       )}

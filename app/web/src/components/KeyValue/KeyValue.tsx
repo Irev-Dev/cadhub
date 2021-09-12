@@ -25,17 +25,17 @@ const KeyValue = ({
     return (
       <div className={"flex flex-col " + className}>
         <div className={"text-ch-blue-400 font-fira-code flex items-center leading-4 text-sm whitespace-nowrap " + (bottom ? "order-2" : "")}>
-          {keyName}
+          <span className={isEditable ? "text-ch-blue-300" : ""}>{keyName}</span>
           {canEdit &&
             (isEditable ? (
               <button
-                className="font-fira-sans items-center ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
+                className="font-fira-sans text-ch-gray-300 items-center ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-blue-500 bg-opacity-50 hover:bg-opacity-70 rounded-sm"
                 id="rename-button"
                 onClick={onEdit}
               >
                 <Svg
                   name="check"
-                  className="w-6 h-6 text-ch-purple-500"
+                  className="w-6 h-6"
                   strokeWidth={3}
                 />
                 <span>Update</span>

@@ -35,7 +35,7 @@ const UserProfile = ({
 
   return (
     <>
-      <div className="h-screen flex flex-col text-lg font-fira-sans">
+      <div className="md:h-screen flex flex-col text-lg font-fira-sans">
         <div className="flex">
           <Link
             to={routes.home()}
@@ -48,12 +48,15 @@ const UserProfile = ({
             projectOwner={user?.userName}
             projectOwnerImage={user?.image}
             projectOwnerId={user?.id}
-          />
+          >
+            
+            <span></span> 
+          </IdeHeader>
         </div>
         <div className="relative flex-grow h-full">
           <div className="grid md:grid-cols-profile-layout grid-flow-row-dense absolute inset-0">
             {/* Side panel */}
-            <section className="bg-ch-gray-760 font-fira-sans px-12 pt-12 overflow-y-auto ch-scrollbar">
+            <section className="bg-ch-gray-760 font-fira-sans p-12 md:overflow-y-auto ch-scrollbar">
               <div className="flex gap-6">
                 {!isEditable && (
                   <div className="w-28 flex-shrink-0">
@@ -98,8 +101,8 @@ const UserProfile = ({
               </div>
             </section>
             {/* Viewer */}
-            <div className="py-10 px-8 w-full min-h-md relative bg-ch-gray-800 overflow-auto ch-scrollbar">
-              <h3 className="text-2xl text-ch-gray-500 mb-4">Projects</h3>
+            <div className="py-10 px-8 w-full h-full relative bg-ch-gray-800 md:overflow-y-auto ch-scrollbar">
+              <h3 className="text-2xl text-ch-gray-500 mb-4 md:hidden">Projects</h3>
               <ProjectsOfUser userName={user?.userName} />
             </div>
           </div>

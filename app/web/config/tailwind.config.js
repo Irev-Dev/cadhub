@@ -22,6 +22,7 @@ module.exports = {
           800: '#1A1A1D',
           750: '#222222',
           760: '#232532',
+          710: '#2B303C', // TODO: Use HSL so I stop adding grays to fix the warm/cool problem
           700: '#2A3038',
           600: '#3B3E4B',
           550: '#63636A',
