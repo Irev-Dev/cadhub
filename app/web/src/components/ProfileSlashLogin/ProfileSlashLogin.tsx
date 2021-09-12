@@ -5,9 +5,8 @@ import ReactGA from 'react-ga'
 import Popover from '@material-ui/core/Popover'
 
 import useUser from 'src/helpers/hooks/useUser'
-import ImageUploader from 'src/components/ImageUploader'
 import LoginModal from 'src/components/LoginModal'
-import Gravatar from 'src/components//Gravatar/Gravatar'
+import Gravatar from 'src/components/Gravatar/Gravatar'
 
 const ProfileSlashLogin = () => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()

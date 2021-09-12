@@ -1,20 +1,17 @@
 import MainLayout from 'src/layouts/MainLayout'
-import ProjectsCell from 'src/components/ProjectsCell'
-import LandingSection from 'src/components/LandingSection'
 import Seo from 'src/components/Seo/Seo'
+import { Hero } from 'src/components/Hero/Hero'
 
 const ProjectsPage = () => {
   return (
-    <MainLayout>
+    <MainLayout shouldRemoveFooterInIde>
       <Seo
-        title="Projects page"
-        description="Cadhub Projects page"
+        title="Home page"
+        description="Learn about Code CAD and the CadHub community"
         lang="en-US"
+        socialImageUrl="https://cadhub.xyz/default-social-image.jpg"
       />
-      <LandingSection />
-      <div className="bg-ch-gray-800 py-20">
-        <ProjectsCell shouldFilterProjectsWithoutImage />
-      </div>
+      <Hero />
     </MainLayout>
   )
 }

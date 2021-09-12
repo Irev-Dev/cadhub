@@ -37,12 +37,13 @@ export const Empty = () => {
 
 export const Success = ({
   projects,
-  variables: { shouldFilterProjectsWithoutImage },
+  variables: { shouldFilterProjectsWithoutImage, projectLimit },
 }) => {
   return (
     <Projects
       projects={projects}
       shouldFilterProjectsWithoutImage={shouldFilterProjectsWithoutImage}
+      projectLimit={projectLimit}
     />
   )
 }

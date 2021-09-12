@@ -93,18 +93,18 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   return (
     <div>
       <header id="cadhub-main-header">
-        <nav className="flex justify-between h-20 md:px-12 bg-gradient-to-r from-gray-900 to-indigo-900">
+        <nav className="flex justify-between h-16 sm:px-4 bg-ch-gray-900">
           <ul className="flex items-center">
             <li>
               <Link to={routes.home()}>
-                <div className="rounded-full overflow-hidden ml-2 md:ml-8">
-                  <Svg className="w-10 md:w-16" name="favicon" />
+                <div className="rounded-full overflow-hidden ml-2">
+                  <Svg className="w-10" name="favicon" />
                 </div>
               </Link>
             </li>
             <li>
               <Tooltip title="Very alpha, there's lots of work todo">
-                <div className="ml-2 md:ml-12 flex">
+                <div className="ml-4 flex">
                   {/* Because of how specific these styles are to this heading/logo and it doesn't need to be replicated else where as well as it's very precise with the placement of "pre-alpha" I think it's appropriate. */}
                   <h2
                     className="text-indigo-300 text-2xl md:text-5xl font-ropa-sans py-1 md:tracking-wider"
@@ -125,7 +125,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
           <ul className="flex items-center">
             <li
               className={getActiveClasses(
-                'mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 rounded-full border-2 border-indigo-300 flex items-center justify-center'
+                'mr-1 sm:mr-4 md:mr-8 h-8 w-8 md:h-10 md:w-10 flex items-center justify-center'
               )}
             >
               <NavPlusButton />
@@ -150,10 +150,10 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               <li>
                 <a
                   href="#"
-                  className="text-indigo-200 font-semibold underline mr-2"
+                  className="text-ch-gray-300 mr-1 sm:mr-2 px-2 sm:px-4 py-2 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
                   onClick={recordedLogin}
                 >
-                  Sign in/up
+                  Sign In/Up
                 </a>
               </li>
             )}
@@ -173,18 +173,18 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                 horizontal: 'right',
               }}
             >
-              <div className="p-4 w-48">
+              <div className="p-4 w-48 text-ch-gray-300">
                 <Link to={routes.user({ userName: user?.userName })}>
-                  <h3 className="text-indigo-800" style={{ fontWeight: '500' }}>
+                  <h3 className="" style={{ fontWeight: '500' }}>
                     Hello {user?.name}
                   </h3>
                 </Link>
                 <hr />
                 <br />
                 <Link to={routes.user({ userName: user?.userName })}>
-                  <div className="text-indigo-800">Your Profile</div>
+                  <div className="">Your Profile</div>
                 </Link>
-                <a href="#" className="text-indigo-800" onClick={logOut}>
+                <a href="#" className="" onClick={logOut}>
                   Logout
                 </a>
               </div>

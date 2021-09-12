@@ -42,6 +42,15 @@
   }
 }
 
+.three-debug-panel-1 {
+  position: fixed;
+  padding-top: 300px;
+}
+.three-debug-panel-2 {
+  position: fixed;
+  padding-top: 300px;
+  padding-left: 100px;
+}
 
 .markdown-overrides h4 {
   @apply text-lg font-bold;
