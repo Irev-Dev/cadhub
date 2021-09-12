@@ -4,8 +4,8 @@ import GoTrue from 'gotrue-js'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/styles'
 import ReactGA from 'react-ga'
 
 ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID)
@@ -28,7 +28,7 @@ const theme = createMuiTheme({
       light: '#C99DFF',
       main: '#A663FA',
       dark: '#3B0480',
-    }
+    },
   },
 })
 
