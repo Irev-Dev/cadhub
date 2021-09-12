@@ -91,7 +91,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
     }
   }, [hash, client])
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <header id="cadhub-main-header">
         <nav className="flex justify-between h-16 px-4 bg-ch-gray-900">
           <ul className="flex items-center">
@@ -197,7 +197,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <main>{children}</main>
+      <main className="flex-grow bg-ch-gray-800">{children}</main>
       {!shouldRemoveFooterInIde && <Footer />}
     </div>
   )
