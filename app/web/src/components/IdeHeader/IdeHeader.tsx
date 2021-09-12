@@ -71,28 +71,30 @@ const IdeHeader = ({
             <Svg className="w-12 p-0.5" name="favicon" />
           </Link>
         </div>
-        {_projectId && <>
-          <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
-            <Gravatar
-              image={project?.user?.image || projectOwnerImage}
-              className="w-10"
+        {_projectId && (
+          <>
+            <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
+              <Gravatar
+                image={project?.user?.image || projectOwnerImage}
+                className="w-10"
+              />
+              <Link
+                to={routes.user({
+                  userName: _projectOwner,
+                })}
+              >
+                {_projectOwner}
+              </Link>
+            </span>
+            <EditableProjectTitle
+              id={_projectId}
+              userName={_projectOwner}
+              projectTitle={project?.title || projectTitle}
+              canEdit={canEdit}
+              shouldRouteToIde={!projectTitle}
             />
-            <Link
-              to={routes.user({
-                userName: _projectOwner,
-              })}
-            >
-              {_projectOwner}
-            </Link>
-          </span>
-          <EditableProjectTitle
-            id={_projectId}
-            userName={_projectOwner}
-            projectTitle={project?.title || projectTitle}
-            canEdit={canEdit}
-            shouldRouteToIde={!projectTitle}
-          />
-        </>}
+          </>
+        )}
       </div>
       <div className="text-gray-200 grid grid-flow-col-dense gap-4 mr-4 items-center">
         {canEdit && !projectTitle && (

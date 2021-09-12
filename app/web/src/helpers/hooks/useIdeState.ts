@@ -244,10 +244,26 @@ const reducer = (state: State, { type, payload }): State => {
         state.sideTray.length &&
         state.sideTray.length === payload.length &&
         state.sideTray.every((original, index) => original === payload[index])
+
+      const payloadInOriginal =
+        payload.length && state.sideTray.indexOf(payload[0])
+      const isAncestorClick =
+        state.sideTray.length &&
+        state.sideTray.length > payload.length &&
+        payloadInOriginal >= 0 &&
+        payload.every(
+          (incoming, i) => incoming === state.sideTray[i + payloadInOriginal]
+        )
+
       if (isReClick) {
         return {
           ...state,
           sideTray: state.sideTray.slice(0, -1),
+        }
+      } else if (isAncestorClick) {
+        return {
+          ...state,
+          sideTray: state.sideTray.slice(0, payload.length * -1 - 1),
         }
       }
       return {

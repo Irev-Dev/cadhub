@@ -34,9 +34,16 @@ const EditorMenu = () => {
             ))}
           </div>
           <button
-            className="text-ch-gray-300  h-full cursor-not-allowed"
+            className="text-ch-gray-300  h-full"
             aria-label="editor settings"
-            disabled
+            onClick={() =>
+              thunkDispatch((dispatch) =>
+                dispatch({
+                  type: 'settingsButtonClicked',
+                  payload: ['Settings', 'editor'],
+                })
+              )
+            }
           >
             <Svg name="gear" className="w-6 p-px" />
           </button>
