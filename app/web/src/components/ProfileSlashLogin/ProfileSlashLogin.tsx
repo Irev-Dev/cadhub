@@ -84,7 +84,7 @@ const ProfileSlashLogin = () => {
         <div>
           <a
             href="#"
-            className="text-ch-gray-300 mr-2 px-4 py-2 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
+            className="text-sm text-ch-gray-300 mr-2 py-2 px-3 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
             onClick={recordedLogin}
           >
             Sign In/Up
