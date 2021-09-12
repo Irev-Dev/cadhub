@@ -14,10 +14,6 @@ generator client {
 //   ADMIN
 // }
 
-// enum ProjectType {
-//   JSCAD
-// }
-
 model User {
   id       String  @id @default(uuid())
   userName String  @unique // reffered to as userId in @relations
@@ -41,7 +37,7 @@ model User {
 enum CadPackage {
   openscad
   cadquery
-  // jscad // TODO #422, add jscad to db schema when were ready to enable saving of jscad projects
+  jscad // TODO #422, add jscad to db schema when were ready to enable saving of jscad projects
 }
 
 model Project {

@@ -43,6 +43,7 @@
     "react-helmet": "^6.1.0",
     "react-hotkeys-hook": "^3.4.0",
     "react-image-crop": "^8.6.6",
+    "react-intersection-observer": "^8.32.1",
     "react-mosaic-component": "^5.0.0",
     "react-tabs": "^3.2.2",
     "rich-markdown-editor": "^11.0.2",

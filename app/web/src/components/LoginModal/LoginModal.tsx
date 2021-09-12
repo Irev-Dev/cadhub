@@ -63,7 +63,8 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
         style: {
           backgroundColor: 'transparent',
         },
-      }}>
+      }}
+    >
       <div className="bg-ch-gray-700 max-w-2xl rounded-lg shadow-lg text-ch-gray-300">
         <Tabs
           value={tab}
@@ -190,7 +191,10 @@ const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox, onClose }) => (
           checked={checkBox}
           onChange={() => setCheckBox(!checkBox)}
         />{' '}
-        <label htmlFor="signup-toc" className="text-ch-gray-400 text-sm mt-4 cursor-pointer">
+        <label
+          htmlFor="signup-toc"
+          className="text-ch-gray-400 text-sm mt-4 cursor-pointer"
+        >
           Stay up-to-date with CadHub's progress with the founder's (
           <OutBound className="underline" to="https://twitter.com/IrevDev">
             Kurt's

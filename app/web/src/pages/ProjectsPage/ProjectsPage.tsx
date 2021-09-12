@@ -8,6 +8,7 @@ const ProjectsPage = () => {
       <Seo
         title="Projects page"
         description="Cadhub Projects page"
+        socialImageUrl="https://cadhub.xyz/default-social-image.jpg"
         lang="en-US"
       />
       <div className="bg-ch-gray-800 pb-64">
