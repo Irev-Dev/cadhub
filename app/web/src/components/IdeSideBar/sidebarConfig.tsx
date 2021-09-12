@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import { SvgNames } from 'src/components/Svg/Svg'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 
 interface SidebarConfigType {
     name: string,
@@ -67,7 +68,7 @@ export const sidebarBottomConfig : SidebarConfigType[] = [
         name: 'Settings',
         icon: 'gear',
         disabled: false,
-        panel: <SettingsMenu />,
+        panel: <SettingsMenu parentName="Settings"/>,
     },
 ]
 
@@ -76,14 +77,25 @@ export const sidebarCombinedConfig = [
     ...sidebarBottomConfig,
 ]
 
-function SettingsMenu() {
+function SettingsMenu({parentName}: {parentName: string}) {
+    const { state, thunkDispatch } = useIdeContext()
     return (
         <article className="">
         { settingsConfig.map(item => (
-            <details key={'settings-tray-'+item.name}>
-                <summary className="px-2 py-2 bg-ch-pink-800 bg-opacity-10 my-px">{ item.title }</summary>
-                { item.content }
-            </details>
+            <li className="list-none" key={'settings-tray-'+item.name}>
+                <button className="px-2 py-2 bg-ch-pink-800 bg-opacity-10 my-px" onClick={() => {
+                  console.log('i was clicked')
+                  thunkDispatch((dispatch) => dispatch({type: 'settingsButtonClicked', payload:[parentName, item.name]}))
+                }} >{ item.title }</button>
+                { state.sideTray.slice(-1)[0] === item.name && item.content }
+            </li>
+            // <details key={'settings-tray-'+item.name} open={state.sideTray.slice(-1)[0] === item.name}>
+            //     <summary className="px-2 py-2 bg-ch-pink-800 bg-opacity-10 my-px"
+            //       onClick={() => thunkDispatch((dispatch) => dispatch({type: 'settingsButtonClicked', payload:[parentName, item.name]}))}
+            //     >{ item.title }hi there</summary>
+            //     { state.sideTray.slice(-1)[0] === item.name && item.content }
+            //     {state.sideTray.slice(-1)[0]}
+            // </details>
         ))}
         </article>
     )

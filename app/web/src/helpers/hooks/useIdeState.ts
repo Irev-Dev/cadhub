@@ -115,6 +115,7 @@ export interface State {
   viewerSize: { width: number; height: number }
   isLoading: boolean
   threeInstance: RootState
+  sideTray: string[] // could probably be an array of a union type
 }
 
 const code = ''
@@ -146,103 +147,118 @@ export const initialState: State = {
   viewerSize: { width: 0, height: 0 },
   isLoading: false,
   threeInstance: null,
+  sideTray: [],
 }
 
-export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
-  const reducer = (state: State, { type, payload }): State => {
-    switch (type) {
-      case 'initIde':
+const reducer = (state: State, { type, payload }): State => {
+  console.log('reducing')
+  switch (type) {
+    case 'initIde':
+      return {
+        ...state,
+        code:
+          payload.code ||
+          // localStorage.getItem(makeCodeStoreKey(payload.cadPackage)) ||
+          initCodeMap[payload.cadPackage] ||
+          '',
+        ideType: payload.cadPackage,
+      }
+    case 'updateCode':
+      return { ...state, code: payload }
+    case 'healthyRender':
+      const customizerParams: CadhubParams[] = payload?.customizerParams?.length
+        ? payload.customizerParams
+        : state.customizerParams
+      const currentParameters = {}
+      customizerParams.forEach((param) => {
+        currentParameters[param.name] =
+          typeof state?.currentParameters?.[param.name] !== 'undefined'
+            ? state?.currentParameters?.[param.name]
+            : param.initial
+      })
+      return {
+        ...state,
+        objectData: {
+          ...state.objectData,
+          type: payload.objectData?.type,
+          data: payload.objectData?.data,
+        },
+        customizerParams,
+        currentParameters,
+        consoleMessages: payload.message
+          ? [...state.consoleMessages, payload.message]
+          : payload.message,
+        isLoading: false,
+      }
+    case 'errorRender':
+      return {
+        ...state,
+        consoleMessages: payload.message
+          ? [...state.consoleMessages, payload.message]
+          : payload.message,
+        isLoading: false,
+      }
+    case 'setCurrentCustomizerParams':
+      if (!Object.keys(payload || {}).length) return state
+      return {
+        ...state,
+        currentParameters: payload,
+      }
+    case 'setLayout':
+      return {
+        ...state,
+        layout: payload.message,
+      }
+    case 'updateCamera':
+      return {
+        ...state,
+        camera: payload.camera,
+      }
+    case 'updateViewerSize':
+      return {
+        ...state,
+        viewerSize: payload.viewerSize,
+      }
+    case 'setLoading':
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case 'resetLoading':
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case 'resetLayout':
+      return {
+        ...state,
+        layout: initialLayout,
+      }
+    case 'setThreeInstance':
+      return {
+        ...state,
+        threeInstance: payload,
+      }
+    case 'settingsButtonClicked':
+      const isReClick =
+        state.sideTray.length &&
+        state.sideTray.length === payload.length &&
+        state.sideTray.every((original, index) => original === payload[index])
+      if (isReClick) {
         return {
           ...state,
-          code:
-            payload.code ||
-            // localStorage.getItem(makeCodeStoreKey(payload.cadPackage)) ||
-            initCodeMap[payload.cadPackage] ||
-            '',
-          ideType: payload.cadPackage,
+          sideTray: state.sideTray.slice(0, -1),
         }
-      case 'updateCode':
-        return { ...state, code: payload }
-      case 'healthyRender':
-        const customizerParams: CadhubParams[] = payload?.customizerParams
-          ?.length
-          ? payload.customizerParams
-          : state.customizerParams
-        const currentParameters = {}
-        customizerParams.forEach((param) => {
-          currentParameters[param.name] =
-            typeof state?.currentParameters?.[param.name] !== 'undefined'
-              ? state?.currentParameters?.[param.name]
-              : param.initial
-        })
-        return {
-          ...state,
-          objectData: {
-            ...state.objectData,
-            type: payload.objectData?.type,
-            data: payload.objectData?.data,
-          },
-          customizerParams,
-          currentParameters,
-          consoleMessages: payload.message
-            ? [...state.consoleMessages, payload.message]
-            : payload.message,
-          isLoading: false,
-        }
-      case 'errorRender':
-        return {
-          ...state,
-          consoleMessages: payload.message
-            ? [...state.consoleMessages, payload.message]
-            : payload.message,
-          isLoading: false,
-        }
-      case 'setCurrentCustomizerParams':
-        if (!Object.keys(payload || {}).length) return state
-        return {
-          ...state,
-          currentParameters: payload,
-        }
-      case 'setLayout':
-        return {
-          ...state,
-          layout: payload.message,
-        }
-      case 'updateCamera':
-        return {
-          ...state,
-          camera: payload.camera,
-        }
-      case 'updateViewerSize':
-        return {
-          ...state,
-          viewerSize: payload.viewerSize,
-        }
-      case 'setLoading':
-        return {
-          ...state,
-          isLoading: true,
-        }
-      case 'resetLoading':
-        return {
-          ...state,
-          isLoading: false,
-        }
-      case 'resetLayout':
-        return {
-          ...state,
-          layout: initialLayout,
-        }
-      case 'setThreeInstance':
-        return {
-          ...state,
-          threeInstance: payload,
-        }
-      default:
-        return state
-    }
+      }
+      return {
+        ...state,
+        sideTray: payload,
+      }
+    default:
+      return state
   }
-
+}
+export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
   const [state, dispatch] = useReducer(reducer, initialState)
   mutableState = state
   const getState = (): State => mutableState

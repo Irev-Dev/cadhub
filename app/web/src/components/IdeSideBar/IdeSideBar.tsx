@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Svg from 'src/components/Svg/Svg'
 import { sidebarTopConfig, sidebarBottomConfig, sidebarCombinedConfig } from './sidebarConfig'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 
 function TabToggle({ item, className = "", active, onChange, onClick }) {
   return (
@@ -20,29 +21,24 @@ function TabToggle({ item, className = "", active, onChange, onClick }) {
 }
 
 const IdeSideBar = () => {
-  const [selectedTab, setSelectedTab] = useState("")
-  const [lastOpen, setLastOpen] = useState("")
+  const { state, thunkDispatch } = useIdeContext()
 
   function onTabClick(name) {
     return function() {
-      if (selectedTab === name) {
-        setLastOpen(selectedTab)
-        setSelectedTab("")
-      } else if (selectedTab === "" && lastOpen === name) {
-        setSelectedTab(name)
-      }
+      thunkDispatch({type: 'settingsButtonClicked', payload: [name]})
     }
   }
+  const selectedTab = React.useMemo(() => sidebarCombinedConfig.find(item => item.name === state.sideTray[0]), [state.sideTray])
 
   return (
-    <section className="flex h-full bg-ch-gray-900">
+    <section className="flex h-full bg-ch-gray-900 border border-red-500">
       <fieldset className="h-full flex flex-col justify-between bg-ch-gray-700">
         <div>
           { sidebarTopConfig.map((topItem, i) => (
             <TabToggle
               item={topItem}
-              active={ selectedTab === topItem.name }
-              onChange={ () => setSelectedTab(topItem.name) }
+              active={ state.sideTray[0] === topItem.name }
+              onChange={ () => onTabClick(topItem.name) }
               onClick={ onTabClick(topItem.name) }
               key={ 'tab-' + i }
             />
@@ -52,18 +48,18 @@ const IdeSideBar = () => {
           { sidebarBottomConfig.map((bottomItem, i) => (
             <TabToggle
             item={bottomItem}
-            active={ selectedTab === bottomItem.name }
-            onChange={ () => setSelectedTab(bottomItem.name) }
+            active={ state.sideTray[0] === bottomItem.name }
+            onChange={ () => onTabClick(bottomItem.name) }
             onClick={ onTabClick(bottomItem.name) }
             key={ 'tab-' + (sidebarTopConfig.length+i) }
           />
           ))}
         </div>
       </fieldset>
-      { sidebarCombinedConfig.find(item => item.name === selectedTab)?.panel && (
+      { selectedTab?.panel && (
         <div className="w-56 bg-ch-gray-900 text-ch-gray-300 border border-ch-pink-800 border-opacity-30" style={{ height: 'calc(100% - 6px)', margin: '3px'}}>
-          <h2 className="flex items-center h-9 px-4 bg-ch-pink-800 bg-opacity-30">{ selectedTab }</h2>
-          { sidebarCombinedConfig.find(item => item.name === selectedTab).panel }
+          <h2 className="flex items-center h-9 px-4 bg-ch-pink-800 bg-opacity-30">{ selectedTab.name }</h2>
+          { selectedTab.panel }
         </div>
       ) }
     </section>
