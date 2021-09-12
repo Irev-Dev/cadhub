@@ -174,7 +174,7 @@ const IdeHeader = ({
           }}
         </Popover>
         {/* <TopButton>Fork</TopButton> */}
-        <div className="h-8 w-8 flex-shrink-0 rounded-full border-2 border-gray-200 flex items-center justify-center">
+        <div className="h-8 w-8">
           <NavPlusButton />
         </div>
         <ProfileSlashLogin />
