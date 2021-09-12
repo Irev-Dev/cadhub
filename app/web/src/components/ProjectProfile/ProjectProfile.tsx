@@ -17,51 +17,7 @@ import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import ProfileViewer from '../ProfileViewer/ProfileViewer'
 import Svg from 'src/components/Svg/Svg'
 import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessage/OpenscadStaticImageMessage'
-
-const KeyValue = ({
-  keyName,
-  children,
-  hide = false,
-  canEdit = false,
-  onEdit,
-  isEditable = false,
-}: {
-  keyName: string
-  children: React.ReactNode
-  hide?: boolean
-  canEdit?: boolean
-  onEdit?: () => void
-  isEditable?: boolean
-}) => {
-  if (!children || hide) return null
-  return (
-    <div>
-      <div className="text-ch-blue-400 font-fira-code flex text-sm whitespace-nowrap">
-        {keyName}
-        {canEdit &&
-          (isEditable ? (
-            <button
-              className="font-fira-sans items-center ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
-              id="rename-button"
-              onClick={onEdit}
-            >
-              <Svg
-                name="check"
-                className="w-6 h-6 text-ch-purple-500"
-                strokeWidth={3}
-              />
-              <span>Update</span>
-            </button>
-          ) : (
-            <button onClick={onEdit}>
-              <Svg name="pencil-solid" className="h-4 w-4 ml-4 mb-2" />
-            </button>
-          ))}
-      </div>
-      <div className="text-ch-gray-300">{children}</div>
-    </div>
-  )
-}
+import KeyValue from 'src/components/KeyValue/KeyValue'
 
 const ProjectProfile = ({
   userProject,
@@ -140,7 +96,7 @@ const ProjectProfile = ({
             </div>
 
             {/* Side panel */}
-            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 overflow-y-auto">
+            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 overflow-y-auto ch-scrollbar">
               <div className="grid grid-flow-row-dense gap-6">
                 <h3 className="text-5xl capitalize text-ch-gray-300">
                   {project?.title.replace(/-/g, ' ')}
@@ -301,3 +257,4 @@ const ProjectProfile = ({
 }
 
 export default ProjectProfile
+

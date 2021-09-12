@@ -23,7 +23,7 @@ const InputText = ({
           )}
         />
         <input
-          className="pl-2 pt-1 text-indigo-800 font-medium mb-px pb-px bg-transparent relative"
+          className="text-ch-gray-300 rounded-none bg-ch-gray-600 border border-transparent focus:border-ch-gray-300 px-2 py-1 relative w-full"
           onChange={onChange}
           value={value}
           readOnly={!onChange}

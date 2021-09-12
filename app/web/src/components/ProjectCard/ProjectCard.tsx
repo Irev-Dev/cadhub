@@ -4,6 +4,7 @@ import CadPackage from 'src/components/CadPackage/CadPackage'
 
 import { countEmotes } from 'src/helpers/emote'
 import ImageUploader from 'src/components/ImageUploader'
+import { ImageFallback } from '../ImageUploader/ImageUploader'
 
 const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
   <li
@@ -31,9 +32,7 @@ const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
       </div>
       <div className="flex items-center mt-1">
         <div className="w-8 h-8 overflow-hidden rounded-full border border-ch-gray-300 shadow">
-          <ImageUploader
-            className=""
-            aspectRatio={1}
+          <ImageFallback
             imageUrl={user?.image}
             width={50}
           />

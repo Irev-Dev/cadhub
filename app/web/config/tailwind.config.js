@@ -66,6 +66,9 @@ module.exports = {
       gridAutoColumns: {
         'preview-layout': 'minmax(30rem, 1fr) minmax(auto, 2fr)',
       },
+      gridTemplateColumns: {
+        'profile-layout': 'minmax(32rem, 1fr) 2fr',
+      },
       keyframes: {
         'bounce-sm': {
           '0%, 100%': {

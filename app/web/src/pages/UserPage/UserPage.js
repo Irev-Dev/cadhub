@@ -4,11 +4,11 @@ import Seo from 'src/components/Seo/Seo'
 
 const UserPage = ({ userName }) => {
   return (
-    <MainLayout>
+    <>
       <Seo title={userName} description="User page" lang="en-US" />
 
       <EditUserCell userName={userName} />
-    </MainLayout>
+    </>
   )
 }
 
