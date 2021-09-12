@@ -98,11 +98,11 @@ export default function ImageUploader({
         )}
         {!cloudinaryId && <button className="absolute inset-0"></button>}
         {!cloudinaryId && isEditable && (
-          <div className="text-indigo-500 flex items-center justify-center rounded-lg w-full h-full">
-            <div className="px-6 text-center">
-              Drop files here ... or{' '}
-              <span className="group flex w-full items-center justify-center py-2">
-                <span className="bg-indigo-500 shadow rounded text-gray-200 cursor-pointer p-2 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-150">
+          <div className="text-ch-blue-400 flex items-center justify-center rounded-lg w-full h-full">
+            <div className="px-2 text-sm text-center">
+              Drop files here or{' '}
+              <span className="group flex w-full items-center justify-center pt-2">
+                <span className="text-base bg-ch-blue-400 rounded-sm text-ch-gray-300 cursor-pointer px-3 py-2 leading-4 bg-ch-blue-700 bg-opacity-60 hover:bg-opacity-90">
                   upload
                 </span>
               </span>
