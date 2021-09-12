@@ -11,6 +11,19 @@ import Svg from 'src/components/Svg'
 const CLOUDINARY_UPLOAD_PRESET = 'CadHub_project_images'
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/irevdev/upload'
 
+export function ImageFallback({ width = 100, cloudinaryId = 'CadHub/eia1kwru54g2kf02s2xx', className = '' }) {
+  return (
+  <div className="relative overflow-hidden w-full h-full">
+    <CloudinaryImage
+      className={"object-cover w-full h-full shadow overflow-hidden " + className } 
+      cloudName="irevdev"
+      publicId={cloudinaryId}
+      width={width}
+      crop="scale"
+    />
+  </div>)
+}
+
 export default function ImageUploader({
   onImageUpload = () => {},
   imageUrl,
@@ -78,15 +91,7 @@ export default function ImageUploader({
         )}
         {isEditable && <input {...getInputProps()} />}
         {(cloudinaryId || !isEditable) && (
-          <div className="relative overflow-hidden w-full h-full">
-            <CloudinaryImage
-              className="object-cover w-full h-full shadow overflow-hidden"
-              cloudName="irevdev"
-              publicId={cloudinaryId || 'CadHub/eia1kwru54g2kf02s2xx'}
-              width={width}
-              crop="scale"
-            />
-          </div>
+          <ImageFallback cloudinaryId={cloudinaryId} width={width} />
         )}
         {!cloudinaryId && <button className="absolute inset-0"></button>}
         {!cloudinaryId && isEditable && (

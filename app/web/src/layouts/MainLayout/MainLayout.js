@@ -3,7 +3,7 @@ import { Link, routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Toaster, toast } from '@redwoodjs/web/toast'
 import Tooltip from '@material-ui/core/Tooltip'
-import Popover from '@material-ui/core/Popover'
+import { Popover } from '@headlessui/react'
 import { getActiveClasses } from 'get-active-classes'
 import Footer from 'src/components/Footer'
 import { useLocation } from '@redwoodjs/router'
@@ -13,7 +13,7 @@ import ReactGA from 'react-ga'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 
 import Svg from 'src/components/Svg'
-import ImageUploader from 'src/components/ImageUploader'
+import { ImageFallback } from 'src/components/ImageUploader'
 import useUser from 'src/helpers/hooks/useUser'
 
 let previousSubmission = ''
@@ -131,20 +131,39 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               <NavPlusButton />
             </li>
             {isAuthenticated ? (
-              <li
-                className="h-10 w-10 border-2 rounded-full border-indigo-300 text-indigo-200"
-                aria-describedby={popoverId}
-              >
-                <button className="w-full h-full" onClick={togglePopover}>
-                  {!loading && (
-                    <ImageUploader
-                      className="rounded-full object-cover"
-                      aspectRatio={1}
-                      imageUrl={user?.image}
-                      width={80}
-                    />
+              <li className="h-10 w-10">
+                <Popover className="relative outline-none w-full h-full">
+                  <Popover.Button
+                    disabled={!isAuthenticated || !currentUser}
+                    className="h-full w-full outline-none border-ch-gray-400 border-2 rounded-full">
+                    {!loading && (
+                      <ImageFallback
+                        width={80}
+                        className="rounded-full object-cover"
+                        imageUrl={user?.image}
+                      />
+                    )}
+                  </Popover.Button>
+                  { currentUser && (
+                  <Popover.Panel className="w-48 absolute z-10 right-0 bg-ch-gray-700 mt-4 px-3 py-2 rounded shadow-md overflow-hidden text-ch-gray-300">
+                      <Link to={routes.user({ userName: user?.userName })}>
+                        <h3 className="text-lg hover:text-ch-pink-300">
+                          Hello {user?.name}
+                        </h3>
+                      </Link>
+                      <hr className="my-2" />
+                      <Link
+                        className="my-2 mt-4 block hover:text-ch-pink-300"
+                        to={routes.user({ userName: user?.userName })}>
+                        <div>View Your Profile</div>
+                      </Link>
+                      <a href="#" onClick={logOut}
+                        className="text-ch-gray-400 hover:text-ch-pink-300">
+                        Logout
+                      </a>
+                  </Popover.Panel>
                   )}
-                </button>
+                </Popover>
               </li>
             ) : (
               <li>
@@ -158,38 +177,6 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
               </li>
             )}
           </ul>
-          {isAuthenticated && currentUser && (
-            <Popover
-              id={popoverId}
-              open={isOpen}
-              anchorEl={anchorEl}
-              onClose={closePopover}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              <div className="p-4 w-48">
-                <Link to={routes.user({ userName: user?.userName })}>
-                  <h3 className="text-indigo-800" style={{ fontWeight: '500' }}>
-                    Hello {user?.name}
-                  </h3>
-                </Link>
-                <hr />
-                <br />
-                <Link to={routes.user({ userName: user?.userName })}>
-                  <div className="text-indigo-800">Your Profile</div>
-                </Link>
-                <a href="#" className="text-indigo-800" onClick={logOut}>
-                  Logout
-                </a>
-              </div>
-            </Popover>
-          )}
         </nav>
       </header>
       <Toaster timeout={1500} />

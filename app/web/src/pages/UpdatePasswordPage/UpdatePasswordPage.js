@@ -32,14 +32,14 @@ const UpdatePasswordPage = () => {
       <Seo title="Update Password" description="Update Password" lang="en-US" />
 
       <section className="max-w-md mx-auto mt-20">
-        <h2 className="text-xl text-indigo-500 pb-4">Reset Password</h2>
+        <h2 className="text-xl text-ch-gray-300 pb-4">Reset Password</h2>
         <Form onSubmit={onSubmit}>
           <div
             className="grid items-center gap-2"
             style={{ gridTemplateColumns: 'auto 1fr' }}
           >
-            <span className="capitalize text-gray-500 text-sm align-middle my-3">
-              password:
+            <span className="capitalize text-ch-gray-300 text-sm">
+              password
             </span>
             <InputTextForm
               className="text-xl"
@@ -49,8 +49,8 @@ const UpdatePasswordPage = () => {
                 required: true,
               }}
             />
-            <span className="capitalize text-gray-500 text-sm align-middle my-3">
-              confirm:
+            <span className="capitalize text-ch-gray-300 text-sm">
+              confirm
             </span>
             <InputTextForm
               className="text-xl"
@@ -60,10 +60,10 @@ const UpdatePasswordPage = () => {
                 required: true,
               }}
             />
+            <Submit className="col-start-2 mt-4 bg-ch-purple-400 bg-opacity-50 hover:bg-opacity-80 text-ch-gray-300 flex h-10 flex-shrink-0 justify-center items-center px-4 rounded">
+              Update
+            </Submit>
           </div>
-          <Submit className="bg-indigo-200 text-indigo-800 p-2 px-4 shadow hover:shadow-lg mt-4 rounded">
-            Update
-          </Submit>
         </Form>
       </section>
     </MainLayout>

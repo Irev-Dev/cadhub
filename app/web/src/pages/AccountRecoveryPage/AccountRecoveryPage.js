@@ -51,10 +51,10 @@ const AccountRecoveryPage = () => {
                 },
               }}
             />
+            <Submit className="col-start-2 mt-4 bg-ch-purple-400 bg-opacity-50 hover:bg-opacity-80 text-ch-gray-300 flex h-10 flex-shrink-0 justify-center items-center px-4 rounded">
+              Send email
+            </Submit>
           </div>
-          <Submit className="mt-4 bg-ch-purple-400 bg-opacity-50 hover:bg-opacity-80 text-ch-gray-300 flex bg-gray-200 h-10 flex-shrink-0 justify-center items-center px-4 rounded">
-            Send email
-          </Submit>
         </Form>
       </section>
     </MainLayout>
