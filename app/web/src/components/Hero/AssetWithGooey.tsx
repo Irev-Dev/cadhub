@@ -43,8 +43,7 @@ export default function AssetWithGooey({
       <group ref={coffeeRef}>
         <mesh ref={mesh} scale={scaleArr} geometry={geo}>
           <meshPhysicalMaterial
-            envMapIntensity={2}
-            color="#F472B6"
+            color="#FF6EBD"
             map={colorMap}
             clearcoat={0.5}
             clearcoatRoughness={0.01}
@@ -59,6 +58,7 @@ export default function AssetWithGooey({
       </group>
       <ambientLight intensity={2} />
       <Gooey />
+      <ambientLight intensity={1.8} />
     </group>
   )
 }
@@ -73,22 +73,22 @@ function Gooey() {
       const dist = Math.random() * 3 + 2.5
       const x = randomSign(Math.random() * dist)
       const y = randomSign(Math.sqrt(dist * dist - x * x))
-      const z = randomSign(Math.random() * 3)
+      const z = randomSign(Math.random() * 2)
       const position: [number, number, number] = [x, z, y]
       const size = Math.random() * 0.8 + 0.1
-      const distort = Math.random() * 0.8 + 0.1
-      const speed = (Math.random() * 0.8) / size / size + 0.1
+      const distort = (size > .1) ? Math.random() * .6 * size + 0.2 : 0
+      const speed = (size > .1) ? (Math.random() * 0.8) / size / size + 0.1 : 0
       return { position, size, distort, speed }
     })
     const secondSet = Array.from({ length: 5 }).map((_, index) => {
       const dist = Math.random() * 3 + 1.5
       const x = randomSign(Math.random() * dist)
       const y = randomSign(Math.sqrt(dist * dist - x * x))
-      const z = randomSign(Math.random() * 3)
+      const z = randomSign(Math.random() * 2)
       const position: [number, number, number] = [x, z, y]
       const size = Math.random() * 0.2 + 0.05
-      const distort = Math.random() * 0.8 + 0.1
-      const speed = (Math.random() * 0.5) / size / size + 0.1
+      const distort = (size > .1) ? Math.random() * .8 * size + 0.2 : 0
+      const speed = (size > .1) ? (Math.random() * 0.5) / size / size + 0.1 : 0
       return { position, size, distort, speed }
     })
     return [...firstSet, ...secondSet]
