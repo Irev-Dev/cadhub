@@ -401,12 +401,11 @@ const makeScriptWorker = ({ callback, convertToSolids }) => {
           }
         })
       }
-      if (paramsDef.length)
-        callback({
-          action: 'parameterDefinitions',
-          worker: 'main',
-          data: paramsDef,
-        })
+      callback({
+        action: 'parameterDefinitions',
+        worker: 'main',
+        data: paramsDef,
+      })
 
       runMain(params)
     },

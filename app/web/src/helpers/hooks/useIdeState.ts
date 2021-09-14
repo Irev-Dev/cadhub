@@ -107,9 +107,7 @@ const reducer = (state: State, { type, payload }): State => {
     case 'updateCode':
       return { ...state, code: payload }
     case 'healthyRender':
-      const customizerParams: CadhubParams[] = payload?.customizerParams?.length
-        ? payload.customizerParams
-        : state.customizerParams
+      const customizerParams: CadhubParams[] = payload.customizerParams
       const currentParameters = {}
       customizerParams.forEach((param) => {
         currentParameters[param.name] =
