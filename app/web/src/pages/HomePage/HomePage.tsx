@@ -9,7 +9,7 @@ const ProjectsPage = () => {
         title="CadHub Home page"
         description="Learn about Code CAD and the CadHub community"
         lang="en-US"
-        socialImageUrl="https://cadhub.xyz/default-social-image.jpg"
+        socialImageUrl="http://cadhub.xyz/default-social-image.jpg"
       />
       <Hero />
     </MainLayout>
