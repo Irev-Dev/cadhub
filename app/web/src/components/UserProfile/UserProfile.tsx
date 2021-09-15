@@ -1,45 +1,53 @@
-import { useState, useEffect, useRef, useReducer, ReactNode } from 'react'
+import { useEffect, useReducer } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import ProjectsOfUser from 'src/components/ProjectsOfUserCell'
 import IdeHeader from 'src/components/IdeHeader/IdeHeader'
 import Svg from 'src/components/Svg/Svg'
 import {
-  fieldsConfig,
+  fieldComponents,
   fieldReducer,
   UserProfileType,
-  FieldConfigType,
+  FieldType,
 } from './userProfileConfig'
 
-function buildFieldsConfig(fieldsConfig, user) {
-  Object.entries(fieldsConfig).forEach(
-    ([key, field]: [string, FieldConfigType]) => {
-      field.currentValue = field.newValue = user[key]
-      field.name = key
-    }
-  )
-
-  return fieldsConfig
+// This function initializes the state management object for each of the fields
+function buildFieldsConfig(fieldsConfig, user, hasPermissionToEdit) {
+  return Object.fromEntries(Object.keys(fieldsConfig).map(
+    (key: string): [string, FieldType] => ([key, {
+      name: key,
+      currentValue: user[key],
+      newValue: user[key],
+      isEditing: false,
+      hasPermissionToEdit,
+    }])
+  ))
 }
 
 const UserProfile = ({
   user,
-  isEditable,
+  isEditing,
   loading,
   onSave,
   error,
-  projects,
 }: UserProfileType) => {
   const { currentUser } = useAuth()
-  const hasEditPermission = currentUser?.sub === user.id
+  const hasPermissionToEdit = currentUser?.sub === user.id
   useEffect(() => {
-    isEditable &&
-      !hasEditPermission &&
+    isEditing &&
+      !hasPermissionToEdit &&
       navigate(routes.user({ userName: user.userName }))
   }, [currentUser])
 
-  const initializedFields = buildFieldsConfig(fieldsConfig, user)
+  const initializedFields = buildFieldsConfig(fieldComponents, user, hasPermissionToEdit)
   const [fields, fieldDispatch] = useReducer(fieldReducer, initializedFields)
+  const {
+    name: NameField,
+    userName: UserNameField,
+    image: ImageField,
+    bio: BioField,
+    createdAt: MemberSinceField,
+  } = fieldComponents
 
   return (
     <>
@@ -65,44 +73,45 @@ const UserProfile = ({
             {/* Side panel */}
             <section className="bg-ch-gray-760 font-fira-sans p-12 md:overflow-y-auto ch-scrollbar">
               <div className="flex gap-6">
-                {!isEditable && (
+                {!isEditing && (
                   <div className="w-28 flex-shrink-0">
-                    <fields.image.component
+                    <ImageField
                       field={fields.image}
+                      dispatch={fieldDispatch}
                       user={user}
                       save={onSave}
-                      hasEditPermission={hasEditPermission}
+                      hasPermissionToEdit={hasPermissionToEdit}
                     />
                   </div>
                 )}
                 <div>
-                  <fields.name.component
+                  <NameField
                     field={fields.name}
                     dispatch={fieldDispatch}
                     user={user}
                     save={onSave}
-                    hasEditPermission={hasEditPermission}
+                    hasPermissionToEdit={hasPermissionToEdit}
                   />
-                  <fields.userName.component
+                  <UserNameField
                     field={fields.userName}
                     dispatch={fieldDispatch}
                     user={user}
                     save={onSave}
-                    hasEditPermission={hasEditPermission}
+                    hasPermissionToEdit={hasPermissionToEdit}
                   />
                 </div>
               </div>
               <div className="mt-10">
-                <fields.bio.component
+                <BioField
                   field={fields.bio}
                   dispatch={fieldDispatch}
                   user={user}
                   save={onSave}
-                  hasEditPermission={hasEditPermission}
+                  hasPermissionToEdit={hasPermissionToEdit}
                 />
               </div>
               <div className="my-5">
-                <fields.createdAt.component field={fields.createdAt} />
+                <MemberSinceField field={fields.createdAt} />
               </div>
             </section>
             {/* Viewer */}

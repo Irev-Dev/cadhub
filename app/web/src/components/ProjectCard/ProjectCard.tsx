@@ -33,8 +33,8 @@ const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
       <div className="flex items-center mt-1">
         <div className="w-8 h-8 overflow-hidden rounded-full border border-ch-gray-300 shadow">
           <ImageFallback
-            imageId={user?.image} // http://res.cloudinary.com/irevdev/image/upload/c_scale,w_50/v1/CadHub/bc7smqwo9qqmrloyf9xr
-            width={80} // http://res.cloudinary.com/irevdev/image/upload/c_scale,w_300/v1/CadHub/bc7smqwo9qqmrloyf9xr
+            imageId={user?.image}
+            width={80}
           />
         </div>
         <div className="ml-3 text-lg text-ch-gray-300 font-fira-sans">
