@@ -32,19 +32,6 @@
 
 }
 
-@layer components {
-  .tabToggle {
-    @apply text-ch-gray-300 p-3 mb-1 flex justify-center;
-  }
-  .tabToggle.active {
-    @apply bg-ch-pink-800 text-ch-pink-300 bg-opacity-30;
-  }
-  .tabToggle.disabled {
-    @apply text-ch-gray-550 cursor-not-allowed;
-
-  }
-}
-
 .three-debug-panel-1 {
   position: fixed;
   padding-top: 300px;
