@@ -53,8 +53,7 @@ const ProfileKeyValue = ({
   bottom = false,
 }: ProfileKeyValueType) => {
   return (
-    user[field.name] &&
-    hasPermissionToEdit && (
+    user[field.name] && (
       <KeyValue
         keyName={field.name}
         edit={{
