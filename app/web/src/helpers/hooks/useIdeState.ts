@@ -95,10 +95,18 @@ interface XYZ {
   z: number
 }
 
+interface EditorModel {
+  type: 'code' | 'guide'
+  label: string
+  content?: string
+}
+
 export interface State {
   ideType: 'INIT' | CadPackageType
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
+  models: EditorModel[]
+  currentModel: number
   objectData: {
     type: 'INIT' | ArtifactTypes
     data: any
@@ -136,6 +144,11 @@ export const initialState: State = {
     { type: 'message', message: 'Initialising', time: new Date() },
   ],
   code,
+  models: [
+    { type: 'code', label: 'Code', },
+    { type: 'guide', label: 'Test', content: '# Testing!' },
+  ],
+  currentModel: 0,
   objectData: {
     type: 'INIT',
     data: null,
@@ -269,6 +282,47 @@ const reducer = (state: State, { type, payload }): State => {
         ...state,
         sideTray: payload,
       }
+    case 'switchEditorModel':
+      return {
+        ...state,
+        currentModel: payload,
+      }
+    case 'addEditorModel':
+      return {
+        ...state,
+        models: [
+          ...state.models,
+          payload,
+        ]
+      }
+    case 'removeEditorModel':
+      return {
+        ...state,
+        models: [
+          ...state.models.slice(0, payload),
+          ...state.models.slice(payload + 1),
+        ],
+        currentModel: (payload === 0) ? 0 : payload - 1,
+      }
+    case 'updateEditorModel': {
+      let newModels = [...state.models]
+      newModels[state.currentModel].content = payload
+      return {
+        ...state,
+        models: newModels,
+      }
+    }
+    case 'reorderEditorModels': {
+      let newModels = [
+        ...state.models.slice(0, state.currentModel),
+        ...state.models.slice(state.currentModel + 1)
+      ].splice(payload, 0, state.models[state.currentModel])
+      return {
+        ...state,
+        models: newModels,
+        currentModel: payload,
+      }
+    }
     default:
       return state
   }
