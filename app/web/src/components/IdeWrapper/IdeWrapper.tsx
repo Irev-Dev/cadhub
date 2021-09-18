@@ -30,16 +30,18 @@ const IdeWrapper = ({ cadPackage }: Props) => {
   }
 
   return (
-    <div className="h-full flex">
+    <div className="h-full flex flex-col">
       <ShortcutsModalContext.Provider value={shortcutModalContextValues}>
-        <div className="w-16 bg-ch-gray-700 flex-shrink-0">
-          <IdeSideBar />
-        </div>
-        <div className="h-full flex flex-grow flex-col">
-          <nav className="flex">
-            <IdeHeader handleRender={onRender} />
-          </nav>
-          <IdeContainer />
+        <nav className="flex">
+          <IdeHeader handleRender={onRender} />
+        </nav>
+        <div className="h-full flex flex-grow bg-ch-gray-900">
+          <div className="flex-shrink-0">
+            <IdeSideBar />
+          </div>
+          <div className="h-full flex flex-grow">
+            <IdeContainer />
+          </div>
         </div>
       </ShortcutsModalContext.Provider>
     </div>

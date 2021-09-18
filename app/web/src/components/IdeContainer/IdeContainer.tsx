@@ -42,19 +42,40 @@ const ELEMENT_MAP = {
 }
 
 const TOOLBAR_MAP = {
-  Editor: (
+  Editor: () => (
     <div className="w-full">
       <EditorMenu />
     </div>
   ),
-  Viewer: (
+  Viewer: (thunkDispatch) => (
     <div>
-      <PanelToolbar panelName="Viewer" />
+      <PanelToolbar
+        panelName="Viewer"
+        onClick={() =>
+          thunkDispatch((dispatch) =>
+            dispatch({
+              type: 'settingsButtonClicked',
+              payload: ['Settings', 'viewer'],
+            })
+          )
+        }
+      />
     </div>
   ),
-  Console: (
+  Console: (thunkDispatch) => (
     <div>
-      <PanelToolbar panelName="Console" showTopGradient />
+      <PanelToolbar
+        panelName="Console"
+        showTopGradient
+        onClick={() =>
+          thunkDispatch((dispatch) =>
+            dispatch({
+              type: 'settingsButtonClicked',
+              payload: ['Settings', 'console'],
+            })
+          )
+        }
+      />
     </div>
   ),
 }
@@ -74,7 +95,7 @@ const IdeContainer = () => {
           return (
             <MosaicWindow
               path={path}
-              renderToolbar={() => TOOLBAR_MAP[id]}
+              renderToolbar={() => TOOLBAR_MAP[id](thunkDispatch)}
               className={`${id.toLowerCase()} ${id.toLowerCase()}-tile`}
             >
               {id === 'Viewer' ? (

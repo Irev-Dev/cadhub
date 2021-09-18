@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { MouseEventHandler, useContext } from 'react'
 import { MosaicWindowContext } from 'react-mosaic-component'
 import Svg from 'src/components/Svg/Svg'
 import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessage/OpenscadStaticImageMessage'
@@ -6,9 +6,11 @@ import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessag
 const PanelToolbar = ({
   panelName,
   showTopGradient,
+  onClick,
 }: {
   panelName: 'Viewer' | 'Console'
   showTopGradient?: boolean
+  onClick?: MouseEventHandler
 }) => {
   const { mosaicWindowActions } = useContext(MosaicWindowContext)
   return (
@@ -19,9 +21,13 @@ const PanelToolbar = ({
       <div className="absolute top-0 right-0 flex items-center h-9">
         {panelName === 'Viewer' && <OpenscadStaticImageMessage />}
         <button
-          className="bg-ch-gray-760 text-ch-gray-300 px-3 rounded-bl-lg h-full cursor-not-allowed"
+          className={
+            'bg-ch-gray-760 text-ch-gray-300 px-3 rounded-bl-lg h-full ' +
+            (!onClick ? 'cursor-not-allowed' : '')
+          }
           aria-label={`${panelName} settings`}
-          disabled
+          onClick={onClick}
+          disabled={!onClick}
         >
           <Svg name="gear" className="w-7 p-0.5" />
         </button>
