@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
 import ReactGA from 'react-ga'
-import Popover from '@material-ui/core/Popover'
+import { Popover } from '@headlessui/react'
+import { ImageFallback } from 'src/components/ImageUploader'
 
 import useUser from 'src/helpers/hooks/useUser'
 import LoginModal from 'src/components/LoginModal'
@@ -42,59 +43,53 @@ const ProfileSlashLogin = () => {
   return (
     <div className="flex-shrink-0">
       {isAuthenticated ? (
-        <div
-          className="h-8 w-8 relative text-indigo-200"
-          aria-describedby={popoverId}
-        >
-          <button
-            className="absolute inset-0 w-full h-full"
-            onClick={togglePopover}
+        <Popover className="relative outline-none h-8 w-8">
+          <Popover.Button
+            disabled={!isAuthenticated || !currentUser}
+            className="h-full w-full outline-none border-ch-gray-400 border-2 rounded-full"
           >
-            {!loading && <Gravatar image={user?.image} />}
-          </button>
-        </div>
+            {!loading && (
+              <ImageFallback
+                width={80}
+                className="rounded-full object-cover"
+                imageId={user?.image}
+              />
+            )}
+          </Popover.Button>
+          {currentUser && (
+            <Popover.Panel className="w-48 absolute z-10 right-0 bg-ch-gray-700 mt-4 px-3 py-2 rounded shadow-md overflow-hidden text-ch-gray-300">
+              <Link to={routes.user({ userName: user?.userName })}>
+                <h3 className="text-lg hover:text-ch-pink-300">
+                  Hello {user?.name}
+                </h3>
+              </Link>
+              <hr className="my-2" />
+              <Link
+                className="my-2 mt-4 block hover:text-ch-pink-300"
+                to={routes.user({ userName: user?.userName })}
+              >
+                <div>View Your Profile</div>
+              </Link>
+              <a
+                href="#"
+                onClick={logOut}
+                className="text-ch-gray-400 hover:text-ch-pink-300"
+              >
+                Logout
+              </a>
+            </Popover.Panel>
+          )}
+        </Popover>
       ) : (
         <div>
           <a
             href="#"
-            className="text-indigo-200 font-semibold underline mr-2"
+            className="text-sm text-ch-gray-300 mr-2 py-2 px-3 border-2 border-ch-gray-400 rounded-full hover:bg-ch-gray-600"
             onClick={recordedLogin}
           >
-            Sign in/up
+            Sign In/Up
           </a>
         </div>
-      )}
-      {isAuthenticated && currentUser && (
-        <Popover
-          id={popoverId}
-          open={isOpen}
-          anchorEl={anchorEl}
-          onClose={closePopover}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          <div className="p-4 w-48">
-            <Link to={routes.user({ userName: user?.userName })}>
-              <h3 className="text-indigo-800" style={{ fontWeight: '500' }}>
-                Hello {user?.name}
-              </h3>
-            </Link>
-            <hr />
-            <br />
-            <Link to={routes.user({ userName: user?.userName })}>
-              <div className="text-indigo-800">Your Profile</div>
-            </Link>
-            <a href="#" className="text-indigo-800" onClick={logOut}>
-              Logout
-            </a>
-          </div>
-        </Popover>
       )}
       <LoginModal
         open={isLoginModalOpen}

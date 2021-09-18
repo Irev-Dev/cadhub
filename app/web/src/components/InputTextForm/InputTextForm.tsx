@@ -10,7 +10,7 @@ const InputText = ({ type = 'text', className, name, validation }) => {
     <>
       <div className={getActiveClasses('relative mt-5', className)}>
         <FieldError
-          className="absolute -my-5 text-sm text-red-500 font-ropa-sans"
+          className="absolute -my-5 text-sm text-red-500"
           name={name}
         />
         <TextField

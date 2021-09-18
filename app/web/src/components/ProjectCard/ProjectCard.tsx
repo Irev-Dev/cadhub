@@ -4,10 +4,11 @@ import CadPackage from 'src/components/CadPackage/CadPackage'
 
 import { countEmotes } from 'src/helpers/emote'
 import ImageUploader from 'src/components/ImageUploader'
+import { ImageFallback } from '../ImageUploader/ImageUploader'
 
 const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
   <li
-    className="rounded p-1.5 bg-ch-gray-760 shadow-ch"
+    className="rounded p-1.5 bg-ch-gray-760 hover:bg-ch-gray-710 shadow-ch"
     key={`${user?.userName}--${title}`}
   >
     <Link
@@ -31,11 +32,9 @@ const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
       </div>
       <div className="flex items-center mt-1">
         <div className="w-8 h-8 overflow-hidden rounded-full border border-ch-gray-300 shadow">
-          <ImageUploader
-            className=""
-            aspectRatio={1}
-            imageUrl={user?.image}
-            width={50}
+          <ImageFallback
+            imageId={user?.image}
+            width={80}
           />
         </div>
         <div className="ml-3 text-lg text-ch-gray-300 font-fira-sans">

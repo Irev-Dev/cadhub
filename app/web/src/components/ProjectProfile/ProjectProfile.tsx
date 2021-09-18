@@ -17,51 +17,7 @@ import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import ProfileViewer from '../ProfileViewer/ProfileViewer'
 import Svg from 'src/components/Svg/Svg'
 import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessage/OpenscadStaticImageMessage'
-
-const KeyValue = ({
-  keyName,
-  children,
-  hide = false,
-  canEdit = false,
-  onEdit,
-  isEditable = false,
-}: {
-  keyName: string
-  children: React.ReactNode
-  hide?: boolean
-  canEdit?: boolean
-  onEdit?: () => void
-  isEditable?: boolean
-}) => {
-  if (!children || hide) return null
-  return (
-    <div>
-      <div className="text-ch-blue-400 font-fira-code flex text-sm whitespace-nowrap">
-        {keyName}
-        {canEdit &&
-          (isEditable ? (
-            <button
-              className="font-fira-sans items-center ml-4 grid grid-flow-col-dense p-px px-2 gap-2 bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 rounded-sm border border-ch-purple-400"
-              id="rename-button"
-              onClick={onEdit}
-            >
-              <Svg
-                name="check"
-                className="w-6 h-6 text-ch-purple-500"
-                strokeWidth={3}
-              />
-              <span>Update</span>
-            </button>
-          ) : (
-            <button onClick={onEdit}>
-              <Svg name="pencil-solid" className="h-4 w-4 ml-4 mb-2" />
-            </button>
-          ))}
-      </div>
-      <div className="text-ch-gray-300">{children}</div>
-    </div>
-  )
-}
+import KeyValue from 'src/components/KeyValue/KeyValue'
 
 const ProjectProfile = ({
   userProject,
@@ -71,7 +27,7 @@ const ProjectProfile = ({
   onComment,
 }) => {
   const [comment, setComment] = useState('')
-  const [isEditable, setIsEditable] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
   const onCommentClear = () => {
     onComment(comment)
     setComment('')
@@ -80,14 +36,14 @@ const ProjectProfile = ({
   const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false)
   const { currentUser } = useAuth()
   const editorRef = useRef(null)
-  const canEdit =
+  const hasPermissionToEdit =
     currentUser?.sub === userProject.id || currentUser?.roles.includes('admin')
   const project = userProject?.Project
   const emotes = countEmotes(project?.Reaction)
   const userEmotes = project?.userReactions.map(({ emote }) => emote)
   useEffect(() => {
-    isEditable &&
-      !canEdit &&
+    isEditing &&
+      !hasPermissionToEdit &&
       navigate(
         routes.project({
           userName: userProject.userName,
@@ -99,7 +55,7 @@ const ProjectProfile = ({
   const [newDescription, setNewDescription] = useState(project?.description)
   const onDescriptionChange = (description) => setNewDescription(description())
   const onEditSaveClick = () => {
-    if (isEditable) {
+    if (isEditing) {
       onSave(project?.id, { description: newDescription })
       return
     }
@@ -140,7 +96,7 @@ const ProjectProfile = ({
             </div>
 
             {/* Side panel */}
-            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 overflow-y-auto">
+            <div className="bg-ch-gray-760 font-fira-sans px-20 pt-12 overflow-y-auto ch-scrollbar">
               <div className="grid grid-flow-row-dense gap-6">
                 <h3 className="text-5xl capitalize text-ch-gray-300">
                   {project?.title.replace(/-/g, ' ')}
@@ -152,26 +108,27 @@ const ProjectProfile = ({
                     className="px-3 py-2 rounded"
                   />
                 </div>
-                <KeyValue
+                { (project?.description || hasPermissionToEdit) && <KeyValue
                   keyName="Description"
-                  hide={!project?.description && !canEdit}
-                  canEdit={canEdit}
-                  onEdit={() => {
-                    if (!isEditable) {
-                      setIsEditable(true)
-                    } else {
-                      onEditSaveClick()
-                      setIsEditable(false)
-                    }
+                  edit={{
+                    hasPermissionToEdit,
+                    isEditing,
+                    onEdit: () => {
+                      if (!isEditing) {
+                        setIsEditing(true)
+                      } else {
+                        onEditSaveClick()
+                        setIsEditing(false)
+                      }
+                    },
                   }}
-                  isEditable={isEditable}
                 >
                   <div
                     id="description-wrap"
                     name="description"
                     className={
                       'markdown-overrides rounded-sm pb-2 mt-2' +
-                      (isEditable ? ' min-h-md' : '')
+                      (isEditing ? ' min-h-md' : '')
                     }
                     onClick={(e) =>
                       e?.target?.id === 'description-wrap' &&
@@ -181,11 +138,11 @@ const ProjectProfile = ({
                     <Editor
                       ref={editorRef}
                       defaultValue={project?.description || ''}
-                      readOnly={!isEditable}
+                      readOnly={!isEditing}
                       onChange={onDescriptionChange}
                     />
                   </div>
-                </KeyValue>
+                </KeyValue> }
                 <div className="grid grid-flow-col-dense gap-6">
                   <KeyValue keyName="Created on">
                     {new Date(project?.createdAt).toDateString()}
@@ -200,10 +157,11 @@ const ProjectProfile = ({
                     userEmotes={userEmotes}
                     onEmote={onReaction}
                     onShowProjectReactions={() => setIsReactionsModalOpen(true)}
+                    className=""
                   />
                 </KeyValue>
-                <KeyValue keyName="Comments" hide={!currentUser}>
-                  {!isEditable && (
+                { currentUser && <KeyValue keyName="Comments">
+                  {!isEditing && (
                     <>
                       {currentUser && (
                         <>
@@ -259,8 +217,8 @@ const ProjectProfile = ({
                       </ul>
                     </>
                   )}
-                </KeyValue>
-                {canEdit && (
+                </KeyValue> }
+                {hasPermissionToEdit && (
                   <>
                     <h4 className="mt-10 text-red-600">Danger Zone</h4>
                     <Button

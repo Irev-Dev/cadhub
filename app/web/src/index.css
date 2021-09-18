@@ -18,6 +18,18 @@
     font-family: 'Fira Sans', ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 
+  .ch-scrollbar::-webkit-scrollbar {
+    @apply w-3;
+  }
+
+  .ch-scrollbar::-webkit-scrollbar-track {
+      @apply bg-ch-gray-700;
+  }
+
+  .ch-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-60;
+  }
+
   /* https://www.a11yproject.com/posts/2013-01-11-how-to-hide-content/ */
   .visually-hidden {
     clip: rect(0 0 0 0);
@@ -39,6 +51,7 @@
   }
   .tabToggle.disabled {
     @apply text-ch-gray-550 cursor-not-allowed;
+
   }
 }
 
