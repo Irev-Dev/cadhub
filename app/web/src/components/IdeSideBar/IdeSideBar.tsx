@@ -21,7 +21,7 @@ function TabToggle({ item, className = '', active, onChange, onClick }) {
         value={item.name}
         onChange={onChange}
         onClick={onClick}
-        className="visually-hidden"
+        className="sr-only"
       />
       <Svg name={item.icon} className="w-8 mx-auto" />
     </label>

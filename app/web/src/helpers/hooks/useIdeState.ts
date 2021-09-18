@@ -151,7 +151,6 @@ export const initialState: State = {
 }
 
 const reducer = (state: State, { type, payload }): State => {
-  console.log('reducing')
   switch (type) {
     case 'initIde':
       return {

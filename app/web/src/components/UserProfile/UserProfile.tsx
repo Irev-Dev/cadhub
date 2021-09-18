@@ -53,12 +53,6 @@ const UserProfile = ({
     <>
       <div className="md:h-screen flex flex-col text-lg font-fira-sans">
         <div className="flex">
-          <Link
-            to={routes.home()}
-            className="w-16 h-16 flex items-center justify-center bg-ch-gray-900"
-          >
-            <Svg className="w-12" name="favicon" />
-          </Link>
           <IdeHeader
             handleRender={() => {}}
             projectOwner={user?.userName}
