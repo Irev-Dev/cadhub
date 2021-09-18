@@ -11,6 +11,26 @@ import Svg from 'src/components/Svg'
 const CLOUDINARY_UPLOAD_PRESET = 'CadHub_project_images'
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/irevdev/upload'
 
+export function ImageFallback({
+  width = 100,
+  imageId = 'CadHub/eia1kwru54g2kf02s2xx',
+  className = '',
+}) {
+  return (
+    <div className="relative overflow-hidden w-full h-full">
+      <CloudinaryImage
+        className={
+          'object-cover w-full h-full shadow overflow-hidden ' + className
+        }
+        cloudName="irevdev"
+        publicId={imageId}
+        width={width}
+        crop="scale"
+      />
+    </div>
+  )
+}
+
 export default function ImageUploader({
   onImageUpload = () => {},
   imageUrl,
@@ -65,36 +85,24 @@ export default function ImageUploader({
       }
       style={{ paddingBottom: `${(1 / aspectRatio) * 100}%` }}
     >
-      <div className="absolute w-full h-full" {...getRootProps()}>
+      <div className="absolute w-full h-full inset-0" {...getRootProps()}>
         {cloudinaryId && isEditable && (
-          <button className="absolute z-10 bg-indigo-900 opacity-75 bottom-0 right-0 flex items-center p-1 mb-6 mr-2 rounded-lg">
-            <span className="text-gray-100 pr-2">Update</span>
-            <Svg
-              name="pencil"
-              strokeWidth={2}
-              className=" text-gray-100 h-6 w-6"
-            />
+          <button className="w-full py-1 absolute z-10 bg-ch-blue-650 bg-opacity-50 hover:bg-opacity-80 bottom-0 right-0 left-0 flex items-center justify-center text-ch-gray-300">
+            <span className="font-fira-code text-sm leading-4">Update</span>
+            <Svg name="pencil-solid" className=" h-4 w-4 ml-4 mb-2" />
           </button>
         )}
         {isEditable && <input {...getInputProps()} />}
         {(cloudinaryId || !isEditable) && (
-          <div className="relative overflow-hidden w-full h-full">
-            <CloudinaryImage
-              className="object-cover w-full h-full shadow overflow-hidden"
-              cloudName="irevdev"
-              publicId={cloudinaryId || 'CadHub/eia1kwru54g2kf02s2xx'}
-              width={width}
-              crop="scale"
-            />
-          </div>
+          <ImageFallback imageId={cloudinaryId} width={width} />
         )}
         {!cloudinaryId && <button className="absolute inset-0"></button>}
         {!cloudinaryId && isEditable && (
-          <div className="text-indigo-500 flex items-center justify-center rounded-lg w-full h-full">
-            <div className="px-6 text-center">
-              Drop files here ... or{' '}
-              <span className="group flex w-full items-center justify-center py-2">
-                <span className="bg-indigo-500 shadow rounded text-gray-200 cursor-pointer p-2 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-150">
+          <div className="text-ch-blue-400 flex items-center justify-center rounded-lg w-full h-full">
+            <div className="px-2 text-sm text-center">
+              Drop files here or{' '}
+              <span className="group flex w-full items-center justify-center pt-2">
+                <span className="text-base bg-ch-blue-400 rounded-sm text-ch-gray-300 cursor-pointer px-3 py-2 leading-4 bg-ch-blue-700 bg-opacity-60 hover:bg-opacity-90">
                   upload
                 </span>
               </span>

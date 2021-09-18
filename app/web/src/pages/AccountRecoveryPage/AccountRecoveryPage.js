@@ -31,15 +31,13 @@ const AccountRecoveryPage = () => {
       />
 
       <section className="max-w-md mx-auto mt-20">
-        <h2 className="text-xl text-indigo-500 pb-4">Send recovery email</h2>
+        <h2 className="text-xl text-ch-gray-300 pb-4">Send recovery email</h2>
         <Form onSubmit={onSubmit}>
           <div
             className="grid items-center gap-2"
             style={{ gridTemplateColumns: 'auto 1fr' }}
           >
-            <span className="capitalize text-gray-500 text-sm align-middle my-3">
-              email:
-            </span>
+            <span className="capitalize text-ch-gray-300 text-sm">email</span>
             <InputTextForm
               className="text-xl"
               name="email"
@@ -51,10 +49,10 @@ const AccountRecoveryPage = () => {
                 },
               }}
             />
+            <Submit className="col-start-2 mt-4 bg-ch-purple-400 bg-opacity-50 hover:bg-opacity-80 text-ch-gray-300 flex h-10 flex-shrink-0 justify-center items-center px-4 rounded">
+              Send email
+            </Submit>
           </div>
-          <Submit className="bg-indigo-200 text-indigo-800 p-2 px-4 shadow hover:shadow-lg mt-4 rounded">
-            Send email
-          </Submit>
         </Form>
       </section>
     </MainLayout>

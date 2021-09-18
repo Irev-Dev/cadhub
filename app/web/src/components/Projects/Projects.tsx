@@ -36,7 +36,7 @@ const ProjectsList = ({
   return (
     <section className="max-w-7xl mx-auto">
       <ul
-        className="grid gap-x-8 gap-y-8 items-center mx-4 relative"
+        className="grid gap-x-8 gap-y-8 items-center relative"
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))' }}
       >
         {filteredProjects.map(
