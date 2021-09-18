@@ -51,29 +51,32 @@ const ProfileKeyValue = ({
   hasPermissionToEdit,
   children,
   bottom = false,
-} : ProfileKeyValueType) => {
+}: ProfileKeyValueType) => {
   return (
-    (user[field.name] && hasPermissionToEdit) && <KeyValue
-      keyName={field.name}
-      edit={{
-        hasPermissionToEdit,
-        isEditing: field.isEditing,
-        onEdit: () => {
-          if (field.isEditing && field.currentValue !== field.newValue) {
-            save(user.userName, { [field.name]: field.newValue })
-          }
-          dispatch({
-            type: 'SET_CURRENT_VALUE',
-            payload: { field: field.name, value: field.newValue },
-          })
-          dispatch({ type: 'TOGGLE_EDITING', payload: field.name })
-        },
-      }}
-      bottom={bottom}
-      className="mb-4"
-    >
-      {children}
-    </KeyValue>
+    user[field.name] &&
+    hasPermissionToEdit && (
+      <KeyValue
+        keyName={field.name}
+        edit={{
+          hasPermissionToEdit,
+          isEditing: field.isEditing,
+          onEdit: () => {
+            if (field.isEditing && field.currentValue !== field.newValue) {
+              save(user.userName, { [field.name]: field.newValue })
+            }
+            dispatch({
+              type: 'SET_CURRENT_VALUE',
+              payload: { field: field.name, value: field.newValue },
+            })
+            dispatch({ type: 'TOGGLE_EDITING', payload: field.name })
+          },
+        }}
+        bottom={bottom}
+        className="mb-4"
+      >
+        {children}
+      </KeyValue>
+    )
   )
 }
 
@@ -110,7 +113,7 @@ function BioField(props) {
   )
 }
 
-function MemberSinceField(props : FieldComponentPropsType) {
+function MemberSinceField(props: FieldComponentPropsType) {
   return (
     <KeyValue keyName="Member Since">
       <p className="text-ch-gray-300">
@@ -120,7 +123,7 @@ function MemberSinceField(props : FieldComponentPropsType) {
   )
 }
 
-function ImageField(props : FieldComponentPropsType) {
+function ImageField(props: FieldComponentPropsType) {
   const { field, user, save, hasPermissionToEdit } = props
   return (
     <ImageUploader
@@ -138,7 +141,7 @@ function ImageField(props : FieldComponentPropsType) {
   )
 }
 
-function NameField(props : FieldComponentPropsType) {
+function NameField(props: FieldComponentPropsType) {
   const { user, dispatch, field } = props
 
   return (
@@ -162,7 +165,7 @@ function NameField(props : FieldComponentPropsType) {
   )
 }
 
-function UserNameField(props : FieldComponentPropsType) {
+function UserNameField(props: FieldComponentPropsType) {
   const { dispatch, field } = props
 
   return (
@@ -196,7 +199,8 @@ export function fieldReducer(state, action) {
         [action.payload]: {
           ...state[action.payload],
           isEditing:
-            state[action.payload].hasPermissionToEdit && !state[action.payload].isEditing
+            state[action.payload].hasPermissionToEdit &&
+            !state[action.payload].isEditing
               ? true
               : false,
         },

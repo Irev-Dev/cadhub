@@ -102,41 +102,43 @@ const ProjectProfile = ({
                     className="px-3 py-2 rounded"
                   />
                 </div>
-                { (project?.description || hasPermissionToEdit) && <KeyValue
-                  keyName="Description"
-                  edit={{
-                    hasPermissionToEdit,
-                    isEditing,
-                    onEdit: () => {
-                      if (!isEditing) {
-                        setIsEditing(true)
-                      } else {
-                        onEditSaveClick()
-                        setIsEditing(false)
-                      }
-                    },
-                  }}
-                >
-                  <div
-                    id="description-wrap"
-                    name="description"
-                    className={
-                      'markdown-overrides rounded-sm pb-2 mt-2' +
-                      (isEditing ? ' min-h-md' : '')
-                    }
-                    onClick={(e) =>
-                      e?.target?.id === 'description-wrap' &&
-                      editorRef?.current?.focusAtEnd()
-                    }
+                {(project?.description || hasPermissionToEdit) && (
+                  <KeyValue
+                    keyName="Description"
+                    edit={{
+                      hasPermissionToEdit,
+                      isEditing,
+                      onEdit: () => {
+                        if (!isEditing) {
+                          setIsEditing(true)
+                        } else {
+                          onEditSaveClick()
+                          setIsEditing(false)
+                        }
+                      },
+                    }}
                   >
-                    <Editor
-                      ref={editorRef}
-                      defaultValue={project?.description || ''}
-                      readOnly={!isEditing}
-                      onChange={onDescriptionChange}
-                    />
-                  </div>
-                </KeyValue> }
+                    <div
+                      id="description-wrap"
+                      name="description"
+                      className={
+                        'markdown-overrides rounded-sm pb-2 mt-2' +
+                        (isEditing ? ' min-h-md' : '')
+                      }
+                      onClick={(e) =>
+                        e?.target?.id === 'description-wrap' &&
+                        editorRef?.current?.focusAtEnd()
+                      }
+                    >
+                      <Editor
+                        ref={editorRef}
+                        defaultValue={project?.description || ''}
+                        readOnly={!isEditing}
+                        onChange={onDescriptionChange}
+                      />
+                    </div>
+                  </KeyValue>
+                )}
                 <div className="grid grid-flow-col-dense gap-6">
                   <KeyValue keyName="Created on">
                     {new Date(project?.createdAt).toDateString()}
@@ -154,64 +156,68 @@ const ProjectProfile = ({
                     className=""
                   />
                 </KeyValue>
-                { currentUser && <KeyValue keyName="Comments">
-                  {!isEditing && (
-                    <>
-                      {currentUser && (
-                        <>
-                          <div className="pt-1">
-                            <textarea
-                              className="w-full h-32 rounded shadow-inner outline-none resize-none p-3 bg-ch-gray-600 placeholder-ch-gray-500 font-fira-sans"
-                              placeholder="Have a question about this model, or a helpful tip about how to improve it? Remember, be nice!"
-                              value={comment}
-                              onChange={({ target }) =>
-                                setComment(target.value)
-                              }
-                            />
-                          </div>
-                          <Button
-                            className={getActiveClasses(
-                              'ml-auto hover:bg-opacity-100 bg-ch-pink-800 bg-opacity-30 mt-4 mb-6 text-ch-gray-300',
-                              { 'bg-indigo-200': currentUser }
-                            )}
-                            shouldAnimateHover
-                            disabled={!currentUser}
-                            iconName={''}
-                            onClick={onCommentClear}
-                          >
-                            Comment
-                          </Button>
-                        </>
-                      )}
-                      <ul>
-                        {project?.Comment.map(
-                          ({ text, user, id, createdAt }) => (
-                            <li key={id} className="mb-5">
-                              <div className="flex justify-between">
-                                <Link
-                                  className="flex items-center"
-                                  to={routes.user({ userName: user?.userName })}
-                                >
-                                  <Gravatar
-                                    image={user?.image}
-                                    className="w-10 h-10 mr-4"
-                                  />
-                                  {user?.userName}
-                                </Link>
-                                <div className="font-fira-code text-ch-blue-400 flex items-center">
-                                  {new Date(createdAt).toDateString()}
-                                </div>
-                              </div>
-                              <div className="ml-5 border-l-2 pl-5 my-3 border-ch-gray-300 text-ch-gray-300">
-                                {text}
-                              </div>
-                            </li>
-                          )
+                {currentUser && (
+                  <KeyValue keyName="Comments">
+                    {!isEditing && (
+                      <>
+                        {currentUser && (
+                          <>
+                            <div className="pt-1">
+                              <textarea
+                                className="w-full h-32 rounded shadow-inner outline-none resize-none p-3 bg-ch-gray-600 placeholder-ch-gray-500 font-fira-sans"
+                                placeholder="Have a question about this model, or a helpful tip about how to improve it? Remember, be nice!"
+                                value={comment}
+                                onChange={({ target }) =>
+                                  setComment(target.value)
+                                }
+                              />
+                            </div>
+                            <Button
+                              className={getActiveClasses(
+                                'ml-auto hover:bg-opacity-100 bg-ch-pink-800 bg-opacity-30 mt-4 mb-6 text-ch-gray-300',
+                                { 'bg-indigo-200': currentUser }
+                              )}
+                              shouldAnimateHover
+                              disabled={!currentUser}
+                              iconName={''}
+                              onClick={onCommentClear}
+                            >
+                              Comment
+                            </Button>
+                          </>
                         )}
-                      </ul>
-                    </>
-                  )}
-                </KeyValue> }
+                        <ul>
+                          {project?.Comment.map(
+                            ({ text, user, id, createdAt }) => (
+                              <li key={id} className="mb-5">
+                                <div className="flex justify-between">
+                                  <Link
+                                    className="flex items-center"
+                                    to={routes.user({
+                                      userName: user?.userName,
+                                    })}
+                                  >
+                                    <Gravatar
+                                      image={user?.image}
+                                      className="w-10 h-10 mr-4"
+                                    />
+                                    {user?.userName}
+                                  </Link>
+                                  <div className="font-fira-code text-ch-blue-400 flex items-center">
+                                    {new Date(createdAt).toDateString()}
+                                  </div>
+                                </div>
+                                <div className="ml-5 border-l-2 pl-5 my-3 border-ch-gray-300 text-ch-gray-300">
+                                  {text}
+                                </div>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </>
+                    )}
+                  </KeyValue>
+                )}
                 {hasPermissionToEdit && (
                   <>
                     <h4 className="mt-10 text-red-600">Danger Zone</h4>

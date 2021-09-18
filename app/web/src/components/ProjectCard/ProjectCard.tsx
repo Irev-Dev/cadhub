@@ -32,10 +32,7 @@ const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
       </div>
       <div className="flex items-center mt-1">
         <div className="w-8 h-8 overflow-hidden rounded-full border border-ch-gray-300 shadow">
-          <ImageFallback
-            imageId={user?.image}
-            width={80}
-          />
+          <ImageFallback imageId={user?.image} width={80} />
         </div>
         <div className="ml-3 text-lg text-ch-gray-300 font-fira-sans">
           <div className="">{title}</div>

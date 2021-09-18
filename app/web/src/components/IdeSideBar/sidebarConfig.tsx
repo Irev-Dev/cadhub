@@ -53,13 +53,14 @@ export const sidebarTopConfig: SidebarConfigType[] = [
 ]
 
 const DiscordLink = () => (
-    <a className="underline text-ch-pink-300"
-        href="https://discord.gg/SD7zFRNjGH"
-        target="_blank"
-        rel="noreferrer"
-    >
-        Discord
-    </a>
+  <a
+    className="underline text-ch-pink-300"
+    href="https://discord.gg/SD7zFRNjGH"
+    target="_blank"
+    rel="noreferrer"
+  >
+    Discord
+  </a>
 )
 
 const settingsConfig = [
@@ -74,7 +75,8 @@ const settingsConfig = [
         </p>
         <hr className="my-2" />
         <p className="p-2">
-        We're building configuration settings for the Viewer pane now. Join us on <DiscordLink/> if you want to lend a hand!
+          We're building configuration settings for the Viewer pane now. Join us
+          on <DiscordLink /> if you want to lend a hand!
         </p>
       </div>
     ),
@@ -90,7 +92,8 @@ const settingsConfig = [
         </p>
         <hr className="my-2" />
         <p className="p-2">
-          We're building configuration settings for the Viewer pane now. Join us on <DiscordLink/> if you want to lend a hand!
+          We're building configuration settings for the Viewer pane now. Join us
+          on <DiscordLink /> if you want to lend a hand!
         </p>
       </div>
     ),
@@ -106,7 +109,8 @@ const settingsConfig = [
         </p>
         <hr className="my-2" />
         <p className="p-2">
-        We're building configuration settings for the Viewer pane now. Join us on <DiscordLink/> if you want to lend a hand!
+          We're building configuration settings for the Viewer pane now. Join us
+          on <DiscordLink /> if you want to lend a hand!
         </p>
       </div>
     ),

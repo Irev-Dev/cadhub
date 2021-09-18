@@ -13,15 +13,18 @@ import {
 
 // This function initializes the state management object for each of the fields
 function buildFieldsConfig(fieldsConfig, user, hasPermissionToEdit) {
-  return Object.fromEntries(Object.keys(fieldsConfig).map(
-    (key: string): [string, FieldType] => ([key, {
-      name: key,
-      currentValue: user[key],
-      newValue: user[key],
-      isEditing: false,
-      hasPermissionToEdit,
-    }])
-  ))
+  return Object.fromEntries(
+    Object.keys(fieldsConfig).map((key: string): [string, FieldType] => [
+      key,
+      {
+        name: key,
+        currentValue: user[key],
+        newValue: user[key],
+        isEditing: false,
+        hasPermissionToEdit,
+      },
+    ])
+  )
 }
 
 const UserProfile = ({
@@ -39,7 +42,11 @@ const UserProfile = ({
       navigate(routes.user({ userName: user.userName }))
   }, [currentUser])
 
-  const initializedFields = buildFieldsConfig(fieldComponents, user, hasPermissionToEdit)
+  const initializedFields = buildFieldsConfig(
+    fieldComponents,
+    user,
+    hasPermissionToEdit
+  )
   const [fields, fieldDispatch] = useReducer(fieldReducer, initializedFields)
   const {
     name: NameField,

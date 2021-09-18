@@ -76,8 +76,8 @@ function Gooey() {
       const z = randomSign(Math.random() * 2)
       const position: [number, number, number] = [x, z, y]
       const size = Math.random() * 0.8 + 0.1
-      const distort = (size > .1) ? Math.random() * .6 * size + 0.2 : 0
-      const speed = (size > .1) ? (Math.random() * 0.8) / size / size + 0.1 : 0
+      const distort = size > 0.1 ? Math.random() * 0.6 * size + 0.2 : 0
+      const speed = size > 0.1 ? (Math.random() * 0.8) / size / size + 0.1 : 0
       return { position, size, distort, speed }
     })
     const secondSet = Array.from({ length: 5 }).map((_, index) => {
@@ -87,8 +87,8 @@ function Gooey() {
       const z = randomSign(Math.random() * 2)
       const position: [number, number, number] = [x, z, y]
       const size = Math.random() * 0.2 + 0.05
-      const distort = (size > .1) ? Math.random() * .8 * size + 0.2 : 0
-      const speed = (size > .1) ? (Math.random() * 0.5) / size / size + 0.1 : 0
+      const distort = size > 0.1 ? Math.random() * 0.8 * size + 0.2 : 0
+      const speed = size > 0.1 ? (Math.random() * 0.5) / size / size + 0.1 : 0
       return { position, size, distort, speed }
     })
     return [...firstSet, ...secondSet]
