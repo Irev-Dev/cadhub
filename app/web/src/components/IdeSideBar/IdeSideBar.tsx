@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { getActiveClasses } from 'get-active-classes'
 import Svg from 'src/components/Svg/Svg'
 import {
   sidebarTopConfig,
@@ -10,9 +10,11 @@ import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 function TabToggle({ item, className = '', active, onChange, onClick }) {
   return (
     <label
-      className={`tabToggle${item.disabled ? ' disabled' : ''}${
-        active ? ' active' : ''
-      } ${className}`}
+      className={getActiveClasses({
+        'bg-ch-pink-800 text-ch-pink-300 bg-opacity-30': active,
+        'text-ch-gray-550 cursor-not-allowed': item.disabled,
+        [`text-ch-gray-300 p-3 mb-1 flex justify-center ${className}`]: true,
+      })}
     >
       <input
         name="sidebar-tabs"
