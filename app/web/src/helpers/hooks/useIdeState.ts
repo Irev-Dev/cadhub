@@ -1,39 +1,18 @@
 import { useReducer } from 'react'
-import { cadPackages } from 'src/helpers/cadPackages'
+import { cadPackages, initCodeMap, initGuideMap } from 'src/helpers/cadPackages'
 import type { RootState } from '@react-three/fiber'
 import type {
   RawCustomizerParams,
   ArtifactTypes,
 } from 'src/helpers/cadPackages/common'
 import { CadhubParams } from 'src/components/Customizer/customizerConverter'
-import openScadGuide from 'src/helpers/cadPackages/openScad/userGuide.md'
-import openScadInitialCode from 'src/helpers/cadPackages/openScad/initialCode.scad'
-import cadQueryGuide from 'src/helpers/cadPackages/cadQuery/userGuide.md'
-import cadQueryInitialCode from 'src/helpers/cadPackages/cadQuery/initialCode.py'
-import jsCadGuide from 'src/helpers/cadPackages/jsCad/userGuide.md'
-import jsCadInitialCode from 'src/helpers/cadPackages/jsCad/initialCode.jscad.js'
-
+import { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 function withThunk(dispatch, getState) {
   return (actionOrThunk) =>
     typeof actionOrThunk === 'function'
       ? actionOrThunk(dispatch, getState)
       : dispatch(actionOrThunk)
-}
-import { CadPackageType } from 'src/components/CadPackage/CadPackage'
-
-const initGuideMap: { [key in CadPackageType]: string } = {
-  openscad: openScadGuide,
-  cadquery: cadQueryGuide,
-  jscad: jsCadGuide,
-  INIT: '',
-}
-
-const initCodeMap: { [key in CadPackageType]: string } = {
-  openscad: openScadInitialCode,
-  cadquery: cadQueryInitialCode,
-  jscad: jsCadInitialCode,
-  INIT: '',
 }
 
 const codeStorageKey = 'Last-editor-code'
@@ -251,25 +230,25 @@ const reducer = (state: State, { type, payload }): State => {
         ],
         currentModel: payload === 0 ? 0 : payload - 1,
       }
-    case 'updateEditorModel': {
-      const newModels = [...state.models]
-      newModels[state.currentModel].content = payload
-      return {
-        ...state,
-        models: newModels,
-      }
-    }
-    case 'reorderEditorModels': {
-      const newModels = [
-        ...state.models.slice(0, state.currentModel),
-        ...state.models.slice(state.currentModel + 1),
-      ].splice(payload, 0, state.models[state.currentModel])
-      return {
-        ...state,
-        models: newModels,
-        currentModel: payload,
-      }
-    }
+    // case 'updateEditorModel': {
+    //   const newModels = [...state.models]
+    //   newModels[state.currentModel].content = payload
+    //   return {
+    //     ...state,
+    //     models: newModels,
+    //   }
+    // }
+    // case 'reorderEditorModels': {
+    //   const newModels = [
+    //     ...state.models.slice(0, state.currentModel),
+    //     ...state.models.slice(state.currentModel + 1),
+    //   ].splice(payload, 0, state.models[state.currentModel])
+    //   return {
+    //     ...state,
+    //     models: newModels,
+    //     currentModel: payload,
+    //   }
+    // }
     default:
       return state
   }

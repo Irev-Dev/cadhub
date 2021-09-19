@@ -49,14 +49,15 @@ const CadPackage = ({
     <button
       onClick={onClick}
       className={
-        `grid grid-flow-col-dense items-center gap-2 text-gray-100 bg-opacity-30 hover:bg-opacity-80 ${cadPackageConfig.buttonClasses} ` +
-        className
+        `grid grid-flow-col-dense items-center gap-2 text-gray-100 bg-opacity-30 ${
+          onClick && ' hover:bg-opacity-80 '
+        } ${cadPackageConfig?.buttonClasses} ` + className
       }
     >
       <div
-        className={`${cadPackageConfig.dotClasses} ${dotClass} rounded-full`}
+        className={`${cadPackageConfig?.dotClasses} ${dotClass} rounded-full`}
       />
-      {cadPackageConfig.label}
+      {cadPackageConfig?.label}
     </button>
   )
 }
