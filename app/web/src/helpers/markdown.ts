@@ -1,7 +1,12 @@
 // Extracts YAML frontmatter from Markdown files
 // Gotten from this helpful comment on a react-markdown GitHub Issue: https://github.com/remarkjs/react-markdown/issues/164#issuecomment-890497653
-export function extractMetaData(text: string): Array<any> {
-  const metaData = {} as any
+export function useMarkdownMetaData(text: string): Array<any> {
+  return React.useMemo(() => {
+    const metaData = {} as any
+    /* ... */
+    return [rawMetaData, metaData]
+  }, [text])
+}
 
   const metaRegExp = RegExp(/^---[\r\n](((?!---).|[\r\n])*)[\r\n]---$/m)
   // get metadata
