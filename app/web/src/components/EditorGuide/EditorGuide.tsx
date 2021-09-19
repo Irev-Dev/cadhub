@@ -1,10 +1,10 @@
-import { extractMetaData } from 'src/helpers/markdown'
+import { useMarkdownMetaData } from 'src/helpers/markdown'
 import Editor from 'rich-markdown-editor'
 import { useRef } from 'react'
 import KeyValue from 'src/components/KeyValue/KeyValue'
 
 export default function EditorGuide({ content }) {
-  const [rawMetadata, metadata] = extractMetaData(content)
+  const [rawMetadata, metadata] = useMarkdownMetaData(content)
 
   const processedContent = rawMetadata
     ? content.replace(rawMetadata[0], '')
