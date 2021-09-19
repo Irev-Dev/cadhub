@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-import { ideTypeNameMap } from 'src/components/CadPackage/CadPackage'
+import { cadPackageConfigs } from 'src/components/CadPackage/CadPackage'
 import OutBound from 'src/components/OutBound/OutBound'
 import { prepareEncodedUrl, makeExternalUrl } from './helpers'
 import { copyTextToClipboard } from 'src/helpers/clipboard'
@@ -16,7 +16,7 @@ const ExternalScript = () => {
     'INIT' | 'SUCCESS' | 'ERROR' | 'LOADING'
   >('INIT')
 
-  const cadName = ideTypeNameMap[state.ideType]
+  const cadName = cadPackageConfigs[state.ideType].label
 
   const onPaste: React.ClipboardEventHandler<HTMLInputElement> = async ({
     clipboardData,

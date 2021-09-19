@@ -48,19 +48,24 @@
 .markdown-overrides {
   @apply bg-transparent;
 }
+.markdown-overrides,
 .markdown-overrides div {
   @apply text-ch-gray-300 bg-transparent;
 }
+.markdown-overrides a,
 .markdown-overrides div a {
   @apply text-ch-pink-500 underline bg-transparent;
 }
 
+.markdown-overrides h3,
 .markdown-overrides div h3 {
   @apply text-xl;
 }
+.markdown-overrides h2,
 .markdown-overrides div h2 {
   @apply text-2xl;
 }
+.markdown-overrides h1,
 .markdown-overrides div h1 {
   @apply text-3xl;
 }

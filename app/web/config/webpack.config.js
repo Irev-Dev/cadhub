@@ -5,5 +5,9 @@ module.exports = (config, { env }) => {
       plugin.userOptions.favicon = './src/favicon.svg'
     }
   })
+  config.module.rules.push({
+    test: /\.md$|\.jscad$|\.py$|\.SCAD$/i,
+    use: 'raw-loader',
+  });
   return config
 }
