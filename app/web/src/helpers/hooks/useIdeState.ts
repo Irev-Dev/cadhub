@@ -7,11 +7,11 @@ import type {
 } from 'src/helpers/cadPackages/common'
 import { CadhubParams } from 'src/components/Customizer/customizerConverter'
 import openScadGuide from 'src/helpers/cadPackages/openScad/userGuide.md'
-import openScadInitialCode from 'src/helpers/cadPackages/openScad/initialCode.SCAD'
+import openScadInitialCode from 'src/helpers/cadPackages/openScad/initialCode.scad'
 import cadQueryGuide from 'src/helpers/cadPackages/cadQuery/userGuide.md'
 import cadQueryInitialCode from 'src/helpers/cadPackages/cadQuery/initialCode.py'
 import jsCadGuide from 'src/helpers/cadPackages/jsCad/userGuide.md'
-import jsCadInitialCode from 'src/helpers/cadPackages/jsCad/initialCode.jscad'
+import jsCadInitialCode from 'src/helpers/cadPackages/jsCad/initialCode.jscad.js'
 
 
 function withThunk(dispatch, getState) {
