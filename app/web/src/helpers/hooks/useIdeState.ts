@@ -13,7 +13,6 @@ import cadQueryInitialCode from 'src/helpers/cadPackages/cadQuery/initialCode.py
 import jsCadGuide from 'src/helpers/cadPackages/jsCad/userGuide.md'
 import jsCadInitialCode from 'src/helpers/cadPackages/jsCad/initialCode.jscad'
 
-console.log('jscad', { jsCadInitialCode })
 
 function withThunk(dispatch, getState) {
   return (actionOrThunk) =>
