@@ -21,7 +21,7 @@ export const canvasToBlob = async (
   }
   const oldSize = threeInstance.size
   updateCanvasSize({ width, height })
-  const imgBlobPromise: Promise<Blob> = new Promise((resolve, reject) => {
+  const imgBlobPromise: Promise<Blob> = new Promise((resolve) => {
     threeInstance.gl.domElement.toBlob(
       (blob) => {
         resolve(blob)
@@ -34,8 +34,8 @@ export const canvasToBlob = async (
   return imgBlobPromise
 }
 
-export const blobTo64 = async (blob: Blob): Promise<string> => {
-  return new Promise(async (resolve, reject) => {
+export const blobTo64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onloadend = () => {
       if (typeof reader.result === 'string') {

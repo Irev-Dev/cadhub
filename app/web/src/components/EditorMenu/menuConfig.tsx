@@ -18,7 +18,7 @@ const fileMenuConfig: EditorMenuConfig = {
       label: 'Save & Render',
       shortcut: 'ctrl+s, command+s',
       shortcutLabel: cmdOrCtrl() + ' S',
-      component: (props) => {
+      Component: (props) => {
         const { state, config } = props
         const handleRender = useRender()
         const saveCode = useSaveCode()
@@ -37,7 +37,7 @@ const fileMenuConfig: EditorMenuConfig = {
       label: 'Download STL',
       shortcut: 'ctrl+shift+d, command+shift+d',
       shortcutLabel: cmdOrCtrl() + ' Shift D',
-      component: (props) => {
+      Component: (props) => {
         const { state, thunkDispatch, config } = props
         const handleStlDownload = makeStlDownloadHandler({
           type: state.objectData?.type,
@@ -56,14 +56,14 @@ const fileMenuConfig: EditorMenuConfig = {
   ],
 }
 
-const editMenuConfig = {
+const editMenuConfig: EditorMenuConfig = {
   name: 'edit',
   label: 'Edit',
   disabled: true,
   items: [],
 }
 
-const viewMenuConfig = {
+const viewMenuConfig: EditorMenuConfig = {
   name: 'view',
   label: 'View',
   disabled: false,
@@ -72,7 +72,7 @@ const viewMenuConfig = {
       label: 'Reset layout',
       shortcut: 'ctrl+shift+r',
       shortcutLabel: 'Ctrl Shift R',
-      component: (props) => {
+      Component: (props) => {
         const { config, thunkDispatch } = props
         config.callback = () => thunkDispatch({ type: 'resetLayout' })
         return <DropdownItem {...props} />
@@ -82,7 +82,7 @@ const viewMenuConfig = {
       label: 'All shortcuts',
       shortcut: 'ctrl+shift+/',
       shortcutLabel: 'Ctrl Shift /',
-      component: (props) => {
+      Component: (props) => {
         const { config } = props
         const { toggleOpen } = useShortcutsModalContext()
         config.callback = toggleOpen
@@ -98,7 +98,7 @@ export interface EditorMenuItemConfig {
   label: string
   shortcut: string
   shortcutLabel: React.ReactElement | string
-  component: (props: any) => React.ReactElement
+  Component: (props: any) => React.ReactElement
 }
 
 export interface EditorMenuConfig {

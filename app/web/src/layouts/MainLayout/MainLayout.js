@@ -22,28 +22,6 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()
   const { user, loading } = useUser()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [popoverId, setPopoverId] = useState(undefined)
-  const openPopover = (target) => {
-    setAnchorEl(target)
-    setPopoverId('simple-popover')
-    setIsOpen(true)
-  }
-
-  const closePopover = () => {
-    setAnchorEl(null)
-    setPopoverId(undefined)
-    setIsOpen(false)
-  }
-
-  const togglePopover = ({ currentTarget }) => {
-    if (isOpen) {
-      return closePopover()
-    }
-
-    openPopover(currentTarget)
-  }
 
   const recordedLogin = () => {
     ReactGA.event({
