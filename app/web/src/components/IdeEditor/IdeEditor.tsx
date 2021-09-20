@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { makeCodeStoreKey, requestRender } from 'src/helpers/hooks/useIdeState'
 import Editor, { useMonaco } from '@monaco-editor/react'
 import { theme } from 'src/../config/tailwind.config'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
+import EditorGuide from 'src/components/EditorGuide/EditorGuide'
 
 const colors = theme.extend.colors
 
@@ -17,6 +18,7 @@ const IdeEditor = ({ Loading }) => {
     cadquery: 'python',
     openscad: 'cpp',
     jscad: 'javascript',
+    INIT: '',
   }
   const monaco = useMonaco()
   useEffect(() => {
@@ -73,16 +75,64 @@ const IdeEditor = ({ Loading }) => {
       className="h-full"
       onKeyDown={handleSaveHotkey}
     >
-      <Editor
-        defaultValue={state.code}
-        value={state.code}
-        theme={theme}
-        loading={Loading}
-        // TODO #247 cpp seems better than js for the time being
-        defaultLanguage={ideTypeToLanguageMap[state.ideType] || 'cpp'}
-        language={ideTypeToLanguageMap[state.ideType] || 'cpp'}
-        onChange={handleCodeChange}
-      />
+      {state.models.length > 1 && (
+        <fieldset className="bg-ch-gray-700 text-ch-gray-300 flex m-0 p-0">
+          {state.models.map((model, i) => (
+            <label
+              key={model.type + '-' + i}
+              className={
+                'flex items-center gap-2 px-4 py-1 block m-0 select-none relative bg-ch-gray-600 ' +
+                (state.currentModel === i && 'bg-ch-gray-800')
+              }
+            >
+              {model.label}
+              <input
+                type="radio"
+                name="models"
+                className="sr-only absolute inset-0"
+                value={i}
+                checked={state.currentModel === i}
+                onChange={() =>
+                  thunkDispatch({ type: 'switchEditorModel', payload: i })
+                }
+              />
+              {model.type !== 'code' && (
+                <button
+                  onClick={() =>
+                    thunkDispatch({ type: 'removeEditorModel', payload: i })
+                  }
+                  className="block p-1 m-.5 hover:bg-ch-gray-550"
+                >
+                  <svg viewBox="0 0 5 5" className="w-4 text-ch-gray-300">
+                    <path
+                      stroke="currentColor"
+                      d="M 1 1 l 3 3 M 1 4 l 3 -3"
+                      strokeLinecap="round"
+                      strokeWidth=".5"
+                    />
+                  </svg>
+                </button>
+              )}
+            </label>
+          ))}
+        </fieldset>
+      )}
+      {state.models[state.currentModel].type === 'code' ? (
+        <Editor
+          defaultValue={state.code}
+          value={state.code}
+          theme={theme}
+          loading={Loading}
+          // TODO #247 cpp seems better than js for the time being
+          defaultLanguage={ideTypeToLanguageMap[state.ideType] || 'cpp'}
+          language={ideTypeToLanguageMap[state.ideType] || 'cpp'}
+          onChange={handleCodeChange}
+        />
+      ) : (
+        <div className="bg-ch-gray-800 h-full">
+          <EditorGuide content={state.models[state.currentModel].content} />
+        </div>
+      )}
     </div>
   )
 }

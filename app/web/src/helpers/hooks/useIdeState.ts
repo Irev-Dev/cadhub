@@ -1,88 +1,18 @@
 import { useReducer } from 'react'
-import { cadPackages } from 'src/helpers/cadPackages'
+import { cadPackages, initCodeMap, initGuideMap } from 'src/helpers/cadPackages'
 import type { RootState } from '@react-three/fiber'
 import type {
   RawCustomizerParams,
   ArtifactTypes,
 } from 'src/helpers/cadPackages/common'
 import { CadhubParams } from 'src/components/Customizer/customizerConverter'
+import { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 function withThunk(dispatch, getState) {
   return (actionOrThunk) =>
     typeof actionOrThunk === 'function'
       ? actionOrThunk(dispatch, getState)
       : dispatch(actionOrThunk)
-}
-import { CadPackageType } from 'src/components/CadPackage/CadPackage'
-
-const initCodeMap: { [key in CadPackageType]: string } = {
-  openscad: `// involute donut
-
-// ^ first comment is used for download title (i.e "involute-donut.stl")
-
-// Follow the OpenSCAD tutorial: https://learn.cadhub.xyz/docs/
-
-radius=3;
-color(c="DarkGoldenrod")rotate_extrude()translate([20,0])circle(d=30);
-color(c="hotpink")rotate_extrude()translate([20,0])offset(radius)offset(-radius)difference(){
-    circle(d=34);
-    translate([-200,-500])square([500,500]);
-}`,
-  cadquery: `# demo shaft coupler
-
-# ^ first comment is used for download title (i.e. "demo-shaft-coupler.stl")
-
-# CadQuery docs: https://cadquery.readthedocs.io/
-
-import cadquery as cq
-from cadquery import exporters
-
-diam = 5.0
-
-result = (cq.Workplane().circle(diam).extrude(20.0)
-          .faces(">Z").workplane(invert=True).circle(1.05).cutBlind(8.0)
-          .faces("<Z").workplane(invert=True).circle(0.8).cutBlind(12.0)
-          .edges("%CIRCLE").chamfer(0.15))
-
-show_object(result)
-`,
-  jscad: `
-
-const jscad = require('@jscad/modeling')
-// https://openjscad.xyz/docs/module-modeling_primitives.html
-const { cuboid, cylinder } = jscad.primitives
-
-const { rotate, translate } = jscad.transforms
-const { degToRad } = jscad.utils // because jscad uses radians for rotations
-// https://openjscad.xyz/docs/module-modeling_booleans.html
-const { subtract } = jscad.booleans
-
-function main({//@jscad-params
-    // Box example
-    width=40, // Width
-    length=20, // Length
-    height=10, // Height
-    hole=3,// Hole for cables diameter (0=no hole)
-    wall=1, // wall {min:0.5, step:0.5}
-    flip=0, // print orientation {type: 'choice', values: [0, 90, 180]}
-}){
-
-    let wallOffset = wall * 2
-    let model = subtract(
-        cuboid({size:[width, length, height]}),
-        translate([0,0,wall], cuboid({size:[width-wallOffset, length-wallOffset, height+wall]})),
-    )
-    if(hole){
-        model = subtract( model,
-            translate([width/2-wall/2], rotate([0, degToRad(90), 0 ], cylinder({radius:hole/2, height:wall})))
-        )
-    }
-    return rotate([degToRad(flip), 0, degToRad(90)], model)
-}
-
-module.exports = {main}
-
-`,
 }
 
 const codeStorageKey = 'Last-editor-code'
@@ -95,10 +25,19 @@ interface XYZ {
   z: number
 }
 
+interface EditorModel {
+  type: 'code' | 'guide'
+  label: string
+  content?: string
+}
+
 export interface State {
   ideType: 'INIT' | CadPackageType
+  ideGuide?: string
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
+  models: EditorModel[]
+  currentModel: number
   objectData: {
     type: 'INIT' | ArtifactTypes
     data: any
@@ -136,6 +75,8 @@ export const initialState: State = {
     { type: 'message', message: 'Initialising', time: new Date() },
   ],
   code,
+  models: [{ type: 'code', label: 'Code' }],
+  currentModel: 0,
   objectData: {
     type: 'INIT',
     data: null,
@@ -161,6 +102,7 @@ const reducer = (state: State, { type, payload }): State => {
           initCodeMap[payload.cadPackage] ||
           '',
         ideType: payload.cadPackage,
+        ideGuide: initGuideMap[payload.cadPackage],
       }
     case 'updateCode':
       return { ...state, code: payload }
@@ -269,6 +211,44 @@ const reducer = (state: State, { type, payload }): State => {
         ...state,
         sideTray: payload,
       }
+    case 'switchEditorModel':
+      return {
+        ...state,
+        currentModel: payload,
+      }
+    case 'addEditorModel':
+      return {
+        ...state,
+        models: [...state.models, payload],
+      }
+    case 'removeEditorModel':
+      return {
+        ...state,
+        models: [
+          ...state.models.slice(0, payload),
+          ...state.models.slice(payload + 1),
+        ],
+        currentModel: payload === 0 ? 0 : payload - 1,
+      }
+    // case 'updateEditorModel': {
+    //   const newModels = [...state.models]
+    //   newModels[state.currentModel].content = payload
+    //   return {
+    //     ...state,
+    //     models: newModels,
+    //   }
+    // }
+    // case 'reorderEditorModels': {
+    //   const newModels = [
+    //     ...state.models.slice(0, state.currentModel),
+    //     ...state.models.slice(state.currentModel + 1),
+    //   ].splice(payload, 0, state.models[state.currentModel])
+    //   return {
+    //     ...state,
+    //     models: newModels,
+    //     currentModel: payload,
+    //   }
+    // }
     default:
       return state
   }
