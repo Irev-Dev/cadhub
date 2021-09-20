@@ -12,7 +12,6 @@ import {
 } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership, requireProjectOwnership } from 'src/lib/owner'
-import { socialCard } from '../socialCards/socialCards'
 
 export const projects = ({ userName }) => {
   if (!userName) {

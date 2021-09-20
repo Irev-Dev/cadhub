@@ -24,7 +24,7 @@ const EditableProjectTitle = ({
   const [newTitle, setNewTitle] = useState(projectTitle)
   const inputRef = React.useRef(null)
 
-  const { updateProject, loading, error } = useUpdateProject({
+  const { updateProject } = useUpdateProject({
     onCompleted: ({ updateProject }) => {
       const routeVars = {
         userName: updateProject.user.userName,

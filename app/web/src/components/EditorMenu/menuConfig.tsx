@@ -18,7 +18,7 @@ const fileMenuConfig: EditorMenuConfig = {
       label: 'Save & Render',
       shortcut: 'ctrl+s, command+s',
       shortcutLabel: cmdOrCtrl() + ' S',
-      component: (props) => {
+      Component: (props) => {
         const { state, config } = props
         const handleRender = useRender()
         const saveCode = useSaveCode()
@@ -37,7 +37,7 @@ const fileMenuConfig: EditorMenuConfig = {
       label: 'Download STL',
       shortcut: 'ctrl+shift+d, command+shift+d',
       shortcutLabel: cmdOrCtrl() + ' Shift D',
-      component: (props) => {
+      Component: (props) => {
         const { state, thunkDispatch, config } = props
         const handleStlDownload = makeStlDownloadHandler({
           type: state.objectData?.type,
@@ -98,7 +98,7 @@ export interface EditorMenuItemConfig {
   label: string
   shortcut: string
   shortcutLabel: React.ReactElement | string
-  component: (props: any) => React.ReactElement
+  Component: (props: any) => React.ReactElement
 }
 
 export interface EditorMenuConfig {

@@ -1,4 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
 import SocialCardCell from 'src/components/SocialCardCell'
 
 interface Props {

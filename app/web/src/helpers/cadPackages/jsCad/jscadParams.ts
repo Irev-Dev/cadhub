@@ -1,8 +1,6 @@
 import {
-  CadhubNumberChoiceParam,
   CadhubNumberOption,
   CadhubParams,
-  CadhubStringChoiceParam,
   CadhubStringOption,
 } from 'src/components/Customizer/customizerConverter'
 

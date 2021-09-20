@@ -23,7 +23,7 @@ const EditorMenu = () => {
                 key={menu.label + '-dropdown'}
               >
                 {menu.items.map((itemConfig) => (
-                  <itemConfig.component
+                  <itemConfig.Component
                     state={state}
                     thunkDispatch={thunkDispatch}
                     config={itemConfig}

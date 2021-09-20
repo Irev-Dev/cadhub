@@ -5,8 +5,6 @@ const setPoints = (points, p, i) => {
 }
 
 function CSG2Vertices(csg) {
-  const idx = 0
-
   let vLen = 0,
     iLen = 0
   for (const poly of csg.polygons) {
@@ -178,7 +176,6 @@ function parseParams(script) {
 
   let i = 0,
     line,
-    next,
     lineNum
   while (i < lines.length) {
     line = lines[i].code.trim()
@@ -194,7 +191,6 @@ function parseParams(script) {
   while (i < lines.length) {
     line = lines[i].code
     lineNum = lines[i].line
-    next = lines[i + 1] ? lines[i + 1].code : ''
     if (line[0] === '}') break
 
     if (line[0] === '/') {
@@ -593,7 +589,7 @@ const makeRenderWorker = () => {
     }
   }
 
-  const updateAndRender = (timestamp) => {
+  const updateAndRender = () => {
     renderTimer = null
     doRotatePanZoom()
 
@@ -607,7 +603,6 @@ const makeRenderWorker = () => {
     state.camera.position = updates.camera.position
     perspectiveCamera.update(state.camera)
     renderOptions.entities = [gridOptions, axisOptions, ...entities]
-    const time = Date.now()
     renderer(renderOptions)
     if (updateRender) {
       updateRender = ''

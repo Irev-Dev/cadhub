@@ -75,7 +75,7 @@ export const render = async ({ code, settings }: RenderArgs) => {
   }
 }
 
-export const stl = async ({ code, settings }: RenderArgs) => {
+export const stl = async ({ code /*settings*/ }: RenderArgs) => {
   const body = JSON.stringify({
     settings: {},
     file: code,

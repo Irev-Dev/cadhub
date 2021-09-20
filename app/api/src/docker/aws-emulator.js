@@ -1,7 +1,6 @@
 const express = require('express')
 var cors = require('cors')
 const axios = require('axios')
-const { restart } = require('nodemon')
 const app = express()
 const port = 8080
 app.use(express.json())

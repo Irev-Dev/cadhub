@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/node'
-import { context, Config, ApolloError } from '@redwoodjs/api'
+import { Config, ApolloError } from '@redwoodjs/api'
 
 let sentryInitialized = false
 if (process.env.SENTRY_DSN && !sentryInitialized) {
