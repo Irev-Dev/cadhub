@@ -1,7 +1,7 @@
 ---
 title: JSCAD
 Written with: JavaScript
-Kernal type: BREP
+Kernal type: Mesh CSG
 Maintained by: [Z3 Development + 39 contributors](https://www.github.com/jscad)
 Documentation: [openjscad.xyz/docs](https://openjscad.xyz/docs/)
 ---
