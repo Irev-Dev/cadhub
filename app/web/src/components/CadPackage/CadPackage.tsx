@@ -64,9 +64,12 @@ const CadPackage = ({
 // Returns a proper button if an onClick handler is passed in, or a div
 // if the element is meant to be a simple badge
 function ButtonOrDiv({ onClick, className, children }) {
-  return (onClick
-    ? <button className={className + ' hover:bg-opacity-80'} onClick={ onClick }>{ children }</button>
-    : <div className={className}>{ children }</div>
+  return onClick ? (
+    <button className={className + ' hover:bg-opacity-80'} onClick={onClick}>
+      {children}
+    </button>
+  ) : (
+    <div className={className}>{children}</div>
   )
 }
 

@@ -3,16 +3,18 @@
 export function useMarkdownMetaData(text: string): Array<any> {
   const metaData = {} as any
   return React.useMemo(() => {
-    const metaRegExp = RegExp(/^---[\r\n](((?!---).|[\r\n])*)[\r\n]---$/m) as any
+    const metaRegExp = RegExp(
+      /^---[\r\n](((?!---).|[\r\n])*)[\r\n]---$/m
+    ) as any
     // get metadata
     const rawMetaData = metaRegExp.exec(text)
-    
+
     let keyValues
-    
+
     if (rawMetaData !== null) {
       // rawMeta[1] are the stuff between "---"
       keyValues = rawMetaData[1].split('\n')
-    
+
       // which returns a list of key values: ["key1: value", "key2: value"]
       keyValues.forEach((keyValue) => {
         // split each keyValue to keys and values

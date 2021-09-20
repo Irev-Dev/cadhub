@@ -1,4 +1,4 @@
-import { useMarkdownMetaData } from 'src/helpers/markdown'
+import { useMarkdownMetaData } from 'src/helpers/hooks/useMarkdownMetaData'
 import Editor from 'rich-markdown-editor'
 import { useRef } from 'react'
 import KeyValue from 'src/components/KeyValue/KeyValue'
