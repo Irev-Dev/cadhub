@@ -56,14 +56,14 @@ const fileMenuConfig: EditorMenuConfig = {
   ],
 }
 
-const editMenuConfig = {
+const editMenuConfig: EditorMenuConfig = {
   name: 'edit',
   label: 'Edit',
   disabled: true,
   items: [],
 }
 
-const viewMenuConfig = {
+const viewMenuConfig: EditorMenuConfig = {
   name: 'view',
   label: 'View',
   disabled: false,
@@ -72,7 +72,7 @@ const viewMenuConfig = {
       label: 'Reset layout',
       shortcut: 'ctrl+shift+r',
       shortcutLabel: 'Ctrl Shift R',
-      component: (props) => {
+      Component: (props) => {
         const { config, thunkDispatch } = props
         config.callback = () => thunkDispatch({ type: 'resetLayout' })
         return <DropdownItem {...props} />
@@ -82,7 +82,7 @@ const viewMenuConfig = {
       label: 'All shortcuts',
       shortcut: 'ctrl+shift+/',
       shortcutLabel: 'Ctrl Shift /',
-      component: (props) => {
+      Component: (props) => {
         const { config } = props
         const { toggleOpen } = useShortcutsModalContext()
         config.callback = toggleOpen
