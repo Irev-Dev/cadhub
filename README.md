@@ -77,7 +77,7 @@ We're using tailwind utility classes so please try and use them as much as possi
 In progress, though can be [seen on Figma](https://www.figma.com/file/VUh53RdncjZ7NuFYj0RGB9/CadHub?node-id=0%3A1)
 
 ## Integrations
-The OpenSCAD and CadQuery integrations work by leveraging each of their cli tools in a docker image. It's currently deployed to AWS and can be found [here](https://github.com/Irev-Dev/cadhub/tree/main/app/api/src/docker).
+The OpenSCAD and CadQuery integrations work by leveraging each of their cli tools in a docker image. It's currently deployed to AWS and can be found [here](https://github.com/Irev-Dev/cadhub/tree/main/app/api/src/docker). JSCAD integration runs directly in the browser.
 
 ## Docs
 Docs are hosted at [learn.cadhub.xyz](http://learn.cadhub.xyz/). It includes a OpenSCAD tutorial at this point, and more is coming. The docs can be found in this repo at [docs](https://github.com/Irev-Dev/cadhub/tree/main/docs)
