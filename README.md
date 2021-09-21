@@ -85,4 +85,4 @@ Docs are hosted at [learn.cadhub.xyz](http://learn.cadhub.xyz/). It includes a O
 
 ## Who is CadHub
 
-[Kurt](https://github.com/Irev-Dev) and [Frank](https://github.com/franknoirot) make up the Core-team and [Jeremy](https://github.com/jmwright) is a major contributor. Plus a number smaller contributors.
+[Kurt](https://github.com/Irev-Dev) and [Frank](https://github.com/franknoirot) make up the Core-team and [Jeremy](https://github.com/jmwright), [Torsten](https://github.com/t-paul) and [Hrg](https://github.com/hrgdavor) are a major contributors. Plus a number smaller contributors.
