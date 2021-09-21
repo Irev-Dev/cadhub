@@ -13,153 +13,217 @@ import ProjectsCell from 'src/components/ProjectsCell'
 import OutBound from 'src/components/OutBound/OutBound'
 
 // dynamic import to enable pre-render iof the homepage
-const Coffee = React.lazy(() => import('src/components/Hero/AssetWithGooey'))
+const AssetWithGooey = React.lazy(() => import('src/components/Hero/AssetWithGooey'))
+const cqCode = `from cadquery import *
 
-export const Hero = () => {
-  const [width, widthSetter] = React.useState(1024)
+d1 = 58.5
+d2 = 56.5
+d3 = 63.5
+d4 = 84
+d5 = 88
 
-  React.useEffect(() => {
-    const onResize = () => {
-      widthSetter(window.innerWidth)
-    }
-    window.addEventListener('resize', onResize)
-    onResize()
-    return () => {
-      window.removeEventListener('resize', onResize)
-    }
-  }, [])
-  const { heroOffset, tutOffset } = React.useMemo(() => {
-    if (width < 1024) {
-      return {
-        heroOffset: [0, -3],
-        tutOffset: [0, -3],
+h1 = 8.5
+h2 = 154
+
+l1 = 14.5
+l2 = 4.5
+
+cup = (
+  Workplane("XY").circle(d1 / 2).extrude(h1)
+    .faces(">Z").circle(d3 / 2)
+    .workplane(offset=h2).circle(d5 / 2)
+    .loft()
+  .cut(Workplane("XY")
+    .circle((d3 - 3.5) / 2)
+    .workplane(offset=h2).circle((d5 - 3.5) / 2)
+    .loft()
+    .translate([0, 0, h1])
+   )
+`.split('\n')
+
+const scadCode = `hingeHalfExtrudeLength=hingeLength/2-clearance/2;
+mountingHoleMoveIncrement=(hingeLength-2*mountingHoleEdgeOffset)/
+  (mountingHoleCount-1);
+
+module costomizerEnd() {}
+$fn=30;
+tiny=0.005;
+// modules
+module hingeBaseProfile() {
+  translate([pivotRadius,0,0]){
+    square([baseWidth,baseThickness]);
+  }
+}
+
+module hingeBodyHalf() {
+  difference() {
+    union() {
+      linear_extrude(hingeHalfExtrudeLength){
+        offset(1)offset(-2)offset(1){
+          translate([0,pivotRadius,0]){
+            circle(pivotRadius);
+          }
+          square([pivotRadius,pivotRadius]);
+          hingeBaseProfile();
+        }
+      }
+      linear_extrude(hingeLength){
+        offset(1)offset(-1)hingeBaseProfile();
       }
     }
-    return {
-      heroOffset: [-5, 0],
-      tutOffset: [4, 0],
-    }
-  }, [width])
+    plateHoles();
+  }
+}`.split('\n')
 
+export const Hero = () => {
   return (
     <div className="bg-ch-gray-800">
-      <ModelSection assetUrl="/coffee-lid.stl" offset={heroOffset} scale={0.06}>
-        <div className="grid lg:grid-cols-2 py-32">
-          <div className="flex items-end justify-center row-start-2 lg:row-start-1 pt-96 lg:pt-0 pr-12 pl-6">
-            <Link
-              to={routes.project({
-                userName: 'irevdev',
-                projectTitle: 'coffee-lid',
-              })}
-            >
-              <div className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch">
-                <div className="pl-1 sm:pl-4">
-                  <Gravatar
-                    image="CadHub/xvrnxvarkv8tdzo4n65u"
-                    className="w-12 h-12 mr-4"
-                    size={60}
-                  />
-                </div>
-                <div>
-                  <div className="text-xl sm:text-3xl">Coffee Lid</div>
-                  <div>IrevDev</div>
-                </div>
-                <div className="flex self-start">
-                  <CadPackage
-                    cadPackage="cadquery"
-                    className="px-3 py-1  sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
-                  />
-                </div>
-              </div>
-            </Link>
-          </div>
+      <div className="relative h-0 w-0">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="code-blob-clip-path" clipPathUnits="objectBoundingBox" transform="scale(0.0038 0.0056)">
+              <path d="M68.5 169.159C13.3 167.159 5.69181e-05 144.659 0 71.1594C3.99994 13.1594 50.9244 -14.591 121.5 7.65941C223 39.6594 266 25.1594 263.5 113.659C261.634 179.701 191.5 173.616 68.5 169.159Z" fill="#C4C4C4"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <div className="grid lg:grid-cols-5 max-w-8xl mx-auto">
+        <div className="relative row-start-2 col-start-1 h-full lg:row-start-1 lg:col-span-3 lg:col-start-1">
 
-          <div className="col-start-1 lg:col-start-2 px-4">
-            <div>
-              <span
-                className="text-7xl text-ch-blue-400 bg-ch-blue-640 bg-opacity-30 font-fira-code px-6 rounded-2xl shadow-ch"
-                style={{
-                  boxShadow: 'inset 0 4px 4px 0 rgba(255,255,255, 0.06)',
-                }}
-              >
-                Code
-              </span>
-            </div>
-            <div className="text-6xl font-fira-sans mt-8 text-ch-gray-300">
-              is the future of CAD
-            </div>
-            <div className="text-2xl text-gray-600 mt-8 max-w-4xl">
-              Designs backed by reliable, easy-to-write code open a world of new
-              workflows and collaboration. We're building a place where you can
-              build that future.
-            </div>
-            <OutlineButton
-              color="pink"
-              isLeft
-              svgName="terminal"
-              onClick={() =>
-                navigate(routes.draftProject({ cadPackage: 'openscad' }))
-              }
-            >
-              Start Hacking
-            </OutlineButton>
+          <div className="absolute inset-0 my-20 mx-10 lg:mr-40 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-40 overflow-hidden" style={{clipPath: 'url(#code-blob-clip-path)'}}>
+            <pre className="lg:ml-20 mt-12 text-blue-100 font-fira-code">
+              {cqCode.map((line, index) => <div key={index}><span className="w-12 pr-6 text-blue-200 text-opacity-50 inline-block text-right">{index+1}</span>{line}</div>)}
+            </pre>
+
+
+
           </div>
+          <ModelSection assetUrl="/coffee-lid.stl" scale={0.06} />
         </div>
-      </ModelSection>
+
+        <div className="flex items-end justify-center row-start-2 col-start-1 pt-96 pr-12 pl-6 pb-24 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:pt-0">
+          <Link
+            to={routes.project({
+              userName: 'irevdev',
+              projectTitle: 'coffee-lid',
+            })}
+          >
+            <div className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch">
+              <div className="pl-1 sm:pl-4">
+                <Gravatar
+                  image="CadHub/xvrnxvarkv8tdzo4n65u"
+                  className="w-12 h-12 mr-4"
+                  size={60}
+                />
+              </div>
+              <div>
+                <div className="text-xl sm:text-3xl">Coffee Lid</div>
+                <div>IrevDev</div>
+              </div>
+              <div className="flex self-start">
+                <CadPackage
+                  cadPackage="cadquery"
+                  className="px-3 py-1  sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
+                />
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        <div className="col-start-1 px-4 py-32 lg:col-start-3 lg:row-start-1 lg:col-span-3 lg:pl-52">
+          <div>
+            <span
+              className="text-7xl text-ch-blue-400 bg-ch-blue-640 bg-opacity-30 font-fira-code px-6 rounded-2xl shadow-ch"
+              style={{
+                boxShadow: 'inset 0 4px 4px 0 rgba(255,255,255, 0.06)',
+              }}
+            >
+              Code
+            </span>
+          </div>
+          <div className="text-6xl font-fira-sans mt-8 text-ch-gray-300">
+            is the future of CAD
+          </div>
+          <div className="text-2xl text-gray-600 mt-8 max-w-4xl">
+            Designs backed by reliable, easy-to-write code open a world of new
+            workflows and collaboration. We're building a place where you can
+            build that future.
+          </div>
+          <OutlineButton
+            color="pink"
+            isLeft
+            svgName="terminal"
+            onClick={() =>
+              navigate(routes.draftProject({ cadPackage: 'openscad' }))
+            }
+          >
+            Start Hacking
+          </OutlineButton>
+        </div>
+      </div>
       <ChooseYourCharacter />
       <Community />
-      <ModelSection assetUrl="/hinge.stl" offset={tutOffset} scale={0.12}>
-        <div className="max-w-7xl mx-auto grid py-16 overflow-hidden">
-          <div className="py-0 pb-32 lg:py-32 ml-4 col-start-1 lg:col-start-1 pr-12 pl-6">
-            <div className="text-4xl mb-6 text-ch-gray-300">Learn Code-CAD</div>
+      <div className="max-w-8xl mx-auto grid lg:grid-cols-5 py-16">
+        <div className=" row-start-2 col-start-1 lg:col-span-3 lg:col-start-3 lg:row-start-1 lg:-mx-10 h-full relative">
 
-            <p className="text-gray-600 max-w-lg">
-              We want you to learn Code-CAD today so it can change the way you
-              work tomorrow. Our community is writing tutorials to make this
-              powerful paradigm more accessible to people new to code and CAD.
-            </p>
-            <OutBound
-              to="https://learn.cadhub.xyz/docs/definitive-beginners/your-openscad-journey"
-              className=""
-            >
-              <OutlineButton color="pink" isLeft svgName="terminal">
-                Get Started with OpenSCAD
-              </OutlineButton>
-            </OutBound>
-          </div>
+          <div className="absolute inset-0 mb-24 mt-16 ml:10 mr:10 lg:ml-40 lg:mr-52 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-30 overflow-hidden" style={{clipPath: 'url(#code-blob-clip-path)'}}>
+            <pre className="ml-10 mt-12 text-blue-100 text-xs font-fira-code">
+              {scadCode.map((line, index) => <div key={index}><span className="w-12 pr-6 text-blue-200 text-opacity-50 inline-block text-right">{index+1}</span>{line}</div>)}
+            </pre>
 
-          <div className="flex items-end justify-center row-start-2 lg:row-start-1 lg:col-start-2 pt-96 lg:pt-0 lg:pr-10">
-            <Link
-              to={routes.project({
-                userName: 'irevdev',
-                projectTitle: 'tutorial-hinge',
-              })}
-            >
-              <div className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch">
-                <div className="pl-1 sm:pl-4">
-                  <Gravatar
-                    image="CadHub/xvrnxvarkv8tdzo4n65u"
-                    className="w-12 h-12 mr-4"
-                    size={60}
-                  />
-                </div>
-                <div>
-                  <div className="text-lg sm:text-2xl w-28 sm:w-auto">
-                    Print in Place Hinge
-                  </div>
-                  <div>IrevDev</div>
-                </div>
-                <div className="flex self-start">
-                  <CadPackage
-                    cadPackage="openscad"
-                    className="px-3 py-1 sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
-                  />
-                </div>
-              </div>
-            </Link>
           </div>
+          <ModelSection assetUrl="/hinge.stl" scale={0.12} />
         </div>
-      </ModelSection>
+
+        <div className="py-12 pb-32 ml-4 row-start-1 col-start-1 pr-12 pl-6 lg:py-32 lg:col-start-1 lg:col-span-3">
+          <div className="text-4xl mb-6 text-ch-gray-300">Learn Code-CAD</div>
+
+          <p className="text-gray-600 max-w-lg">
+            We want you to learn Code-CAD today so it can change the way you
+            work tomorrow. Our community is writing tutorials to make this
+            powerful paradigm more accessible to people new to code and CAD.
+          </p>
+          <OutBound
+            to="https://learn.cadhub.xyz/docs/definitive-beginners/your-openscad-journey"
+            className=""
+          >
+            <OutlineButton color="pink" isLeft svgName="terminal">
+              Get Started with OpenSCAD
+            </OutlineButton>
+          </OutBound>
+        </div>
+
+        <div className="flex items-end justify-center row-start-2 col-start-1 pb-24 lg:row-start-1 lg:col-start-3 lg:col-span-3 pt-96 lg:pt-0 lg:pr-10">
+          <Link
+            to={routes.project({
+              userName: 'irevdev',
+              projectTitle: 'tutorial-hinge',
+            })}
+          >
+            <div className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch">
+              <div className="pl-1 sm:pl-4">
+                <Gravatar
+                  image="CadHub/xvrnxvarkv8tdzo4n65u"
+                  className="w-12 h-12 mr-4"
+                  size={60}
+                />
+              </div>
+              <div>
+                <div className="text-lg sm:text-2xl w-28 sm:w-auto">
+                  Print in Place Hinge
+                </div>
+                <div>IrevDev</div>
+              </div>
+              <div className="flex self-start">
+                <CadPackage
+                  cadPackage="openscad"
+                  className="px-3 py-1 sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
+                />
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
       <Roadmap />
       <div className="h-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
       <Footer />
@@ -171,19 +235,14 @@ const DisableRender = () => useFrame(() => null, 1000)
 
 function ModelSection({
   assetUrl,
-  offset,
-  children,
   scale,
 }: {
   assetUrl: string
-  offset: number[]
-  children: React.ReactNode
   scale: number
 }) {
   const { ref, inView } = useInView()
   return (
-    <div className="relative">
-      {children}
+    <div className="relative h-full">
       <div className="absolute inset-0" ref={ref}>
         <Canvas
           linear
@@ -202,7 +261,7 @@ function ModelSection({
           <Suspense
             fallback={<Html center className="loading" children="Loading..." />}
           >
-            <Coffee assetUrl={assetUrl} offset={offset} scale={scale} />
+            <AssetWithGooey assetUrl={assetUrl} scale={scale} />
           </Suspense>
 
           {/* uncomment for framerate and render time */}
