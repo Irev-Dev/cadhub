@@ -69,7 +69,10 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
     }
   }, [hash, client])
   return (
-    <div className="min-h-screen flex flex-col ch-scrollbar">
+    <div
+      className="h-full flex flex-col ch-scrollbar overflow-y-scroll"
+      style={{ perspective: '1px', perspectiveOrigin: 'top center' }}
+    >
       <header id="cadhub-main-header">
         <nav className="flex justify-between h-16 sm:px-4 bg-ch-gray-900">
           <ul className="flex items-center">
