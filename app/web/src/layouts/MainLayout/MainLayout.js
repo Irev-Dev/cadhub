@@ -71,7 +71,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   }, [hash, client])
   return (
     <div
-      className="h-full flex flex-col ch-scrollbar overflow-y-scroll preserve-3d-for-children"
+      className="h-full flex flex-col ch-scrollbar overflow-y-scroll preserve-3d-for-children overflow-x-hidden"
       style={{ perspective: '1px', perspectiveOrigin: 'top center' }}
     >
       <header id="cadhub-main-header">
