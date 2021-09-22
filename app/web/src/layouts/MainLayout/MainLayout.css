@@ -1,0 +1,3 @@
+.preserve-3d-for-children * {
+  transform-style: preserve-3d;
+}

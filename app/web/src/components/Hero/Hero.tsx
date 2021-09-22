@@ -120,7 +120,7 @@ export const Hero = () => {
           <ModelSection assetUrl="/coffee-lid.stl" scale={0.06} />
         </div>
 
-        <div className="flex items-end justify-center row-start-2 col-start-1 pt-96 pr-12 pl-6 pb-24 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:pt-0">
+        <div className="flex items-end justify-center row-start-2 col-start-1 pt-96 pr-12 pl-6 pb-24 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:pt-0 pointer-events-none">
           <Link
             to={routes.project({
               userName: 'irevdev',
@@ -128,7 +128,7 @@ export const Hero = () => {
             })}
           >
             <div
-              className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch"
+              className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch pointer-events-auto"
               style={{
                 transform: 'translate3d(3vw, -100px, 0.3px) scale(0.7)',
                 transformOrigin: 'top center',
@@ -226,7 +226,7 @@ export const Hero = () => {
           </OutBound>
         </div>
 
-        <div className="flex items-end justify-center row-start-2 col-start-1 pb-24 lg:row-start-1 lg:col-start-3 lg:col-span-3 pt-96 lg:pt-0 lg:pr-10">
+        <div className="flex items-end justify-center row-start-2 col-start-1 pb-24 lg:row-start-1 lg:col-start-3 lg:col-span-3 pt-96 lg:pt-0 lg:pr-10 pointer-events-none">
           <Link
             to={routes.project({
               userName: 'irevdev',
@@ -234,7 +234,7 @@ export const Hero = () => {
             })}
           >
             <div
-              className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch"
+              className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch pointer-events-auto"
               style={{
                 transform: 'translate3d(-5vw, -100px, 0.3px) scale(0.7)',
                 transformOrigin: 'top center',

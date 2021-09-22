@@ -15,6 +15,7 @@ import { isBrowser } from '@redwoodjs/prerender/browserUtils'
 import Svg from 'src/components/Svg'
 import { ImageFallback } from 'src/components/ImageUploader'
 import useUser from 'src/helpers/hooks/useUser'
+import './MainLayout.css'
 
 let previousSubmission = ''
 
@@ -70,7 +71,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   }, [hash, client])
   return (
     <div
-      className="h-full flex flex-col ch-scrollbar overflow-y-scroll"
+      className="h-full flex flex-col ch-scrollbar overflow-y-scroll preserve-3d-for-children"
       style={{ perspective: '1px', perspectiveOrigin: 'top center' }}
     >
       <header id="cadhub-main-header">
