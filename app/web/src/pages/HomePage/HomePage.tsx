@@ -2,7 +2,7 @@ import MainLayout from 'src/layouts/MainLayout'
 import Seo from 'src/components/Seo/Seo'
 import { Hero } from 'src/components/Hero/Hero'
 
-const ProjectsPage = () => {
+const HomePage = () => {
   return (
     <MainLayout shouldRemoveFooterInIde>
       <Seo
@@ -16,4 +16,4 @@ const ProjectsPage = () => {
   )
 }
 
-export default ProjectsPage
+export default HomePage

@@ -13,7 +13,9 @@ import ProjectsCell from 'src/components/ProjectsCell'
 import OutBound from 'src/components/OutBound/OutBound'
 
 // dynamic import to enable pre-render iof the homepage
-const AssetWithGooey = React.lazy(() => import('src/components/Hero/AssetWithGooey'))
+const AssetWithGooey = React.lazy(
+  () => import('src/components/Hero/AssetWithGooey')
+)
 const cqCode = `from cadquery import *
 
 d1 = 58.5
@@ -79,36 +81,59 @@ export const Hero = () => {
   return (
     <div className="bg-ch-gray-800">
       <div className="relative h-0 w-0">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <defs>
-            <clipPath id="code-blob-clip-path" clipPathUnits="objectBoundingBox" transform="scale(0.0038 0.0056)">
-              <path d="M68.5 169.159C13.3 167.159 5.69181e-05 144.659 0 71.1594C3.99994 13.1594 50.9244 -14.591 121.5 7.65941C223 39.6594 266 25.1594 263.5 113.659C261.634 179.701 191.5 173.616 68.5 169.159Z" fill="#C4C4C4"/>
+            <clipPath
+              id="code-blob-clip-path"
+              clipPathUnits="objectBoundingBox"
+              transform="scale(0.0038 0.0056)"
+            >
+              <path
+                d="M68.5 169.159C13.3 167.159 5.69181e-05 144.659 0 71.1594C3.99994 13.1594 50.9244 -14.591 121.5 7.65941C223 39.6594 266 25.1594 263.5 113.659C261.634 179.701 191.5 173.616 68.5 169.159Z"
+                fill="#C4C4C4"
+              />
             </clipPath>
           </defs>
         </svg>
       </div>
       <div className="grid lg:grid-cols-5 max-w-8xl mx-auto">
         <div className="relative row-start-2 col-start-1 h-full lg:row-start-1 lg:col-span-3 lg:col-start-1">
-
-          <div className="absolute inset-0 my-20 mx-10 lg:mr-40 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-40 overflow-hidden" style={{clipPath: 'url(#code-blob-clip-path)'}}>
+          <div
+            className="absolute inset-0 my-20 mx-10 lg:mr-40 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-40 overflow-hidden"
+            style={{ clipPath: 'url(#code-blob-clip-path)' }}
+          >
             <pre className="lg:ml-20 mt-12 text-blue-100 font-fira-code">
-              {cqCode.map((line, index) => <div key={index}><span className="w-12 pr-6 text-blue-200 text-opacity-50 inline-block text-right">{index+1}</span>{line}</div>)}
+              {cqCode.map((line, index) => (
+                <div key={index}>
+                  <span className="w-12 pr-6 text-blue-200 text-opacity-50 inline-block text-right">
+                    {index + 1}
+                  </span>
+                  {line}
+                </div>
+              ))}
             </pre>
-
-
-
           </div>
           <ModelSection assetUrl="/coffee-lid.stl" scale={0.06} />
         </div>
 
-        <div className="flex items-end justify-center row-start-2 col-start-1 pt-96 pr-12 pl-6 pb-24 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:pt-0">
+        <div className="flex items-end justify-center row-start-2 col-start-1 pt-96 pr-12 pl-6 pb-24 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:pt-0 pointer-events-none">
           <Link
             to={routes.project({
               userName: 'irevdev',
               projectTitle: 'coffee-lid',
             })}
           >
-            <div className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch">
+            <div
+              className="grid grid-flow-col gap-2 sm:gap-4 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md p-2 font-fira-sans relative z-10 shadow-ch pointer-events-auto"
+              style={{
+                transform: 'translate3d(3vw, -100px, 0.3px) scale(0.7)',
+                transformOrigin: 'top center',
+              }}
+            >
               <div className="pl-1 sm:pl-4">
                 <Gravatar
                   image="CadHub/xvrnxvarkv8tdzo4n65u"
@@ -165,12 +190,20 @@ export const Hero = () => {
       <Community />
       <div className="max-w-8xl mx-auto grid lg:grid-cols-5 py-16">
         <div className=" row-start-2 col-start-1 lg:col-span-3 lg:col-start-3 lg:row-start-1 lg:-mx-10 h-full relative">
-
-          <div className="absolute inset-0 mb-24 mt-16 ml:10 mr:10 lg:ml-40 lg:mr-52 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-30 overflow-hidden" style={{clipPath: 'url(#code-blob-clip-path)'}}>
+          <div
+            className="absolute inset-0 mb-24 mt-16 ml:10 mr:10 lg:ml-40 lg:mr-52 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-30 overflow-hidden"
+            style={{ clipPath: 'url(#code-blob-clip-path)' }}
+          >
             <pre className="ml-10 mt-12 text-blue-100 text-xs font-fira-code">
-              {scadCode.map((line, index) => <div key={index}><span className="w-12 pr-6 text-blue-200 text-opacity-50 inline-block text-right">{index+1}</span>{line}</div>)}
+              {scadCode.map((line, index) => (
+                <div key={index}>
+                  <span className="w-12 pr-6 text-blue-200 text-opacity-50 inline-block text-right">
+                    {index + 1}
+                  </span>
+                  {line}
+                </div>
+              ))}
             </pre>
-
           </div>
           <ModelSection assetUrl="/hinge.stl" scale={0.12} />
         </div>
@@ -193,14 +226,20 @@ export const Hero = () => {
           </OutBound>
         </div>
 
-        <div className="flex items-end justify-center row-start-2 col-start-1 pb-24 lg:row-start-1 lg:col-start-3 lg:col-span-3 pt-96 lg:pt-0 lg:pr-10">
+        <div className="flex items-end justify-center row-start-2 col-start-1 pb-24 lg:row-start-1 lg:col-start-3 lg:col-span-3 pt-96 lg:pt-0 lg:pr-10 pointer-events-none">
           <Link
             to={routes.project({
               userName: 'irevdev',
               projectTitle: 'tutorial-hinge',
             })}
           >
-            <div className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch">
+            <div
+              className="grid grid-flow-col sm:gap-2 items-center bg-ch-gray-760 bg-opacity-95 text-ch-gray-300 rounded-md py-2 pl-2 font-fira-sans relative z-10 shadow-ch pointer-events-auto"
+              style={{
+                transform: 'translate3d(-5vw, -100px, 0.3px) scale(0.7)',
+                transformOrigin: 'top center',
+              }}
+            >
               <div className="pl-1 sm:pl-4">
                 <Gravatar
                   image="CadHub/xvrnxvarkv8tdzo4n65u"
