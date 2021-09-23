@@ -22,7 +22,7 @@ function userNameVerification(userName: string): string {
 }
 
 function nameVerification(name: string) {
-  if (name && name.length < 3) {
+  if (typeof name === 'string' && name.length < 3) {
     throw new ForbiddenError('name too short')
   }
 }
@@ -53,7 +53,7 @@ export const createUserInsecure = ({
 }: {
   input: Prisma.UserUncheckedCreateInput
 }) => {
-  if (input.userName) {
+  if (typeof input.userName === 'string') {
     input.userName = userNameVerification(input.userName)
   }
   nameVerification(input.name)
@@ -70,7 +70,7 @@ export const updateUser = ({
   input: Prisma.UserUncheckedCreateInput
 }) => {
   requireAuth()
-  if (input.userName) {
+  if (typeof input.userName === 'string') {
     input.userName = userNameVerification(input.userName)
   }
   nameVerification(input.name)
@@ -89,7 +89,7 @@ export const updateUserByUserName = async ({
 }) => {
   requireAuth()
   await requireOwnership({ userName })
-  if (input.userName) {
+  if (typeof input.userName === 'string') {
     input.userName = userNameVerification(input.userName)
   }
   nameVerification(input.name)
