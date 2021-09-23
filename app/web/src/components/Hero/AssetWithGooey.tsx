@@ -9,11 +9,9 @@ import { useTexture, MeshDistortMaterial, Sphere } from '@react-three/drei'
 const thresholdAngle = 10
 export default function AssetWithGooey({
   assetUrl,
-  offset,
   scale,
 }: {
   assetUrl: string
-  offset: number[]
   scale: number
 }) {
   const geo = useLoader(STLLoader, assetUrl)
@@ -22,7 +20,7 @@ export default function AssetWithGooey({
   const mesh = useEdgeSplit((thresholdAngle * Math.PI) / 180, true, geo)
   const colorMap = useTexture(texture)
   const edges = React.useMemo(() => new THREE.EdgesGeometry(geo, 12), [geo])
-  const position = [offset[0], offset[1], 5]
+  const position = [0, 0, 5]
   const scaleArr = Array.from({ length: 3 }).map(() => scale)
   const { mouse } = useThree()
   const [rEuler, rQuaternion] = useMemo(
