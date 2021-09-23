@@ -3,6 +3,29 @@ import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
 import { UserInputError } from '@redwoodjs/api'
 import { enforceAlphaNumeric, destroyImage } from 'src/services/helpers'
+import type { Prisma } from '@prisma/client'
+import { ForbiddenError } from '@redwoodjs/api'
+
+function userNameVerification(userName: string): string {
+  if (userName.length < 6) {
+    throw new ForbiddenError('userName too short')
+  }
+  if (userName && ['new', 'edit', 'update'].includes(userName)) {
+    //TODO complete this and use a regexp so that it's not case sensitive, don't want someone with the userName eDiT
+    throw new UserInputError(
+      `You've tried to used a protected word as you userName, try something other than `
+    )
+  }
+  if (userName) {
+    return enforceAlphaNumeric(userName)
+  }
+}
+
+function nameVerification(name: string) {
+  if (name && name.length < 3) {
+    throw new ForbiddenError('name too short')
+  }
+}
 
 export const users = () => {
   requireAuth({ role: 'admin' })
@@ -25,32 +48,51 @@ export const createUser = ({ input }) => {
   requireAuth({ role: 'admin' })
   createUserInsecure({ input })
 }
-export const createUserInsecure = ({ input }) => {
+export const createUserInsecure = ({
+  input,
+}: {
+  input: Prisma.UserUncheckedCreateInput
+}) => {
+  if (input.userName) {
+    input.userName = userNameVerification(input.userName)
+  }
+  nameVerification(input.name)
   return db.user.create({
     data: input,
   })
 }
 
-export const updateUser = ({ id, input }) => {
+export const updateUser = ({
+  id,
+  input,
+}: {
+  id: string
+  input: Prisma.UserUncheckedCreateInput
+}) => {
   requireAuth()
+  if (input.userName) {
+    input.userName = userNameVerification(input.userName)
+  }
+  nameVerification(input.name)
   return db.user.update({
     data: input,
     where: { id },
   })
 }
 
-export const updateUserByUserName = async ({ userName, input }) => {
+export const updateUserByUserName = async ({
+  userName,
+  input,
+}: {
+  userName: string
+  input: Prisma.UserUncheckedCreateInput
+}) => {
   requireAuth()
   await requireOwnership({ userName })
   if (input.userName) {
-    input.userName = enforceAlphaNumeric(input.userName)
+    input.userName = userNameVerification(input.userName)
   }
-  if (input.userName && ['new', 'edit', 'update'].includes(input.userName)) {
-    //TODO complete this and use a regexp so that it's not case sensitive, don't want someone with the userName eDiT
-    throw new UserInputError(
-      `You've tried to used a protected word as you userName, try something other than `
-    )
-  }
+  nameVerification(input.name)
   const originalProject = await db.user.findUnique({ where: { userName } })
   const imageToDestroy =
     originalProject.image !== input.image && originalProject.image
