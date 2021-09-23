@@ -41,50 +41,49 @@ interface CsgObj {
 }
 
 function CSGArray2R3fComponent(Csgs: CsgObj[]): React.ReactNode {
-  return () =>
-    Csgs.map(({ vertices, indices, color, transforms, type }, index) => {
-      const materialDef = materials[type]
-      if (!materialDef) {
-        console.error('Can not hangle object type: ' + type, {
-          vertices,
-          indices,
-          color,
-          transforms,
-          type,
-        })
-        return null
-      }
+  return Csgs.map(({ vertices, indices, color, transforms, type }, index) => {
+    const materialDef = materials[type]
+    if (!materialDef) {
+      console.error('Can not hangle object type: ' + type, {
+        vertices,
+        indices,
+        color,
+        transforms,
+        type,
+      })
+      return null
+    }
 
-      let material = materialDef.def
-      if (color) {
-        const [r, g, b, opacity] = color
-        material = materialDef.material({
-          color: new Color(r, g, b),
-          flatShading: true,
-          opacity: opacity === void 0 ? 1 : opacity,
-          transparent: opacity != 1 && opacity !== void 0,
-        })
-      }
+    let material = materialDef.def
+    if (color) {
+      const [r, g, b, opacity] = color
+      material = materialDef.material({
+        color: new Color(r, g, b),
+        flatShading: true,
+        opacity: opacity === void 0 ? 1 : opacity,
+        transparent: opacity != 1 && opacity !== void 0,
+      })
+    }
 
-      const geo = new BufferGeometry()
-      geo.setAttribute('position', new BufferAttribute(vertices, 3))
+    const geo = new BufferGeometry()
+    geo.setAttribute('position', new BufferAttribute(vertices, 3))
 
-      let mesh
-      switch (type) {
-        case 'mesh':
-          geo.setIndex(new BufferAttribute(indices, 1))
-          mesh = new Mesh(geo, material)
-          break
-        case 'line':
-          mesh = new Line(geo, material)
-          break
-        case 'lines':
-          mesh = new LineSegments(geo, material)
-          break
-      }
-      if (transforms) mesh.applyMatrix4({ elements: transforms })
-      return <primitive object={mesh} key={index} />
-    })
+    let mesh
+    switch (type) {
+      case 'mesh':
+        geo.setIndex(new BufferAttribute(indices, 1))
+        mesh = new Mesh(geo, material)
+        break
+      case 'line':
+        mesh = new Line(geo, material)
+        break
+      case 'lines':
+        mesh = new LineSegments(geo, material)
+        break
+    }
+    if (transforms) mesh.applyMatrix4({ elements: transforms })
+    return mesh
+  })
 }
 
 let scriptWorker
@@ -146,7 +145,7 @@ export const render: DefaultKernelExport['render'] = async ({
         } else {
           workerHelper.resolver(
             createHealthyResponse({
-              type: 'r3f-component',
+              type: 'primitive-array',
               data: CSGArray2R3fComponent(data.entities),
               consoleMessage: data.scriptStats,
               date: new Date(),

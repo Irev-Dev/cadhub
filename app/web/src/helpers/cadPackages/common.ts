@@ -21,7 +21,7 @@ export interface RenderArgs {
   }
 }
 
-export type ArtifactTypes = 'stl' | 'png' | 'geometry' | 'r3f-component'
+export type ArtifactTypes = 'stl' | 'png' | 'geometry' | 'primitive-array'
 
 export interface HealthyResponse {
   status: 'healthy'

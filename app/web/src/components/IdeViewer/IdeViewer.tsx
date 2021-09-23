@@ -161,8 +161,9 @@ const IdeViewer = ({ Loading }) => {
     setImage(state.objectData?.type === 'png' && state.objectData?.data)
     setIsDragging(false)
   }, [state.objectData?.type, state.objectData?.data])
-  const R3FComponent = React.useMemo(
-    () => state.objectData?.type === 'r3f-component' && state.objectData?.data,
+  const PrimitiveArray = React.useMemo(
+    () =>
+      state.objectData?.type === 'primitive-array' && state.objectData?.data,
     [state.objectData?.type, state.objectData?.data]
   )
 
@@ -266,7 +267,10 @@ const IdeViewer = ({ Loading }) => {
           {state.objectData?.type === 'geometry' && state.objectData?.data && (
             <Asset geometry={state.objectData?.data} />
           )}
-          {R3FComponent && <R3FComponent />}
+          {PrimitiveArray &&
+            PrimitiveArray.map((mesh, index) => (
+              <primitive object={mesh} key={index} />
+            ))}
         </Canvas>
       </div>
       <DelayedPingAnimation isLoading={state.isLoading} />
