@@ -60,7 +60,8 @@ export const makeStlDownloadHandler =
       ) {
         saveFile(makeStlBlobFromGeo(geometry))
       } else if (ideType == 'jscad') {
-        saveFile(makeStlBlobFromMesh(...geometry))
+        const clonedGeometry = geometry.map((mesh) => mesh.clone())
+        saveFile(makeStlBlobFromMesh(...clonedGeometry))
       } else {
         thunkDispatch((dispatch, getState) => {
           const state = getState()
