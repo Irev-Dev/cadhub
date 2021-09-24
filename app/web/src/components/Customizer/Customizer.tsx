@@ -14,12 +14,20 @@ import {
 } from './customizerConverter'
 
 const Customizer = () => {
-  const [open, setOpen] = React.useState(false)
   const [shouldLiveUpdate, setShouldLiveUpdate] = React.useState(false)
   const { state, thunkDispatch } = useIdeContext()
+  const isOpen = state.isCustomizerOpen
   const customizerParams = state?.customizerParams
   const currentParameters = state?.currentParameters || {}
   const handleRender = useRender()
+  const toggleOpen = () => {
+    const newOpenState = !isOpen
+    thunkDispatch({type: 'setCustomizerOpenState', payload: newOpenState})
+    if(!newOpenState) {
+      // render on close
+      setTimeout(() => handleRender())
+    }
+  }
 
   const updateCustomizerParam = (paramName: string, paramValue: any) => {
     const payload = {
@@ -33,20 +41,20 @@ const Customizer = () => {
   return (
     <div
       className={`absolute inset-x-0 bottom-0 bg-ch-gray-600 bg-opacity-60 text-ch-gray-300 text-lg font-fira-sans ${
-        open ? 'h-full max-h-96' : ''
+        isOpen ? 'h-full max-h-96' : ''
       }`}
     >
       <div className="flex justify-between px-6 py-2 items-center">
         <div className="grid grid-flow-col-dense gap-6 items-center">
-          <button className="px-2" onClick={() => setOpen(!open)}>
+          <button className="px-2" onClick={toggleOpen}>
             <Svg
               name="chevron-down"
-              className={`h-8 w-8 ${!open && 'transform rotate-180'}`}
+              className={`h-8 w-8 ${!isOpen && 'transform rotate-180'}`}
             />
           </button>
           <div>Parameters</div>
         </div>
-        {open && (
+        {isOpen && (
           <>
             <div className="flex items-center">
               <div className="font-fira-sans text-sm mr-4">Auto Update</div>
@@ -79,7 +87,7 @@ const Customizer = () => {
           </>
         )}
       </div>
-      <div className={`${open ? 'h-full pb-32' : 'h-0'} overflow-y-auto px-12`}>
+      <div className={`${isOpen ? 'h-full pb-32' : 'h-0'} overflow-y-auto px-12`}>
         <div>
           {customizerParams.map((param, index) => {
             const otherProps = {

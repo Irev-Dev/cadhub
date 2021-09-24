@@ -45,6 +45,7 @@ export interface State {
   }
   customizerParams: CadhubParams[]
   currentParameters?: RawCustomizerParams
+  isCustomizerOpen: boolean
   layout: any
   camera: {
     dist?: number
@@ -83,6 +84,7 @@ export const initialState: State = {
     quality: 'low',
   },
   customizerParams: [],
+  isCustomizerOpen: false,
   layout: initialLayout,
   camera: {},
   viewerSize: { width: 0, height: 0 },
@@ -107,13 +109,15 @@ const reducer = (state: State, { type, payload }): State => {
     case 'updateCode':
       return { ...state, code: payload }
     case 'healthyRender':
-      const customizerParams: CadhubParams[] = payload.customizerParams || []
       const currentParameters = {}
+
+      const customizerParams: CadhubParams[] = payload.customizerParams || []
       customizerParams.forEach((param) => {
+
         currentParameters[param.name] =
-          typeof state?.currentParameters?.[param.name] !== 'undefined'
-            ? state?.currentParameters?.[param.name]
-            : param.initial
+          typeof state?.currentParameters?.[param.name] === 'undefined' || !state.isCustomizerOpen
+          ? param.initial
+          : state?.currentParameters?.[param.name]
       })
       return {
         ...state,
@@ -142,6 +146,11 @@ const reducer = (state: State, { type, payload }): State => {
       return {
         ...state,
         currentParameters: payload,
+      }
+    case 'setCustomizerOpenState':
+      return {
+        ...state,
+        isCustomizerOpen: payload
       }
     case 'setLayout':
       return {
@@ -290,7 +299,7 @@ export const requestRender = ({
     return renderFn({
       code,
       settings: {
-        parameters,
+        parameters: state.isCustomizerOpen ? parameters : {},
         camera,
         viewerSize,
         quality,
