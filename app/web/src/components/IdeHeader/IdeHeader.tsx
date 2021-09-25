@@ -8,10 +8,23 @@ import ExternalScript from 'src/components/EncodedUrl/ExternalScript'
 import Svg from 'src/components/Svg/Svg'
 import NavPlusButton from 'src/components/NavPlusButton'
 import ProfileSlashLogin from 'src/components/ProfileSlashLogin'
+import { useMutation } from '@redwoodjs/web'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import EditableProjectTitle from 'src/components/EditableProjecTitle/EditableProjecTitle'
 import CaptureButton from 'src/components/CaptureButton/CaptureButton'
+
 import { ReactNode } from 'react'
+
+const FORK_PROJECT_MUTATION = gql`
+  mutation ForkProjectMutation($input: ForkProjectInput!) {
+    forkProject(input: $input) {
+      id
+      title
+      description
+      code
+    }
+  }
+`
 
 const TopButton = ({
   onClick,
@@ -111,7 +124,6 @@ const IdeHeader = ({
         ) : (
           children
         )}
-        {/* <TopButton>Fork</TopButton> */}
         <div className="h-8 w-8">
           <NavPlusButton />
         </div>
@@ -130,6 +142,26 @@ function DefaultTopButtons({
   handleRender,
   canEdit,
 }) {
+  const { currentUser } = useAuth()
+  const [createFork] = useMutation(FORK_PROJECT_MUTATION, {
+    onCompleted: () => {},
+  })
+  const handleFork = () => {
+    const prom = createFork({
+      variables: {
+        input: {
+          userId: currentUser.sub,
+          forkedFromId: project.id,
+        },
+      },
+    })
+    // toast.promise(prom, {
+    //   loading: 'Saving Image/s',
+    //   success: <b>Image/s saved!</b>,
+    //   error: <b>Problem saving.</b>,
+    // })
+  }
+
   return (
     <>
       {canEdit && !projectTitle && (
@@ -212,6 +244,15 @@ function DefaultTopButtons({
           )
         }}
       </Popover>
+      {currentUser?.id && (
+        <TopButton
+          onClick={handleFork}
+          name="Fork"
+          className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+        >
+          <Svg name="fork-new" className="w-6 h-6 text-ch-blue-400" />
+        </TopButton>
+      )}
     </>
   )
 }

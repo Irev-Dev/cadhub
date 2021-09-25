@@ -14,6 +14,9 @@ export const schema = gql`
     socialCard: SocialCard
     Comment: [Comment]!
     Reaction(userId: String): [ProjectReaction]!
+    forkedFromId: String
+    forkedFrom: Project
+    childForks: [Project]!
   }
 
   enum CadPackage {
@@ -37,6 +40,11 @@ export const schema = gql`
     cadPackage: CadPackage!
   }
 
+  input ForkProjectInput {
+    userId: String!
+    forkedFromId: String
+  }
+
   input UpdateProjectInput {
     title: String
     description: String
@@ -47,7 +55,7 @@ export const schema = gql`
 
   type Mutation {
     createProject(input: CreateProjectInput!): Project!
-    forkProject(input: CreateProjectInput!): Project!
+    forkProject(input: ForkProjectInput!): Project!
     updateProject(id: String!, input: UpdateProjectInput!): Project!
     updateProjectImages(
       id: String!
