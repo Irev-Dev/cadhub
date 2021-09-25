@@ -189,7 +189,7 @@ export const Hero = () => {
       <ChooseYourCharacter />
       <Community />
       <div className="max-w-8xl mx-auto grid lg:grid-cols-5 py-16">
-        <div className=" row-start-2 col-start-1 lg:col-span-3 lg:col-start-3 lg:row-start-1 lg:-mx-10 h-full relative">
+        <div className="row-start-2 col-start-1 lg:col-span-3 lg:col-start-3 lg:row-start-1 lg:-mx-10 h-full relative z-10">
           <div
             className="absolute inset-0 mb-24 mt-16 ml:10 mr:10 lg:ml-40 lg:mr-52 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-30 overflow-hidden"
             style={{ clipPath: 'url(#code-blob-clip-path)' }}
