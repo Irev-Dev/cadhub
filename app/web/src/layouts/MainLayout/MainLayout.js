@@ -71,7 +71,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
   }, [hash, client])
   return (
     <div
-      className="h-full flex flex-col ch-scrollbar overflow-y-scroll preserve-3d-for-children overflow-x-hidden"
+      className="h-full flex flex-col ch-scrollbar overflow-y-scroll overflow-x-hidden"
       style={{ perspective: '1px', perspectiveOrigin: 'top center' }}
     >
       <header id="cadhub-main-header">
@@ -171,7 +171,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <main className="flex-grow bg-ch-gray-800">{children}</main>
+      <main className="flex-grow bg-ch-gray-800 preserve-3d-for-children">{children}</main>
       {!shouldRemoveFooterInIde && <Footer />}
     </div>
   )
