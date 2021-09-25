@@ -1,4 +1,3 @@
-import MainLayout from 'src/layouts/MainLayout'
 import EditUserCell from 'src/components/EditUserCell'
 import Seo from 'src/components/Seo/Seo'
 import { Toaster } from '@redwoodjs/web/toast'

@@ -171,7 +171,9 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
-      <main className="flex-grow bg-ch-gray-800 preserve-3d-for-children">{children}</main>
+      <main className="flex-grow bg-ch-gray-800 preserve-3d-for-children">
+        {children}
+      </main>
       {!shouldRemoveFooterInIde && <Footer />}
     </div>
   )
