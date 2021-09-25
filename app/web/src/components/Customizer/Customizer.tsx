@@ -22,11 +22,12 @@ const Customizer = () => {
   const handleRender = useRender()
   const toggleOpen = () => {
     const newOpenState = !isOpen
-    thunkDispatch({type: 'setCustomizerOpenState', payload: newOpenState})
-    if(!newOpenState) {
-      // render on close
-      setTimeout(() => handleRender())
-    }
+    thunkDispatch({ type: 'setCustomizerOpenState', payload: newOpenState })
+    setTimeout(() => handleRender())
+  }
+  const handleReset = () => {
+    thunkDispatch({ type: 'resetCustomizer' })
+    setTimeout(() => handleRender(true))
   }
 
   const updateCustomizerParam = (paramName: string, paramValue: any) => {
@@ -75,10 +76,16 @@ const Customizer = () => {
                 />
               </Switch>
               <button
+                className="px-4 py-1 rounded bg-ch-gray-300 text-ch-gray-600 mr-2"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
+              <button
                 className={`px-4 py-1 rounded bg-ch-gray-300 text-ch-gray-800 ${
                   shouldLiveUpdate && 'bg-opacity-30 cursor-default'
                 }`}
-                onClick={handleRender}
+                onClick={() => handleRender()}
                 disabled={shouldLiveUpdate}
               >
                 Update
@@ -87,7 +94,9 @@ const Customizer = () => {
           </>
         )}
       </div>
-      <div className={`${isOpen ? 'h-full pb-32' : 'h-0'} overflow-y-auto px-12`}>
+      <div
+        className={`${isOpen ? 'h-full pb-32' : 'h-0'} overflow-y-auto px-12`}
+      >
         <div>
           {customizerParams.map((param, index) => {
             const otherProps = {

@@ -108,16 +108,24 @@ const reducer = (state: State, { type, payload }): State => {
       }
     case 'updateCode':
       return { ...state, code: payload }
+    case 'resetCustomizer':
+      const resetParameters = {}
+      state.customizerParams.forEach(({ name, initial }) => {
+        resetParameters[name] = initial
+      })
+      return {
+        ...state,
+        currentParameters: resetParameters,
+      }
     case 'healthyRender':
       const currentParameters = {}
 
       const customizerParams: CadhubParams[] = payload.customizerParams || []
       customizerParams.forEach((param) => {
-
         currentParameters[param.name] =
-          typeof state?.currentParameters?.[param.name] === 'undefined' || !state.isCustomizerOpen
-          ? param.initial
-          : state?.currentParameters?.[param.name]
+          typeof state?.currentParameters?.[param.name] === 'undefined'
+            ? param.initial
+            : state?.currentParameters?.[param.name]
       })
       return {
         ...state,
@@ -150,7 +158,7 @@ const reducer = (state: State, { type, payload }): State => {
     case 'setCustomizerOpenState':
       return {
         ...state,
-        isCustomizerOpen: payload
+        isCustomizerOpen: payload,
       }
     case 'setLayout':
       return {
