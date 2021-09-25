@@ -16,31 +16,28 @@ import OutBound from 'src/components/OutBound/OutBound'
 const AssetWithGooey = React.lazy(
   () => import('src/components/Hero/AssetWithGooey')
 )
-const cqCode = `from cadquery import *
+const cqCode = `module beam(r1, r2, shr, msr){
+  /* The walking beam acts as a class I lever transferring the
+   * movement from the pitmans arms to the horse head. */
 
-d1 = 58.5
-d2 = 56.5
-d3 = 63.5
-d4 = 84
-d5 = 88
+  H = 12; // Height
+  W = 10; // Width
+  e = 10; // Total added extension
 
-h1 = 8.5
-h2 = 154
+  difference(){
+      union(){
+          translate([(r2-r1)/2,0,H/2]) // Walking beam body
+              cube([r1+r2+e, W, H], center = true);
 
-l1 = 14.5
-l2 = 4.5
+          rotate([90, 0, 0]) // Fulcrum or pivoting point
+              cylinder(r = 2*msr, h = W, center = true);
+      }
 
-cup = (
-  Workplane("XY").circle(d1 / 2).extrude(h1)
-    .faces(">Z").circle(d3 / 2)
-    .workplane(offset=h2).circle(d5 / 2)
-    .loft()
-  .cut(Workplane("XY")
-    .circle((d3 - 3.5) / 2)
-    .workplane(offset=h2).circle((d5 - 3.5) / 2)
-    .loft()
-    .translate([0, 0, h1])
-   )
+      rotate([90,0,0]) // Pivoting point hole
+          cylinder(r = msr, h = W+1, center = true);
+
+      translate([r2,0,H/2]) // Equalizer mounting screw hole
+          cylinder(r = shr, h = H+1, center = true);
 `.split('\n')
 
 const scadCode = `hingeHalfExtrudeLength=hingeLength/2-clearance/2;
@@ -101,7 +98,7 @@ export const Hero = () => {
         </svg>
       </div>
       <div className="grid lg:grid-cols-5 max-w-8xl mx-auto">
-        <div className="relative row-start-2 col-start-1 h-full lg:row-start-1 lg:col-span-3 lg:col-start-1">
+        <div className="relative row-start-2 col-start-1 h-full lg:row-start-1 lg:col-span-3 lg:col-start-1 z-10">
           <div
             className="absolute inset-0 my-20 mx-10 lg:mr-40 bg-gradient-to-tr from-pink-400 to-blue-600 opacity-40 overflow-hidden"
             style={{ clipPath: 'url(#code-blob-clip-path)' }}
@@ -117,14 +114,14 @@ export const Hero = () => {
               ))}
             </pre>
           </div>
-          <ModelSection assetUrl="/coffee-lid.stl" scale={0.06} />
+          <ModelSection assetUrl="/pumpjack.stl" scale={0.04} />
         </div>
 
         <div className="flex items-end justify-center row-start-2 col-start-1 pt-96 pr-12 pl-6 pb-24 lg:col-span-3 lg:col-start-1 lg:row-start-1 lg:pt-0 pointer-events-none">
           <Link
             to={routes.project({
-              userName: 'irevdev',
-              projectTitle: 'coffee-lid',
+              userName: 'matiasmiche',
+              projectTitle: 'oil-pumpjack',
             })}
           >
             <div
@@ -136,18 +133,18 @@ export const Hero = () => {
             >
               <div className="pl-1 sm:pl-4">
                 <Gravatar
-                  image="CadHub/xvrnxvarkv8tdzo4n65u"
+                  image="CadHub/jjze0hyqncxvkvsg4agz"
                   className="w-12 h-12 mr-4"
                   size={60}
                 />
               </div>
               <div>
-                <div className="text-xl sm:text-3xl">Coffee Lid</div>
-                <div>IrevDev</div>
+                <div className="text-xl sm:text-3xl">Oil Pumpjack</div>
+                <div>matiasmiche</div>
               </div>
               <div className="flex self-start">
                 <CadPackage
-                  cadPackage="cadquery"
+                  cadPackage="openscad"
                   className="px-3 py-1  sm:text-xl rounded transform translate-x-4 sm:translate-x-10"
                 />
               </div>
