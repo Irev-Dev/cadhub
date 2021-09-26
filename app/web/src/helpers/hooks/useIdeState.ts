@@ -228,6 +228,8 @@ const reducer = (state: State, { type, payload }): State => {
         ],
         currentModel: payload === 0 ? 0 : payload - 1,
       }
+    // 'updateEditorModel' and 'reorderEditorModels' added during #519 as part of adding editor tabs, this functionality is expected soon.
+    // https://github.com/Irev-Dev/cadhub/pull/519
     // case 'updateEditorModel': {
     //   const newModels = [...state.models]
     //   newModels[state.currentModel].content = payload
