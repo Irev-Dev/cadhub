@@ -10,9 +10,6 @@ export const useRender = () => {
       requestRender({
         state,
         dispatch,
-        code: state.code,
-        viewerSize: state.viewerSize,
-        camera: state.camera,
         parameters: disableParams ? {} : state.currentParameters,
       })
     })

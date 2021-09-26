@@ -60,24 +60,21 @@ const IdeEditor = ({ Loading }) => {
         requestRender({
           state,
           dispatch,
-          code: state.code,
-          viewerSize: state.viewerSize,
-          camera: state.camera,
-          parameters: state.currentParameters,
         })
       })
       localStorage.setItem(makeCodeStoreKey(state.ideType), state.code)
     }
   }
+  const currentTab = state.editorTabs[state.currentModel]
 
   return (
     <div // eslint-disable-line jsx-a11y/no-static-element-interactions
       className="h-full"
       onKeyDown={handleSaveHotkey}
     >
-      {state.models.length > 1 && (
+      {state.editorTabs.length > 1 && (
         <fieldset className="bg-ch-gray-700 text-ch-gray-300 flex m-0 p-0">
-          {state.models.map((model, i) => (
+          {state.editorTabs.map((model, i) => (
             <label
               key={model.type + '-' + i}
               className={
@@ -117,7 +114,7 @@ const IdeEditor = ({ Loading }) => {
           ))}
         </fieldset>
       )}
-      {state.models[state.currentModel].type === 'code' ? (
+      {currentTab.type === 'code' && (
         <Editor
           defaultValue={state.code}
           value={state.code}
@@ -128,11 +125,13 @@ const IdeEditor = ({ Loading }) => {
           language={ideTypeToLanguageMap[state.ideType] || 'cpp'}
           onChange={handleCodeChange}
         />
-      ) : (
+      )}
+      {currentTab.type === 'guide' && (
         <div className="bg-ch-gray-800 h-full">
-          <EditorGuide content={state.models[state.currentModel].content} />
+          <EditorGuide content={currentTab.content} />
         </div>
       )}
+      {currentTab.type === 'component' && <currentTab.Component />}
     </div>
   )
 }

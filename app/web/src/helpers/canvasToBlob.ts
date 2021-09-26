@@ -26,7 +26,7 @@ export const canvasToBlob = async (
       (blob) => {
         resolve(blob)
       },
-      'image/jpeg',
+      'image/png',
       0.75
     )
   })

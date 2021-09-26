@@ -23,10 +23,7 @@ export const use3dViewerResize = () => {
           requestRender({
             state,
             dispatch,
-            code: state.code,
             viewerSize: { width, height },
-            camera: state.camera,
-            parameters: state.currentParameters,
           })
         }
       })

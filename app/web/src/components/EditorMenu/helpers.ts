@@ -74,12 +74,8 @@ export const makeStlDownloadHandler =
           requestRender({
             state,
             dispatch,
-            code: state.code,
-            viewerSize: state.viewerSize,
-            camera: state.camera,
             quality: 'high',
             specialCadProcess,
-            parameters: state.currentParameters,
           }).then(
             (result) => result && saveFile(makeStlBlobFromGeo(result.data))
           )

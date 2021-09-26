@@ -12,6 +12,7 @@ import CaptureButton from 'src/components/CaptureButton/CaptureButton'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import EditableProjectTitle from 'src/components/EditableProjecTitle/EditableProjecTitle'
+import SocialCardModal from 'src/components/SocialCardModal/SocialCardModal'
 
 const FORK_PROJECT_MUTATION = gql`
   mutation ForkProjectMutation($input: ForkProjectInput!) {
@@ -121,10 +122,6 @@ export default function IdeHeader({
         <div className="grid grid-flow-col-dense gap-4 items-center mr-4">
           {canEdit && !isProfile && (
             <CaptureButton
-              canEdit={canEdit}
-              projectTitle={project?.title}
-              userName={project?.user?.userName}
-              shouldUpdateImage={!project?.mainImage}
               TheButton={({ onClick }) => (
                 <TopButton
                   onClick={onClick}
