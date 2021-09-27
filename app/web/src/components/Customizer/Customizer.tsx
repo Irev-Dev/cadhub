@@ -21,9 +21,11 @@ const Customizer = () => {
   const currentParameters = state?.currentParameters || {}
   const handleRender = useRender()
   const toggleOpen = () => {
-    const newOpenState = !isOpen
-    thunkDispatch({ type: 'setCustomizerOpenState', payload: newOpenState })
-    setTimeout(() => handleRender())
+    thunkDispatch({ type: 'setCustomizerOpenState', payload: !isOpen })
+    if (state.viewerContext === 'ide') {
+      // don't re-render on open/close in the project profile
+      setTimeout(() => handleRender())
+    }
   }
   const handleReset = () => {
     thunkDispatch({ type: 'resetCustomizer' })

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import Editor from 'rich-markdown-editor'
@@ -15,7 +15,6 @@ import CadPackage from 'src/components/CadPackage/CadPackage'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import ProfileViewer from '../ProfileViewer/ProfileViewer'
-import Svg from 'src/components/Svg/Svg'
 import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessage/OpenscadStaticImageMessage'
 import KeyValue from 'src/components/KeyValue/KeyValue'
 
@@ -51,7 +50,7 @@ const ProjectProfile = ({
         })
       )
   }, [currentUser])
-  useIdeInit(project?.cadPackage, project?.code)
+  useIdeInit(project?.cadPackage, project?.code, 'viewer')
   const [newDescription, setNewDescription] = useState(project?.description)
   const onDescriptionChange = (description) => setNewDescription(description())
   const onEditSaveClick = () => {

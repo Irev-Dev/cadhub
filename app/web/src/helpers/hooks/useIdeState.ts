@@ -33,6 +33,7 @@ interface EditorModel {
 
 export interface State {
   ideType: 'INIT' | CadPackageType
+  viewerContext: 'ide' | 'viewer'
   ideGuide?: string
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
@@ -72,6 +73,7 @@ const initialLayout = {
 
 export const initialState: State = {
   ideType: 'INIT',
+  viewerContext: 'ide',
   consoleMessages: [
     { type: 'message', message: 'Initialising', time: new Date() },
   ],
@@ -105,6 +107,7 @@ const reducer = (state: State, { type, payload }): State => {
           '',
         ideType: payload.cadPackage,
         ideGuide: initGuideMap[payload.cadPackage],
+        viewerContext: payload.viewerContext,
       }
     case 'updateCode':
       return { ...state, code: payload }
