@@ -38,6 +38,8 @@ const ProjectProfile = ({
   const hasPermissionToEdit =
     currentUser?.sub === userProject.id || currentUser?.roles.includes('admin')
   const project = userProject?.Project
+  console.log({ project })
+
   const emotes = countEmotes(project?.Reaction)
   const userEmotes = project?.userReactions.map(({ emote }) => emote)
   useEffect(() => {
@@ -145,6 +147,9 @@ const ProjectProfile = ({
                   <KeyValue keyName="Updated on">
                     {new Date(project?.updatedAt).toDateString()}
                   </KeyValue>
+                  { project.forkedFrom && <KeyValue keyName="Forked from">
+                    { project.forkedFrom.title } by { project.forkedFrom.user.userName }
+                  </KeyValue> }
                 </div>
                 <KeyValue keyName="Reactions">
                   <EmojiReaction

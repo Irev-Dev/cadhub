@@ -12,6 +12,7 @@ import { useMutation } from '@redwoodjs/web'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import EditableProjectTitle from 'src/components/EditableProjecTitle/EditableProjecTitle'
 import CaptureButton from 'src/components/CaptureButton/CaptureButton'
+import { toast } from '@redwoodjs/web/toast'
 
 import { ReactNode } from 'react'
 
@@ -20,8 +21,10 @@ const FORK_PROJECT_MUTATION = gql`
     forkProject(input: $input) {
       id
       title
-      description
-      code
+      user {
+        id
+        userName
+      }
     }
   }
 `
@@ -144,7 +147,14 @@ function DefaultTopButtons({
 }) {
   const { currentUser } = useAuth()
   const [createFork] = useMutation(FORK_PROJECT_MUTATION, {
-    onCompleted: () => {},
+    onCompleted: ({ forkProject }) => {
+      navigate(
+        routes.ide({
+          userName: forkProject?.user?.userName,
+          projectTitle: forkProject?.title,
+        })
+      )
+    },
   })
   const handleFork = () => {
     const prom = createFork({
@@ -155,11 +165,11 @@ function DefaultTopButtons({
         },
       },
     })
-    // toast.promise(prom, {
-    //   loading: 'Saving Image/s',
-    //   success: <b>Image/s saved!</b>,
-    //   error: <b>Problem saving.</b>,
-    // })
+    toast.promise(prom, {
+      loading: 'Forking...',
+      success: <b>Forked successfully!</b>,
+      error: <b>Problem forking.</b>,
+    })
   }
 
   return (
@@ -244,7 +254,7 @@ function DefaultTopButtons({
           )
         }}
       </Popover>
-      {currentUser?.id && (
+      {currentUser?.sub && (
         <TopButton
           onClick={handleFork}
           name="Fork"

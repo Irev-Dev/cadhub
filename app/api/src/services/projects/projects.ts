@@ -90,14 +90,16 @@ export const forkProject = async ({ input }) => {
   title = await generateUniqueString(title, isUniqueCallback)
 
   const { code, description, cadPackage } = projectData
+  const data = foreignKeyReplacement({
+    ...input,
+    title,
+    code,
+    description,
+    cadPackage,
+  })
+  console.log('forking data', data)
   return db.project.create({
-    data: foreignKeyReplacement({
-      ...input,
-      title,
-      code,
-      description,
-      cadPackage,
-    }),
+    data
   })
 }
 

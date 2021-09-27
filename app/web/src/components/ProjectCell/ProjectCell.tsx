@@ -28,6 +28,14 @@ export const QUERY = gql`
         updatedAt
         userId
         cadPackage
+        forkedFromId
+        forkedFrom {
+          id
+          title
+          user {
+            userName
+          }
+        }
         Reaction {
           emote
         }
