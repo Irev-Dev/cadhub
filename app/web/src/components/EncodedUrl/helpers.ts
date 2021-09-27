@@ -5,6 +5,7 @@ import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useRender } from 'src/components/IdeWrapper/useRender'
 import { encode, decode } from 'src/helpers/compress'
 import { isBrowser } from '@redwoodjs/prerender/browserUtils'
+import type { State } from 'src/helpers/hooks/useIdeState'
 
 const scriptKey = 'encoded_script'
 const scriptKeyV2 = 'encoded_script_v2'
@@ -32,13 +33,17 @@ export function makeExternalUrl(resourceUrl: string): string {
   }#${fetchText}=${prepareDecodedUrl(resourceUrl)}`
 }
 
-export function useIdeInit(cadPackage: string, code = '') {
+export function useIdeInit(
+  cadPackage: State['ideType'],
+  code = '',
+  viewerContext: State['viewerContext'] = 'ide'
+) {
   const { thunkDispatch } = useIdeContext()
   const handleRender = useRender()
   useEffect(() => {
     thunkDispatch({
       type: 'initIde',
-      payload: { cadPackage, code },
+      payload: { cadPackage, code, viewerContext },
     })
     if (code) {
       return

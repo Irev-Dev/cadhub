@@ -33,6 +33,7 @@ interface EditorModel {
 
 export interface State {
   ideType: 'INIT' | CadPackageType
+  viewerContext: 'ide' | 'viewer'
   ideGuide?: string
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
@@ -45,6 +46,7 @@ export interface State {
   }
   customizerParams: CadhubParams[]
   currentParameters?: RawCustomizerParams
+  isCustomizerOpen: boolean
   layout: any
   camera: {
     dist?: number
@@ -71,6 +73,7 @@ const initialLayout = {
 
 export const initialState: State = {
   ideType: 'INIT',
+  viewerContext: 'ide',
   consoleMessages: [
     { type: 'message', message: 'Initialising', time: new Date() },
   ],
@@ -83,6 +86,7 @@ export const initialState: State = {
     quality: 'low',
   },
   customizerParams: [],
+  isCustomizerOpen: false,
   layout: initialLayout,
   camera: {},
   viewerSize: { width: 0, height: 0 },
@@ -103,17 +107,28 @@ const reducer = (state: State, { type, payload }): State => {
           '',
         ideType: payload.cadPackage,
         ideGuide: initGuideMap[payload.cadPackage],
+        viewerContext: payload.viewerContext,
       }
     case 'updateCode':
       return { ...state, code: payload }
+    case 'resetCustomizer':
+      const resetParameters = {}
+      state.customizerParams.forEach(({ name, initial }) => {
+        resetParameters[name] = initial
+      })
+      return {
+        ...state,
+        currentParameters: resetParameters,
+      }
     case 'healthyRender':
-      const customizerParams: CadhubParams[] = payload.customizerParams || []
       const currentParameters = {}
+
+      const customizerParams: CadhubParams[] = payload.customizerParams || []
       customizerParams.forEach((param) => {
         currentParameters[param.name] =
-          typeof state?.currentParameters?.[param.name] !== 'undefined'
-            ? state?.currentParameters?.[param.name]
-            : param.initial
+          typeof state?.currentParameters?.[param.name] === 'undefined'
+            ? param.initial
+            : state?.currentParameters?.[param.name]
       })
       return {
         ...state,
@@ -142,6 +157,11 @@ const reducer = (state: State, { type, payload }): State => {
       return {
         ...state,
         currentParameters: payload,
+      }
+    case 'setCustomizerOpenState':
+      return {
+        ...state,
+        isCustomizerOpen: payload,
       }
     case 'setLayout':
       return {
@@ -292,7 +312,7 @@ export const requestRender = ({
     return renderFn({
       code,
       settings: {
-        parameters,
+        parameters: state.isCustomizerOpen ? parameters : {},
         camera,
         viewerSize,
         quality,
