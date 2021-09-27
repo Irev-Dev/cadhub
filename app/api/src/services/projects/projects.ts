@@ -267,6 +267,10 @@ export const deleteProject = async ({ id }: Prisma.ProjectWhereUniqueInput) => {
 }
 
 export const Project = {
+  forkedFrom: (_obj, { root }) =>
+    root.forkedFromId && db.project.findUnique({where: { id: root.forkedFromId}}),
+  childForks: (_obj, { root }) =>
+    db.project.findMany({where: { forkedFromId: root.id}}),
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.project.findUnique({ where: { id: root.id } }).user(),
   socialCard: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
