@@ -38,7 +38,6 @@ const ProjectProfile = ({
   const hasPermissionToEdit =
     currentUser?.sub === userProject.id || currentUser?.roles.includes('admin')
   const project = userProject?.Project
-  console.log({ project })
 
   const emotes = countEmotes(project?.Reaction)
   const userEmotes = project?.userReactions.map(({ emote }) => emote)
@@ -73,10 +72,10 @@ const ProjectProfile = ({
         <div className="flex">
           <IdeHeader
             handleRender={() => {}}
-            projectTitle={project?.title}
             projectOwner={userProject?.userName}
             projectOwnerImage={userProject?.image}
             projectOwnerId={userProject?.id}
+            projectTitle={project?.title}
             projectId={project?.id}
           />
         </div>
@@ -147,9 +146,20 @@ const ProjectProfile = ({
                   <KeyValue keyName="Updated on">
                     {new Date(project?.updatedAt).toDateString()}
                   </KeyValue>
-                  { project.forkedFrom && <KeyValue keyName="Forked from">
-                    { project.forkedFrom.title } by { project.forkedFrom.user.userName }
-                  </KeyValue> }
+                  {project.forkedFrom && (
+                    <KeyValue keyName="Forked from">
+                      <Link
+                        className="pink-link"
+                        to={routes.project({
+                          userName: project.forkedFrom.user.userName,
+                          projectTitle: project.forkedFrom.title,
+                        })}
+                      >
+                        {project.forkedFrom.title}
+                      </Link>{' '}
+                      by {project.forkedFrom.user.userName}
+                    </KeyValue>
+                  )}
                 </div>
                 <KeyValue keyName="Reactions">
                   <EmojiReaction

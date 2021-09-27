@@ -9,6 +9,9 @@ export const QUERY = gql`
       title
       cadPackage
       mainImage
+      childForks {
+        id
+      }
       createdAt
       updatedAt
       user {

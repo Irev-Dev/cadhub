@@ -26,9 +26,7 @@ export const QUERY = gql`
         mainImage
         createdAt
         updatedAt
-        userId
         cadPackage
-        forkedFromId
         forkedFrom {
           id
           title

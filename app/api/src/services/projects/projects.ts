@@ -90,16 +90,15 @@ export const forkProject = async ({ input }) => {
   title = await generateUniqueString(title, isUniqueCallback)
 
   const { code, description, cadPackage } = projectData
-  const data = foreignKeyReplacement({
-    ...input,
-    title,
-    code,
-    description,
-    cadPackage,
-  })
-  console.log('forking data', data)
+
   return db.project.create({
-    data
+    data: foreignKeyReplacement({
+      ...input,
+      title,
+      code,
+      description,
+      cadPackage,
+    }),
   })
 }
 
@@ -268,9 +267,10 @@ export const deleteProject = async ({ id }: Prisma.ProjectWhereUniqueInput) => {
 
 export const Project = {
   forkedFrom: (_obj, { root }) =>
-    root.forkedFromId && db.project.findUnique({where: { id: root.forkedFromId}}),
+    root.forkedFromId &&
+    db.project.findUnique({ where: { id: root.forkedFromId } }),
   childForks: (_obj, { root }) =>
-    db.project.findMany({where: { forkedFromId: root.id}}),
+    db.project.findMany({ where: { forkedFromId: root.id } }),
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.project.findUnique({ where: { id: root.id } }).user(),
   socialCard: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>

@@ -52,6 +52,7 @@
 .markdown-overrides div {
   @apply text-ch-gray-300 bg-transparent;
 }
+.pink-link,
 .markdown-overrides a,
 .markdown-overrides div a {
   @apply text-ch-pink-500 underline bg-transparent;

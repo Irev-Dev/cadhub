@@ -1,4 +1,5 @@
 import { useAuth } from '@redwoodjs/auth'
+import { useLocation } from '@redwoodjs/router'
 import { Popover } from '@headlessui/react'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
@@ -120,6 +121,7 @@ const IdeHeader = ({
           <DefaultTopButtons
             project={project}
             projectTitle={projectTitle}
+            projectId={projectId}
             _projectOwner={_projectOwner}
             handleRender={handleRender}
             canEdit={canEdit}
@@ -141,18 +143,22 @@ export default IdeHeader
 function DefaultTopButtons({
   project,
   projectTitle,
+  projectId,
   _projectOwner,
   handleRender,
   canEdit,
 }) {
   const { currentUser } = useAuth()
+  const { pathname } = useLocation()
+
   const [createFork] = useMutation(FORK_PROJECT_MUTATION, {
     onCompleted: ({ forkProject }) => {
+      const params = {
+        userName: forkProject?.user?.userName,
+        projectTitle: forkProject?.title,
+      }
       navigate(
-        routes.ide({
-          userName: forkProject?.user?.userName,
-          projectTitle: forkProject?.title,
-        })
+        pathname.includes('/ide') ? routes.ide(params) : routes.project(params)
       )
     },
   })
@@ -161,7 +167,7 @@ function DefaultTopButtons({
       variables: {
         input: {
           userId: currentUser.sub,
-          forkedFromId: project.id,
+          forkedFromId: project?.id || projectId,
         },
       },
     })
