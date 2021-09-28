@@ -2,6 +2,8 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+import { useIdeState } from 'src/helpers/hooks/useIdeState'
+import { IdeContext } from 'src/helpers/hooks/useIdeContext'
 
 import ProjectProfile from 'src/components/ProjectProfile/ProjectProfile'
 import { QUERY as PROJECT_REACTION_QUERY } from 'src/components/ProjectReactionsCell'
@@ -120,26 +122,20 @@ export const Empty = () => <div className="h-full">Empty</div>
 
 export const Failure = ({ error }) => <div>Error: {error.message}</div>
 
-export const Success = ({
-  userProject,
-  variables: { isEditable },
-  refetch,
-}) => {
+export const Success = ({ userProject, refetch }) => {
   const { currentUser } = useAuth()
-  const [updateProject, { loading, error }] = useMutation(
-    UPDATE_PROJECT_MUTATION,
-    {
-      onCompleted: ({ updateProject }) => {
-        navigate(
-          routes.project({
-            userName: updateProject.user.userName,
-            projectTitle: updateProject.title,
-          })
-        )
-        toast.success('Project updated.')
-      },
-    }
-  )
+  const [state, thunkDispatch] = useIdeState()
+  const [updateProject] = useMutation(UPDATE_PROJECT_MUTATION, {
+    onCompleted: ({ updateProject }) => {
+      navigate(
+        routes.project({
+          userName: updateProject.user.userName,
+          projectTitle: updateProject.title,
+        })
+      )
+      toast.success('Project updated.')
+    },
+  })
   const [createProject] = useMutation(CREATE_PROJECT_MUTATION, {
     onCompleted: ({ createProject }) => {
       navigate(
@@ -160,7 +156,7 @@ export const Success = ({
     refetch()
   }
   const [deleteProject] = useMutation(DELETE_PROJECT_MUTATION, {
-    onCompleted: ({ deleteProject }) => {
+    onCompleted: () => {
       navigate(routes.home())
       toast.success('Project deleted.')
     },
@@ -206,15 +202,27 @@ export const Success = ({
     })
 
   return (
-    <ProjectProfile
-      userProject={userProject}
-      onSave={onSave}
-      onDelete={onDelete}
-      loading={loading}
-      error={error}
-      isEditable={isEditable}
-      onReaction={onReaction}
-      onComment={onComment}
-    />
+    <IdeContext.Provider
+      value={{
+        state,
+        thunkDispatch,
+        project: {
+          ...userProject?.Project,
+          user: {
+            id: userProject.id,
+            image: userProject.image,
+            userName: userProject.userName,
+          },
+        },
+      }}
+    >
+      <ProjectProfile
+        userProject={userProject}
+        onSave={onSave}
+        onDelete={onDelete}
+        onReaction={onReaction}
+        onComment={onComment}
+      />
+    </IdeContext.Provider>
   )
 }

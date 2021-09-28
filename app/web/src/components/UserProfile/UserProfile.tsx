@@ -1,9 +1,8 @@
 import { useEffect, useReducer } from 'react'
 import { useAuth } from '@redwoodjs/auth'
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 import ProjectsOfUser from 'src/components/ProjectsOfUserCell'
-import IdeHeader from 'src/components/IdeHeader/IdeHeader'
-import Svg from 'src/components/Svg/Svg'
+import TopNav from 'src/components/TopNav/TopNav'
 import {
   fieldComponents,
   fieldReducer,
@@ -27,13 +26,7 @@ function buildFieldsConfig(fieldsConfig, user, hasPermissionToEdit) {
   )
 }
 
-const UserProfile = ({
-  user,
-  isEditing,
-  loading,
-  onSave,
-  error,
-}: UserProfileType) => {
+const UserProfile = ({ user, isEditing, onSave }: UserProfileType) => {
   const { currentUser } = useAuth()
   const hasPermissionToEdit = currentUser?.sub === user.id
   useEffect(() => {
@@ -60,14 +53,14 @@ const UserProfile = ({
     <>
       <div className="md:h-screen flex flex-col text-lg font-fira-sans">
         <div className="flex">
-          <IdeHeader
+          <TopNav
             handleRender={() => {}}
             projectOwner={user?.userName}
             projectOwnerImage={user?.image}
             projectOwnerId={user?.id}
           >
             <span></span>
-          </IdeHeader>
+          </TopNav>
         </div>
         <div className="relative flex-grow h-full">
           <div className="grid md:grid-cols-profile-layout grid-flow-row-dense absolute inset-0">
