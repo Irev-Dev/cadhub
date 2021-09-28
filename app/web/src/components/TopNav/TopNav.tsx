@@ -4,7 +4,7 @@ import NavPlusButton from 'src/components/NavPlusButton'
 import ProfileSlashLogin from 'src/components/ProfileSlashLogin'
 import { ReactNode } from 'react'
 interface IdeHeaderProps {
-  children: ReactNode
+  children?: ReactNode
 }
 
 const TopNav = ({ children }: IdeHeaderProps) => {

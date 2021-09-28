@@ -53,14 +53,7 @@ const UserProfile = ({ user, isEditing, onSave }: UserProfileType) => {
     <>
       <div className="md:h-screen flex flex-col text-lg font-fira-sans">
         <div className="flex">
-          <TopNav
-            handleRender={() => {}}
-            projectOwner={user?.userName}
-            projectOwnerImage={user?.image}
-            projectOwnerId={user?.id}
-          >
-            <span></span>
-          </TopNav>
+          <TopNav />
         </div>
         <div className="relative flex-grow h-full">
           <div className="grid md:grid-cols-profile-layout grid-flow-row-dense absolute inset-0">
