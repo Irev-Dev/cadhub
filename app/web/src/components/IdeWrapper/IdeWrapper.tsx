@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import IdeContainer from 'src/components/IdeContainer/IdeContainer'
 import { useRender } from './useRender'
-import OutBound from 'src/components/OutBound/OutBound'
 import IdeSideBar from 'src/components/IdeSideBar/IdeSideBar'
-import IdeHeader from 'src/components/IdeHeader/IdeHeader'
-import Svg from 'src/components/Svg/Svg'
+import TopNav from 'src/components/TopNav/TopNav'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import { ShortcutsModalContext } from 'src/components/EditorMenu/AllShortcutsModal'
+import IdeHeader from 'src/components/IdeHeader/IdeHeader'
+import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 interface Props {
-  cadPackage: string
+  cadPackage: CadPackageType
 }
 
 const IdeWrapper = ({ cadPackage }: Props) => {
@@ -33,7 +33,9 @@ const IdeWrapper = ({ cadPackage }: Props) => {
     <div className="h-full flex flex-col">
       <ShortcutsModalContext.Provider value={shortcutModalContextValues}>
         <nav className="flex">
-          <IdeHeader handleRender={onRender} />
+          <TopNav>
+            <IdeHeader handleRender={onRender} context="ide" />
+          </TopNav>
         </nav>
         <div className="h-full flex flex-grow bg-ch-gray-900">
           <div className="flex-shrink-0">
