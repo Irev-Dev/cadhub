@@ -41,7 +41,7 @@ interface CsgObj {
 }
 
 function CSGArray2R3fComponent(Csgs: CsgObj[]): React.ReactNode {
-  return Csgs.map(({ vertices, indices, color, transforms, type }, index) => {
+  return Csgs.map(({ vertices, indices, color, transforms, type }) => {
     const materialDef = materials[type]
     if (!materialDef) {
       console.error('Can not hangle object type: ' + type, {

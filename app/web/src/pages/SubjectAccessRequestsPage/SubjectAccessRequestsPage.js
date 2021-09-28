@@ -116,7 +116,7 @@ const SubjectAccessRequestPage = () => {
         <SubjectAccessRequestsCell />
         Here to fulfill a user's right to portability, before running this
         please check that the query in
-        "pages/SubjectAccessRequestPage/SubjectAccessRequestPage.js" is
+        {'"pages/SubjectAccessRequestPage/SubjectAccessRequestPage.js"'} is
         up-to-date.
         <Form onSubmit={onSubmit}>
           <div

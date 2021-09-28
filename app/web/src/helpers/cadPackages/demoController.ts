@@ -4,8 +4,8 @@
 import { RenderArgs, DefaultKernelExport } from './common'
 
 export const render: DefaultKernelExport['render'] = async ({
-  code,
-  settings,
+  code, // eslint-disable-line @typescript-eslint/no-unused-vars
+  settings, // eslint-disable-line @typescript-eslint/no-unused-vars
 }: RenderArgs) => {
   // do your magic
   return {

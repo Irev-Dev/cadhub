@@ -413,7 +413,8 @@ const makeScriptWorker = ({ callback, convertToSolids }) => {
       runMain(params)
     },
     init: (params) => {
-      let { baseURI, alias = [] } = params
+      let baseURI = params.baseURI
+      const alias = params.alias || []
       if (!baseURI && typeof document != 'undefined' && document.baseURI) {
         baseURI = document.baseURI
       }

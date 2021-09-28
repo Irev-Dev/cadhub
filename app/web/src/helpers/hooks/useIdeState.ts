@@ -111,7 +111,7 @@ const reducer = (state: State, { type, payload }): State => {
       }
     case 'updateCode':
       return { ...state, code: payload }
-    case 'resetCustomizer':
+    case 'resetCustomizer': {
       const resetParameters = {}
       state.customizerParams.forEach(({ name, initial }) => {
         resetParameters[name] = initial
@@ -120,7 +120,8 @@ const reducer = (state: State, { type, payload }): State => {
         ...state,
         currentParameters: resetParameters,
       }
-    case 'healthyRender':
+    }
+    case 'healthyRender': {
       const currentParameters = {}
 
       const customizerParams: CadhubParams[] = payload.customizerParams || []
@@ -144,6 +145,7 @@ const reducer = (state: State, { type, payload }): State => {
           : payload.message,
         isLoading: false,
       }
+    }
     case 'errorRender':
       return {
         ...state,
@@ -198,7 +200,7 @@ const reducer = (state: State, { type, payload }): State => {
         ...state,
         threeInstance: payload,
       }
-    case 'settingsButtonClicked':
+    case 'settingsButtonClicked': {
       const isReClick =
         state.sideTray.length &&
         state.sideTray.length === payload.length &&
@@ -229,6 +231,7 @@ const reducer = (state: State, { type, payload }): State => {
         ...state,
         sideTray: payload,
       }
+    }
     case 'switchEditorModel':
       return {
         ...state,
