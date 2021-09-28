@@ -1,17 +1,30 @@
 import { useAuth } from '@redwoodjs/auth'
+import { useMutation } from '@redwoodjs/web'
 import { Popover } from '@headlessui/react'
 import { Link, navigate, routes } from '@redwoodjs/router'
-import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+
 import FullScriptEncoding from 'src/components/EncodedUrl/FullScriptEncoding'
 import ExternalScript from 'src/components/EncodedUrl/ExternalScript'
 import Svg from 'src/components/Svg/Svg'
-import NavPlusButton from 'src/components/NavPlusButton'
-import ProfileSlashLogin from 'src/components/ProfileSlashLogin'
+import { toast } from '@redwoodjs/web/toast'
+import CaptureButton from 'src/components/CaptureButton/CaptureButton'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import EditableProjectTitle from 'src/components/EditableProjecTitle/EditableProjecTitle'
-import CaptureButton from 'src/components/CaptureButton/CaptureButton'
-import { ReactNode } from 'react'
+
+const FORK_PROJECT_MUTATION = gql`
+  mutation ForkProjectMutation($input: ForkProjectInput!) {
+    forkProject(input: $input) {
+      id
+      title
+      user {
+        id
+        userName
+      }
+    }
+  }
+`
 
 const TopButton = ({
   onClick,
@@ -38,180 +51,170 @@ const TopButton = ({
   )
 }
 
-interface IdeHeaderProps {
-  handleRender: () => void
-  projectTitle?: string
-  projectOwner?: string
-  projectOwnerId?: string
-  projectOwnerImage?: string
-  projectId?: string
-  children?: ReactNode
-}
-
-const IdeHeader = ({
+export default function IdeHeader({
   handleRender,
-  projectOwner,
-  projectTitle,
-  projectOwnerImage,
-  projectId,
-  projectOwnerId,
-  children,
-}: IdeHeaderProps) => {
+  context,
+}: {
+  handleRender?: () => void
+  context: 'ide' | 'profile'
+}) {
   const { currentUser } = useAuth()
   const { project } = useIdeContext()
+
+  const isProfile = context === 'profile'
   const canEdit =
-    (currentUser &&
-      currentUser?.sub === (project?.user?.id || projectOwnerId)) ||
-    currentUser?.roles.includes('admin')
-  const _projectId = projectId || project?.id
-  const _projectOwner = project?.user?.userName || projectOwner
+    (currentUser && currentUser?.sub === project?.user?.id) ||
+    currentUser?.roles?.includes('admin')
+  const projectOwner = project?.user?.userName
 
-  return (
-    <div className="h-16 w-full bg-ch-gray-900 flex justify-between items-center text-lg">
-      <div className="h-full text-gray-300 flex items-center">
-        <div className="w-14 h-16 flex items-center justify-center bg-ch-gray-900">
-          <Link to={routes.home()}>
-            <Svg className="w-12 p-0.5" name="favicon" />
-          </Link>
-        </div>
-        {_projectId && (
-          <>
-            <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
-              <Gravatar
-                image={project?.user?.image || projectOwnerImage}
-                className="w-10"
-              />
-              <Link
-                to={routes.user({
-                  userName: _projectOwner,
-                })}
-              >
-                {_projectOwner}
-              </Link>
-            </span>
-            <EditableProjectTitle
-              id={_projectId}
-              userName={_projectOwner}
-              projectTitle={project?.title || projectTitle}
-              canEdit={canEdit}
-              shouldRouteToIde={!projectTitle}
-            />
-          </>
-        )}
-      </div>
-      <div className="text-gray-200 grid grid-flow-col-dense gap-4 mr-4 items-center">
-        {!children ? (
-          <DefaultTopButtons
-            project={project}
-            projectTitle={projectTitle}
-            _projectOwner={_projectOwner}
-            handleRender={handleRender}
-            canEdit={canEdit}
-          />
-        ) : (
-          children
-        )}
-        {/* <TopButton>Fork</TopButton> */}
-        <div className="h-8 w-8">
-          <NavPlusButton />
-        </div>
-        <ProfileSlashLogin />
-      </div>
-    </div>
-  )
-}
+  const [createFork] = useMutation(FORK_PROJECT_MUTATION, {
+    onCompleted: ({ forkProject }) => {
+      const params = {
+        userName: forkProject?.user?.userName,
+        projectTitle: forkProject?.title,
+      }
+      navigate(!isProfile ? routes.ide(params) : routes.project(params))
+    },
+  })
+  const handleFork = () => {
+    const prom = createFork({
+      variables: {
+        input: {
+          userId: currentUser.sub,
+          forkedFromId: project?.id,
+        },
+      },
+    })
+    toast.promise(prom, {
+      loading: 'Forking...',
+      success: <b>Forked successfully!</b>,
+      error: <b>Problem forking.</b>,
+    })
+  }
 
-export default IdeHeader
-
-function DefaultTopButtons({
-  project,
-  projectTitle,
-  _projectOwner,
-  handleRender,
-  canEdit,
-}) {
   return (
     <>
-      {canEdit && !projectTitle && (
-        <CaptureButton
-          canEdit={canEdit}
-          projectTitle={project?.title}
-          userName={project?.user?.userName}
-          shouldUpdateImage={!project?.mainImage}
-          TheButton={({ onClick }) => (
+      <div className="flex justify-between flex-grow h-full">
+        <div className="flex h-full items-center text-gray-300">
+          {project?.id && (
+            <>
+              <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
+                <Gravatar image={project?.user?.image} className="w-10" />
+                <Link
+                  to={routes.user({
+                    userName: projectOwner,
+                  })}
+                >
+                  {projectOwner}
+                </Link>
+              </span>
+              <EditableProjectTitle
+                id={project?.id}
+                userName={projectOwner}
+                projectTitle={project?.title}
+                canEdit={canEdit}
+                shouldRouteToIde={!isProfile}
+              />
+            </>
+          )}
+        </div>
+        <div className="grid grid-flow-col-dense gap-4 items-center mr-4">
+          {canEdit && !isProfile && (
+            <CaptureButton
+              canEdit={canEdit}
+              projectTitle={project?.title}
+              userName={project?.user?.userName}
+              shouldUpdateImage={!project?.mainImage}
+              TheButton={({ onClick }) => (
+                <TopButton
+                  onClick={onClick}
+                  name="Save Project Image"
+                  className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+                >
+                  <Svg name="camera" className="w-6 h-6 text-ch-blue-400" />
+                </TopButton>
+              )}
+            />
+          )}
+          {!isProfile && (
             <TopButton
-              onClick={onClick}
-              name="Save Project Image"
-              className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+              className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+              onClick={handleRender}
+              name={canEdit ? 'Save' : 'Preview'}
             >
-              <Svg name="camera" className="w-6 h-6 text-ch-blue-400" />
+              <Svg
+                name={canEdit ? 'floppy-disk' : 'photograph'}
+                className="w-6 h-6 text-ch-pink-500"
+              />
             </TopButton>
           )}
-        />
-      )}
-      {!projectTitle && (
-        <TopButton
-          className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-          onClick={handleRender}
-          name={canEdit ? 'Save' : 'Preview'}
-        >
-          <Svg
-            name={canEdit ? 'floppy-disk' : 'photograph'}
-            className="w-6 h-6 text-ch-pink-500"
-          />
-        </TopButton>
-      )}
-      {projectTitle && (
-        <TopButton
-          className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-          onClick={() =>
-            navigate(routes.ide({ userName: _projectOwner, projectTitle }))
-          }
-          name="Editor"
-        >
-          <Svg name="terminal" className="w-6 h-6 text-ch-pink-500" />
-        </TopButton>
-      )}
-      <Popover className="relative outline-none w-full h-full">
-        {({ open }) => {
-          return (
-            <>
-              <Popover.Button className="h-full w-full outline-none">
-                <TopButton
-                  Tag="div"
-                  name="Share"
-                  className=" bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
-                >
-                  <Svg
-                    name="share"
-                    className="w-6 h-6 text-ch-purple-500 mt-1"
-                  />
-                </TopButton>
-              </Popover.Button>
-              {open && (
-                <Popover.Panel className="absolute z-10 mt-4 right-0">
-                  <Tabs
-                    className="bg-ch-purple-gray-200 rounded-md shadow-md overflow-hidden text-gray-700"
-                    selectedTabClassName="bg-ch-gray-700 text-white"
-                  >
-                    <TabPanel>
-                      <FullScriptEncoding />
-                    </TabPanel>
-                    <TabPanel>
-                      <ExternalScript />
-                    </TabPanel>
+          {isProfile && (
+            <TopButton
+              className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+              onClick={() =>
+                navigate(
+                  routes.ide({
+                    userName: projectOwner,
+                    projectTitle: project.title,
+                  })
+                )
+              }
+              name="Editor"
+            >
+              <Svg name="terminal" className="w-6 h-6 text-ch-pink-500" />
+            </TopButton>
+          )}
+          <Popover className="relative outline-none w-full h-full">
+            {({ open }) => {
+              return (
+                <>
+                  <Popover.Button className="h-full outline-none">
+                    <TopButton
+                      Tag="div"
+                      name="Share"
+                      className=" bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+                    >
+                      <Svg
+                        name="share"
+                        className="w-6 h-6 text-ch-purple-500 mt-1"
+                      />
+                    </TopButton>
+                  </Popover.Button>
+                  {open && (
+                    <Popover.Panel className="absolute z-10 mt-4 right-0">
+                      <Tabs
+                        className="bg-ch-purple-gray-200 rounded-md shadow-md overflow-hidden text-gray-700"
+                        selectedTabClassName="bg-ch-gray-700 text-white"
+                      >
+                        <TabPanel>
+                          <FullScriptEncoding />
+                        </TabPanel>
+                        <TabPanel>
+                          <ExternalScript />
+                        </TabPanel>
 
-                    <TabList className="flex whitespace-nowrap text-gray-700 border-t border-gray-700">
-                      <Tab className="p-3 px-5">encoded script</Tab>
-                      <Tab className="p-3 px-5">external script</Tab>
-                    </TabList>
-                  </Tabs>
-                </Popover.Panel>
-              )}
-            </>
-          )
-        }}
-      </Popover>
+                        <TabList className="flex whitespace-nowrap text-gray-700 border-t border-gray-700">
+                          <Tab className="p-3 px-5">encoded script</Tab>
+                          <Tab className="p-3 px-5">external script</Tab>
+                        </TabList>
+                      </Tabs>
+                    </Popover.Panel>
+                  )}
+                </>
+              )
+            }}
+          </Popover>
+          {currentUser?.sub && (
+            <TopButton
+              onClick={handleFork}
+              name="Fork"
+              className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+            >
+              <Svg name="fork-new" className="w-6 h-6 text-ch-blue-400" />
+            </TopButton>
+          )}
+        </div>
+      </div>
     </>
   )
 }

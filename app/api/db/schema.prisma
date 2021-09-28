@@ -53,9 +53,12 @@ model Project {
   deleted     Boolean  @default(false)
   cadPackage  CadPackage @default(openscad)
   socialCard  SocialCard?
+  forkedFromId String?
+  forkedFrom   Project? @relation("Fork", fields: [forkedFromId], references: [id])
 
-  Comment  Comment[]
-  Reaction ProjectReaction[]
+  childForks   Project[] @relation("Fork")
+  Comment      Comment[]
+  Reaction     ProjectReaction[]
   @@unique([title, userId])
 }
 

@@ -78,13 +78,27 @@ export const createProject = async ({ input }: CreateProjectArgs) => {
 }
 
 export const forkProject = async ({ input }) => {
-  // Only difference between create and fork project is that fork project will generate a unique title
-  // (for the user) if there is a conflict
+  requireAuth()
+  const projectData = await db.project.findUnique({
+    where: {
+      id: input.forkedFromId,
+    },
+  })
   const isUniqueCallback = isUniqueProjectTitle(input.userId)
-  const title = await generateUniqueString(input.title, isUniqueCallback)
-  // TODO change the description to `forked from userName/projectName ${rest of description}`
+  let title = projectData.title
+
+  title = await generateUniqueString(title, isUniqueCallback)
+
+  const { code, description, cadPackage } = projectData
+
   return db.project.create({
-    data: foreignKeyReplacement({ ...input, title }),
+    data: foreignKeyReplacement({
+      ...input,
+      title,
+      code,
+      description,
+      cadPackage,
+    }),
   })
 }
 
@@ -252,6 +266,11 @@ export const deleteProject = async ({ id }: Prisma.ProjectWhereUniqueInput) => {
 }
 
 export const Project = {
+  forkedFrom: (_obj, { root }) =>
+    root.forkedFromId &&
+    db.project.findUnique({ where: { id: root.forkedFromId } }),
+  childForks: (_obj, { root }) =>
+    db.project.findMany({ where: { forkedFromId: root.id } }),
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.project.findUnique({ where: { id: root.id } }).user(),
   socialCard: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>

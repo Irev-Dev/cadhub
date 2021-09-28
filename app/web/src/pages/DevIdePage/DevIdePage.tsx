@@ -4,6 +4,7 @@ import { Toaster } from '@redwoodjs/web/toast'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import type { Project } from 'src/components/IdeProjectCell/IdeProjectCell'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
+import type { CadPackageType } from 'src/components/CadPackage/CadPackage'
 
 interface Props {
   cadPackage: string
@@ -21,7 +22,9 @@ const DevIdePage = ({ cadPackage, project }: Props) => {
       />
       <Toaster timeout={9000} />
       <IdeContext.Provider value={{ state, thunkDispatch, project }}>
-        <IdeWrapper cadPackage={cadPackage.toLocaleLowerCase()} />
+        <IdeWrapper
+          cadPackage={cadPackage.toLocaleLowerCase() as CadPackageType}
+        />
       </IdeContext.Provider>
     </div>
   )

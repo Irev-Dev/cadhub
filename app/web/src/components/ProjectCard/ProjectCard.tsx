@@ -6,7 +6,14 @@ import { countEmotes } from 'src/helpers/emote'
 import ImageUploader from 'src/components/ImageUploader'
 import { ImageFallback } from '../ImageUploader/ImageUploader'
 
-const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
+const ProjectCard = ({
+  title,
+  mainImage,
+  user,
+  Reaction,
+  cadPackage,
+  childForks,
+}) => (
   <li
     className="rounded p-1.5 bg-ch-gray-760 hover:bg-ch-gray-710 shadow-ch"
     key={`${user?.userName}--${title}`}
@@ -45,7 +52,8 @@ const ProjectCard = ({ title, mainImage, user, Reaction, cadPackage }) => (
           {countEmotes(Reaction).reduce((prev, { count }) => prev + count, 0)}
         </div>
         <div className="px-2 flex items-center bg-ch-blue-650 bg-opacity-30 text-ch-gray-300 rounded-sm">
-          <Svg name="fork-new" className="w-4 mr-2" />0
+          <Svg name="fork-new" className="w-4 mr-2" />
+          {childForks?.length || 0}
         </div>
       </div>
     </Link>

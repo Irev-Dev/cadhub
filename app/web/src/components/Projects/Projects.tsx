@@ -40,7 +40,10 @@ const ProjectsList = ({
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))' }}
       >
         {filteredProjects.map(
-          ({ title, mainImage, user, Reaction, cadPackage }, index) => (
+          (
+            { title, mainImage, user, Reaction, cadPackage, childForks },
+            index
+          ) => (
             <ProjectCard
               key={index}
               title={title}
@@ -48,6 +51,7 @@ const ProjectsList = ({
               user={user}
               Reaction={Reaction}
               cadPackage={cadPackage}
+              childForks={childForks}
             />
           )
         )}
