@@ -33,6 +33,7 @@ export const QUERY = gql`
           id
           title
           user {
+            id
             userName
           }
         }
