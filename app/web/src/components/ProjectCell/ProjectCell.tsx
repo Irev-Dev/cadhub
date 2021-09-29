@@ -4,6 +4,7 @@ import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
+import { CREATE_PROJECT_MUTATION } from 'src/components/NavPlusButton/NavPlusButton'
 
 import ProjectProfile from 'src/components/ProjectProfile/ProjectProfile'
 import { QUERY as PROJECT_REACTION_QUERY } from 'src/components/ProjectReactionsCell'
@@ -76,18 +77,7 @@ const UPDATE_PROJECT_MUTATION = gql`
     }
   }
 `
-export const CREATE_PROJECT_MUTATION = gql`
-  mutation CreateProjectMutation($input: CreateProjectInput!) {
-    createProject(input: $input) {
-      id
-      title
-      user {
-        id
-        userName
-      }
-    }
-  }
-`
+
 const TOGGLE_REACTION_MUTATION = gql`
   mutation ToggleReactionMutation($input: ToggleProjectReactionInput!) {
     toggleProjectReaction(input: $input) {

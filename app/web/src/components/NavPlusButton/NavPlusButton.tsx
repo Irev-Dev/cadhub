@@ -4,10 +4,22 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import useUser from 'src/helpers/hooks/useUser'
-import { CREATE_PROJECT_MUTATION } from 'src/components/ProjectCell/ProjectCell'
 import Svg from 'src/components/Svg/Svg'
 import { Popover } from '@headlessui/react'
 import { CadPackageType } from 'src/components/CadPackage/CadPackage'
+
+export const CREATE_PROJECT_MUTATION = gql`
+  mutation CreateProjectMutation($input: CreateProjectInput!) {
+    createProject(input: $input) {
+      id
+      title
+      user {
+        id
+        userName
+      }
+    }
+  }
+`
 
 const menuOptions: {
   name: string
