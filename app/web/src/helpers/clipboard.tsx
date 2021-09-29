@@ -24,7 +24,7 @@ function fallbackCopyTextToClipboard(text: string) {
   document.body.removeChild(textArea)
 }
 
-const clipboardSuccessToast = (text: string) =>
+const clipboardSuccessToast = () =>
   toast.success(() => (
     <div className="overflow-hidden">
       <p>link added to clipboard.</p>

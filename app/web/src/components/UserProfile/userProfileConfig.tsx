@@ -19,7 +19,7 @@ export interface UserProfileType {
   loading: boolean
   error: boolean
   onSave: Function
-  projects: {}[]
+  projects: any[]
 }
 
 export interface FieldType {
@@ -205,14 +205,13 @@ export function fieldReducer(state, action) {
         },
       }
     case 'SET_NEW_VALUE':
-      const newState = {
+      return {
         ...state,
         [action.payload.field]: {
           ...state[action.payload.field],
           newValue: action.payload.value,
         },
       }
-      return newState
     default:
       return state
   }

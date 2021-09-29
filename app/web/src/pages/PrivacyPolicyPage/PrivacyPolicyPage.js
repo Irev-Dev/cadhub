@@ -25,7 +25,7 @@ const PrivacyPolicyPage = () => {
         <P>
           This Privacy Policy describes how your personal information is
           collected, used, and shared when you visit or use{' '}
-          <A to="https://cadhub.xyz" /> (the “Site”).
+          <A to="https://cadhub.xyz" /> {'(the “Site”)'}.
         </P>
         <SubHeading>PERSONAL INFORMATION WE COLLECT</SubHeading>
         <P>
@@ -36,7 +36,7 @@ const PrivacyPolicyPage = () => {
           about the individual web pages that you view, what websites or search
           terms referred you to the Site, and information about how you interact
           with the Site. We refer to this automatically-collected information as
-          “Device Information.”
+          {'“Device Information.”'}
         </P>
         <P>We collect Device Information using the following technologies:</P>
         <ul className="list-disc pl-4">
@@ -60,8 +60,8 @@ const PrivacyPolicyPage = () => {
           Additionally when you make an account or sign in to the app through
           the Site, we collect certain information from you, including your
           name, email address as well as any information you add to the website,
-          such as your profile bio, or "parts" you have added. We refer to this
-          information as “Account Information.”
+          such as your profile bio, or {'"Projects"'} you have added. We refer
+          to this information as “Account Information.”
         </P>
         <P>
           When we talk about “Personal Information” in this Privacy Policy, we
@@ -126,9 +126,9 @@ const PrivacyPolicyPage = () => {
         </P>
         <SubHeading>DATA RETENTION</SubHeading>
         <P>
-          When you place an create a "part" through the Site, we will keep this
-          record to become part of the public website, you can delete you parts
-          at anytime.
+          When you place an create a {'"project"'} through the Site, we will
+          keep this record to become part of the public website, you can delete
+          you Projects at anytime.
         </P>
         <SubHeading>CHANGES</SubHeading>
         <P>

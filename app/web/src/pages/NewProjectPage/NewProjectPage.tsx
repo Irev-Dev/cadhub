@@ -10,7 +10,7 @@ const NewProjectPage = ({ userName }) => {
   const { isAuthenticated, currentUser } = useAuth()
   useEffect(() => {
     !isAuthenticated && navigate(routes.home())
-  }, [currentUser])
+  }, [currentUser, isAuthenticated])
   return (
     <MainLayout>
       <Seo
