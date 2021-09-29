@@ -129,7 +129,6 @@ export const updateProject = async ({ id, input }: UpdateProjectArgs) => {
   }
   requireAuth()
   const originalProject = await requireProjectOwnership({ projectId: id })
-  console.log('yooooo', originalProject)
   if (input.title) {
     input.title = enforceAlphaNumeric(input.title)
   }
@@ -257,12 +256,19 @@ export const updateProjectImages = async ({
 export const deleteProject = async ({ id }: Prisma.ProjectWhereUniqueInput) => {
   requireAuth()
   await requireOwnership({ projectId: id })
-  return db.project.update({
-    data: {
-      deleted: true,
-    },
+  const project = await db.project.findUnique({
     where: { id },
   })
+  const childrenDeletePromises = [
+    db.comment.deleteMany({ where: { projectId: project.id } }),
+    db.projectReaction.deleteMany({ where: { projectId: project.id } }),
+    db.socialCard.deleteMany({ where: { projectId: project.id } }),
+  ]
+  await Promise.all(childrenDeletePromises)
+  await db.project.delete({
+    where: { id },
+  })
+  return project
 }
 
 export const Project = {
@@ -272,7 +278,7 @@ export const Project = {
   childForks: (_obj, { root }) =>
     db.project.findMany({ where: { forkedFromId: root.id } }),
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
-    db.project.findUnique({ where: { id: root.id } }).user(),
+    db.user.findUnique({ where: { id: root.userId } }),
   socialCard: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.project.findUnique({ where: { id: root.id } }).socialCard(),
   Comment: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
