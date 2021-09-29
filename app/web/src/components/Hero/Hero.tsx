@@ -11,6 +11,7 @@ import Svg, { SvgNames } from 'src/components/Svg/Svg'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import ProjectsCell from 'src/components/ProjectsCell'
 import OutBound from 'src/components/OutBound/OutBound'
+import { DynamicProjectButton } from 'src/components/NavPlusButton/NavPlusButton'
 
 // dynamic import to enable pre-render iof the homepage
 const AssetWithGooey = React.lazy(
@@ -345,15 +346,12 @@ function ChooseYourCharacter() {
           }) => (
             <li key={cadPackage} className="flex items-center">
               <div className="mr-4 sm:mr-12">
-                <button
-                  onClick={() => navigate(routes.draftProject({ cadPackage }))}
-                  className="flex-shrink-0 cursor-pointer"
-                >
+                <DynamicProjectButton ideType={cadPackage} className="">
                   <CadPackage
                     cadPackage={cadPackage}
                     className="px-3 py-1 w-40 text-xl rounded"
                   />
-                </button>
+                </DynamicProjectButton>
               </div>
               <p className="text-sm my-2 max-w-sm">{desc}</p>
             </li>

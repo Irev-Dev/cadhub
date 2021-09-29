@@ -21,6 +21,52 @@ export const CREATE_PROJECT_MUTATION = gql`
   }
 `
 
+export function DynamicProjectButton({ children, ideType, className }) {
+  const { isAuthenticated } = useAuth()
+  const { user } = useUser()
+  const [createProject] = useMutation(CREATE_PROJECT_MUTATION, {})
+  const handleCreate = async (ideType) => {
+    const projectPromise = createProject({
+      variables: { input: { userId: user.id, cadPackage: ideType } },
+    })
+    toast.promise(projectPromise, {
+      loading: 'creating Project',
+      success: <b>Initializing</b>,
+      error: <b>Problem creating.</b>,
+    })
+    const {
+      data: { createProject: project },
+    } = await projectPromise
+    navigate(
+      routes.ide({
+        userName: project?.user?.userName,
+        projectTitle: project?.title,
+      })
+    )
+  }
+  const ButtonWrap = ({ children, ideType, className }) =>
+    isAuthenticated && user ? (
+      <button
+        className={`text-left ${className}`}
+        onClick={() => handleCreate(ideType)}
+      >
+        {children}
+      </button>
+    ) : (
+      <Link
+        to={routes.draftProject({ cadPackage: ideType })}
+        className={`${className}`}
+      >
+        {children}
+      </Link>
+    )
+  return (
+    <ButtonWrap ideType={ideType} className={className}>
+      {children}
+    </ButtonWrap>
+  )
+}
+
 const menuOptions: {
   name: string
   sub: string
@@ -52,36 +98,6 @@ const menuOptions: {
 ]
 
 const NavPlusButton: React.FC = () => {
-  const { isAuthenticated } = useAuth()
-  const { user } = useUser()
-  const [createProject] = useMutation(CREATE_PROJECT_MUTATION, {})
-  const handleCreate = async (ideType) => {
-    const projectPromise = createProject({
-      variables: { input: { userId: user.id, cadPackage: ideType } },
-    })
-    toast.promise(projectPromise, {
-      loading: 'creating Project',
-      success: <b>Initializing</b>,
-      error: <b>Problem creating.</b>,
-    })
-    const {
-      data: { createProject: project },
-    } = await projectPromise
-    navigate(
-      routes.ide({
-        userName: project?.user?.userName,
-        projectTitle: project?.title,
-      })
-    )
-  }
-  const ButtonWrap = ({ children, ideType }) =>
-    isAuthenticated && user ? (
-      <button className="text-left" onClick={() => handleCreate(ideType)}>
-        {children}
-      </button>
-    ) : (
-      <Link to={routes.draftProject({ cadPackage: ideType })}>{children}</Link>
-    )
   return (
     <Popover className="relative outline-none w-full h-full">
       <Popover.Button className="h-full w-full outline-none hover:bg-ch-gray-550 border-ch-gray-400 border-2 rounded-full">
@@ -106,10 +122,10 @@ const NavPlusButton: React.FC = () => {
                   dotClasses + ' justify-self-center w-5 h-5 rounded-full'
                 }
               ></div>
-              <ButtonWrap ideType={ideType}>
+              <DynamicProjectButton ideType={ideType} className="text-left">
                 <div>{name}</div>
                 <div className="text-xs text-ch-gray-400 font-light">{sub}</div>
-              </ButtonWrap>
+              </DynamicProjectButton>
             </li>
           ))}
         </ul>
