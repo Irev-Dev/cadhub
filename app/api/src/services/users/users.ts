@@ -7,7 +7,7 @@ import type { Prisma } from '@prisma/client'
 import { ForbiddenError } from '@redwoodjs/api'
 
 function userNameVerification(userName: string): string {
-  if (userName.length < 6) {
+  if (userName.length < 5) {
     throw new ForbiddenError('userName too short')
   }
   if (userName && ['new', 'edit', 'update'].includes(userName)) {

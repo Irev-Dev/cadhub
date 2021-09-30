@@ -35,6 +35,13 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
       if (checkBox) {
         subscribe({ email, addMessage: (msg) => toast.error(msg), name })
       }
+      const { isUserNameAvailable } = await fetch(
+        `/.netlify/functions/check-user-name?username=${userName}`
+      ).then((res) => res.json())
+      if (!isUserNameAvailable) {
+        setError('UserName is already taken, please try something else')
+        return
+      }
       await signUp({
         email,
         password,
@@ -166,6 +173,10 @@ const SignUpForm = ({ onSubmitSignUp, checkBox, setCheckBox, onClose }) => (
             pattern: {
               value: /^[a-zA-Z0-9-_]+$/,
               message: 'Only alphanumeric and dash characters allowed',
+            },
+            minLength: {
+              value: 5,
+              message: 'Not enough Characters',
             },
           }}
         />
