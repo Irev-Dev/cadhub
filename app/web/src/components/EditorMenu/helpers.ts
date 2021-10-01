@@ -3,6 +3,7 @@ import { fileSave } from 'browser-fs-access'
 import { MeshBasicMaterial, Mesh, Scene } from 'three'
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
 import { requestRender, State } from 'src/helpers/hooks/useIdeState'
+import { toast } from '@redwoodjs/web/toast'
 
 export const PullTitleFromFirstLine = (code = '') => {
   const firstLine = code.split('\n').filter(identity)[0] || ''
@@ -53,6 +54,7 @@ export const makeStlDownloadHandler =
         extensions: ['.stl'],
       })
     }
+    toast("CadHub is a work in process and We're still working out kinks with the STL download.")
     if (geometry) {
       if (
         type === 'geometry' &&
