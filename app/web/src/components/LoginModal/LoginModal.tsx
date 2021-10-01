@@ -47,6 +47,13 @@ const LoginModal = ({ open, onClose, shouldStartWithSignup = false }) => {
         password,
         remember: { full_name: name, userName },
       })
+      toast(
+        'Look out for a verification email to finish making your account.',
+        {
+          icon: '📬',
+          duration: 8000,
+        }
+      )
       onClose()
     } catch (errorEvent) {
       setError(errorEvent?.json?.error_description)
