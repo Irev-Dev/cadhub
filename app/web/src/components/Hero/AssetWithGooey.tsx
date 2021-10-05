@@ -4,8 +4,9 @@ import { useLoader, useThree, useFrame } from '@react-three/fiber'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { useEdgeSplit } from 'src/helpers/hooks/useEdgeSplit'
 import texture from 'src/components/IdeViewer/dullFrontLitMetal.png'
-import { useTexture, MeshDistortMaterial, Sphere } from '@react-three/drei'
 import { Glitch, EffectComposer } from "@react-three/postprocessing";
+import useSafeTexture from 'src/helpers/hooks/useSafeTexture'
+import { MeshDistortMaterial, Sphere } from '@react-three/drei'
 
 const thresholdAngle = 10
 export default function AssetWithGooey({
@@ -19,7 +20,7 @@ export default function AssetWithGooey({
   const edgeRef = useRef(null)
   const coffeeRef = useRef(null)
   const mesh = useEdgeSplit((thresholdAngle * Math.PI) / 180, true, geo)
-  const colorMap = useTexture(texture)
+  const colorMap = useSafeTexture(texture)
   const edges = React.useMemo(() => new THREE.EdgesGeometry(geo, 12), [geo])
   const position = [0, 0, 5]
   const scaleArr = Array.from({ length: 3 }).map(() => scale)

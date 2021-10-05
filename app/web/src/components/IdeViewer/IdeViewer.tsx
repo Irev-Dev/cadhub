@@ -8,8 +8,8 @@ import {
   GizmoViewport,
   OrbitControls,
   Environment,
-  useTexture,
 } from '@react-three/drei'
+import useSafeTexture from 'src/helpers/hooks/useSafeTexture'
 import { useEdgeSplit } from 'src/helpers/hooks/useEdgeSplit'
 import { Vector3 } from 'three'
 import { requestRender } from 'src/helpers/hooks/useIdeState'
@@ -28,7 +28,7 @@ function Asset({ geometry: incomingGeo }) {
         : new THREE.EdgesGeometry(incomingGeo, thresholdAngle),
     [incomingGeo]
   )
-  const colorMap = useTexture(texture)
+  const colorMap = useSafeTexture(texture)
   if (!incomingGeo) return null
 
   return (
