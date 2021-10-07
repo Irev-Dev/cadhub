@@ -12,6 +12,7 @@ import Gravatar from 'src/components/Gravatar/Gravatar'
 import ProjectsCell from 'src/components/ProjectsCell'
 import OutBound from 'src/components/OutBound/OutBound'
 import { DynamicProjectButton } from 'src/components/NavPlusButton/NavPlusButton'
+import FatalErrorBoundary from 'src/components/FatalErrorBoundary/FatalErrorBoundary'
 
 // dynamic import to enable pre-render iof the homepage
 const AssetWithGooey = React.lazy(
@@ -280,32 +281,35 @@ function ModelSection({
   const { ref, inView } = useInView()
   return (
     <div className="relative h-full">
-      <div className="absolute inset-0" ref={ref}>
-        <Canvas
-          linear
-          dpr={[1, 2]}
-          orthographic
-          camera={{ zoom: 75, position: [0, 0, 500] }}
-        >
-          {!inView && <DisableRender />}
-          <pointLight position={[2, 3, 5]} color="#FFFFFF" intensity={2} />
-          <pointLight position={[2, 3, -5]} color="#FFFFFF" intensity={2} />
-          <pointLight position={[-6, 3, -5]} color="#FFFFFF" intensity={2} />
-          <pointLight position={[-6, 3, 5]} color="#FFFFFF" intensity={2} />
-
-          <pointLight position={[2, 1.5, 0]} color="#0000FF" intensity={2} />
-          <pointLight position={[2, 1.5, 0]} color="#FF0000" intensity={2} />
-          <Suspense
-            fallback={<Html center className="loading" children="Loading..." />}
+      <FatalErrorBoundary page={() => <div className="bg-gray-800 p-8 rounded-md text-ch-gray-300">something seams to have gone wrong here</div>}>
+        <div className="absolute inset-0" ref={ref}>
+          <Canvas
+            linear
+            dpr={[1, 2]}
+            orthographic
+            camera={{ zoom: 75, position: [0, 0, 500] }}
           >
-            <AssetWithGooey assetUrl={assetUrl} scale={scale} />
-          </Suspense>
+            {!inView && <DisableRender />}
+            <pointLight position={[2, 3, 5]} color="#FFFFFF" intensity={2} />
+            <pointLight position={[2, 3, -5]} color="#FFFFFF" intensity={2} />
+            <pointLight position={[-6, 3, -5]} color="#FFFFFF" intensity={2} />
+            <pointLight position={[-6, 3, 5]} color="#FFFFFF" intensity={2} />
 
-          {/* uncomment for framerate and render time */}
-          {/* <Stats showPanel={0} className="three-debug-panel-1" /> */}
-          {/* <Stats showPanel={1} className="three-debug-panel-2" /> */}
-        </Canvas>
-      </div>
+            <pointLight position={[2, 1.5, 0]} color="#0000FF" intensity={2} />
+            <pointLight position={[2, 1.5, 0]} color="#FF0000" intensity={2} />
+
+            <Suspense
+              fallback={<Html center className="loading" children="Loading..." />}
+            >
+              <AssetWithGooey assetUrl={assetUrl} scale={scale} />
+            </Suspense>
+
+            {/* uncomment for framerate and render time */}
+            {/* <Stats showPanel={0} className="three-debug-panel-1" /> */}
+            {/* <Stats showPanel={1} className="three-debug-panel-2" /> */}
+          </Canvas>
+        </div>
+      </FatalErrorBoundary>
     </div>
   )
 }
