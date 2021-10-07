@@ -2,7 +2,7 @@ FROM public.ecr.aws/lts/ubuntu:20.04_stable
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -qq
+RUN apt-get update --fix-missing -qq
 RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb
 RUN apt-get update -qq
 RUN apt-get install -y wget
@@ -38,9 +38,9 @@ RUN npm install aws-lambda-ric@1.0.0
 
 # Get the distribution copy of cq-cli
 RUN apt-get install -y libglew2.1
-RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.2-beta.2/cq-cli-Linux-x86_64.zip
-# Comment the entry above out and uncomment the one below to revert to the stable release
-# RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.1.0/cq-cli-Linux-x86_64.zip
+# RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.2-beta.2/cq-cli-Linux-x86_64.zip
+# More cutting edge release
+RUN wget http://7bindustries.com/static/downloads/cq-cli-Linux-x86_64.zip
 RUN unzip cq-cli-Linux-x86_64.zip
 
 RUN chmod +x cq-cli/cq-cli

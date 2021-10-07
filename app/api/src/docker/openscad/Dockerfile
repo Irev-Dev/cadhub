@@ -3,7 +3,7 @@ FROM public.ecr.aws/lts/ubuntu:20.04_stable
 ARG DEBIAN_FRONTEND=noninteractive
 
 ## install things needed to run openscad (xvfb is an important one)
-RUN apt-get update -qq
+RUN apt-get update --fix-missing -qq
 # double check this below, I'm not sure we need inkscape etc
 RUN apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb imagemagick unzip inkscape
 RUN apt-get install -y curl wget
