@@ -1,5 +1,6 @@
 import { writeFiles, runCommand } from '../common/utils'
 import { nanoid } from 'nanoid'
+import { readFile } from 'fs/promises'
 
 export const runCQ = async ({
   file,
@@ -11,34 +12,35 @@ export const runCQ = async ({
   )
   const fullPath = `/tmp/${tempFile}/output.gz`
   const stlPath = `/tmp/${tempFile}/output.stl`
-  const customizerPath = `/tmp/${tempFile}/customizer.param`
+  // const customizerPath = `/tmp/${tempFile}/customizer.param`
   const command = [
     `cq-cli/cq-cli`,
     `--codec stl`,
     `--infile /tmp/${tempFile}/main.py`,
     `--outfile ${stlPath}`,
     `--outputopts "deflection:${deflection};angularDeflection:${deflection};"`,
-    `--params ${customizerPath}`,
+    // `--params ${customizerPath}`,
   ].join(' ')
-  const command2 = [
-    `cq-cli/cq-cli`,
-    `--getparams true`,
-    `--infile /tmp/${tempFile}/main.py`,
-    `--outfile ${customizerPath}`,
-  ]
+  // const command2 = [
+  //   `cq-cli/cq-cli`,
+  //   `--getparams true`,
+  //   `--infile /tmp/${tempFile}/main.py`,
+  //   `--outfile ${customizerPath}`,
+  // ]
   console.log('command', command)
   let consoleMessage = ''
   try {
     consoleMessage = await runCommand(command, 30000)
-    consoleMessage2 = await runCommand(command2, 30000)
-    const params = JSON.parse(
-      await readFile(customizerPath, { encoding: 'ascii'})
-    ).parameters
+    // const consoleMessage2 = await runCommand(command2, 30000)
+    // const params = JSON.parse(
+    //   await readFile(customizerPath, { encoding: 'ascii'})
+    // )
+    // console.log('params', params)
     await writeFiles(
       [
         {
           file: JSON.stringify({
-            customizerParams: params,
+            // customizerParams: params,
             consoleMessage,
             type: 'stl',
           }),
