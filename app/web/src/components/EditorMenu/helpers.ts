@@ -54,7 +54,9 @@ export const makeStlDownloadHandler =
         extensions: ['.stl'],
       })
     }
-    toast("CadHub is a work in process and We're still working out kinks with the STL download.")
+    toast(
+      "CadHub is a work in process and We're still working out kinks with the STL download."
+    )
     if (geometry) {
       if (
         type === 'geometry' &&

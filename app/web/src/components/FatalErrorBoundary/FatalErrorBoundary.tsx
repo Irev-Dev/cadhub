@@ -15,6 +15,10 @@ class FatalErrorBoundary extends FatalErrorBoundaryBase {
     ```
     $ git clone https://github.com/netlify/prerender.git
     $ cd prerender
+    ```
+    comment out the lines `server.use(require("./lib/plugins/basicAuth"));` and `server.use(require("./lib/plugins/s3HtmlCache"));` in `server.js`
+    then
+    ```
     $ npm install
     $ npm start
     ```

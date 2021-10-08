@@ -4,7 +4,7 @@ import { useLoader, useThree, useFrame } from '@react-three/fiber'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { useEdgeSplit } from 'src/helpers/hooks/useEdgeSplit'
 import texture from 'src/components/IdeViewer/dullFrontLitMetal.png'
-import { Glitch, EffectComposer } from "@react-three/postprocessing";
+import { Glitch, EffectComposer } from '@react-three/postprocessing'
 import { MeshDistortMaterial, Sphere, useTexture } from '@react-three/drei'
 
 const thresholdAngle = 10
