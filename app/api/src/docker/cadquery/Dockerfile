@@ -38,34 +38,14 @@ COPY package*.json /var/task/
 RUN npm install
 RUN npm install aws-lambda-ric@1.0.0
 
-# Install Miniconda and install CadQuery
-# RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > miniconda.sh
-# RUN bash miniconda.sh -b -p $HOME/miniconda;
-# RUN export PATH="$HOME/miniconda/bin:$HOME/miniconda/lib:$PATH";
-# RUN . $HOME/miniconda/bin/activate;\
-#       conda activate base;\
-#       conda config --set always_yes yes --set changeps1 no;\
-#       conda update -q conda;\
-#       conda install -c cadquery -c conda-forge cadquery=master ocp=7.5.2 python=3.8;\
-#       conda info
-
+# Install Miniconda
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh 
 RUN conda --version
 
-# RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh > miniconda.sh
-# RUN bash miniconda.sh -b && \
-#     echo "export PATH="/root/miniconda3/bin:$PATH"" >> ~/.bashrc && \
-#     /bin/bash -c "source ~/.bashrc"
-# RUN ls /root/
-# ENV PATH /root/miniconda3/bin:$PATH
-# RUN conda update --all
-# RUN conda info
-
 # Install CadQuery
-# RUN conda activate base
 RUN conda install -c cadquery -c conda-forge cadquery=master ocp=7.5.2 python=3.8
 RUN conda info
 
@@ -74,12 +54,7 @@ RUN git clone https://github.com/CadQuery/cq-cli.git
 
 # Get the distribution copy of cq-cli
 RUN apt-get install -y libglew2.1
-# RUN wget https://github.com/CadQuery/cq-cli/releases/download/v2.2-beta.2/cq-cli-Linux-x86_64.zip
-# More cutting edge release
-# RUN wget http://7bindustries.com/static/downloads/cq-cli-Linux-x86_64.zip
-# RUN unzip cq-cli-Linux-x86_64.zip
 
-#RUN chmod +x cq-cli/cq-cli
 RUN echo "cadhub-concat-split" > /var/task/cadhub-concat-split
 
 # using built javascript from dist
