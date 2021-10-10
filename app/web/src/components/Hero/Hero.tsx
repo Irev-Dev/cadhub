@@ -281,7 +281,13 @@ function ModelSection({
   const { ref, inView } = useInView()
   return (
     <div className="relative h-full">
-      <FatalErrorBoundary page={() => <div className="bg-gray-800 p-8 rounded-md text-ch-gray-300">something seams to have gone wrong here</div>}>
+      <FatalErrorBoundary
+        page={() => (
+          <div className="bg-gray-800 p-8 rounded-md text-ch-gray-300">
+            something seams to have gone wrong here
+          </div>
+        )}
+      >
         <div className="absolute inset-0" ref={ref}>
           <Canvas
             linear
@@ -299,7 +305,9 @@ function ModelSection({
             <pointLight position={[2, 1.5, 0]} color="#FF0000" intensity={2} />
 
             <Suspense
-              fallback={<Html center className="loading" children="Loading..." />}
+              fallback={
+                <Html center className="loading" children="Loading..." />
+              }
             >
               <AssetWithGooey assetUrl={assetUrl} scale={scale} />
             </Suspense>
