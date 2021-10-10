@@ -57,6 +57,7 @@ export interface State {
   isLoading: boolean
   threeInstance: RootState
   sideTray: string[] // could probably be an array of a union type
+  consoleVisible: boolean
 }
 
 const code = ''
@@ -93,6 +94,7 @@ export const initialState: State = {
   isLoading: false,
   threeInstance: null,
   sideTray: [],
+  consoleVisible: true,
 }
 
 const reducer = (state: State, { type, payload }): State => {

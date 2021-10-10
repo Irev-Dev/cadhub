@@ -105,18 +105,25 @@ const settingsConfig: settingsConfig[] = [
   {
     title: 'Console',
     name: 'console',
-    Content: () => (
-      <div className="p-2">
-        <p>
-          <em>Coming Soon</em>
-        </p>
-        <hr className="my-2" />
-        <p className="p-2">
-          We're building configuration settings for the Viewer pane now. Join us
-          on <DiscordLink /> if you want to lend a hand!
-        </p>
-      </div>
-    ),
+    Content: () => {
+      const { state, thunkDispatch } = useIdeContext()      
+      return (
+        <div className="p-2">
+          <li className="grid items-center my-2" style={{ gridTemplateColumns: 'auto 4rem' }}>
+            <div className="text-sm">Visible</div>
+            <input type="checkbox"
+              onChange={(newValue) => {
+                    state.consoleVisible = !state.consoleVisible
+                    if (state.consoleVisible)
+                      thunkDispatch({ type: 'resetLayout'})
+                    else
+                      thunkDispatch({ type: 'setLayout', payload:{ message:{ direction: 'row',  first: 'Editor',  second: 'Viewer'}}})
+                  }}
+              checked={state.consoleVisible}/>
+          </li>
+        </div>
+      )
+    },
   },
 ]
 
