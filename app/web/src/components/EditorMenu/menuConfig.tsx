@@ -69,16 +69,6 @@ const viewMenuConfig: EditorMenuConfig = {
   disabled: false,
   items: [
     {
-      label: 'Hide console',
-      shortcut: 'ctrl+shift+c',
-      shortcutLabel: 'Ctrl Shift C',
-      Component: (props) => {
-        const { config, thunkDispatch } = props
-        config.callback = () => thunkDispatch({ type: 'setLayout', payload:{ message:{ direction: 'row',  first: 'Editor',  second: 'Viewer'}}})
-        return <DropdownItem {...props} />
-      },
-    },
-    {
       label: 'Reset layout',
       shortcut: 'ctrl+shift+r',
       shortcutLabel: 'Ctrl Shift R',
