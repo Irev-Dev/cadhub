@@ -7,15 +7,17 @@ import {
   RenderArgs,
   DefaultKernelExport,
   splitGziped,
-} from './common'
+} from '../common'
+import { CadQueryToCadhubParams } from './cadQueryParams'
 
 export const render: DefaultKernelExport['render'] = async ({
   code,
-  settings: { quality = 'low' },
+  settings: { quality = 'low', parameters },
 }: RenderArgs) => {
   const body = JSON.stringify({
     settings: {
       deflection: quality === 'low' ? 0.35 : 0.11,
+      parameters,
     },
     file: code,
   })
@@ -49,16 +51,15 @@ export const render: DefaultKernelExport['render'] = async ({
       data: await stlToGeometry(window.URL.createObjectURL(blob)),
       consoleMessage,
       date: new Date(),
-      customizerParams: customizerParams,
+      customizerParams: CadQueryToCadhubParams([customizerParams]), // TODO, should already be an array and not need to be wrapped in one.
     })
   } catch (e) {
     return createUnhealthyResponse(new Date())
   }
 }
 
-const openscad: DefaultKernelExport = {
+const cadQuery: DefaultKernelExport = {
   render,
-  // more functions to come
 }
 
-export default openscad
+export default cadQuery

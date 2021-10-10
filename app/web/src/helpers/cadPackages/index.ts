@@ -5,7 +5,7 @@ import openscad from './openScad/openScadController'
 import openScadGuide from 'src/helpers/cadPackages/openScad/userGuide.md'
 import openScadInitialCode from 'src/helpers/cadPackages/openScad/initialCode.scad'
 
-import cadquery from './cadQueryController'
+import cadquery from './cadQuery/cadQueryController'
 import cadQueryGuide from 'src/helpers/cadPackages/cadQuery/userGuide.md'
 import cadQueryInitialCode from 'src/helpers/cadPackages/cadQuery/initialCode.py'
 
