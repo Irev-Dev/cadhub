@@ -4,38 +4,45 @@ import { readFile } from 'fs/promises'
 
 export const runCQ = async ({
   file,
-  settings: { deflection = 0.3 } = {},
+  settings: { deflection = 0.3, parameters } = {},
 } = {}) => {
   const tempFile = await writeFiles(
-    [{ file, fileName: 'main.py' }],
+    [
+      { file, fileName: 'main.py' },
+      {
+        file: JSON.stringify(parameters),
+        fileName: 'params.json',
+      }
+    ],
     'a' + nanoid() // 'a' ensure nothing funny happens if it start with a bad character like "-", maybe I should pick a safer id generator :shrug:
   )
   const fullPath = `/tmp/${tempFile}/output.gz`
   const stlPath = `/tmp/${tempFile}/output.stl`
-  const customizerPath = `/tmp/${tempFile}/customizer.param`
-  const command = [
+  const customizerPath = `/tmp/${tempFile}/customizer.json`
+  const mainCommand = [
     `./cq-cli/cq-cli.py`,
     `--codec stl`,
     `--infile /tmp/${tempFile}/main.py`,
     `--outfile ${stlPath}`,
     `--outputopts "deflection:${deflection};angularDeflection:${deflection};"`,
-    `--params ${customizerPath}`,
+    `--params /tmp/${tempFile}/params.json`,
   ].join(' ')
-  const command2 = [
-    `cq-cli/cq-cli`,
+  const customizerCommand = [
+    `./cq-cli/cq-cli.py`,
     `--getparams true`,
     `--infile /tmp/${tempFile}/main.py`,
     `--outfile ${customizerPath}`,
-  ]
-  console.log('command', command)
+  ].join(' ')
+  console.log('command', mainCommand)
   let consoleMessage = ''
   try {
-    consoleMessage = await runCommand(command, 30000)
-    const consoleMessage2 = await runCommand(command2, 30000)
+    ;([consoleMessage] = await Promise.all([
+      runCommand(mainCommand, 30000),
+      runCommand(customizerCommand, 30000)
+    ]))
     const params = JSON.parse(
       await readFile(customizerPath, { encoding: 'ascii'})
     )
-    console.log('params', params)
     await writeFiles(
       [
         {
