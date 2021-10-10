@@ -63,12 +63,17 @@ const DiscordLink = () => (
   </a>
 )
 
-const settingsConfig = [
+interface settingsConfig {
+  title: string
+  name: string
+  Content: React.FC
+}
+
+const settingsConfig: settingsConfig[] = [
   {
     title: 'Editor',
     name: 'editor',
-    open: false,
-    content: (
+    Content: () => (
       <div className="p-2">
         <p>
           <em>Coming Soon</em>
@@ -84,8 +89,7 @@ const settingsConfig = [
   {
     title: 'Viewer',
     name: 'viewer',
-    open: false,
-    content: (
+    Content: () => (
       <div className="p-2">
         <p>
           <em>Coming Soon</em>
@@ -101,8 +105,7 @@ const settingsConfig = [
   {
     title: 'Console',
     name: 'console',
-    open: false,
-    content: (
+    Content: () => (
       <div className="p-2">
         <p>
           <em>Coming Soon</em>
@@ -135,24 +138,26 @@ function SettingsMenu({ parentName }: { parentName: string }) {
   const { state, thunkDispatch } = useIdeContext()
   return (
     <article className="">
-      {settingsConfig.map((item) => (
+      {settingsConfig.map(({ name, title, Content }) => (
         <details
-          key={'settings-tray-' + item.name}
-          open={state.sideTray.slice(-1)[0] === item.name}
-          onClick={(e) => {
-            e.preventDefault()
-            thunkDispatch((dispatch) =>
-              dispatch({
-                type: 'settingsButtonClicked',
-                payload: [parentName, item.name],
-              })
-            )
-          }}
+          key={'settings-tray-' + name}
+          open={state.sideTray.slice(-1)[0] === name}
         >
-          <summary className="px-2 py-2 bg-ch-pink-800 bg-opacity-10 my-px cursor-pointer">
-            {item.title}
+          <summary
+            className="px-2 py-2 bg-ch-pink-800 bg-opacity-10 my-px cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault()
+              thunkDispatch((dispatch) =>
+                dispatch({
+                  type: 'settingsButtonClicked',
+                  payload: [parentName, name],
+                })
+              )
+            }}
+          >
+            {title}
           </summary>
-          {item.content}
+          <Content />
         </details>
       ))}
     </article>

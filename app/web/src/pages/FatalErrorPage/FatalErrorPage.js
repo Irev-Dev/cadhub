@@ -10,7 +10,7 @@ import Seo from 'src/components/Seo/Seo'
 
 export default () => (
   <main>
-    <Seo title="Fatal error" description="Fatal error" lang="en-US" />
+    <Seo title="CadHub" description="CadHub" lang="en-US" />
 
     <style
       dangerouslySetInnerHTML={{

@@ -1,7 +1,8 @@
 import { AuthProvider } from '@redwoodjs/auth'
 import GoTrue from 'gotrue-js'
 
-import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
+import { RedwoodProvider } from '@redwoodjs/web'
+import FatalErrorBoundary from 'src/components/FatalErrorBoundary/FatalErrorBoundary'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import { createMuiTheme } from '@material-ui/core/styles'
