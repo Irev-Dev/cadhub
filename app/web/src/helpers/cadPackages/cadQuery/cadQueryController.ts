@@ -51,7 +51,7 @@ export const render: DefaultKernelExport['render'] = async ({
       data: await stlToGeometry(window.URL.createObjectURL(blob)),
       consoleMessage,
       date: new Date(),
-      customizerParams: CadQueryToCadhubParams([customizerParams]), // TODO, should already be an array and not need to be wrapped in one.
+      customizerParams: CadQueryToCadhubParams(customizerParams),
     })
   } catch (e) {
     return createUnhealthyResponse(new Date())

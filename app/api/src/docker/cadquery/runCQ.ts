@@ -12,7 +12,7 @@ export const runCQ = async ({
       {
         file: JSON.stringify(parameters),
         fileName: 'params.json',
-      }
+      },
     ],
     'a' + nanoid() // 'a' ensure nothing funny happens if it start with a bad character like "-", maybe I should pick a safer id generator :shrug:
   )
@@ -36,12 +36,12 @@ export const runCQ = async ({
   console.log('command', mainCommand)
   let consoleMessage = ''
   try {
-    ;([consoleMessage] = await Promise.all([
+    ;[consoleMessage] = await Promise.all([
       runCommand(mainCommand, 30000),
-      runCommand(customizerCommand, 30000)
-    ]))
+      runCommand(customizerCommand, 30000),
+    ])
     const params = JSON.parse(
-      await readFile(customizerPath, { encoding: 'ascii'})
+      await readFile(customizerPath, { encoding: 'ascii' })
     )
     await writeFiles(
       [
@@ -63,6 +63,6 @@ export const runCQ = async ({
     )
     return { consoleMessage, fullPath }
   } catch (error) {
-    return { error: consoleMessage, fullPath }
+    return { error: consoleMessage || error, fullPath }
   }
 }
