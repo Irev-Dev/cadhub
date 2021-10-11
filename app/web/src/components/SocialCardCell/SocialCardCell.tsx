@@ -37,7 +37,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({
   userProject,
-  variables: { image64 },
+  variables: { image64, LiveProjectViewer },
 }: CellSuccessProps<FindSocialCardQuery>) => {
   const image = userProject?.Project?.mainImage
   const gravatar = userProject?.image
@@ -47,7 +47,7 @@ export const Success = ({
       : userProject?.Project?.description || ''
   return (
     <div
-      className="grid h-screen bg-ch-gray-800 text-ch-gray-300"
+      className="grid h-full bg-ch-gray-800 text-ch-gray-300"
       id="social-card-loaded"
       style={{ gridTemplateRows: ' 555fr 18fr' }}
     >
@@ -94,6 +94,18 @@ export const Success = ({
                 }}
                 className="w-full h-full bg-no-repeat bg-center bg-blend-difference bg-contain bg-ch-gray-800"
               />
+            )}
+          </div>
+
+          <div
+            className={`absolute inset-0 flex items-center justify-center ${
+              image64 && 'opacity-0'
+            }`}
+          >
+            {LiveProjectViewer && (
+              <div className="w-full h-full" id="social-card-canvas">
+                <LiveProjectViewer />
+              </div>
             )}
           </div>
         </div>

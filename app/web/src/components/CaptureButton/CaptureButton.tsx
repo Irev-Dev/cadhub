@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { toast } from '@redwoodjs/web/toast'
-import Popover from '@material-ui/core/Popover'
-import Svg from 'src/components/Svg/Svg'
-import Button from 'src/components/Button/Button'
+import { toJpeg } from 'html-to-image'
+
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { canvasToBlob, blobTo64 } from 'src/helpers/canvasToBlob'
 import { useUpdateProjectImages } from 'src/helpers/hooks/useUpdateProjectImages'
-
+import { requestRenderStateless } from 'src/helpers/hooks/useIdeState'
+import { PureIdeViewer } from 'src/components/IdeViewer/IdeViewer'
 import SocialCardCell from 'src/components/SocialCardCell/SocialCardCell'
-import { toJpeg } from 'html-to-image'
+
+export const captureSize = { width: 500, height: 522 }
 
 const anchorOrigin = {
   vertical: 'bottom',
@@ -19,175 +20,247 @@ const transformOrigin = {
   horizontal: 'center',
 }
 
-const CaptureButton = ({
-  canEdit,
-  TheButton,
-  shouldUpdateImage,
-  projectTitle,
-  userName,
+export const CaptureButtonViewer = ({
+  onInit,
+  onScadImage,
+  canvasRatio = 1,
+}: {
+  onInit: (a: any) => void
+  onScadImage: (a: any) => void
+  canvasRatio: number
 }) => {
-  const [captureState, setCaptureState] = useState<any>({})
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [whichPopup, setWhichPopup] = useState(null)
-  const { state, project } = useIdeContext()
-  const ref = React.useRef<HTMLDivElement>(null)
-  const { updateProjectImages } = useUpdateProjectImages({})
-
-  const onCapture = async () => {
-    const threeInstance = state.threeInstance
-    const isOpenScadImage = state?.objectData?.type === 'png'
-    let imgBlob
-    let image64
-    if (!isOpenScadImage) {
-      imgBlob = canvasToBlob(threeInstance, { width: 500, height: 375 })
-      image64 = blobTo64(
-        await canvasToBlob(threeInstance, { width: 500, height: 522 })
-      )
-    } else {
-      imgBlob = state.objectData.data
-      image64 = blobTo64(state.objectData.data)
-    }
-    const config = {
-      image: await imgBlob,
-      currImage: project?.mainImage,
-      imageObjectURL: window.URL.createObjectURL(await imgBlob),
-      callback: uploadAndUpdateImage,
-      cloudinaryImgURL: '',
-      updated: false,
-      image64: await image64,
-    }
-    setCaptureState(config)
-
-    async function uploadAndUpdateImage() {
-      const upload = async () => {
-        const socialCard64 = toJpeg(ref.current, {
-          cacheBust: true,
-          quality: 0.7,
-        })
-
-        // uploading in two separate mutations because of the 100kb limit of the lambda functions
-        const imageUploadPromise1 = updateProjectImages({
-          variables: {
-            id: project?.id,
-            mainImage64: await config.image64,
-          },
-        })
-        const imageUploadPromise2 = updateProjectImages({
-          variables: {
-            id: project?.id,
-            socialCard64: await socialCard64,
-          },
-        })
-        return Promise.all([imageUploadPromise2, imageUploadPromise1])
-      }
-      const promise = upload()
-      toast.promise(promise, {
-        loading: 'Saving Image/s',
-        success: <b>Image/s saved!</b>,
-        error: <b>Problem saving.</b>,
+  const { state } = useIdeContext()
+  const threeInstance = React.useRef(null)
+  const [dataType, dataTypeSetter] = useState(state?.objectData?.type)
+  const [artifact, artifactSetter] = useState(state?.objectData?.data)
+  const [isLoading, isLoadingSetter] = useState(false)
+  const getThreeInstance = (_threeInstance) => {
+    threeInstance.current = _threeInstance
+    onInit(_threeInstance)
+  }
+  const onCameraChange = (camera) => {
+    const renderPromise =
+      state.ideType === 'openscad' &&
+      requestRenderStateless({
+        state,
+        camera,
+        viewerSize: {
+          width: threeInstance.current.size.width * canvasRatio,
+          height: threeInstance.current.size.height * canvasRatio,
+        },
       })
-      const [{ data }] = await promise
-      return data?.updateProjectImages?.mainImage
+    if (!renderPromise) {
+      return
     }
-
-    // if there isn't a screenshot saved yet, just go ahead and save right away
-    if (shouldUpdateImage) {
-      config.cloudinaryImgURL = await uploadAndUpdateImage()
-      config.updated = true
-      setCaptureState(config)
-    }
+    isLoadingSetter(true)
+    renderPromise.then(async ({ objectData }) => {
+      isLoadingSetter(false)
+      dataTypeSetter(objectData?.type)
+      artifactSetter(objectData?.data)
+      if (objectData?.type === 'png') {
+        onScadImage(await blobTo64(objectData?.data))
+      }
+    })
   }
 
-  const handleClick = ({ event, whichPopup }) => {
-    setAnchorEl(event.currentTarget)
-    setWhichPopup(whichPopup)
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-    setWhichPopup(null)
-  }
   return (
-    <div>
-      {canEdit && (
-        <div>
-          <TheButton
-            onClick={async (event) => {
-              handleClick({ event, whichPopup: 'capture' })
-              onCapture()
-            }}
-          />
-          <Popover
-            id={'capture-popover'}
-            open={whichPopup === 'capture'}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-            className="material-ui-overrides transform translate-y-4"
-          >
-            <div className="text-sm p-4 text-gray-500">
-              {!captureState ? (
-                'Loading...'
-              ) : (
-                <div className="">
-                  <div className="text-lg">Thumbnail</div>
-                  <div
-                    className="rounded"
-                    style={{ width: 'fit-content', overflow: 'hidden' }}
-                  >
-                    <img src={captureState.imageObjectURL} className="w-32" />
-                  </div>
-                </div>
-              )}
-              <div className="text-lg mt-4">Social Media Card</div>
-              <div className="rounded-lg shadow-md overflow-hidden">
-                <div
-                  className="transform scale-50 origin-top-left"
-                  style={{ width: '600px', height: '315px' }}
-                >
-                  <div style={{ width: '1200px', height: '630px' }} ref={ref}>
-                    <SocialCardCell
-                      userName={userName}
-                      projectTitle={projectTitle}
-                      image64={captureState.image64}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 text-indigo-800">
-                {captureState.currImage && !captureState.updated ? (
-                  <Button
-                    iconName="refresh"
-                    className="shadow-md hover:shadow-lg border-indigo-600 border-2 border-opacity-0 hover:border-opacity-100 bg-indigo-200 text-indigo-100 text-opacity-100 bg-opacity-80"
-                    shouldAnimateHover
-                    onClick={async () => {
-                      const cloudinaryImg = await captureState.callback()
-                      setCaptureState({
-                        ...captureState,
-                        currImage: cloudinaryImg,
-                        updated: true,
-                      })
-                    }}
-                  >
-                    Update Project Images
-                  </Button>
-                ) : (
-                  <div className="flex justify-center mb-4">
-                    <Svg
-                      name="checkmark"
-                      className="mr-2 w-6 text-indigo-600"
-                    />{' '}
-                    Project Images Updated
-                  </div>
-                )}
-              </div>
-            </div>
-          </Popover>
-        </div>
-      )}
+    <PureIdeViewer
+      scadRatio={canvasRatio}
+      dataType={dataType}
+      artifact={artifact}
+      onInit={getThreeInstance}
+      onCameraChange={onCameraChange}
+      isLoading={isLoading}
+      isMinimal
+    />
+  )
+}
+
+function TabContent() {
+  return (
+    <div className="bg-ch-gray-800 h-full overflow-y-auto px-8 pb-16">
+      <IsolatedCanvas
+        size={{ width: 500, height: 375 }}
+        uploadKey="mainImage64"
+        RenderComponent={ThumbnailViewer}
+      />
+      <IsolatedCanvas
+        canvasRatio={2}
+        size={captureSize}
+        uploadKey="socialCard64"
+        RenderComponent={SocialCardLiveViewer}
+      />
     </div>
   )
 }
 
-export default CaptureButton
+function SocialCardLiveViewer({
+  forwardRef,
+  onUpload,
+  children,
+  partSnapShot64,
+}) {
+  const { project } = useIdeContext()
+  return (
+    <>
+      <h3 className="text-2xl text-ch-gray-300 pt-4">Set social Image</h3>
+      <div className="flex py-4">
+        <div className="rounded-md shadow-ch border border-gray-400 overflow-hidden">
+          <div
+            className="transform scale-50 origin-top-left"
+            style={{ width: '600px', height: '315px' }}
+          >
+            <div style={{ width: '1200px', height: '630px' }} ref={forwardRef}>
+              <SocialCardCell
+                userName={project.user.userName}
+                projectTitle={project.title}
+                image64={partSnapShot64}
+                LiveProjectViewer={() => children}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button className="bg-gray-200 p-2 rounded-sm" onClick={onUpload}>
+        save image
+      </button>
+    </>
+  )
+}
+
+function ThumbnailViewer({ forwardRef, onUpload, children, partSnapShot64 }) {
+  return (
+    <>
+      <h3 className="text-2xl text-ch-gray-300 pt-4">Set thumbnail</h3>
+      <div
+        style={{ width: '500px', height: '375px' }}
+        className="rounded-md shadow-ch border border-gray-400 overflow-hidden my-4"
+      >
+        <div className="h-full w-full relative" ref={forwardRef}>
+          {children}
+          {partSnapShot64 && (
+            <img src={partSnapShot64} className="absolute inset-0" />
+          )}
+        </div>
+      </div>
+      <button className="bg-gray-200 p-2 rounded-sm" onClick={onUpload}>
+        save thumbnail
+      </button>
+    </>
+  )
+}
+
+function IsolatedCanvas({
+  RenderComponent,
+  canvasRatio = 1,
+  size,
+  uploadKey,
+}: {
+  canvasRatio?: number
+  uploadKey: 'socialCard64' | 'mainImage64'
+  size: {
+    width: number
+    height: number
+  }
+  RenderComponent: React.FC<{
+    forwardRef: React.Ref<any>
+    children: React.ReactNode
+    partSnapShot64: string
+    onUpload: (a: any) => void
+  }>
+}) {
+  const { project } = useIdeContext()
+  const { updateProjectImages } = useUpdateProjectImages({})
+  const [partSnapShot64, partSnapShot64Setter] = React.useState('')
+  const [scadSnapShot64, scadSnapShot64Setter] = React.useState('')
+
+  const captureRef = React.useRef<HTMLDivElement>(null)
+
+  const threeInstance = React.useRef(null)
+  const onInit = (_threeInstance) => (threeInstance.current = _threeInstance)
+  const upload = async () => {
+    const uploadPromise = new Promise((resolve, reject) => {
+      const asyncHelper = async () => {
+        if (!scadSnapShot64) {
+          partSnapShot64Setter(
+            await blobTo64(await canvasToBlob(threeInstance.current, size))
+          )
+        } else {
+          partSnapShot64Setter(scadSnapShot64)
+        }
+
+        setTimeout(async () => {
+          const capturedImage = await toJpeg(captureRef.current, {
+            cacheBust: true,
+            quality: 0.7,
+          })
+          await updateProjectImages({
+            variables: {
+              id: project?.id,
+              [uploadKey]: capturedImage,
+            },
+          })
+          partSnapShot64Setter('')
+          resolve(capturedImage)
+        })
+      }
+      asyncHelper()
+    })
+    toast.promise(uploadPromise, {
+      loading: 'Saving Image',
+      success: (finalImg: string) => (
+        <div className="flex flex-col items-center">
+          <b className="py-2">Image saved!</b>
+          <img src={finalImg} />
+        </div>
+      ),
+      error: <b>Problem saving.</b>,
+    })
+  }
+
+  return (
+    <div>
+      <RenderComponent
+        forwardRef={captureRef}
+        onUpload={upload}
+        partSnapShot64={partSnapShot64}
+      >
+        <div
+          style={{
+            width: `${size.width * canvasRatio}px`,
+            height: `${size.height * canvasRatio}px`,
+          }}
+        >
+          <CaptureButtonViewer
+            onInit={onInit}
+            onScadImage={scadSnapShot64Setter}
+            canvasRatio={canvasRatio}
+          />
+        </div>
+      </RenderComponent>
+    </div>
+  )
+}
+
+export default function CaptureButton({ TheButton }) {
+  const { state, thunkDispatch } = useIdeContext()
+
+  return (
+    <TheButton
+      onClick={() => {
+        thunkDispatch({
+          type: 'addEditorModel',
+          payload: {
+            type: 'component',
+            label: 'Social Media Card',
+            Component: TabContent,
+          },
+        })
+        thunkDispatch({
+          type: 'switchEditorModel',
+          payload: state.editorTabs.length,
+        })
+      }}
+    />
+  )
+}

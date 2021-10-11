@@ -25,11 +25,25 @@ interface XYZ {
   z: number
 }
 
-interface EditorModel {
-  type: 'code' | 'guide'
+interface CodeTab {
+  type: 'code'
   label: string
   content?: string
 }
+
+interface GuideTab {
+  type: 'guide'
+  label: string
+  content: string
+}
+
+interface ComponentTab {
+  type: 'component'
+  label: string
+  Component: React.FC
+}
+
+type EditorTab = GuideTab | CodeTab | ComponentTab
 
 export interface State {
   ideType: 'INIT' | CadPackageType
@@ -37,7 +51,7 @@ export interface State {
   ideGuide?: string
   consoleMessages: { type: 'message' | 'error'; message: string; time: Date }[]
   code: string
-  models: EditorModel[]
+  editorTabs: EditorTab[]
   currentModel: number
   objectData: {
     type: 'INIT' | ArtifactTypes
@@ -78,7 +92,7 @@ export const initialState: State = {
     { type: 'message', message: 'Initialising', time: new Date() },
   ],
   code,
-  models: [{ type: 'code', label: 'Code' }],
+  editorTabs: [{ type: 'code', label: 'Code' }],
   currentModel: 0,
   objectData: {
     type: 'INIT',
@@ -240,14 +254,14 @@ const reducer = (state: State, { type, payload }): State => {
     case 'addEditorModel':
       return {
         ...state,
-        models: [...state.models, payload],
+        editorTabs: [...state.editorTabs, payload],
       }
     case 'removeEditorModel':
       return {
         ...state,
-        models: [
-          ...state.models.slice(0, payload),
-          ...state.models.slice(payload + 1),
+        editorTabs: [
+          ...state.editorTabs.slice(0, payload),
+          ...state.editorTabs.slice(payload + 1),
         ],
         currentModel: payload === 0 ? 0 : payload - 1,
       }
@@ -284,71 +298,84 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
   return [state, thunkDispatch]
 }
 
-interface RequestRenderArgs {
+interface RequestRenderArgsStateless {
   state: State
-  dispatch: any
-  parameters: any
-  code: State['code']
-  camera: State['camera']
-  viewerSize: State['viewerSize']
+  camera?: State['camera']
+  viewerSize?: State['viewerSize']
   quality?: State['objectData']['quality']
   specialCadProcess?: string
+  parameters?: { [key: string]: any }
 }
 
-export const requestRender = ({
+export const requestRenderStateless = ({
   state,
-  dispatch,
-  code,
   camera,
   viewerSize,
   quality = 'low',
   specialCadProcess = null,
   parameters,
-}: RequestRenderArgs) => {
+}: RequestRenderArgsStateless): null | Promise<any> => {
   if (
-    state.ideType !== 'INIT' &&
-    (!state.isLoading || state.objectData?.type === 'INIT')
+    !(
+      state.ideType !== 'INIT' &&
+      (!state.isLoading || state.objectData?.type === 'INIT')
+    )
   ) {
-    const renderFn = specialCadProcess
-      ? cadPackages[state.ideType][specialCadProcess]
-      : cadPackages[state.ideType].render
-    return renderFn({
-      code,
-      settings: {
-        parameters: state.isCustomizerOpen ? parameters : {},
-        camera,
-        viewerSize,
-        quality,
-      },
-    })
-      .then(
-        ({
-          objectData,
-          message,
-          status,
-          customizerParams,
-          currentParameters,
-        }) => {
-          if (status === 'error') {
-            dispatch({
-              type: 'errorRender',
-              payload: { message },
-            })
-          } else {
-            dispatch({
-              type: 'healthyRender',
-              payload: {
-                objectData,
-                message,
-                lastRunCode: code,
-                customizerParams,
-                currentParameters,
-              },
-            })
-            return objectData
-          }
-        }
-      )
-      .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
+    return null
   }
+  const renderFn = specialCadProcess
+    ? cadPackages[state.ideType][specialCadProcess]
+    : cadPackages[state.ideType].render
+  return renderFn({
+    code: state.code,
+    settings: {
+      parameters: state.isCustomizerOpen
+        ? parameters || state.currentParameters
+        : {},
+      camera: camera || state.camera,
+      viewerSize: viewerSize || state.viewerSize,
+      quality,
+    },
+  })
+}
+
+interface RequestRenderArgs extends RequestRenderArgsStateless {
+  dispatch: any
+}
+
+export const requestRender = ({ dispatch, ...rest }: RequestRenderArgs) => {
+  const renderPromise = requestRenderStateless(rest)
+  if (!renderPromise) {
+    return
+  }
+  renderPromise
+    .then(
+      ({
+        objectData,
+        message,
+        status,
+        customizerParams,
+        currentParameters,
+      }) => {
+        if (status === 'error') {
+          dispatch({
+            type: 'errorRender',
+            payload: { message },
+          })
+        } else {
+          dispatch({
+            type: 'healthyRender',
+            payload: {
+              objectData,
+              message,
+              lastRunCode: code,
+              customizerParams,
+              currentParameters,
+            },
+          })
+          return objectData
+        }
+      }
+    )
+    .catch(() => dispatch({ type: 'resetLoading' })) // TODO should probably display something to the user here
 }

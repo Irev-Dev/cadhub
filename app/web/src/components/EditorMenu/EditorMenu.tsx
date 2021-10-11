@@ -62,7 +62,7 @@ const EditorMenu = () => {
             })
             thunkDispatch({
               type: 'switchEditorModel',
-              payload: state.models.length,
+              payload: state.editorTabs.length,
             })
           }}
         />
