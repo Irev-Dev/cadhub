@@ -80,8 +80,20 @@ async function main() {
   }
   existing = await db.project.findMany({where: { title: projects[1].title}})
   if(!existing.length) {
-    await db.project.create({
+    const result = await db.project.create({
       data: projects[1],
+    })
+
+    await db.project.create({
+      data: {
+        ...projects[1],
+        title: `${projects[1].title} fork`,
+        forkedFrom: {
+          connect: {
+            id: result.id,
+          },
+        },
+      },
     })
   }
 
