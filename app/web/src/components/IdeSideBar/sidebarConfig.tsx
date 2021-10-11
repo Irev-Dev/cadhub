@@ -1,12 +1,46 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { SvgNames } from 'src/components/Svg/Svg'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
-
+import { createRemoveUpdate, updateTree } from 'react-mosaic-component'
+import type { MosaicPath } from 'react-mosaic-component'
 interface SidebarConfigType {
   name: string
   icon: SvgNames
   disabled: boolean
   panel: ReactNode | null
+}
+
+interface MosaicTree {
+  first: string | MosaicTree
+  second: string | MosaicTree
+}
+
+const getPathById = (
+  tree: MosaicTree,
+  id: string,
+  path: MosaicPath = []
+): MosaicPath => {
+  if (tree.first === id || tree.second === id) {
+    return [...path, tree.first === id ? 'first' : 'second']
+  }
+  if (typeof tree.first !== 'string' && typeof tree.second !== 'string') {
+    throw new Error('id not found')
+  }
+  try {
+    if (typeof tree.first !== 'string') {
+      return getPathById(tree.first, id, [...path, 'first'])
+    }
+  } catch (error) {
+    throw new Error('id not found')
+  }
+  try {
+    if (typeof tree.second !== 'string') {
+      return getPathById(tree.second, id, [...path, 'second'])
+    }
+  } catch (error) {
+    throw new Error('id not found')
+  }
+  throw new Error('id not found')
 }
 
 export const sidebarTopConfig: SidebarConfigType[] = [
@@ -106,20 +140,52 @@ const settingsConfig: settingsConfig[] = [
     title: 'Console',
     name: 'console',
     Content: () => {
-      const { state, thunkDispatch } = useIdeContext()      
+      const { state, thunkDispatch } = useIdeContext()
+      const consolePath = React.useMemo<MosaicPath | null>(() => {
+        try {
+          const path = getPathById(state.layout, 'Console')
+          return path
+        } catch (error) {
+          return null
+        }
+      }, [state.layout])
       return (
         <div className="p-2">
-          <li className="grid items-center my-2" style={{ gridTemplateColumns: 'auto 4rem' }}>
+          <li
+            className="grid items-center my-2"
+            style={{ gridTemplateColumns: 'auto 4rem' }}
+          >
             <div className="text-sm">Visible</div>
-            <input type="checkbox"
+            <input
+              type="checkbox"
               onChange={(newValue) => {
-                    state.consoleVisible = !state.consoleVisible
-                    if (state.consoleVisible)
-                      thunkDispatch({ type: 'resetLayout'})
-                    else
-                      thunkDispatch({ type: 'setLayout', payload:{ message:{ direction: 'row',  first: 'Editor',  second: 'Viewer'}}})
-                  }}
-              checked={state.consoleVisible}/>
+                if (consolePath) {
+                  const newTree = updateTree(state.layout, [
+                    createRemoveUpdate(state.layout, consolePath),
+                  ])
+                  thunkDispatch({ type: 'setLayout', payload: newTree })
+                } else {
+                  // Split 'Viewer' panel to add console back in
+                  const viewerPath = getPathById(state.layout, 'Viewer')
+                  const newTree = { ...state.layout }
+                  let temp = newTree
+                  viewerPath.forEach((name) => {
+                    if (newTree[name] === 'Viewer') {
+                      newTree[name] = {
+                        direction: 'column',
+                        first: 'Viewer',
+                        second: 'Console',
+                        splitPercentage: 70,
+                      }
+                      return
+                    }
+                    temp = { ...newTree[name] }
+                  })
+                  thunkDispatch({ type: 'setLayout', payload: newTree })
+                }
+              }}
+              checked={!!consolePath}
+            />
           </li>
         </div>
       )

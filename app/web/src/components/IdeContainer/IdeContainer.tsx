@@ -110,7 +110,7 @@ const IdeContainer = () => {
         }}
         value={state.layout}
         onChange={(newLayout) =>
-          thunkDispatch({ type: 'setLayout', payload: { message: newLayout } })
+          thunkDispatch({ type: 'setLayout', payload: newLayout })
         }
         onRelease={handleViewerSizeUpdate}
       />
