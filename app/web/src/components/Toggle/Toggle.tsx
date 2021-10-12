@@ -1,7 +1,7 @@
 const Toggle = ({ offLabel = 'off', onLabel = 'on', checked, onChange }) => {
   return (
     <div className="flex items-center text-sm cursor-pointer font-light">
-      <span className={!checked && 'text-ch-gray-500'}>{offLabel}</span>
+      <span className={`${!checked && 'text-ch-gray-500'}`}>{offLabel}</span>
       <div
         className={
           'mx-2 w-7 h-4 p-1 rounded-full border border-ch-gray-300 relative ' +
@@ -19,7 +19,7 @@ const Toggle = ({ offLabel = 'off', onLabel = 'on', checked, onChange }) => {
           }}
         ></div>
       </div>
-      <span className={checked && 'text-ch-gray-500'}>{onLabel}</span>
+      <span className={`${checked && 'text-ch-gray-500'}`}>{onLabel}</span>
       <input
         className="sr-only"
         type="checkbox"
