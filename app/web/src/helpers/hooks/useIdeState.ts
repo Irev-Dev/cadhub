@@ -182,7 +182,7 @@ const reducer = (state: State, { type, payload }): State => {
     case 'setLayout':
       return {
         ...state,
-        layout: payload.message,
+        layout: payload,
       }
     case 'updateCamera':
       return {
