@@ -98,6 +98,9 @@ module.exports = {
       minHeight: {
         md: '28rem',
       },
+      outline: {
+        gray: ['2px solid #3B3E4B', '8px'],
+      },
       skew: {
         '-20': '-20deg',
       },

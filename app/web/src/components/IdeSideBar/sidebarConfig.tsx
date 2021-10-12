@@ -3,6 +3,8 @@ import { SvgNames } from 'src/components/Svg/Svg'
 import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { createRemoveUpdate, updateTree } from 'react-mosaic-component'
 import type { MosaicPath } from 'react-mosaic-component'
+import Toggle from 'src/components/Toggle'
+
 interface SidebarConfigType {
   name: string
   icon: SvgNames
@@ -151,41 +153,44 @@ const settingsConfig: settingsConfig[] = [
       }, [state.layout])
       return (
         <div className="p-2">
-          <li
-            className="grid items-center my-2"
-            style={{ gridTemplateColumns: 'auto 4rem' }}
-          >
-            <div className="text-sm">Visible</div>
-            <input
-              type="checkbox"
-              onChange={(newValue) => {
-                if (consolePath) {
-                  const newTree = updateTree(state.layout, [
-                    createRemoveUpdate(state.layout, consolePath),
-                  ])
-                  thunkDispatch({ type: 'setLayout', payload: newTree })
-                } else {
-                  // Split 'Viewer' panel to add console back in
-                  const viewerPath = getPathById(state.layout, 'Viewer')
-                  const newTree = { ...state.layout }
-                  let temp = newTree
-                  viewerPath.forEach((name) => {
-                    if (newTree[name] === 'Viewer') {
-                      newTree[name] = {
-                        direction: 'column',
-                        first: 'Viewer',
-                        second: 'Console',
-                        splitPercentage: 70,
+          <li className="list-none select-none">
+            <label
+              className="grid items-center my-2 cursor-pointer"
+              style={{ gridTemplateColumns: '1fr auto' }}
+            >
+              <span>Visible</span>
+              <Toggle
+                offLabel="Hide"
+                onLabel="Show"
+                onChange={(newValue) => {
+                  if (consolePath) {
+                    const newTree = updateTree(state.layout, [
+                      createRemoveUpdate(state.layout, consolePath),
+                    ])
+                    thunkDispatch({ type: 'setLayout', payload: newTree })
+                  } else {
+                    // Split 'Viewer' panel to add console back in
+                    const viewerPath = getPathById(state.layout, 'Viewer')
+                    const newTree = { ...state.layout }
+                    let temp = newTree
+                    viewerPath.forEach((name) => {
+                      if (newTree[name] === 'Viewer') {
+                        newTree[name] = {
+                          direction: 'column',
+                          first: 'Viewer',
+                          second: 'Console',
+                          splitPercentage: 70,
+                        }
+                        return
                       }
-                      return
-                    }
-                    temp = { ...newTree[name] }
-                  })
-                  thunkDispatch({ type: 'setLayout', payload: newTree })
-                }
-              }}
-              checked={!!consolePath}
-            />
+                      temp = { ...newTree[name] }
+                    })
+                    thunkDispatch({ type: 'setLayout', payload: newTree })
+                  }
+                }}
+                checked={!!consolePath}
+              />
+            </label>
           </li>
         </div>
       )
