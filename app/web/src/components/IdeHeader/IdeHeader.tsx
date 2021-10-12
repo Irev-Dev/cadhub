@@ -60,14 +60,15 @@ export default function IdeHeader({
 }) {
   const { currentUser } = useAuth()
   const { project, state } = useIdeContext()
-  const hasUnsavedChanges = project?.code && state?.code && project?.code !== state?.code
+  const hasUnsavedChanges =
+    project?.code && state?.code && project?.code !== state?.code
 
   const isProfile = context === 'profile'
   const canEdit =
     (currentUser && currentUser?.sub === project?.user?.id) ||
     currentUser?.roles?.includes('admin')
   const projectOwner = project?.user?.userName
-  const showForkMessage = !canEdit && hasUnsavedChanges
+  const showForkMessage = !canEdit && hasUnsavedChanges && currentUser?.sub
 
   const [createFork] = useMutation(FORK_PROJECT_MUTATION, {
     onCompleted: ({ forkProject }) => {
@@ -204,17 +205,24 @@ export default function IdeHeader({
           </Popover>
           {currentUser?.sub && (
             <TopButton
-                onClick={handleFork}
-                name="Fork"
-                className={ showForkMessage ? " bg-ch-blue-650 bg-opacity-80 hover:bg-opacity-100 text-ch-gray-300 border-blue-300 border-2"
-                : " bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300" }
-              >
-                <Svg name="fork-new" className="w-6 h-6 text-ch-blue-400" />
+              onClick={handleFork}
+              name="Fork"
+              className={
+                showForkMessage
+                  ? ' bg-ch-blue-650 bg-opacity-80 hover:bg-opacity-100 text-ch-gray-300 border-blue-300 border-2'
+                  : ' bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300'
+              }
+            >
+              <Svg name="fork-new" className="w-6 h-6 text-ch-blue-400" />
             </TopButton>
           )}
-          {currentUser?.sub && showForkMessage && (
-            <div className="fixed bg-white w-60 h-10 top-20 right-20 z-10 rounded-md font-bold text-sm flex p-2 items-center">
-              <Svg name="exclamation-circle" className="text-red-400 w-8 h-8 mx-2"/> Fork to save your work
+          {showForkMessage && (
+            <div className="fixed bg-white w-60 h-10 top-16 right-24 z-10 rounded-md text-sm flex p-2 items-center">
+              <Svg
+                name="exclamation-circle"
+                className="w-8 h-8 mx-2 text-ch-blue-500"
+              />{' '}
+              Fork to save your work
             </div>
           )}
         </div>
