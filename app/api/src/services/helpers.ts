@@ -39,7 +39,7 @@ export const generateUniqueString = async (
 }
 
 export const generateUniqueStringWithoutSeed = async (
-  isUniqueCallback: (seed: string) => Promise<any>,
+  isUniqueCallback: (seed: string) => Promise<boolean>,
   count = 0
 ) => {
   const seed = humanId({

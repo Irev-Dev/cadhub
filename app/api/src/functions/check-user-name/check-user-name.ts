@@ -1,4 +1,4 @@
-import type { APIGatewayEvent, Context } from 'aws-lambda'
+import type { APIGatewayEvent /*, Context*/ } from 'aws-lambda'
 import { logger } from 'src/lib/logger'
 import { db } from 'src/lib/db'
 
@@ -18,7 +18,7 @@ import { db } from 'src/lib/db'
  * @param { Context } context - contains information about the invocation,
  * function, and execution environment.
  */
-export const handler = async (event: APIGatewayEvent, context: Context) => {
+export const handler = async (event: APIGatewayEvent /*context: Context*/) => {
   logger.info('Invoked checkUserName function')
   const userName = event.queryStringParameters.username
   let isUserNameAvailable = false

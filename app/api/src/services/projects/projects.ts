@@ -47,15 +47,17 @@ export const projectByUserAndTitle = async ({ userName, projectTitle }) => {
     },
   })
 }
-const isUniqueProjectTitle = (userId: string) => async (seed: string) =>
-  db.project.findUnique({
-    where: {
-      title_userId: {
-        title: seed,
-        userId,
+const isUniqueProjectTitle =
+  (userId: string) =>
+  async (seed: string): Promise<boolean> =>
+    !!(await db.project.findUnique({
+      where: {
+        title_userId: {
+          title: seed,
+          userId,
+        },
       },
-    },
-  })
+    }))
 
 interface CreateProjectArgs {
   input: Prisma.ProjectCreateArgs['data']
