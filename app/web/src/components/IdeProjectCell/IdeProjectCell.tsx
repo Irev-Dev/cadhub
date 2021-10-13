@@ -1,7 +1,5 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes } from '@redwoodjs/router'
-import { QUERY as UsersProjectsQuery } from 'src/components/ProjectsOfUserCell'
 import useUser from 'src/helpers/hooks/useUser'
 import DevIdePage from 'src/pages/DevIdePage/DevIdePage'
 
@@ -52,17 +50,6 @@ export const UPDATE_PROJECT_MUTATION_IDE = gql`
     }
   }
 `
-export const FORK_PROJECT_MUTATION = gql`
-  mutation ForkProjectMutation($input: CreateProjectInput!) {
-    forkProject(input: $input) {
-      id
-      title
-      user {
-        userName
-      }
-    }
-  }
-`
 
 export const Loading = () => <div>Loading...</div>
 
@@ -90,31 +77,5 @@ export const Success = ({
       },
     }
   )
-  const [forkProject] = useMutation(FORK_PROJECT_MUTATION, {
-    refetchQueries: [
-      {
-        query: UsersProjectsQuery,
-        variables: { userName: user?.userName },
-      },
-    ],
-    onCompleted: ({ forkProject }) => {
-      navigate(
-        routes.ide({
-          userName: forkProject?.user?.userName,
-          projectTitle: forkProject?.title,
-        })
-      )
-      toast.success('Project Forked.')
-    },
-  })
-
-  const saveCode = async ({ input, id, isFork }: SaveCodeArgs) => {
-    if (!isFork) {
-      await updateProject({ variables: { id, input } })
-      refetch()
-      return
-    }
-    forkProject({ variables: { input } })
-  }
   return <DevIdePage cadPackage={project?.cadPackage} project={project} />
 }
