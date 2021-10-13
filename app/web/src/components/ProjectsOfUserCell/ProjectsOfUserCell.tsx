@@ -15,6 +15,7 @@ export const QUERY = gql`
       createdAt
       updatedAt
       user {
+        id
         image
         userName
       }
@@ -27,18 +28,27 @@ export const QUERY = gql`
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => {
-  return <div className="rw-text-center">No projects yet.</div>
+export const Empty = ({ isMinimal = false }) => {
+  return (
+    <p className={`${isMinimal && 'my-2 text-ch-gray-400'}`}>
+      No projects yet.
+    </p>
+  )
 }
 
 export const Success = ({
   projects,
-  variables: { shouldFilterProjectsWithoutImage },
+  variables: { userName },
+  shouldFilterProjectsWithoutImage = false,
+  projectLimit = 80,
+  isMinimal = false,
 }) => {
   return (
     <Projects
       projects={projects}
       shouldFilterProjectsWithoutImage={shouldFilterProjectsWithoutImage}
+      projectLimit={projectLimit}
+      isMinimal={isMinimal}
     />
   )
 }

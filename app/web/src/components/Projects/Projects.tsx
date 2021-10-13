@@ -11,6 +11,7 @@ const ProjectsList = ({
   projects,
   shouldFilterProjectsWithoutImage = false,
   projectLimit = 80,
+  isMinimal = false,
 }) => {
   // temporary filtering projects that don't have images until some kind of search is added and there are more things on the website
   // it helps avoid the look of the website just being filled with dumby data.
@@ -23,7 +24,7 @@ const ProjectsList = ({
         ? projects
             .filter(({ mainImage }) => mainImage)
             .slice(0, projectLimit || 80)
-        : [...projects]
+        : [...projects].slice(0, projectLimit || 80)
       )
         // sort should probably be done on the service, but the filtering is temp too
         .sort(
@@ -33,7 +34,7 @@ const ProjectsList = ({
     [projects, shouldFilterProjectsWithoutImage]
   )
 
-  return (
+  return !isMinimal ? (
     <section className="max-w-7xl mx-auto">
       <ul
         className="grid gap-x-8 gap-y-8 items-center relative"
@@ -52,9 +53,27 @@ const ProjectsList = ({
               Reaction={Reaction}
               cadPackage={cadPackage}
               childForks={childForks}
+              key={`project-card-${index}`}
             />
           )
         )}
+      </ul>
+    </section>
+  ) : (
+    <section>
+      <ul>
+        {filteredProjects.map(({ title, user }, index) => (
+          <Link
+            to={routes.project({
+              userName: user?.userName,
+              projectTitle: title,
+            })}
+            className="my-2 capitalize block hover:text-ch-pink-300"
+            key={`project-item-${index}`}
+          >
+            <p>{title.replace(/[-_]/g, ' ')}</p>
+          </Link>
+        ))}
       </ul>
     </section>
   )

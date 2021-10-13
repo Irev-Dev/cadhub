@@ -8,6 +8,7 @@ import { ImageFallback } from 'src/components/ImageUploader'
 import useUser from 'src/helpers/hooks/useUser'
 import LoginModal from 'src/components/LoginModal'
 import Gravatar from 'src/components/Gravatar/Gravatar'
+import ProjectsOfUserCell from 'src/components/ProjectsOfUserCell'
 
 const ProfileSlashLogin = () => {
   const { logOut, isAuthenticated, currentUser, client } = useAuth()
@@ -58,25 +59,39 @@ const ProfileSlashLogin = () => {
           </Popover.Button>
           {currentUser && (
             <Popover.Panel className="w-48 absolute z-10 right-0 bg-ch-gray-700 mt-4 px-3 py-2 rounded shadow-md overflow-hidden text-ch-gray-300">
-              <Link to={routes.user({ userName: user?.userName })}>
-                <h3 className="text-lg hover:text-ch-pink-300">
-                  Hello {user?.name}
-                </h3>
-              </Link>
-              <hr className="my-2" />
               <Link
-                className="my-2 mt-4 block hover:text-ch-pink-300"
-                to={routes.user({ userName: user?.userName })}
+                to={routes.user({
+                  userName: user?.userName || currentUser.userName,
+                })}
+              >
+                <p className="my-2 text-ch-blue-400 font-fira-code leading-4 text-sm">
+                  Hello {user?.name}
+                </p>
+              </Link>
+              <Link
+                className="my-2 block hover:text-ch-pink-300"
+                to={routes.user({
+                  userName: user?.userName || currentUser.userName,
+                })}
               >
                 <div>View Your Profile</div>
               </Link>
               <a
                 href="#"
                 onClick={logOut}
-                className="text-ch-gray-400 hover:text-ch-pink-300"
+                className="my-2 text-ch-gray-400 hover:text-ch-pink-300"
               >
                 Logout
               </a>
+              <hr className="my-4" />
+              <p className="text-ch-blue-400 font-fira-code leading-4 text-sm">
+                Recent Projects
+              </p>
+              <ProjectsOfUserCell
+                projectLimit={3}
+                isMinimal
+                userName={user?.userName || currentUser.userName}
+              />
             </Popover.Panel>
           )}
         </Popover>
