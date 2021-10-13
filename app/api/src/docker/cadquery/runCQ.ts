@@ -32,6 +32,7 @@ export const runCQ = async ({
     `--getparams true`,
     `--infile /tmp/${tempFile}/main.py`,
     `--outfile ${customizerPath}`,
+    `--rawparamsoutfile /tmp/${tempFile}/params.json`
   ].join(' ')
   console.log('command', mainCommand)
   let consoleMessage = ''
