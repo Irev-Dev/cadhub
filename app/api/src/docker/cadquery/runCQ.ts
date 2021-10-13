@@ -26,20 +26,13 @@ export const runCQ = async ({
     `--outfile ${stlPath}`,
     `--outputopts "deflection:${deflection};angularDeflection:${deflection};"`,
     `--params /tmp/${tempFile}/params.json`,
-  ].join(' ')
-  const customizerCommand = [
-    `./cq-cli/cq-cli.py`,
-    `--getparams true`,
-    `--infile /tmp/${tempFile}/main.py`,
-    `--outfile ${customizerPath}`,
-    `--rawparamsoutfile /tmp/${tempFile}/params.json`
+    `--getparams ${customizerPath}`
   ].join(' ')
   console.log('command', mainCommand)
   let consoleMessage = ''
   try {
     ;[consoleMessage] = await Promise.all([
       runCommand(mainCommand, 30000),
-      runCommand(customizerCommand, 30000),
     ])
     const params = JSON.parse(
       await readFile(customizerPath, { encoding: 'ascii' })
