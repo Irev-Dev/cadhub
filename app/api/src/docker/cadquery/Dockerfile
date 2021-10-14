@@ -1,4 +1,5 @@
-FROM public.ecr.aws/lts/ubuntu:20.04_stable
+# FROM public.ecr.aws/lts/ubuntu:20.04_stable
+FROM continuumio/miniconda3
 ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
 ARG DEBIAN_FRONTEND=noninteractive
@@ -39,10 +40,10 @@ RUN npm install
 RUN npm install aws-lambda-ric@1.0.0
 
 # Install Miniconda
-RUN wget \
-    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh
+# RUN wget \
+#     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+#     && bash Miniconda3-latest-Linux-x86_64.sh -b \
+#     && rm -f Miniconda3-latest-Linux-x86_64.sh
 RUN conda --version
 
 # Install CadQuery
