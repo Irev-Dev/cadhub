@@ -1,17 +1,15 @@
 import { useMemo } from 'react'
-import { Link, routes } from '@redwoodjs/router'
-import Svg from 'src/components/Svg/Svg'
-import CadPackage from 'src/components/CadPackage/CadPackage'
-
-import { countEmotes } from 'src/helpers/emote'
-import ImageUploader from 'src/components/ImageUploader'
+import type { Projects_Of_User } from 'types/graphql'
 import ProjectCard from 'src/components/ProjectCard/ProjectCard'
 
 const ProjectsList = ({
   projects,
   shouldFilterProjectsWithoutImage = false,
   projectLimit = 80,
-  isMinimal = false,
+}: {
+  projects: Projects_Of_User['projects']
+  shouldFilterProjectsWithoutImage: boolean
+  projectLimit: number
 }) => {
   // temporary filtering projects that don't have images until some kind of search is added and there are more things on the website
   // it helps avoid the look of the website just being filled with dumby data.
@@ -34,7 +32,7 @@ const ProjectsList = ({
     [projects, shouldFilterProjectsWithoutImage]
   )
 
-  return !isMinimal ? (
+  return (
     <section className="max-w-7xl mx-auto">
       <ul
         className="grid gap-x-8 gap-y-8 items-center relative"
@@ -46,34 +44,16 @@ const ProjectsList = ({
             index
           ) => (
             <ProjectCard
-              key={index}
+              key={`project-card-${index}`}
               title={title}
               mainImage={mainImage}
               user={user}
               Reaction={Reaction}
               cadPackage={cadPackage}
               childForks={childForks}
-              key={`project-card-${index}`}
             />
           )
         )}
-      </ul>
-    </section>
-  ) : (
-    <section>
-      <ul>
-        {filteredProjects.map(({ title, user }, index) => (
-          <Link
-            to={routes.project({
-              userName: user?.userName,
-              projectTitle: title,
-            })}
-            className="my-2 capitalize block hover:text-ch-pink-300"
-            key={`project-item-${index}`}
-          >
-            <p>{title.replace(/[-_]/g, ' ')}</p>
-          </Link>
-        ))}
       </ul>
     </section>
   )
