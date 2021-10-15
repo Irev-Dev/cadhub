@@ -1,7 +1,5 @@
-import { Link, routes } from '@redwoodjs/router'
-
+import type { Projects_Of_User } from 'types/graphql'
 import Projects from 'src/components/Projects/Projects'
-
 export const QUERY = gql`
   query PROJECTS_OF_USER($userName: String!) {
     projects(userName: $userName) {
@@ -20,6 +18,7 @@ export const QUERY = gql`
         userName
       }
       Reaction {
+        id
         emote
       }
     }
@@ -38,17 +37,18 @@ export const Empty = ({ isMinimal = false }) => {
 
 export const Success = ({
   projects,
-  variables: { userName },
   shouldFilterProjectsWithoutImage = false,
   projectLimit = 80,
-  isMinimal = false,
+}: {
+  projects: Projects_Of_User['projects']
+  shouldFilterProjectsWithoutImage: boolean
+  projectLimit: number
 }) => {
   return (
     <Projects
       projects={projects}
       shouldFilterProjectsWithoutImage={shouldFilterProjectsWithoutImage}
       projectLimit={projectLimit}
-      isMinimal={isMinimal}
     />
   )
 }

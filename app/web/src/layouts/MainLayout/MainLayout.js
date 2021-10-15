@@ -16,7 +16,7 @@ import Svg from 'src/components/Svg'
 import { ImageFallback } from 'src/components/ImageUploader'
 import useUser from 'src/helpers/hooks/useUser'
 import './MainLayout.css'
-import ProjectsOfUserCell from 'src/components/ProjectsOfUserCell'
+import RecentProjectsCell from 'src/components/RecentProjectsCell'
 
 let previousSubmission = ''
 
@@ -152,11 +152,7 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                       <p className="text-ch-blue-400 font-fira-code leading-4 text-sm">
                         Recent Projects
                       </p>
-                      <ProjectsOfUserCell
-                        projectLimit={3}
-                        isMinimal
-                        userName={user?.userName}
-                      />
+                      <RecentProjectsCell userName={user?.userName} />
                     </Popover.Panel>
                   )}
                 </Popover>

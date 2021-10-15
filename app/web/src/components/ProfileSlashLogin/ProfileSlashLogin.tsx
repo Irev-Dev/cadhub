@@ -7,33 +7,13 @@ import { ImageFallback } from 'src/components/ImageUploader'
 
 import useUser from 'src/helpers/hooks/useUser'
 import LoginModal from 'src/components/LoginModal'
-import Gravatar from 'src/components/Gravatar/Gravatar'
-import ProjectsOfUserCell from 'src/components/ProjectsOfUserCell'
+import RecentProjectsCell from 'src/components/RecentProjectsCell'
 
 const ProfileSlashLogin = () => {
-  const { logOut, isAuthenticated, currentUser, client } = useAuth()
+  const { logOut, isAuthenticated, currentUser } = useAuth()
   const { user, loading } = useUser()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [popoverId, setPopoverId] = useState(undefined)
-  const openPopover = (target) => {
-    setAnchorEl(target)
-    setPopoverId('simple-popover')
-    setIsOpen(true)
-  }
-  const closePopover = () => {
-    setAnchorEl(null)
-    setPopoverId(undefined)
-    setIsOpen(false)
-  }
-  const togglePopover = ({ currentTarget }) => {
-    if (isOpen) {
-      return closePopover()
-    }
 
-    openPopover(currentTarget)
-  }
   const recordedLogin = () => {
     ReactGA.event({
       category: 'login',
@@ -87,9 +67,7 @@ const ProfileSlashLogin = () => {
               <p className="text-ch-blue-400 font-fira-code leading-4 text-sm">
                 Recent Projects
               </p>
-              <ProjectsOfUserCell
-                projectLimit={3}
-                isMinimal
+              <RecentProjectsCell
                 userName={user?.userName || currentUser.userName}
               />
             </Popover.Panel>
