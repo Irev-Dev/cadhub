@@ -25,6 +25,13 @@ interface XYZ {
   z: number
 }
 
+export interface MosaicTree {
+  first: string | MosaicTree
+  second: string | MosaicTree
+  direction?: string
+  splitPercentage?: number
+}
+
 interface CodeTab {
   type: 'code'
   label: string
@@ -55,13 +62,13 @@ export interface State {
   currentModel: number
   objectData: {
     type: 'INIT' | ArtifactTypes
-    data: any
+    data: any // eslint-disable-line @typescript-eslint/no-explicit-any
     quality: 'low' | 'high'
   }
   customizerParams: CadhubParams[]
   currentParameters?: RawCustomizerParams
   isCustomizerOpen: boolean
-  layout: any
+  layout: MosaicTree
   camera: {
     dist?: number
     position?: XYZ
@@ -74,7 +81,7 @@ export interface State {
 }
 
 const code = ''
-const initialLayout = {
+const initialLayout: MosaicTree = {
   direction: 'row',
   first: 'Editor',
   second: {

@@ -12,24 +12,12 @@ const DELETE_SUBJECT_ACCESS_REQUEST_MUTATION = gql`
   }
 `
 
-const jsonDisplay = (obj) => {
-  return (
-    <pre>
-      <code>{JSON.stringify(obj, null, 2)}</code>
-    </pre>
-  )
-}
-
 const timeTag = (datetime) => {
   return (
     <time dateTime={datetime} title={datetime}>
       {new Date(datetime).toUTCString()}
     </time>
   )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
 }
 
 const SubjectAccessRequest = ({ subjectAccessRequest }) => {
@@ -102,13 +90,12 @@ const SubjectAccessRequest = ({ subjectAccessRequest }) => {
         >
           Edit
         </Link>
-        <a
-          href="#"
+        <button
           className="rw-button rw-button-red"
           onClick={() => onDeleteClick(subjectAccessRequest.id)}
         >
           Delete
-        </a>
+        </button>
       </nav>
     </>
   )

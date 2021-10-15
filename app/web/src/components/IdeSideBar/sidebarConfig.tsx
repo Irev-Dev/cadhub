@@ -4,17 +4,13 @@ import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { createRemoveUpdate, updateTree } from 'react-mosaic-component'
 import type { MosaicPath } from 'react-mosaic-component'
 import Toggle from 'src/components/Toggle'
+import type { MosaicTree } from 'src/helpers/hooks/useIdeState'
 
 interface SidebarConfigType {
   name: string
   icon: SvgNames
   disabled: boolean
   panel: ReactNode | null
-}
-
-interface MosaicTree {
-  first: string | MosaicTree
-  second: string | MosaicTree
 }
 
 const getPathById = (

@@ -40,4 +40,4 @@ function main({
   return rotate([degToRad(flip), 0, degToRad(90)], model)
 }
 
-module.exports = { main }
+module.exports = { main } // eslint-disable-line

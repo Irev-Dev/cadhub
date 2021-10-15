@@ -45,7 +45,7 @@ export const render: DefaultKernelExport['render'] = async ({
     }
     const blob = await response.blob()
     const text = await new Response(blob).text()
-    const { consoleMessage, customizerParams, type } = splitGziped(text)
+    const { consoleMessage, customizerParams } = splitGziped(text)
     return createHealthyResponse({
       type: 'geometry',
       data: await stlToGeometry(window.URL.createObjectURL(blob)),
