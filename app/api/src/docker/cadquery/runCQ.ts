@@ -20,7 +20,7 @@ export const runCQ = async ({
   const stlPath = `/tmp/${tempFile}/output.stl`
   const customizerPath = `/tmp/${tempFile}/customizer.json`
   const command = [
-    `./cq-cli/cq-cli.py`,
+    `/var/task/cq-cli/cq-cli.py`,
     `--codec stl`,
     `--infile /tmp/${tempFile}/main.py`,
     `--outfile ${stlPath}`,
