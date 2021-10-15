@@ -41,21 +41,21 @@ export function CadQueryToCadhubParams(
             type: 'number',
             input: 'default-number',
             ...common,
-            initial: param.initial,
+            initial: param.initial || 0,
           }
         case 'string':
           return {
             type: 'string',
             input: 'default-string',
             ...common,
-            initial: param.initial,
+            initial: param.initial || '',
           }
         case 'boolean':
           return {
             type: 'boolean',
             input: 'default-boolean',
             ...common,
-            initial: param.initial,
+            initial: param.initial || false,
           }
       }
     })

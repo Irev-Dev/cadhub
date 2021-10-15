@@ -304,7 +304,7 @@ function NumberParam({
     if (typeof param.max === 'number') {
       num = Math.min(param.max, num)
     }
-    num = Number(num.toFixed(2))
+    num = Number((num || 0).toFixed(2))
     localValueSetter(num)
     onChange(num)
   }
