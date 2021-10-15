@@ -19,17 +19,51 @@ import type { ArtifactTypes } from 'src/helpers/cadPackages/common'
 
 const thresholdAngle = 12
 
-function Asset({ geometry: incomingGeo }) {
+function Asset({
+  geometry: incomingGeo,
+  dataType,
+  controlsRef,
+}: {
+  geometry: any
+  dataType: 'INIT' | ArtifactTypes
+  controlsRef: React.Ref<any>
+}) {
+  const threeInstance = useThree()
   const mesh = useEdgeSplit((thresholdAngle * Math.PI) / 180, true, incomingGeo)
   const edges = React.useMemo(
     () =>
-      incomingGeo.length
+      incomingGeo.length || dataType !== 'geometry'
         ? null
         : new THREE.EdgesGeometry(incomingGeo, thresholdAngle),
-    [incomingGeo]
+    [incomingGeo, dataType]
+  )
+  React.useEffect(() => {
+    const getBoundingSphere = () => {
+      if (dataType === 'geometry') {
+        return incomingGeo.boundingSphere
+      }
+      const group = new THREE.Group()
+      incomingGeo.forEach((mesh) => group.add(mesh))
+      const bbox = new THREE.Box3().setFromObject(group)
+      return bbox.getBoundingSphere(new THREE.Sphere())
+    }
+    const bSphere = getBoundingSphere()
+    // do something with bounding sphere and threeInstance
+    console.log({bSphere, threeInstance, controlsRef})
+  }, [incomingGeo, dataType])
+  const PrimitiveArray = React.useMemo(
+    () =>
+      dataType === 'primitive-array' &&
+      incomingGeo?.map((mesh) => mesh.clone()),
+    [dataType, incomingGeo]
   )
   const colorMap = useTexture(texture)
+
   if (!incomingGeo) return null
+  if (PrimitiveArray)
+    return PrimitiveArray.map((mesh, index) => (
+      <primitive object={mesh} key={index} />
+    ))
 
   return (
     <group dispose={null}>
@@ -53,8 +87,7 @@ function Asset({ geometry: incomingGeo }) {
 }
 
 let debounceTimeoutId
-function Controls({ onCameraChange, onDragStart, onInit }) {
-  const controls = useRef<any>()
+function Controls({ onCameraChange, onDragStart, onInit, controlsRef }) {
   const threeInstance = useThree()
   const { camera, gl } = threeInstance
   useEffect(() => {
@@ -93,7 +126,7 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
       }
     }
 
-    if (controls.current) {
+    if (controlsRef.current) {
       const dragCallback = () => {
         clearTimeout(debounceTimeoutId)
         debounceTimeoutId = setTimeout(() => {
@@ -111,19 +144,19 @@ function Controls({ onCameraChange, onDragStart, onInit }) {
         onDragStart()
         clearTimeout(debounceTimeoutId)
       }
-      controls?.current?.addEventListener('end', dragCallback)
-      controls?.current?.addEventListener('start', dragStart)
-      const oldCurrent = controls.current
+      controlsRef?.current?.addEventListener('end', dragCallback)
+      controlsRef?.current?.addEventListener('start', dragStart)
+      const oldCurrent = controlsRef.current
       dragCallback()
       return () => {
         oldCurrent.removeEventListener('end', dragCallback)
         oldCurrent.removeEventListener('start', dragStart)
       }
     }
-  }, [camera, controls])
+  }, [camera, controlsRef])
 
   return (
-    <OrbitControls makeDefault ref={controls} args={[camera, gl.domElement]} />
+    <OrbitControls makeDefault ref={controlsRef} args={[camera, gl.domElement]} />
   )
 }
 
@@ -167,22 +200,18 @@ export function PureIdeViewer({
 }) {
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
+  const controlsRef = useRef<any>()
 
   useEffect(() => {
     setImage(dataType === 'png' && artifact)
     setIsDragging(false)
   }, [dataType, artifact])
-  const PrimitiveArray = React.useMemo(
-    () =>
-      dataType === 'primitive-array' && artifact?.map((mesh) => mesh.clone()),
-    [dataType, artifact]
-  )
 
   // the following are tailwind colors in hex, can't use these classes to color three.js meshes.
   const pink400 = '#F472B6'
   const indigo300 = '#A5B4FC'
   const indigo900 = '#312E81'
-  const jscadLightIntensity = PrimitiveArray ? 0.5 : 1.1
+  const jscadLightIntensity = dataType === 'primitive-array' ? 0.5 : 1.1
   return (
     <div className="relative h-full bg-ch-gray-800 cursor-grab">
       {image && (
@@ -217,6 +246,7 @@ export function PureIdeViewer({
             onDragStart={() => setIsDragging(true)}
             onInit={onInit}
             onCameraChange={onCameraChange}
+            controlsRef={controlsRef}
           />
           <PerspectiveCamera makeDefault up={[0, 0, 1]}>
             <pointLight
@@ -257,15 +287,11 @@ export function PureIdeViewer({
               <Box position={[50, 0, 0]} size={[100, 1, 1]} color={pink400} />
             </>
           )}
-          {dataType === 'geometry' && artifact && (
+          {dataType !== 'png' && artifact && (
             <Suspense fallback={null}>
-              <Asset geometry={artifact} />
+              <Asset geometry={artifact} dataType={dataType} controlsRef={controlsRef} />
             </Suspense>
           )}
-          {PrimitiveArray &&
-            PrimitiveArray.map((mesh, index) => (
-              <primitive object={mesh} key={index} />
-            ))}
         </Canvas>
       </div>
       <DelayedPingAnimation isLoading={isLoading} />
