@@ -16,6 +16,7 @@ import Svg from 'src/components/Svg'
 import { ImageFallback } from 'src/components/ImageUploader'
 import useUser from 'src/helpers/hooks/useUser'
 import './MainLayout.css'
+import ProjectsOfUserCell from 'src/components/ProjectsOfUserCell'
 
 let previousSubmission = ''
 
@@ -130,13 +131,12 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                   {currentUser && (
                     <Popover.Panel className="w-48 absolute z-10 right-0 bg-ch-gray-700 mt-4 px-3 py-2 rounded shadow-md overflow-hidden text-ch-gray-300">
                       <Link to={routes.user({ userName: user?.userName })}>
-                        <h3 className="text-lg hover:text-ch-pink-300">
+                        <p className="my-2 text-ch-blue-400 font-fira-code leading-4 text-sm">
                           Hello {user?.name}
-                        </h3>
+                        </p>
                       </Link>
-                      <hr className="my-2" />
                       <Link
-                        className="my-2 mt-4 block hover:text-ch-pink-300"
+                        className="my-2 block hover:text-ch-pink-300"
                         to={routes.user({ userName: user?.userName })}
                       >
                         <div>View Your Profile</div>
@@ -144,10 +144,19 @@ const MainLayout = ({ children, shouldRemoveFooterInIde }) => {
                       <a
                         href="#"
                         onClick={logOut}
-                        className="text-ch-gray-400 hover:text-ch-pink-300"
+                        className="my-2 text-ch-gray-400 hover:text-ch-pink-300"
                       >
                         Logout
                       </a>
+                      <hr className="my-4" />
+                      <p className="text-ch-blue-400 font-fira-code leading-4 text-sm">
+                        Recent Projects
+                      </p>
+                      <ProjectsOfUserCell
+                        projectLimit={3}
+                        isMinimal
+                        userName={user?.userName}
+                      />
                     </Popover.Panel>
                   )}
                 </Popover>
