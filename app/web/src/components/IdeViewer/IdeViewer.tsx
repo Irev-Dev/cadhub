@@ -26,9 +26,10 @@ function Asset({
 }: {
   geometry: any
   dataType: 'INIT' | ArtifactTypes
-  controlsRef: React.Ref<any>
+  controlsRef: React.MutableRefObject<any>
 }) {
   const threeInstance = useThree()
+  const [initZoom, setInitZoom] = useState(true)
   const mesh = useEdgeSplit((thresholdAngle * Math.PI) / 180, true, incomingGeo)
   const edges = React.useMemo(
     () =>
@@ -48,8 +49,22 @@ function Asset({
       return bbox.getBoundingSphere(new THREE.Sphere())
     }
     const bSphere = getBoundingSphere()
-    // do something with bounding sphere and threeInstance
-    console.log({bSphere, threeInstance, controlsRef})
+
+    const zoomToFit = () => {
+      const { center, radius } = bSphere
+      const { camera } = threeInstance
+      const offset = 4
+      controlsRef.current.reset()
+      controlsRef.current.target.copy(center)
+
+      camera.position.copy(center.clone().add(new THREE.Vector3(offset * radius, -offset * radius, offset * radius)))
+      camera.updateProjectionMatrix()
+    }
+    if(initZoom){
+      zoomToFit()
+      setInitZoom(false)
+    }
+
   }, [incomingGeo, dataType])
   const PrimitiveArray = React.useMemo(
     () =>
