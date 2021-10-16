@@ -53,18 +53,27 @@ function Asset({
     const zoomToFit = () => {
       const { center, radius } = bSphere
       const { camera } = threeInstance
-      const offset = 4
+      const offset = 3
       controlsRef.current.reset()
       controlsRef.current.target.copy(center)
 
-      camera.position.copy(center.clone().add(new THREE.Vector3(offset * radius, -offset * radius, offset * radius)))
+      camera.position.copy(
+        center
+          .clone()
+          .add(
+            new THREE.Vector3(
+              offset * radius,
+              -offset * radius,
+              offset * radius
+            )
+          )
+      )
       camera.updateProjectionMatrix()
     }
-    if(initZoom){
+    if (initZoom) {
       zoomToFit()
       setInitZoom(false)
     }
-
   }, [incomingGeo, dataType])
   const PrimitiveArray = React.useMemo(
     () =>
@@ -171,7 +180,11 @@ function Controls({ onCameraChange, onDragStart, onInit, controlsRef }) {
   }, [camera, controlsRef])
 
   return (
-    <OrbitControls makeDefault ref={controlsRef} args={[camera, gl.domElement]} />
+    <OrbitControls
+      makeDefault
+      ref={controlsRef}
+      args={[camera, gl.domElement]}
+    />
   )
 }
 
@@ -304,7 +317,11 @@ export function PureIdeViewer({
           )}
           {dataType !== 'png' && artifact && (
             <Suspense fallback={null}>
-              <Asset geometry={artifact} dataType={dataType} controlsRef={controlsRef} />
+              <Asset
+                geometry={artifact}
+                dataType={dataType}
+                controlsRef={controlsRef}
+              />
             </Suspense>
           )}
         </Canvas>
