@@ -5,7 +5,7 @@ import { RedwoodProvider } from '@redwoodjs/web'
 import FatalErrorBoundary from 'src/components/FatalErrorBoundary/FatalErrorBoundary'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import ReactGA from 'react-ga'
 
@@ -22,7 +22,7 @@ const goTrueClient = new GoTrue({
   setCookie: true,
 })
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: 'dark',
     primary: {

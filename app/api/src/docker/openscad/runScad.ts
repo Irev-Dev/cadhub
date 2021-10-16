@@ -11,6 +11,7 @@ const cleanOpenScadError = (error) =>
 export const runScad = async ({
   file,
   settings: {
+    viewAll = false,
     size: { x = 500, y = 500 } = {},
     parameters,
     camera: {
@@ -44,10 +45,13 @@ export const runScad = async ({
   const fullPath = `/tmp/${tempFile}/output.gz`
   const imPath = `/tmp/${tempFile}/output.png`
   const customizerPath = `/tmp/${tempFile}/customizer.param`
+  const summaryPath = `/tmp/${tempFile}/summary.json` // contains camera info
   const command = [
     OPENSCAD_COMMON,
     `-o ${customizerPath}`,
     `-o ${imPath}`,
+    `--summary camera --summary-file ${summaryPath}`,
+    viewAll ? '--viewall' : '',
     `-p /tmp/${tempFile}/params.json -P default`,
     cameraArg,
     `--imgsize=${x},${y}`,
@@ -58,14 +62,20 @@ export const runScad = async ({
 
   try {
     const consoleMessage = await runCommand(command, 15000)
-    const params = JSON.parse(
-      await readFile(customizerPath, { encoding: 'ascii' })
-    ).parameters
+    const files: string[] = await Promise.all(
+      [customizerPath, summaryPath].map((path) =>
+        readFile(path, { encoding: 'ascii' })
+      )
+    )
+    const [params, cameraInfo] = files.map((fileStr: string) =>
+      JSON.parse(fileStr)
+    )
     await writeFiles(
       [
         {
           file: JSON.stringify({
-            customizerParams: params,
+            cameraInfo: viewAll ? cameraInfo.camera : undefined,
+            customizerParams: params.parameters,
             consoleMessage,
             type: 'png',
           }),

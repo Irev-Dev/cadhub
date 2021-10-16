@@ -8,6 +8,7 @@ import {
   splitGziped,
 } from '../common'
 import { openScadToCadhubParams } from './openScadParams'
+import type { XYZ, Camera } from 'src/helpers/hooks/useIdeState'
 
 export const render = async ({ code, settings }: RenderArgs) => {
   const pixelRatio = window.devicePixelRatio || 1
@@ -19,6 +20,7 @@ export const render = async ({ code, settings }: RenderArgs) => {
   const body = JSON.stringify({
     settings: {
       size,
+      viewAll: settings.viewAll,
       parameters: settings.parameters,
       camera: {
         // rounding to give our caching a chance to sometimes work
@@ -59,7 +61,21 @@ export const render = async ({ code, settings }: RenderArgs) => {
     }
     const blob = await response.blob()
     const text = await new Response(blob).text()
-    const { consoleMessage, customizerParams, type } = splitGziped(text)
+    const { consoleMessage, customizerParams, type, cameraInfo } =
+      splitGziped(text)
+    const vecArray2Obj = (arr: number[]): XYZ => ({
+      x: arr[0],
+      y: arr[1],
+      z: arr[2],
+    })
+    const camera: Camera = cameraInfo
+      ? {
+          dist: cameraInfo?.distance,
+          position: vecArray2Obj(cameraInfo?.translation),
+          rotation: vecArray2Obj(cameraInfo?.rotation),
+          isScadUpdate: true,
+        }
+      : undefined
     return createHealthyResponse({
       type: type !== 'stl' ? 'png' : 'geometry',
       data:
@@ -67,6 +83,7 @@ export const render = async ({ code, settings }: RenderArgs) => {
           ? blob
           : await stlToGeometry(window.URL.createObjectURL(blob)),
       consoleMessage,
+      camera,
       date: new Date(),
       customizerParams: openScadToCadhubParams(customizerParams || []),
     })

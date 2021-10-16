@@ -16,6 +16,7 @@ import texture from './dullFrontLitMetal.png'
 import Customizer from 'src/components/Customizer/Customizer'
 import DelayedPingAnimation from 'src/components/DelayedPingAnimation/DelayedPingAnimation'
 import type { ArtifactTypes } from 'src/helpers/cadPackages/common'
+import { State } from 'src/helpers/hooks/useIdeState'
 
 const thresholdAngle = 12
 
@@ -24,9 +25,9 @@ function Asset({
   dataType,
   controlsRef,
 }: {
-  geometry: any
+  geometry: any // eslint-disable-line @typescript-eslint/no-explicit-any
   dataType: 'INIT' | ArtifactTypes
-  controlsRef: React.MutableRefObject<any>
+  controlsRef: React.MutableRefObject<any> // eslint-disable-line @typescript-eslint/no-explicit-any
 }) {
   const threeInstance = useThree()
   const [initZoom, setInitZoom] = useState(true)
@@ -75,7 +76,7 @@ function Asset({
       zoomToFit()
       setInitZoom(false)
     }
-  }, [incomingGeo, dataType])
+  }, [incomingGeo, dataType, controlsRef, initZoom, threeInstance])
   const PrimitiveArray = React.useMemo(
     () =>
       dataType === 'primitive-array' &&
@@ -112,15 +113,29 @@ function Asset({
 }
 
 let debounceTimeoutId
-function Controls({ onCameraChange, onDragStart, onInit, controlsRef }) {
+function Controls({
+  onCameraChange,
+  onDragStart,
+  onInit,
+  controlsRef,
+  camera: scadCamera,
+}: {
+  onCameraChange: Function
+  onDragStart: (a: any) => void
+  onInit: Function
+  controlsRef: React.MutableRefObject<any>
+  camera: State['camera']
+}) {
   const threeInstance = useThree()
   const { camera, gl } = threeInstance
   useEffect(() => {
+    // setup three to openscad camera sync
+
     onInit(threeInstance)
     // init camera position
-    camera.position.x = 200
-    camera.position.y = 140
-    camera.position.z = 20
+    camera.position.x = 80
+    camera.position.y = 50
+    camera.position.z = 50
     camera.far = 10000
     camera.fov = 22.5 // matches default openscad fov
     camera.updateProjectionMatrix()
@@ -146,8 +161,8 @@ function Controls({ onCameraChange, onDragStart, onInit, controlsRef }) {
       )
       const { x, y, z } = head2Head.add(camera.position)
       return {
-        position: { x, y, z },
-        dist: camera.position.length(),
+        position: { x: x / 2, y: y / 2, z: z / 2 },
+        dist: camera.position.length() / 2,
       }
     }
 
@@ -179,6 +194,34 @@ function Controls({ onCameraChange, onDragStart, onInit, controlsRef }) {
       }
     }
   }, [camera, controlsRef])
+
+  useEffect(() => {
+    if (!scadCamera?.isScadUpdate || !scadCamera?.position) {
+      return
+    }
+    // sync Three camera to OpenSCAD
+    const { x, y, z } = scadCamera.position || {}
+    const scadCameraPos = new Vector3(x * 2, y * 2, z * 2)
+    const cameraViewVector = new Vector3(0, 0, 1)
+    const { x: rx, y: ry, z: rz } = scadCamera.rotation || {}
+    const scadCameraEuler = new THREE.Euler(
+      ...[rx, ry, rz].map((r) => (r * Math.PI) / 180),
+      'YZX'
+    ) // I don't know why it seems to like 'YZX' order
+    cameraViewVector.applyEuler(scadCameraEuler)
+    cameraViewVector.multiplyScalar(scadCamera.dist * 2)
+
+    const scadToThreeCameraPosition = new Vector3().subVectors(
+      // I have no idea why this works
+      cameraViewVector.clone().add(scadCameraPos),
+      cameraViewVector
+    )
+    scadToThreeCameraPosition.multiplyScalar(
+      scadCamera.dist / scadToThreeCameraPosition.length()
+    )
+    camera.position.copy(scadToThreeCameraPosition.clone())
+    camera.updateProjectionMatrix()
+  }, [scadCamera, camera])
 
   return (
     <OrbitControls
@@ -218,6 +261,7 @@ export function PureIdeViewer({
   isLoading,
   isMinimal = false,
   scadRatio = 1,
+  camera,
 }: {
   dataType: 'INIT' | ArtifactTypes
   artifact: any
@@ -226,6 +270,7 @@ export function PureIdeViewer({
   onCameraChange: Function
   isMinimal?: boolean
   scadRatio?: number
+  camera?: State['camera']
 }) {
   const [isDragging, setIsDragging] = useState(false)
   const [image, setImage] = useState()
@@ -276,6 +321,7 @@ export function PureIdeViewer({
             onInit={onInit}
             onCameraChange={onCameraChange}
             controlsRef={controlsRef}
+            camera={camera}
           />
           <PerspectiveCamera makeDefault up={[0, 0, 1]}>
             <pointLight
@@ -347,7 +393,6 @@ const IdeViewer = ({
   }
   const onCameraChange = (camera) => {
     if (handleOwnCamera) {
-      console.log('yo')
       return
     }
     thunkDispatch({
@@ -362,6 +407,7 @@ const IdeViewer = ({
           state,
           dispatch,
           camera,
+          viewAll: state?.objectData?.type === 'INIT',
         })
       }
     })
@@ -374,6 +420,7 @@ const IdeViewer = ({
       onInit={onInit}
       onCameraChange={onCameraChange}
       isLoading={state.isLoading}
+      camera={state?.camera}
     />
   )
 }

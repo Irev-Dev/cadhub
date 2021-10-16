@@ -19,10 +19,16 @@ const codeStorageKey = 'Last-editor-code'
 export const makeCodeStoreKey = (ideType) => `${codeStorageKey}-${ideType}`
 let mutableState: State = null
 
-interface XYZ {
+export interface XYZ {
   x: number
   y: number
   z: number
+}
+export interface Camera {
+  dist?: number
+  position?: XYZ
+  rotation?: XYZ
+  isScadUpdate?: boolean
 }
 
 export interface MosaicTree {
@@ -69,11 +75,7 @@ export interface State {
   currentParameters?: RawCustomizerParams
   isCustomizerOpen: boolean
   layout: MosaicTree
-  camera: {
-    dist?: number
-    position?: XYZ
-    rotation?: XYZ
-  }
+  camera: Camera
   viewerSize: { width: number; height: number }
   isLoading: boolean
   threeInstance: RootState
@@ -165,6 +167,7 @@ const reducer = (state: State, { type, payload }): State => {
           ? [...state.consoleMessages, payload.message]
           : payload.message,
         isLoading: false,
+        camera: payload.camera || state.camera,
       }
     }
     case 'errorRender':
@@ -308,6 +311,7 @@ export const useIdeState = (): [State, (actionOrThunk: any) => any] => {
 interface RequestRenderArgsStateless {
   state: State
   camera?: State['camera']
+  viewAll?: boolean
   viewerSize?: State['viewerSize']
   quality?: State['objectData']['quality']
   specialCadProcess?: string
@@ -317,6 +321,7 @@ interface RequestRenderArgsStateless {
 export const requestRenderStateless = ({
   state,
   camera,
+  viewAll,
   viewerSize,
   quality = 'low',
   specialCadProcess = null,
@@ -339,6 +344,7 @@ export const requestRenderStateless = ({
       parameters: state.isCustomizerOpen
         ? parameters || state.currentParameters
         : {},
+      viewAll,
       camera: camera || state.camera,
       viewerSize: viewerSize || state.viewerSize,
       quality,
@@ -363,6 +369,7 @@ export const requestRender = ({ dispatch, ...rest }: RequestRenderArgs) => {
         status,
         customizerParams,
         currentParameters,
+        camera,
       }) => {
         if (status === 'error') {
           dispatch({
@@ -378,6 +385,7 @@ export const requestRender = ({ dispatch, ...rest }: RequestRenderArgs) => {
               lastRunCode: code,
               customizerParams,
               currentParameters,
+              camera,
             },
           })
           return objectData
