@@ -85,6 +85,7 @@ export default function IdeHeader({
         input: {
           userId: currentUser.sub,
           forkedFromId: project?.id,
+          code: state?.code,
         },
       },
     })

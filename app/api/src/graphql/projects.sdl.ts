@@ -43,6 +43,7 @@ export const schema = gql`
   input ForkProjectInput {
     userId: String!
     forkedFromId: String
+    code: String
   }
 
   input UpdateProjectInput {

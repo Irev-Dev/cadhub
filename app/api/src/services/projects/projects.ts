@@ -97,7 +97,7 @@ export const forkProject = async ({ input }) => {
     data: foreignKeyReplacement({
       ...input,
       title,
-      code,
+      code: input.code || code,
       description,
       cadPackage,
     }),
