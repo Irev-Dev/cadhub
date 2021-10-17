@@ -71,6 +71,7 @@ function Asset({
       camera.updateProjectionMatrix()
     }
     if (initZoom) {
+      if (!bSphere) return
       zoomToFit()
       setInitZoom(false)
     }
