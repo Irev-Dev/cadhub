@@ -355,7 +355,7 @@ export const requestRender = ({ dispatch, ...rest }: RequestRenderArgs) => {
   if (!renderPromise) {
     return
   }
-  renderPromise
+  return renderPromise
     .then(
       ({
         objectData,
