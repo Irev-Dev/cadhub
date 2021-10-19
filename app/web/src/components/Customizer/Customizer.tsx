@@ -143,7 +143,7 @@ function CustomizerParamBase({
   return (
     <li
       className="grid items-center my-2"
-      style={{ gridTemplateColumns: 'auto 8rem' }}
+      style={{ gridTemplateColumns: 'auto 16rem' }}
     >
       <div className=" text-sm font-fira-sans">
         <div className="font-bold text-base">{name}</div>
