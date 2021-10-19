@@ -15,6 +15,6 @@ export const schema = gql`
   }
 
   type Mutation {
-    sendAllUsersEmail(input: Email!): EmailResponse!
+    sendAllUsersEmail(input: Email!): EmailResponse! @requireAuth
   }
 `

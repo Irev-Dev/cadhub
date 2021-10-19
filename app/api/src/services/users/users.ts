@@ -1,10 +1,9 @@
+import { UserInputError, ForbiddenError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'
-import { UserInputError } from '@redwoodjs/api'
 import { enforceAlphaNumeric, destroyImage } from 'src/services/helpers'
 import type { Prisma } from '@prisma/client'
-import { ForbiddenError } from '@redwoodjs/api'
 
 function userNameVerification(userName: string): string {
   if (userName.length < 5) {

@@ -1,4 +1,4 @@
-import { AuthenticationError, ForbiddenError } from '@redwoodjs/api'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import type { Project } from '@prisma/client'
 import { db } from 'src/lib/db'
 
