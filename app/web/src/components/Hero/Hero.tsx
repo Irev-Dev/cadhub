@@ -583,7 +583,7 @@ function Footer() {
             to="https://github.com/Irev-Dev/cadhub/graphs/contributors"
             className="font-bold"
           >
-            20 contributors
+            21 contributors
           </OutBound>{' '}
           from around the world.
         </p>
