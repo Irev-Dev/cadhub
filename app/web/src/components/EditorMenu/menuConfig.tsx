@@ -4,6 +4,7 @@ import { makeStlDownloadHandler, PullTitleFromFirstLine } from './helpers'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import { DropdownItem } from './Dropdowns'
 import { useShortcutsModalContext } from './AllShortcutsModal'
+import type { State } from 'src/helpers/hooks/useIdeState'
 
 export function cmdOrCtrl() {
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? '⌘' : 'Ctrl'
@@ -94,11 +95,14 @@ const viewMenuConfig: EditorMenuConfig = {
 
 export const editorMenuConfig = [fileMenuConfig, editMenuConfig, viewMenuConfig]
 
-export interface EditorMenuItemConfig {
+interface EditorMenuItemConfigBase {
   label: string
   shortcut: string
   shortcutLabel: React.ReactElement | string
-  Component: (props: any) => React.ReactElement
+  callback?: (...a: any[]) => void
+}
+export interface EditorMenuItemConfig extends EditorMenuItemConfigBase {
+  Component: React.FC<{config: EditorMenuItemConfigBase, state: State, thunkDispatch: any}>
 }
 
 export interface EditorMenuConfig {
