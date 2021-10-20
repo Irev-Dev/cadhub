@@ -4,7 +4,6 @@ import { useLoader, useThree, useFrame } from '@react-three/fiber'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { useEdgeSplit } from 'src/helpers/hooks/useEdgeSplit'
 import texture from 'src/components/IdeViewer/dullFrontLitMetal.png'
-import { Glitch, EffectComposer } from '@react-three/postprocessing'
 import { MeshDistortMaterial, Sphere, useTexture } from '@react-three/drei'
 
 const thresholdAngle = 10
@@ -39,14 +38,6 @@ export default function AssetWithGooey({
   })
   return (
     <group dispose={null} ref={edgeRef} position={position}>
-      <EffectComposer>
-        <Glitch
-          delay={[1, 5]} // min and max glitch delay
-          duration={[0.2, 0.4]} // min and max glitch duration
-          strength={[0.05, 0.1]} // min and max glitch strength
-          ratio={0.95} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
-        />
-      </EffectComposer>
       <group ref={coffeeRef}>
         <mesh ref={mesh} scale={scaleArr} geometry={geo}>
           <meshPhysicalMaterial
