@@ -26,9 +26,10 @@ export const schema = gql`
   }
 
   type Query {
-    projects(userName: String): [Project!]!
-    project(id: String!): Project
+    projects(userName: String): [Project!]! @skipAuth
+    project(id: String!): Project @skipAuth
     projectByUserAndTitle(userName: String!, projectTitle: String!): Project
+      @skipAuth
   }
 
   input CreateProjectInput {
@@ -55,14 +56,15 @@ export const schema = gql`
   }
 
   type Mutation {
-    createProject(input: CreateProjectInput!): Project!
-    forkProject(input: ForkProjectInput!): Project!
+    createProject(input: CreateProjectInput!): Project! @requireAuth
+    forkProject(input: ForkProjectInput!): Project! @requireAuth
     updateProject(id: String!, input: UpdateProjectInput!): Project!
+      @requireAuth
     updateProjectImages(
       id: String!
       mainImage64: String
       socialCard64: String
-    ): Project!
-    deleteProject(id: String!): Project!
+    ): Project! @requireAuth
+    deleteProject(id: String!): Project! @requireAuth
   }
 `

@@ -10,8 +10,8 @@ export const schema = gql`
   }
 
   type Query {
-    subjectAccessRequests: [SubjectAccessRequest!]!
-    subjectAccessRequest(id: String!): SubjectAccessRequest
+    subjectAccessRequests: [SubjectAccessRequest!]! @requireAuth
+    subjectAccessRequest(id: String!): SubjectAccessRequest @requireAuth
   }
 
   input CreateSubjectAccessRequestInput {
@@ -29,11 +29,11 @@ export const schema = gql`
   type Mutation {
     createSubjectAccessRequest(
       input: CreateSubjectAccessRequestInput!
-    ): SubjectAccessRequest!
+    ): SubjectAccessRequest! @requireAuth
     updateSubjectAccessRequest(
       id: String!
       input: UpdateSubjectAccessRequestInput!
-    ): SubjectAccessRequest!
-    deleteSubjectAccessRequest(id: String!): SubjectAccessRequest!
+    ): SubjectAccessRequest! @requireAuth
+    deleteSubjectAccessRequest(id: String!): SubjectAccessRequest! @requireAuth
   }
 `

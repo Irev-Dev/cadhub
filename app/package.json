@@ -12,7 +12,7 @@
     "aws-emulate": "nodemon ./api/src/docker/aws-emulator.js"
   },
   "devDependencies": {
-    "@redwoodjs/core": "^0.36.4"
+    "@redwoodjs/core": "^0.37.5"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

@@ -1,5 +1,5 @@
+import { ResolverArgs } from '@redwoodjs/graphql-server'
 import type { Prisma, Project as ProjectType } from '@prisma/client'
-import type { ResolverArgs } from '@redwoodjs/api'
 import { uploadImage, makeSocialPublicIdServer } from 'src/lib/cloudinary'
 
 import { db } from 'src/lib/db'

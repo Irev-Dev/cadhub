@@ -1,4 +1,4 @@
-import { UserInputError } from '@redwoodjs/api'
+import { UserInputError } from '@redwoodjs/graphql-server'
 
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership } from 'src/lib/owner'

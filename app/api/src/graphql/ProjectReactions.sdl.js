@@ -11,9 +11,10 @@ export const schema = gql`
   }
 
   type Query {
-    projectReactions: [ProjectReaction!]!
-    projectReaction(id: String!): ProjectReaction
+    projectReactions: [ProjectReaction!]! @skipAuth
+    projectReaction(id: String!): ProjectReaction @skipAuth
     projectReactionsByProjectId(projectId: String!): [ProjectReaction!]!
+      @skipAuth
   }
 
   input ToggleProjectReactionInput {
@@ -30,10 +31,11 @@ export const schema = gql`
 
   type Mutation {
     toggleProjectReaction(input: ToggleProjectReactionInput!): ProjectReaction!
+      @requireAuth
     updateProjectReaction(
       id: String!
       input: UpdateProjectReactionInput!
-    ): ProjectReaction!
-    deleteProjectReaction(id: String!): ProjectReaction!
+    ): ProjectReaction! @requireAuth
+    deleteProjectReaction(id: String!): ProjectReaction! @requireAuth
   }
 `

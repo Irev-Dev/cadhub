@@ -1,5 +1,5 @@
+import { Config, ApolloError } from '@redwoodjs/graphql-server'
 import * as Sentry from '@sentry/node'
-import { Config, ApolloError } from '@redwoodjs/api'
 
 let sentryInitialized = false
 if (process.env.SENTRY_DSN && !sentryInitialized) {

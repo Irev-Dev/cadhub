@@ -15,7 +15,7 @@ You'll need to have Docker installed
 Because of the way the docker containers to be deployed as lambdas on aws are somewhat specialised for the purpose we're using `docker-compose` to spin one up for each function/endpoint. So we've added a aws-emulation layer
 
 
-The docker build relies on a git ignored file, the aws-lambda-rie. [Download it](https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie), then put it into `app/api/src/docker/common/`. alternatively you can put this download into the DockerFiles by reading the instructions at around line 29 of the DockerFiles (`app/api/src/docker/openscad/Dockerfile` & `app/api/src/docker/cadquery/Dockerfile`). However this will mean slower build times as it will need download this 14mb file every build.
+The docker build relies on a git ignored file, the aws-lambda-rie. [Download it](https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie), then put it into `app/api/src/docker/common/`. Alternatively you can put this download into the DockerFiles by reading the instructions at around line 29 of the DockerFiles (`app/api/src/docker/openscad/Dockerfile` & `app/api/src/docker/cadquery/Dockerfile`). However this will mean slower build times as it will need download this 14mb file every build.
 
 
 Run

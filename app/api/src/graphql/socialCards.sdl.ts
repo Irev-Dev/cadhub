@@ -10,7 +10,7 @@ export const schema = gql`
   }
 
   type Query {
-    socialCards: [SocialCard!]!
-    socialCard(id: String!): SocialCard
+    socialCards: [SocialCard!]! @skipAuth
+    socialCard(id: String!): SocialCard @skipAuth
   }
 `

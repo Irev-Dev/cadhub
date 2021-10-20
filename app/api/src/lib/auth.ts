@@ -1,61 +1,5 @@
-// Define what you want `currentUser` to return throughout your app. For example,
-// to return a real user from your database, you could do something like:
-//
-//   export const getCurrentUser = async ({ email }) => {
-//     return await db.user.findUnique({ where: { email } })
-//   }
-//
-// If you want to enforce role-based access ...
-//
-// You'll need to set the currentUser's roles attributes to the
-// collection of roles as defined by your app.
-//
-// This allows requireAuth() on the api side and hasRole() in the useAuth() hook on the web side
-// to check if the user is assigned a given role or not.
-//
-// How you set the currentUser's roles depends on your auth provider and its implementation.
-//
-// For example, your decoded JWT may store `roles` in it namespaced `app_metadata`:
-//
-// {
-//   'https://example.com/app_metadata': { authorization: { roles: ['admin'] } },
-//   'https://example.com/user_metadata': {},
-//   iss: 'https://app.us.auth0.com/',
-//   sub: 'email|1234',
-//   aud: [
-//     'https://example.com',
-//     'https://app.us.auth0.com/userinfo'
-//   ],
-//   iat: 1596481520,
-//   exp: 1596567920,
-//   azp: '1l0w6JXXXXL880T',
-//   scope: 'openid profile email'
-// }
-//
-// The parseJWT utility will extract the roles from decoded token.
-//
-// The app_medata claim may or may not be namespaced based on the auth provider.
-// Note: Auth0 requires namespacing custom JWT claims
-//
-// Some providers, such as with Auth0, will set roles an authorization
-// attribute in app_metadata (namespaced or not):
-//
-// 'app_metadata': { authorization: { roles: ['publisher'] } }
-// 'https://example.com/app_metadata': { authorization: { roles: ['publisher'] } }
-//
-// Other providers may include roles simply within app_metadata:
-//
-// 'app_metadata': { roles: ['author'] }
-// 'https://example.com/app_metadata': { roles: ['author'] }
-//
-// And yet other may define roles as a custom claim at the root of the decoded token:
-//
-// roles: ['admin']
-//
-// The function `getCurrentUser` should return the user information
-// together with a collection of roles to check for role assignment:
-
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+import { parseJWT } from '@redwoodjs/api'
 
 /**
  * Use requireAuth in your services to check that a user is logged in,
@@ -97,8 +41,24 @@ import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
  *   }
  * }
  */
-export const getCurrentUser = async (decoded, { _token, _type }) => {
-  return { ...decoded, roles: parseJWT({ decoded }).roles }
+export const getCurrentUser = async (
+  decoded,
+  { _token, _type },
+  { _event, _context }
+) => {
+  if (!decoded) {
+    // if no decoded, then never set currentUser
+    return null
+  }
+
+  const { roles } = parseJWT({ decoded }) // extract and check roles separately
+
+  if (roles) {
+    return { ...decoded, roles }
+  }
+
+  return { ...decoded } // only return when certain you have
+  // the currentUser properties
 }
 
 /**
