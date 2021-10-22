@@ -1,0 +1,41 @@
+---
+slug: intent-in-parametric-cad
+title: Expressing intent in parametric CAD
+author: Kurt Hutten
+author_title: CadHub Core Team
+author_url: https://github.com/Irev-Dev
+author_image_url: https://avatars.githubusercontent.com/u/29681384?v=4
+tags: []
+---
+
+import Image from '@theme/IdealImage';
+
+import heuristics from '../static/img/blog/intent/heuristics.jpg';
+
+
+This one image from [Mathur et al](https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14046) says so much.
+
+<Image img={heuristics} className="mb-8 bg-contain rounded-md overflow-hidden max-w-xl mx-auto" />
+
+Let's talk about expressing intent in parametric CAD models and heuristics.
+
+In the above example, changing the plate to be more narrow than the cylinder diameter forces CAD packages to make a decision about how the fillet is applied. Most of them use blackbox heuristics to make this decision with varying results.
+
+<!--truncate-->
+
+We could argue this or that package made a better decision in any given example, but I think this misses the point. Instead we can make two powerful observations about what's happening here.
+
+1. Packages making decisions based on blackbox magic, outside of the user's control and intent is a problem in itself.
+2. Packages are forced into this because designing parts from a series of clicks is an inherently lossy process.
+
+### Lossy?
+
+Yeah, lose of the designer's intention. The software has no idea why the fillet was added in the first place and therefore no idea how the designer would like it to adjust when parameters change. It has to make a guess.
+
+A perfect solution to this exists, Programming. Shifting paradigm to "CodeCad" makes this a non-issue. With an expressive CAD API the designer decides how edge cases and param changes are handled. A simple `if` statement goes a long way.
+
+CodeCad is not without it's flaws, however for teams who are rapidly iterating on a complex mechanical system, having robust parametric parts and by extension robust assemblies can't be ignored as a fringe benefit.
+
+I highly recommend reading [Aman Mathur's paper](https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14046). It proposes code synthesis as path to the best of both worlds (GUI direct manipulation and programming). I'm excited about developments in this area.
+
+Here is the [video version](https://www.youtube.com/watch?v=xF8arSFKI1k) of the above paper.
