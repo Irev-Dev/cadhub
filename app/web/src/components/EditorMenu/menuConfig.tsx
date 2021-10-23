@@ -5,6 +5,7 @@ import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import { DropdownItem } from './Dropdowns'
 import { useShortcutsModalContext } from './AllShortcutsModal'
 import type { State } from 'src/helpers/hooks/useIdeState'
+import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 
 export function cmdOrCtrl() {
   return /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? '⌘' : 'Ctrl'
@@ -40,12 +41,13 @@ const fileMenuConfig: EditorMenuConfig = {
       shortcutLabel: cmdOrCtrl() + ' Shift D',
       Component: (props) => {
         const { state, thunkDispatch, config } = props
+        const {project} = useIdeContext()
         const handleStlDownload = makeStlDownloadHandler({
           type: state.objectData?.type,
           ideType: state.ideType,
           geometry: state.objectData?.data,
           quality: state.objectData?.quality,
-          fileName: PullTitleFromFirstLine(state.code || ''),
+          fileName: project? `${ project.title}.stl` : PullTitleFromFirstLine(state.code || ''),
           thunkDispatch,
         })
 
