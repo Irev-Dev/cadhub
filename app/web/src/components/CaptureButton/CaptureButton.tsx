@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from '@redwoodjs/web/toast'
 import { toJpeg } from 'html-to-image'
 
@@ -6,21 +6,13 @@ import { useIdeContext } from 'src/helpers/hooks/useIdeContext'
 import { canvasToBlob, blobTo64 } from 'src/helpers/canvasToBlob'
 import { useUpdateProjectImages } from 'src/helpers/hooks/useUpdateProjectImages'
 import { requestRenderStateless } from 'src/helpers/hooks/useIdeState'
-import { PureIdeViewer } from 'src/components/IdeViewer/IdeViewer'
+import { PureIdeViewer } from 'src/components/IdeViewer/PureIdeViewer'
+import { State } from 'src/helpers/hooks/useIdeState'
 import SocialCardCell from 'src/components/SocialCardCell/SocialCardCell'
 
 export const captureSize = { width: 500, height: 522 }
 
-const anchorOrigin = {
-  vertical: 'bottom',
-  horizontal: 'center',
-}
-const transformOrigin = {
-  vertical: 'top',
-  horizontal: 'center',
-}
-
-export const CaptureButtonViewer = ({
+const CaptureButtonViewer = ({
   onInit,
   onScadImage,
   canvasRatio = 1,
@@ -34,11 +26,12 @@ export const CaptureButtonViewer = ({
   const [dataType, dataTypeSetter] = useState(state?.objectData?.type)
   const [artifact, artifactSetter] = useState(state?.objectData?.data)
   const [isLoading, isLoadingSetter] = useState(false)
+  const [camera, cameraSetter] = useState<State['camera'] | null>(null)
   const getThreeInstance = (_threeInstance) => {
     threeInstance.current = _threeInstance
     onInit(_threeInstance)
   }
-  const onCameraChange = (camera) => {
+  const onCameraChange = (camera, isFirstCameraChange) => {
     const renderPromise =
       state.ideType === 'openscad' &&
       requestRenderStateless({
@@ -48,12 +41,16 @@ export const CaptureButtonViewer = ({
           width: threeInstance.current.size.width * canvasRatio,
           height: threeInstance.current.size.height * canvasRatio,
         },
+        viewAll: isFirstCameraChange,
       })
     if (!renderPromise) {
       return
     }
     isLoadingSetter(true)
-    renderPromise.then(async ({ objectData }) => {
+    renderPromise.then(async ({ objectData, camera }) => {
+      if (camera?.isScadUpdate) {
+        cameraSetter(camera)
+      }
       isLoadingSetter(false)
       dataTypeSetter(objectData?.type)
       artifactSetter(objectData?.data)
@@ -71,6 +68,7 @@ export const CaptureButtonViewer = ({
       onInit={getThreeInstance}
       onCameraChange={onCameraChange}
       isLoading={isLoading}
+      camera={camera}
       isMinimal
     />
   )
@@ -115,8 +113,9 @@ function SocialCardLiveViewer({
                 userName={project.user.userName}
                 projectTitle={project.title}
                 image64={partSnapShot64}
-                LiveProjectViewer={() => children}
-              />
+              >
+                {children}
+              </SocialCardCell>
             </div>
           </div>
         </div>

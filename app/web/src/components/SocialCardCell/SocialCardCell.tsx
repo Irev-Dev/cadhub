@@ -35,10 +35,15 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
+interface SocialCardProps extends CellSuccessProps<FindSocialCardQuery> {
+  children: React.ReactNode
+}
+
 export const Success = ({
   userProject,
-  variables: { image64, LiveProjectViewer },
-}: CellSuccessProps<FindSocialCardQuery>) => {
+  variables: { image64 },
+  children,
+}: SocialCardProps) => {
   const image = userProject?.Project?.mainImage
   const gravatar = userProject?.image
   const truncatedDescription =
@@ -102,9 +107,9 @@ export const Success = ({
               image64 && 'opacity-0'
             }`}
           >
-            {LiveProjectViewer && (
+            {children && (
               <div className="w-full h-full" id="social-card-canvas">
-                <LiveProjectViewer />
+                {children}
               </div>
             )}
           </div>
