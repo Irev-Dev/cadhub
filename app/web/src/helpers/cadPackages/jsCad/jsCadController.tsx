@@ -99,7 +99,7 @@ class WorkerHelper {
   }
   render = (
     code: string,
-    parameters: { [key: string]: any }
+    parameters: { [key: string]: any } // eslint-disable-line @typescript-eslint/no-explicit-any
   ): Promise<RenderResponse> => {
     const response: Promise<RenderResponse> = new Promise(
       (resolve: ResolveFn) => {

@@ -18,12 +18,13 @@ export const use3dViewerResize = () => {
       })
       thunkDispatch((dispatch, getState) => {
         const state = getState()
-        if (['png', 'INIT'].includes(state.objectData?.type)) {
+        if (state.objectData?.type === 'png') {
           dispatch({ type: 'setLoading' })
           requestRender({
             state,
             dispatch,
             viewerSize: { width, height },
+            viewAll: state.objectData?.type === 'INIT',
           })
         }
       })

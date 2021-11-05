@@ -1,10 +1,11 @@
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { State } from 'src/helpers/hooks/useIdeState'
 import { CadhubParams } from 'src/components/Customizer/customizerConverter'
+import type { Camera } from 'src/helpers/hooks/useIdeState'
 
 export const lambdaBaseURL =
   process.env.CAD_LAMBDA_BASE_URL ||
-  'https://2inlbple1b.execute-api.us-east-1.amazonaws.com/prod2'
+  'https://oxt2p7ddgj.execute-api.us-east-1.amazonaws.com/prod'
 
 export const stlToGeometry = (url) =>
   new Promise((resolve, reject) => {
@@ -18,6 +19,7 @@ export interface RenderArgs {
     camera: State['camera']
     viewerSize: State['viewerSize']
     quality: State['objectData']['quality']
+    viewAll: boolean
   }
 }
 
@@ -36,6 +38,7 @@ export interface HealthyResponse {
   }
   customizerParams?: any[]
   currentParameters?: RawCustomizerParams
+  camera?: Camera
 }
 
 export interface RawCustomizerParams {
@@ -48,12 +51,14 @@ export function createHealthyResponse({
   consoleMessage,
   type,
   customizerParams,
+  camera,
 }: {
   date: Date
   data: any
   consoleMessage: string
   type: HealthyResponse['objectData']['type']
   customizerParams?: CadhubParams[]
+  camera?: Camera
 }): HealthyResponse {
   return {
     status: 'healthy',
@@ -66,6 +71,7 @@ export function createHealthyResponse({
       message: consoleMessage,
       time: date,
     },
+    camera,
     customizerParams,
   }
 }
