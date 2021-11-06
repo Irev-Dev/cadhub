@@ -30,6 +30,9 @@ export function Asset({
   React.useEffect(() => {
     const getBoundingSphere = () => {
       if (dataType === 'geometry') {
+        if (!incomingGeo.boundingSphere && incomingGeo.computeBoundingSphere) {
+          incomingGeo.computeBoundingSphere()
+        }
         return incomingGeo.boundingSphere
       }
       const group = new THREE.Group()

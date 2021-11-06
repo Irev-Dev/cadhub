@@ -41,13 +41,15 @@ const fileMenuConfig: EditorMenuConfig = {
       shortcutLabel: cmdOrCtrl() + ' Shift D',
       Component: (props) => {
         const { state, thunkDispatch, config } = props
-        const {project} = useIdeContext()
+        const { project } = useIdeContext()
         const handleStlDownload = makeStlDownloadHandler({
           type: state.objectData?.type,
           ideType: state.ideType,
           geometry: state.objectData?.data,
           quality: state.objectData?.quality,
-          fileName: project? `${ project.title}.stl` : PullTitleFromFirstLine(state.code || ''),
+          fileName: project
+            ? `${project.title}.stl`
+            : PullTitleFromFirstLine(state.code || ''),
           thunkDispatch,
         })
 
@@ -104,7 +106,11 @@ interface EditorMenuItemConfigBase {
   callback?: (...a: any[]) => void
 }
 export interface EditorMenuItemConfig extends EditorMenuItemConfigBase {
-  Component: React.FC<{config: EditorMenuItemConfigBase, state: State, thunkDispatch: any}>
+  Component: React.FC<{
+    config: EditorMenuItemConfigBase
+    state: State
+    thunkDispatch: any
+  }>
 }
 
 export interface EditorMenuConfig {

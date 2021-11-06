@@ -142,7 +142,7 @@ const ProjectProfile = ({
                   <KeyValue keyName="Updated on">
                     {new Date(project?.updatedAt).toDateString()}
                   </KeyValue>
-                  {project.forkedFrom && (
+                  {project?.forkedFrom && (
                     <KeyValue keyName="Forked from">
                       <Link
                         className="pink-link"
