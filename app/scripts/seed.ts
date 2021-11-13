@@ -78,7 +78,7 @@ export default async () => {
       await db.project.create({
         data: {
           ...projects[1],
-          title: `${projects[1].title} fork`,
+          title: `${projects[1].title}-fork`,
           forkedFrom: {
             connect: {
               id: result.id,
