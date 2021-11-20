@@ -21,6 +21,7 @@
     "@types/nodemailer": "^6.4.2",
     "concurrently": "^6.0.0",
     "nodemon": "^2.0.7",
-    "serverless-dotenv-plugin": "^3.10.0"
+    "serverless-dotenv-plugin": "^3.10.0",
+    "serverless-plugin-git-variables": "^5.1.0"
   }
 }

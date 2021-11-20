@@ -16,6 +16,10 @@ export const handler = createGraphQLHandler({
   sdls,
   services,
   plugins: [createSentryApolloPlugin()],
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
 
   onException: () => {
     // Disconnect from your database with an unhandled exception.

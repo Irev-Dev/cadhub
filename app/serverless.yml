@@ -8,6 +8,7 @@ service: cadhubapi
 plugins:
   - serverless-dotenv-plugin
   - serverless-binary-cors
+  - serverless-plugin-git-variables
 
 custom:
   dotenv:
@@ -65,14 +66,18 @@ functions:
     environment:
       SENTRY_DSN: ${env:SENTRY_DSN}
       DATABASE_URL: ${env:DATABASE_URL_PROD}
+      COMMIT_REF: ${git:sha1}
+      CONTEXT: TODO
     handler: check-user-name.handler
     events:
       - httpApi:
           path: /.netlify/functions/check-user-name
           method: GET
+          # cors: true
       - httpApi:
           path: /.netlify/functions/check-user-name
           method: POST
+          # cors: true
   graphql:
     description: graphql function deployed on AWS Lambda
     package:
@@ -88,15 +93,38 @@ functions:
       EMAIL_PASSWORD: ${env:EMAIL_PASSWORD}
       SENTRY_DSN: ${env:SENTRY_DSN}
       DATABASE_URL: ${env:DATABASE_URL_PROD}
+      COMMIT_REF: ${git:sha1}
+      CONTEXT: TODO
     #   YOUR_FIRST_ENV_VARIABLE: ${env:YOUR_FIRST_ENV_VARIABLE}
     handler: graphql.handler
     events:
       - httpApi:
           path: /.netlify/functions/graphql
           method: GET
+          # cors: true
       - httpApi:
           path: /.netlify/functions/graphql
           method: POST
+          # cors: true
+  # identity-signup: # this is netlify specific and is related to go true auth, so we'll continue having that deployed on netlify
+  #   description: identity-signup function deployed on AWS Lambda
+  #   package:
+  #     artifact: api/dist/zipball/identity-signup.zip # This is the default location of the zip file generated during the deploy command.
+  #   memorySize: 1024 # mb
+  #   timeout: 25 # seconds (max: 29)
+  #   tags: # Tags for this specific lambda function
+  #     endpoint: /.netlify/functions/identity-signup
+  #   # Uncomment this section to add environment variables either from the Serverless dotenv plugin or using Serverless params
+  #   # environment:
+  #   #   YOUR_FIRST_ENV_VARIABLE: ${env:YOUR_FIRST_ENV_VARIABLE}
+  #   handler: identity-signup.handler
+  #   events:
+  #     - httpApi:
+  #         path: /.netlify/functions/identity-signup
+  #         method: GET
+  #     - httpApi:
+  #         path: /.netlify/functions/identity-signup
+  #         method: POST
   openscadpreview:
     image:
       name: openscadimage
@@ -136,25 +164,6 @@ functions:
           method: post
           cors: true
     timeout: 30
-  # identity-signup.ts: # this is netlify specific and is related to go true auth, so we'll continue having that deployed on netlify
-  #   description: identity-signup.ts function deployed on AWS Lambda
-  #   package:
-  #     artifact: api/dist/zipball/identity-signup.ts.zip # This is the default location of the zip file generated during the deploy command.
-  #   memorySize: 1024 # mb
-  #   timeout: 25 # seconds (max: 29)
-  #   tags: # Tags for this specific lambda function
-  #     endpoint: /.netlify/functions/identity-signup.ts
-  #   # Uncomment this section to add environment variables either from the Serverless dotenv plugin or using Serverless params
-  #   # environment:
-  #   #   YOUR_FIRST_ENV_VARIABLE: ${env:YOUR_FIRST_ENV_VARIABLE}
-  #   handler: identity-signup.ts.handler
-  #   events:
-  #     - httpApi:
-  #         path: /.netlify/functions/identity-signup.ts
-  #         method: GET
-  #     - httpApi:
-  #         path: /.netlify/functions/identity-signup.ts
-  #         method: POST
 
 # this allows browsers to see error responses.
 resources:
