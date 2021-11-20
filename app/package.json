@@ -7,8 +7,8 @@
     ]
   },
   "scripts": {
-    "cad": "yarn rw build api && docker-compose --file ./api/src/docker/docker-compose.yml up --build",
-    "cad-r": "yarn rw build api && docker-compose --file ./api/src/docker/docker-compose.yml restart",
+    "cad": "yarn rw build api && zip-it-and-ship-it api/dist/functions/ api/dist/zipball && docker-compose --file ./api/src/docker/docker-compose.yml up --build",
+    "cad-r": "yarn rw build api && zip-it-and-ship-it api/dist/functions/ api/dist/zipball && docker-compose --file ./api/src/docker/docker-compose.yml restart",
     "aws-emulate": "nodemon ./api/src/docker/aws-emulator.js"
   },
   "devDependencies": {

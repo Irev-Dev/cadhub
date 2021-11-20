@@ -7,17 +7,19 @@
 
 [web]
   port = 8910
-  apiUrl = "/.netlify/functions"
+  title = 'CadHub'
+  # apiUrl = "/.netlify/functions"
+  apiUrl = "https://uk5gegwopd.execute-api.us-east-2.amazonaws.com/.netlify/functions"
   includeEnvironmentVariables = [
     'GOOGLE_ANALYTICS_ID',
     'CLOUDINARY_API_KEY',
-    'CLOUDINARY_API_SECRET',
+    # 'CLOUDINARY_API_SECRET',
     'CAD_LAMBDA_BASE_URL',
     'SENTRY_DSN',
     'SENTRY_AUTH_TOKEN',
     'SENTRY_ORG',
     'SENTRY_PROJECT',
-    'EMAIL_PASSWORD'
+    # 'EMAIL_PASSWORD'
     ]
   # experimentalFastRefresh = true # this seems to break cascadeStudio
 [api]

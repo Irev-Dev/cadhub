@@ -7,6 +7,7 @@ service: cadhubapi
 
 plugins:
   - serverless-dotenv-plugin
+  - serverless-binary-cors
 
 custom:
   dotenv:
@@ -20,7 +21,8 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  runtime: nodejs14.x
   region: us-east-2 # This is the AWS region where the service will be deployed.
   httpApi: # HTTP API is used by default. To learn about the available options in API Gateway, see https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html
     cors: true
@@ -30,6 +32,22 @@ provider:
     name: Redwood Lambda API with HTTP API Gateway
   tags: # Add service wide tags here
     name: Redwood Lambda API with HTTP API Gateway
+  ecr:
+    images:
+      # this image is built locally and push to ECR
+      openscadimage:
+        path: ./
+        file: api/src/docker/openscad/Dockerfile
+      cadqueryimage:
+        path: ./
+        file: api/src/docker/cadquery/Dockerfile
+  apiGateway:
+    metrics: true
+    binaryMediaTypes:
+      # we need to allow binary types to be able to send back images and stls, but it would be better to be more specific
+      # ie image/png etc. as */* treats everything as binary including the json body as the input the lambdas
+      # which mean we need to decode the input bode from base64, but the images break with anything other than */* :(
+      - '*/*'
 
 package:
   individually: true
@@ -79,7 +97,46 @@ functions:
       - httpApi:
           path: /.netlify/functions/graphql
           method: POST
-  # identity-signup.ts:
+  openscadpreview:
+    image:
+      name: openscadimage
+      command:
+        - openscad.preview
+      entryPoint:
+        - '/entrypoint.sh'
+    events:
+      - http:
+          path: openscad/preview
+          method: post
+          cors: true
+    timeout: 25
+  openscadstl:
+    image:
+      name: openscadimage
+      command:
+        - openscad.stl
+      entryPoint:
+        - '/entrypoint.sh'
+    events:
+      - http:
+          path: openscad/stl
+          method: post
+          cors: true
+    timeout: 30
+  cadquerystl:
+    image:
+      name: cadqueryimage
+      command:
+        - cadquery.stl
+      entryPoint:
+        - '/entrypoint.sh'
+    events:
+      - http:
+          path: cadquery/stl
+          method: post
+          cors: true
+    timeout: 30
+  # identity-signup.ts: # this is netlify specific and is related to go true auth, so we'll continue having that deployed on netlify
   #   description: identity-signup.ts function deployed on AWS Lambda
   #   package:
   #     artifact: api/dist/zipball/identity-signup.ts.zip # This is the default location of the zip file generated during the deploy command.
@@ -99,3 +156,24 @@ functions:
   #         path: /.netlify/functions/identity-signup.ts
   #         method: POST
 
+# this allows browsers to see error responses.
+resources:
+  Resources:
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+    GatewayResponseDefault5XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_5XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'

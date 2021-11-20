@@ -14,7 +14,7 @@ RUN apt-get update -qq
 RUN apt-get install -y openscad-nightly
 
 # install node14, see comment at the to of node14source_setup.sh
-ADD src/docker/common/node14source_setup.sh /nodesource_setup.sh
+ADD api/src/docker/common/node14source_setup.sh /nodesource_setup.sh
 RUN ["chmod", "+x", "/nodesource_setup.sh"]
 RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
@@ -32,13 +32,14 @@ RUN apt-get update && \
 # Add the lambda emulator for local dev, (see entrypoint.sh for where it's used),
 # I have the file locally (gitignored) to speed up build times (as it downloads everytime),
 # but you can use the http version of the below ADD command or download it yourself from that url.
-ADD src/docker/common/aws-lambda-rie /usr/local/bin/aws-lambda-rie
+ADD api/src/docker/common/aws-lambda-rie /usr/local/bin/aws-lambda-rie
 # ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/download/v1.0/aws-lambda-rie /usr/local/bin/aws-lambda-rie
 RUN ["chmod", "+x", "/usr/local/bin/aws-lambda-rie"]
 
 WORKDIR /var/task/
+# aws-lambda-ric does not play nice with yarn, so installing it seperately,
+# circle back to this later for a proper solution
 COPY package*.json /var/task/
-RUN npm install
 RUN npm install aws-lambda-ric@1.0.0
 
 # Install OpenSCAD libraries
@@ -47,16 +48,19 @@ RUN echo "OPENSCADPATH=/var/task/openscad" >>/etc/profile && \
   wget -P /var/task/openscad/ https://github.com/Irev-Dev/Round-Anything/archive/refs/tags/1.0.4.zip && \
   unzip /var/task/openscad/1.0.4
 # Add our own theming (based on DeepOcean with a different "background" and "opencsg-face-back")
-COPY src/docker/openscad/cadhubtheme.json /usr/share/openscad-nightly/color-schemes/render/
+COPY api/src/docker/openscad/cadhubtheme.json /usr/share/openscad-nightly/color-schemes/render/
 
 RUN echo "cadhub-concat-split" > /var/task/cadhub-concat-split
 
 # using built javascript from dist
-# run `yarn rw build` before bulding this image
-COPY dist/docker/openscad/* /var/task/js/
-COPY dist/docker/common/* /var/task/common/
-COPY src/docker/common/entrypoint.sh /entrypoint.sh
+# run `yarn rw build` and $(npm bin)/zip-it-and-ship-it api/dist/functions/ api/dist/zipball before bulding this image
+COPY api/dist/zipball/openscad.zip /var/task/
+# -n stops aws-lamda-ric from being overridden.
+RUN unzip -n /var/task/openscad.zip
+
+COPY api/src/docker/common/entrypoint.sh /entrypoint.sh
+
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-CMD [ "js/openscad.render" ]
+CMD [ "openscad.preview" ]
