@@ -15,7 +15,7 @@ import jsCadInitialCode from 'src/helpers/cadPackages/jsCad/initialCode.jscad.js
 
 import curv from './curv/curvController'
 import curvGuide from 'src/helpers/cadPackages/curv/userGuide.md'
-import curvInitialCode from 'src/helpers/cadPackages/curv/initialCode.py'
+import curvInitialCode from 'src/helpers/cadPackages/curv/initialCode.curv'
 
 export const cadPackages: { [key in CadPackageType]: DefaultKernelExport } = {
   openscad,

@@ -1,0 +1,6 @@
+// sphere box
+
+(smooth 1).union [
+  box,
+  sphere
+]
