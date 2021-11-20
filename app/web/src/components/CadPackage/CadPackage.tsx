@@ -1,4 +1,4 @@
-export type CadPackageType = 'openscad' | 'cadquery' | 'jscad' | 'INIT'
+export type CadPackageType = 'openscad' | 'cadquery' | 'jscad' | 'curv' | 'INIT'
 
 interface CadPackageConfig {
   label: string
@@ -20,6 +20,11 @@ export const cadPackageConfigs: { [key in CadPackageType]: CadPackageConfig } =
     },
     jscad: {
       label: 'JSCAD',
+      buttonClasses: 'bg-ch-purple-500',
+      dotClasses: 'bg-yellow-300',
+    },
+    curv: {
+      label: 'Curv',
       buttonClasses: 'bg-ch-purple-500',
       dotClasses: 'bg-yellow-300',
     },

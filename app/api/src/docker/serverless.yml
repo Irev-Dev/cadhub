@@ -23,6 +23,9 @@ provider:
       cadqueryimage:
         path: ../../
         file: ./src/docker/cadquery/Dockerfile
+      curvimage:
+        path: ../../
+        file: ./src/docker/curv/Dockerfile
   apiGateway:
     metrics: true
     binaryMediaTypes:
@@ -97,6 +100,21 @@ functions:
           method: post
           cors: true
     timeout: 30
+    environment:
+      BUCKET: cad-preview-bucket-prod-001
+  curvpreview:
+    image:
+      name: curvimage
+      command:
+        - js/curv.preview
+      entryPoint:
+        - '/entrypoint.sh'
+    events:
+      - http:
+          path: curv/preview
+          method: post
+          cors: true
+    timeout: 25
     environment:
       BUCKET: cad-preview-bucket-prod-001
 #    The following are a few example events you can configure

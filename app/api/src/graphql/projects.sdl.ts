@@ -23,6 +23,7 @@ export const schema = gql`
     openscad
     cadquery
     jscad
+    curv
   }
 
   type Query {
