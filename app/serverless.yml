@@ -1,0 +1,101 @@
+# See the full yml reference at https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+service: cadhubapi
+
+# Uncomment org and app if you want to integrate your deployment with the Serverless dashboard. See https://www.serverless.com/framework/docs/dashboard/ for more details.
+# org: your-org
+# app: your-app
+
+plugins:
+  - serverless-dotenv-plugin
+
+custom:
+  dotenv:
+    include:
+      - DATABASE_URL_PROD
+      - CLOUDINARY_API_KEY
+      - CLOUDINARY_API_SECRET
+      - EMAIL_PASSWORD
+      - SENTRY_DSN
+      # - # List the environment variables you want to include from your .env file here.
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-2 # This is the AWS region where the service will be deployed.
+  httpApi: # HTTP API is used by default. To learn about the available options in API Gateway, see https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html
+    cors: true
+    payload: '1.0'
+  stackTags: # Add CloudFormation stack tags here
+    source: serverless
+    name: Redwood Lambda API with HTTP API Gateway
+  tags: # Add service wide tags here
+    name: Redwood Lambda API with HTTP API Gateway
+
+package:
+  individually: true
+
+functions:
+  check-user-name:
+    description: check-user-name function deployed on AWS Lambda
+    package:
+      artifact: api/dist/zipball/check-user-name.zip # This is the default location of the zip file generated during the deploy command.
+    memorySize: 1024 # mb
+    timeout: 25 # seconds (max: 29)
+    tags: # Tags for this specific lambda function
+      endpoint: /.netlify/functions/check-user-name
+    # Uncomment this section to add environment variables either from the Serverless dotenv plugin or using Serverless params
+    environment:
+      SENTRY_DSN: ${env:SENTRY_DSN}
+      DATABASE_URL: ${env:DATABASE_URL_PROD}
+    handler: check-user-name.handler
+    events:
+      - httpApi:
+          path: /.netlify/functions/check-user-name
+          method: GET
+      - httpApi:
+          path: /.netlify/functions/check-user-name
+          method: POST
+  graphql:
+    description: graphql function deployed on AWS Lambda
+    package:
+      artifact: api/dist/zipball/graphql.zip # This is the default location of the zip file generated during the deploy command.
+    memorySize: 1024 # mb
+    timeout: 25 # seconds (max: 29)
+    tags: # Tags for this specific lambda function
+      endpoint: /.netlify/functions/graphql
+    # Uncomment this section to add environment variables either from the Serverless dotenv plugin or using Serverless params
+    environment:
+      CLOUDINARY_API_KEY: ${env:CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${env:CLOUDINARY_API_SECRET}
+      EMAIL_PASSWORD: ${env:EMAIL_PASSWORD}
+      SENTRY_DSN: ${env:SENTRY_DSN}
+      DATABASE_URL: ${env:DATABASE_URL_PROD}
+    #   YOUR_FIRST_ENV_VARIABLE: ${env:YOUR_FIRST_ENV_VARIABLE}
+    handler: graphql.handler
+    events:
+      - httpApi:
+          path: /.netlify/functions/graphql
+          method: GET
+      - httpApi:
+          path: /.netlify/functions/graphql
+          method: POST
+  # identity-signup.ts:
+  #   description: identity-signup.ts function deployed on AWS Lambda
+  #   package:
+  #     artifact: api/dist/zipball/identity-signup.ts.zip # This is the default location of the zip file generated during the deploy command.
+  #   memorySize: 1024 # mb
+  #   timeout: 25 # seconds (max: 29)
+  #   tags: # Tags for this specific lambda function
+  #     endpoint: /.netlify/functions/identity-signup.ts
+  #   # Uncomment this section to add environment variables either from the Serverless dotenv plugin or using Serverless params
+  #   # environment:
+  #   #   YOUR_FIRST_ENV_VARIABLE: ${env:YOUR_FIRST_ENV_VARIABLE}
+  #   handler: identity-signup.ts.handler
+  #   events:
+  #     - httpApi:
+  #         path: /.netlify/functions/identity-signup.ts
+  #         method: GET
+  #     - httpApi:
+  #         path: /.netlify/functions/identity-signup.ts
+  #         method: POST
+

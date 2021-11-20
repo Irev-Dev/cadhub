@@ -1,3 +1,7 @@
 dist
 web/types/graphql.d.ts
 api/types/graphql.d.ts
+
+
+# Deployment
+.serverless

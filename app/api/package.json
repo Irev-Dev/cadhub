@@ -17,8 +17,10 @@
     "serverless-binary-cors": "^0.0.1"
   },
   "devDependencies": {
+    "@netlify/zip-it-and-ship-it": "^4.30.0",
     "@types/nodemailer": "^6.4.2",
     "concurrently": "^6.0.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "serverless-dotenv-plugin": "^3.10.0"
   }
 }
