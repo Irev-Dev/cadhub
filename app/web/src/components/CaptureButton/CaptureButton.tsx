@@ -25,6 +25,7 @@ const CaptureButtonViewer = ({
   const threeInstance = React.useRef(null)
   const [dataType, dataTypeSetter] = useState(state?.objectData?.type)
   const [artifact, artifactSetter] = useState(state?.objectData?.data)
+  const [ideType] = useState(state?.ideType)
   const [isLoading, isLoadingSetter] = useState(false)
   const [camera, cameraSetter] = useState<State['camera'] | null>(null)
   const getThreeInstance = (_threeInstance) => {
@@ -70,6 +71,7 @@ const CaptureButtonViewer = ({
       isLoading={isLoading}
       camera={camera}
       isMinimal
+      ideType={ideType}
     />
   )
 }

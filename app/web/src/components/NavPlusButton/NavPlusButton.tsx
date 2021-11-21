@@ -95,13 +95,13 @@ const menuOptions: {
     dotClasses: 'bg-yellow-300',
     ideType: 'jscad',
   },
-  {
-    name: 'Curv',
-    sub: 'beta',
-    bgClasses: 'bg-ch-blue-700',
-    dotClasses: 'bg-blue-800',
-    ideType: 'curv',
-  },
+  // { // TODO uncomment when ready for users to save curv projects
+  //   name: 'Curv',
+  //   sub: 'beta',
+  //   bgClasses: 'bg-ch-blue-700',
+  //   dotClasses: 'bg-blue-800',
+  //   ideType: 'curv',
+  // },
 ]
 
 const NavPlusButton: React.FC = () => {

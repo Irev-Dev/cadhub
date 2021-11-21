@@ -37,8 +37,8 @@ model User {
 enum CadPackage {
   openscad
   cadquery
-  jscad // TODO #422, add jscad to db schema when were ready to enable saving of jscad projects
-  curv
+  jscad
+  // curv // TODO uncomment when ready for users to save curv projects
 }
 
 model Project {

@@ -10,6 +10,7 @@ const IdeViewer = ({
   const { state, thunkDispatch } = useIdeContext()
   const dataType = state.objectData?.type
   const artifact = state.objectData?.data
+  const ideType = state.ideType
 
   const onInit = (threeInstance) => {
     thunkDispatch({ type: 'setThreeInstance', payload: threeInstance })
@@ -44,6 +45,7 @@ const IdeViewer = ({
       onCameraChange={onCameraChange}
       isLoading={state.isLoading}
       camera={state?.camera}
+      ideType={ideType}
     />
   )
 }
