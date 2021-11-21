@@ -34,7 +34,11 @@ const makeRequest = (route, port) => [
 
 app.post(...makeRequest('/openscad/preview', 5052))
 app.post(...makeRequest('/openscad/stl', 5053))
+
 app.post(...makeRequest('/cadquery/stl', 5060))
+
+app.post(...makeRequest('/curv/preview', 5070))
+app.post(...makeRequest('/curv/stl', 5071))
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

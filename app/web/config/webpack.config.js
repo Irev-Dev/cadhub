@@ -6,7 +6,7 @@ module.exports = (config, { env }) => {
     }
   })
   config.module.rules.push({
-    test: /\.(md|jscad\.js|py|scad)$/i,
+    test: /\.(md|jscad\.js|py|scad|curv)$/i,
     use: 'raw-loader',
   });
   return config

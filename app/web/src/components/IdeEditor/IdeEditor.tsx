@@ -18,7 +18,7 @@ const IdeEditor = ({ Loading }) => {
     cadquery: 'python',
     openscad: 'cpp',
     jscad: 'javascript',
-    curv: 'javascript',
+    curv: 'python',
     INIT: '',
   }
   const monaco = useMonaco()

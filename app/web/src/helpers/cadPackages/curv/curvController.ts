@@ -7,8 +7,6 @@ import {
   RenderArgs,
   splitGziped,
 } from '../common'
-import { CurvToCadhubParams } from './openScadParams'
-import type { XYZ, Camera } from 'src/helpers/hooks/useIdeState'
 
 export const render = async ({ code, settings }: RenderArgs) => {
   const pixelRatio = window.devicePixelRatio || 1
@@ -61,21 +59,8 @@ export const render = async ({ code, settings }: RenderArgs) => {
     }
     const blob = await response.blob()
     const text = await new Response(blob).text()
-    const { consoleMessage, customizerParams, type, cameraInfo } =
+    const { consoleMessage, type } =
       splitGziped(text)
-    const vecArray2Obj = (arr: number[]): XYZ => ({
-      x: arr[0],
-      y: arr[1],
-      z: arr[2],
-    })
-    const camera: Camera = cameraInfo
-      ? {
-          dist: cameraInfo?.distance,
-          position: vecArray2Obj(cameraInfo?.translation),
-          rotation: vecArray2Obj(cameraInfo?.rotation),
-          isScadUpdate: true,
-        }
-      : undefined
     return createHealthyResponse({
       type: type !== 'stl' ? 'png' : 'geometry',
       data:
@@ -83,9 +68,7 @@ export const render = async ({ code, settings }: RenderArgs) => {
           ? blob
           : await stlToGeometry(window.URL.createObjectURL(blob)),
       consoleMessage,
-      camera,
       date: new Date(),
-      customizerParams: curvToCadhubParams(customizerParams || []),
     })
   } catch (e) {
     return createUnhealthyResponse(new Date())
@@ -115,7 +98,7 @@ export const stl = async ({ code /*settings*/ }: RenderArgs) => {
     }
     const blob = await response.blob()
     const text = await new Response(blob).text()
-    const { consoleMessage, customizerParams, type } = splitGziped(text)
+    const { consoleMessage, type } = splitGziped(text)
     return createHealthyResponse({
       type: type !== 'stl' ? 'png' : 'geometry',
       data:
@@ -124,7 +107,6 @@ export const stl = async ({ code /*settings*/ }: RenderArgs) => {
           : await stlToGeometry(window.URL.createObjectURL(blob)),
       consoleMessage,
       date: new Date(),
-      customizerParams: openScadToCadhubParams(customizerParams || []),
     })
   } catch (e) {
     return createUnhealthyResponse(new Date())

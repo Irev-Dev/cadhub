@@ -2,17 +2,27 @@ FROM public.ecr.aws/lts/ubuntu:20.04_stable
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+
 RUN apt-get update --fix-missing -qq
-RUN apt-get -y -qq install git software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb unzip maim clang cmake git-core libboost-all-dev libopenexr-dev libtbb-dev libglm-dev libpng-dev libeigen3-dev dbus-x11 libxcursor-dev libxinerama-dev libxrandr-dev libglu1-mesa-dev libgles2-mesa-dev libgl1-mesa-dev libxi-dev
-RUN git clone https://github.com/curv3d/curv.git
-RUN cd curv
-RUN git submodule init && git submodule update
-RUN mkdir build
-RUN cd build
-RUN sed -i 's/set(LEAN_BUILD 0)/set(LEAN_BUILD 1)/' ../CMakeLists.txt
-RUN cmake ..
-RUN make
-RUN make install
+RUN apt-get update --fix-missing && apt-get -y -qq install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates xvfb
+
+RUN apt-get update -qq
+
+RUN apt-get -y -qq install git
+RUN apt-get update --fix-missing && apt-get -y --fix-broken install python-pycurl python-apt
+RUN apt-get -y -qq --fix-broken install software-properties-common
+
+RUN apt-get -y -qq install xvfb unzip maim clang cmake
+RUN apt-get -y -qq install git-core libboost-all-dev
+RUN apt-get -y -qq install libopenexr-dev libtbb-dev
+RUN apt-get -y -qq install libglm-dev libpng-dev
+RUN apt-get -y -qq install libeigen3-dev dbus-x11
+RUN apt-get -y -qq install libxcursor-dev libxinerama-dev
+RUN apt-get -y -qq install libxrandr-dev libglu1-mesa-dev
+RUN apt-get -y -qq install libgles2-mesa-dev libgl1-mesa-dev
+RUN apt-get -y -qq install libxi-dev
+
+RUN git clone --recursive https://github.com/curv3d/curv; cd curv; make; make install
 
 # install node14, see comment at the top of node14source_setup.sh
 ADD src/docker/common/node14source_setup.sh /nodesource_setup.sh
@@ -46,7 +56,7 @@ RUN echo "cadhub-concat-split" > /var/task/cadhub-concat-split
 
 # using built javascript from dist
 # run `yarn rw build` before bulding this image
-COPY dist/docker/openscad/* /var/task/js/
+COPY dist/docker/curv/* /var/task/js/
 COPY dist/docker/common/* /var/task/common/
 COPY src/docker/common/entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
