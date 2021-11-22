@@ -9,7 +9,7 @@ const preview = async (req, _context, callback) => {
   console.log('eventBody', eventBody)
 
   const { file, settings } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath } = await runCurv({
+  const { error, consoleMessage, fullPath, tempFile } = await runCurv({
     file,
     settings,
   })
@@ -18,6 +18,7 @@ const preview = async (req, _context, callback) => {
     callback,
     fullPath,
     consoleMessage,
+    tempFile,
   })
 }
 
@@ -28,7 +29,7 @@ const stl = async (req, _context, callback) => {
   console.log(eventBody, 'eventBody')
 
   const { file, settings } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath } = await stlExport({
+  const { error, consoleMessage, fullPath, tempFile } = await stlExport({
     file,
     settings,
   })
@@ -37,6 +38,7 @@ const stl = async (req, _context, callback) => {
     callback,
     fullPath,
     consoleMessage,
+    tempFile,
   })
 }
 

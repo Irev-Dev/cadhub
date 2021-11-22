@@ -25,6 +25,7 @@ export const runScad = async ({
   consoleMessage?: string
   fullPath?: string
   customizerPath?: string
+  tempFile?: string
 }> => {
   const tempFile = await writeFiles(
     [
@@ -88,7 +89,7 @@ export const runScad = async ({
       `cat ${imPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
       15000
     )
-    return { consoleMessage, fullPath, customizerPath }
+    return { consoleMessage, fullPath, customizerPath, tempFile }
   } catch (dirtyError) {
     return { error: cleanOpenScadError(dirtyError) }
   }
@@ -143,7 +144,7 @@ export const stlExport = async ({ file, settings: { parameters } } = {}) => {
       `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
       15000
     )
-    return { consoleMessage, fullPath, customizerPath }
+    return { consoleMessage, fullPath, customizerPath, tempFile }
   } catch (error) {
     return { error, fullPath }
   }

@@ -104,11 +104,13 @@ export async function storeAssetAndReturnUrl({
   callback,
   fullPath,
   consoleMessage,
+  tempFile
 }: {
   error: string
   callback: Function
   fullPath: string
   consoleMessage: string
+  tempFile: string
 }) {
   if (error) {
     const response = {

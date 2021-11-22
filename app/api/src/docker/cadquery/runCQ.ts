@@ -53,7 +53,7 @@ export const runCQ = async ({
       15000,
       true
     )
-    return { consoleMessage, fullPath }
+    return { consoleMessage, fullPath, tempFile }
   } catch (error) {
     return { error: consoleMessage || error, fullPath }
   }

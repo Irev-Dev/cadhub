@@ -87,6 +87,7 @@ functions:
     timeout: 30
     environment:
       BUCKET: cad-preview-bucket-prod-001
+
   cadquerystl:
     image:
       name: cadqueryimage
@@ -102,6 +103,7 @@ functions:
     timeout: 30
     environment:
       BUCKET: cad-preview-bucket-prod-001
+
   curvpreview:
     image:
       name: curvimage
@@ -115,8 +117,19 @@ functions:
           method: post
           cors: true
     timeout: 25
-    environment:
-      BUCKET: cad-preview-bucket-prod-001
+  curvstl:
+    image:
+      name: curvimage
+      command:
+        - js/curv.stl
+      entryPoint:
+        - '/entrypoint.sh'
+    events:
+      - http:
+          path: curv/stl
+          method: post
+          cors: true
+    timeout: 30
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

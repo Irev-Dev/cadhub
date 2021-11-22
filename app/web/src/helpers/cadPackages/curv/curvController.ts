@@ -14,33 +14,12 @@ export const render = async ({ code, settings }: RenderArgs) => {
     x: Math.round(settings.viewerSize?.width * pixelRatio),
     y: Math.round(settings.viewerSize?.height * pixelRatio),
   }
-  const round1dec = (number) => Math.round((number + Number.EPSILON) * 10) / 10
   const body = JSON.stringify({
     settings: {
       size,
-      viewAll: settings.viewAll,
-      parameters: settings.parameters,
-      camera: {
-        // rounding to give our caching a chance to sometimes work
-        ...settings.camera,
-        dist: round1dec(settings.camera.dist),
-        position: {
-          x: round1dec(settings.camera.position.x),
-          y: round1dec(settings.camera.position.y),
-          z: round1dec(settings.camera.position.z),
-        },
-        rotation: {
-          x: round1dec(settings.camera.rotation.x),
-          y: round1dec(settings.camera.rotation.y),
-          z: round1dec(settings.camera.rotation.z),
-        },
-      },
     },
     file: code,
   })
-  if (!settings.camera.position) {
-    return
-  }
   try {
     const response = await fetch(lambdaBaseURL + '/curv/preview', {
       method: 'POST',

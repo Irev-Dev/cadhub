@@ -18,6 +18,7 @@ export const runCurv = async ({
   consoleMessage?: string
   fullPath?: string
   customizerPath?: string
+  tempFile?: string
 }> => {
   const tempFile = await writeFiles(
     [
@@ -67,7 +68,7 @@ export const runCurv = async ({
       `cat ${imPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
       15000
     )
-    return { consoleMessage, fullPath, customizerPath }
+    return { consoleMessage, fullPath, customizerPath, tempFile }
   } catch (dirtyError) {
     return { error: dirtyError }
   }
@@ -90,11 +91,12 @@ export const stlExport = async ({ file, settings: { parameters } } = {}) => {
   const fullPath = `/tmp/${tempFile}/output.gz`
   const stlPath = `/tmp/${tempFile}/output.stl`
   const command = [
-    'curv',
+    '(cd /tmp && curv',
     '-o', stlPath,
     '-O jit',
-    '-O vsize=0.4',
+    '-O vsize=0.6',
     `/tmp/${tempFile}/main.curv`,
+    ')',
   ].join(' ')
 
   try {
@@ -113,10 +115,10 @@ export const stlExport = async ({ file, settings: { parameters } } = {}) => {
       tempFile
     )
     await runCommand(
-      `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
+      `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath} && rm ${stlPath}`,
       15000
     )
-    return { consoleMessage, fullPath }
+    return { consoleMessage, fullPath, tempFile }
   } catch (error) {
     return { error, fullPath }
   }
