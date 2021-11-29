@@ -348,6 +348,10 @@ function ChooseYourCharacter() {
             cadPackage: 'jscad',
             desc: 'A JavaScript Code-CAD library that will feel familiar to web developers, based on the same tech as OpenSCAD.',
           },
+          // { // TODO add curv to this list.
+          //   cadPackage: 'curv',
+          //   desc: 'A language for creating 3D art',
+          // }
         ].map(
           ({
             cadPackage,

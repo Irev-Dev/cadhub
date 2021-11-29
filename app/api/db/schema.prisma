@@ -38,7 +38,7 @@ enum CadPackage {
   openscad
   cadquery
   jscad
-  // curv // TODO uncomment when ready for users to save curv projects
+  curv
 }
 
 model Project {

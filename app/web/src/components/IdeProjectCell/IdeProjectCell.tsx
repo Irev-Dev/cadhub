@@ -35,7 +35,7 @@ export interface Project {
   code: string
   mainImage: string
   createdAt: string
-  cadPackage: 'openscad' | 'cadquery' | 'curv'
+  cadPackage: 'openscad' | 'cadquery' | 'jscad' | 'curv'
   user: {
     id: string
     userName: string
