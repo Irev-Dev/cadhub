@@ -8,21 +8,23 @@ RUN apt-get update --fix-missing && apt-get -y -qq install software-properties-c
 
 RUN apt-get update -qq
 
-RUN apt-get -y -qq install git
-RUN apt-get update --fix-missing && apt-get -y --fix-broken install python-pycurl python-apt
-RUN apt-get -y -qq --fix-broken install software-properties-common
+RUN apt-get -y -qq install git \
+    software-properties-common \
+    xvfb unzip maim clang cmake \
+    git-core libboost-all-dev \
+    libopenexr-dev libtbb-dev \
+    libglm-dev libpng-dev \
+    libeigen3-dev dbus-x11 \
+    libxcursor-dev libxinerama-dev \
+    libxrandr-dev libglu1-mesa-dev \
+    libgles2-mesa-dev libgl1-mesa-dev \
+    libxi-dev
 
-RUN apt-get -y -qq install xvfb unzip maim clang cmake
-RUN apt-get -y -qq install git-core libboost-all-dev
-RUN apt-get -y -qq install libopenexr-dev libtbb-dev
-RUN apt-get -y -qq install libglm-dev libpng-dev
-RUN apt-get -y -qq install libeigen3-dev dbus-x11
-RUN apt-get -y -qq install libxcursor-dev libxinerama-dev
-RUN apt-get -y -qq install libxrandr-dev libglu1-mesa-dev
-RUN apt-get -y -qq install libgles2-mesa-dev libgl1-mesa-dev
-RUN apt-get -y -qq install libxi-dev
-
-RUN git clone --recursive https://github.com/curv3d/curv; cd curv; make; make install
+# Use commit to make sure build is reproduceable
+RUN git clone --recursive https://github.com/curv3d/curv && \
+    cd curv && \
+    git checkout b849eb57fba121f9f218dc065dc1f5ebc619836d && \
+    make && make install
 
 # install node14, see comment at the top of node14source_setup.sh
 ADD src/docker/common/node14source_setup.sh /nodesource_setup.sh
@@ -62,4 +64,4 @@ COPY src/docker/common/entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-CMD [ "js/curv.render" ]
+CMD [ "js/curv.preview" ]
