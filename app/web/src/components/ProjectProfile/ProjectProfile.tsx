@@ -16,7 +16,7 @@ import CadPackage from 'src/components/CadPackage/CadPackage'
 import Gravatar from 'src/components/Gravatar/Gravatar'
 import { useIdeInit } from 'src/components/EncodedUrl/helpers'
 import ProfileViewer from '../ProfileViewer/ProfileViewer'
-import OpenscadStaticImageMessage from 'src/components/OpenscadStaticImageMessage/OpenscadStaticImageMessage'
+import StaticImageMessage from 'src/components/StaticImageMessage/StaticImageMessage'
 import KeyValue from 'src/components/KeyValue/KeyValue'
 
 const ProjectProfile = ({
@@ -81,7 +81,7 @@ const ProjectProfile = ({
             <div className="md:col-start-2 w-full min-h-md relative">
               <ProfileViewer />
               <div className="absolute right-0 top-0">
-                <OpenscadStaticImageMessage />
+                <StaticImageMessage />
               </div>
             </div>
 
