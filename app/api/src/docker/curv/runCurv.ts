@@ -4,14 +4,8 @@ import { nanoid } from 'nanoid'
 export const runCurv = async ({
   file,
   settings: {
-    viewAll = false,
     size: { x = 500, y = 500 } = {},
     parameters,
-    camera: {
-      position = { x: 40, y: 40, z: 40 },
-      rotation = { x: 55, y: 0, z: 25 },
-      dist = 200,
-    } = {},
   } = {}, // TODO add view settings
 } = {}): Promise<{
   error?: string
@@ -33,9 +27,6 @@ export const runCurv = async ({
     ],
     'a' + nanoid() // 'a' ensure nothing funny happens if it start with a bad character like "-", maybe I should pick a safer id generator :shrug:
   )
-  const { x: rx, y: ry, z: rz } = rotation
-  const { x: px, y: py, z: pz } = position
-  const cameraArg = `--camera=${px},${py},${pz},${rx},${ry},${rz},${dist}`
   const fullPath = `/tmp/${tempFile}/output.gz`
   const imPath = `/tmp/${tempFile}/output.png`
   const customizerPath = `/tmp/${tempFile}/customizer.param`
@@ -94,7 +85,7 @@ export const stlExport = async ({ file, settings: { parameters } } = {}) => {
     '(cd /tmp && curv',
     '-o', stlPath,
     '-O jit',
-    '-O vsize=0.6',
+    '-O vcount=350000',
     `/tmp/${tempFile}/main.curv`,
     ')',
   ].join(' ')
