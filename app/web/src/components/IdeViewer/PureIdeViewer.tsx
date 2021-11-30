@@ -230,7 +230,7 @@ export function PureIdeViewer({
           <Controls
             onDragStart={() => setIsDragging(true)}
             onInit={onInit}
-            onCameraChange={() => {onCameraChange(); setIsDragging(false)}}
+            onCameraChange={(...args) => {onCameraChange(...args); setIsDragging(false)}}
             controlsRef={controlsRef}
             camera={camera}
           />

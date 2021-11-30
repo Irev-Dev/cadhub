@@ -1,6 +1,10 @@
-// sphere box
-
-(smooth 1).union [
-  box,
-  sphere
-]
+let
+    N = 5;
+    C = red;
+    Twists = 6;
+in
+box [1,1,N]
+>> colour C
+>> twist (Twists*90*deg/N)
+>> rotate {angle: 90*deg, axis: Y_axis}
+>> bend{}

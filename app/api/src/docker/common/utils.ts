@@ -126,6 +126,7 @@ export async function storeAssetAndReturnUrl({
 
     try {
       buffer = await readFile(fullPath, { encoding: 'base64' })
+      await runCommand(`rm -R /tmp/${tempFile}`)
     } catch (e) {
       console.log('read file error', e)
       const response = {

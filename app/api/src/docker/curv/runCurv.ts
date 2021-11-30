@@ -32,7 +32,7 @@ export const runCurv = async ({
   const customizerPath = `/tmp/${tempFile}/customizer.param`
 
   const command = [
-    'xvfb-run --auto-servernum --server-args "-screen 0 1024x768x24" curv',
+    'xvfb-run --auto-servernum --server-args "-screen 0 3840x2160x24" curv',
     `-o ${imPath}`,
     `-O xsize=${x}`,
     `-O ysize=${y}`,

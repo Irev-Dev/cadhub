@@ -117,6 +117,7 @@ functions:
           method: post
           cors: true
     timeout: 25
+    memorySize: 3008
   curvstl:
     image:
       name: curvimage
