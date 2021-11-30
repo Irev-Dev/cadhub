@@ -104,11 +104,13 @@ export async function storeAssetAndReturnUrl({
   callback,
   fullPath,
   consoleMessage,
+  tempFile,
 }: {
   error: string
   callback: Function
   fullPath: string
   consoleMessage: string
+  tempFile: string
 }) {
   if (error) {
     const response = {
@@ -124,6 +126,7 @@ export async function storeAssetAndReturnUrl({
 
     try {
       buffer = await readFile(fullPath, { encoding: 'base64' })
+      await runCommand(`rm -R /tmp/${tempFile}`)
     } catch (e) {
       console.log('read file error', e)
       const response = {

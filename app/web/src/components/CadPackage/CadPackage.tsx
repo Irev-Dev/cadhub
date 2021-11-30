@@ -1,4 +1,4 @@
-export type CadPackageType = 'openscad' | 'cadquery' | 'jscad' | 'INIT'
+export type CadPackageType = 'openscad' | 'cadquery' | 'jscad' | 'curv' | 'INIT'
 
 interface CadPackageConfig {
   label: string
@@ -22,6 +22,11 @@ export const cadPackageConfigs: { [key in CadPackageType]: CadPackageConfig } =
       label: 'JSCAD',
       buttonClasses: 'bg-ch-purple-500',
       dotClasses: 'bg-yellow-300',
+    },
+    curv: {
+      label: 'Curv',
+      buttonClasses: 'bg-blue-600',
+      dotClasses: 'bg-green-500',
     },
     INIT: {
       label: '',
@@ -49,7 +54,7 @@ const CadPackage = ({
     <ButtonOrDiv
       onClick={onClick}
       className={
-        `grid grid-flow-col-dense items-center gap-2 text-gray-100 bg-opacity-30 
+        `grid grid-flow-col-dense items-center gap-2 text-gray-100 bg-opacity-30
          ${cadPackageConfig?.buttonClasses} ` + className
       }
     >

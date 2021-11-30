@@ -45,3 +45,28 @@ services:
       AWS_ACCESS_KEY_ID: "${DEV_AWS_ACCESS_KEY_ID}"
       BUCKET: "${DEV_BUCKET}"
 
+  curv-preview:
+    build:
+      context: ../../
+      dockerfile: ./src/docker/curv/Dockerfile
+    image: curv
+    command: js/curv.preview
+    # Adding volumes so that the containers can be restarted for js only changes in local dev
+    volumes:
+      - ../../dist/docker/curv:/var/task/js/
+      - ../../dist/docker/common:/var/task/common/
+    ports:
+      - "5070:8080"
+  curv-stl:
+    build:
+      context: ../../
+      dockerfile: ./src/docker/curv/Dockerfile
+    image: curv
+    command: js/curv.stl
+    # Adding volumes so that the containers can be restarted for js only changes in local dev
+    volumes:
+      - ../../dist/docker/curv:/var/task/js/
+      - ../../dist/docker/common:/var/task/common/
+    ports:
+      - "5071:8080"
+

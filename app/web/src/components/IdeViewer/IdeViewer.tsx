@@ -10,6 +10,7 @@ const IdeViewer = ({
   const { state, thunkDispatch } = useIdeContext()
   const dataType = state.objectData?.type
   const artifact = state.objectData?.data
+  const ideType = state.ideType
 
   const onInit = (threeInstance) => {
     thunkDispatch({ type: 'setThreeInstance', payload: threeInstance })
@@ -24,7 +25,12 @@ const IdeViewer = ({
     })
     thunkDispatch((dispatch, getState) => {
       const state = getState()
-      if (['png', 'INIT'].includes(state?.objectData?.type)) {
+      if (
+        ['png', 'INIT'].includes(state?.objectData?.type) &&
+        (ideType === 'openscad' ||
+          state?.objectData?.type === 'INIT' ||
+          !state?.objectData?.type)
+      ) {
         dispatch({ type: 'setLoading' })
         requestRender({
           state,
@@ -44,6 +50,7 @@ const IdeViewer = ({
       onCameraChange={onCameraChange}
       isLoading={state.isLoading}
       camera={state?.camera}
+      ideType={ideType}
     />
   )
 }

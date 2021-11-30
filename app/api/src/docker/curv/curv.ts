@@ -1,4 +1,4 @@
-import { runScad, stlExport } from './runScad'
+import { runCurv, stlExport } from './runCurv'
 import middy from 'middy'
 import { cors } from 'middy/middlewares'
 import { loggerWrap, storeAssetAndReturnUrl } from '../common/utils'
@@ -9,7 +9,7 @@ const preview = async (req, _context, callback) => {
   console.log('eventBody', eventBody)
 
   const { file, settings } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath, tempFile } = await runScad({
+  const { error, consoleMessage, fullPath, tempFile } = await runCurv({
     file,
     settings,
   })

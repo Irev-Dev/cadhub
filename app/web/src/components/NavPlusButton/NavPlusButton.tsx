@@ -95,6 +95,13 @@ const menuOptions: {
     dotClasses: 'bg-yellow-300',
     ideType: 'jscad',
   },
+  {
+    name: 'Curv',
+    sub: 'alpha ',
+    bgClasses: 'bg-blue-600',
+    dotClasses: 'bg-green-500',
+    ideType: 'curv',
+  },
 ]
 
 const NavPlusButton: React.FC = () => {
