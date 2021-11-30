@@ -3,10 +3,7 @@ import { nanoid } from 'nanoid'
 
 export const runCurv = async ({
   file,
-  settings: {
-    size: { x = 500, y = 500 } = {},
-    parameters,
-  } = {}, // TODO add view settings
+  settings: { size: { x = 500, y = 500 } = {}, parameters } = {}, // TODO add view settings
 } = {}): Promise<{
   error?: string
   consoleMessage?: string
@@ -83,7 +80,8 @@ export const stlExport = async ({ file, settings: { parameters } } = {}) => {
   const stlPath = `/tmp/${tempFile}/output.stl`
   const command = [
     '(cd /tmp && curv',
-    '-o', stlPath,
+    '-o',
+    stlPath,
     '-O jit',
     '-O vcount=350000',
     `/tmp/${tempFile}/main.curv`,

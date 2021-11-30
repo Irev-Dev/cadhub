@@ -69,7 +69,8 @@ export const makeStlDownloadHandler =
       } else {
         thunkDispatch((dispatch, getState) => {
           const state = getState()
-          const specialCadProcess = (ideType === 'openscad' || ideType === 'curv') && 'stl'
+          const specialCadProcess =
+            (ideType === 'openscad' || ideType === 'curv') && 'stl'
           dispatch({ type: 'setLoading' })
           requestRender({
             state,

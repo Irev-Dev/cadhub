@@ -38,8 +38,7 @@ export const render = async ({ code, settings }: RenderArgs) => {
     }
     const blob = await response.blob()
     const text = await new Response(blob).text()
-    const { consoleMessage, type } =
-      splitGziped(text)
+    const { consoleMessage, type } = splitGziped(text)
     return createHealthyResponse({
       type: type !== 'stl' ? 'png' : 'geometry',
       data:

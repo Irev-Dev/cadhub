@@ -169,7 +169,7 @@ export function PureIdeViewer({
   isMinimal = false,
   scadRatio = 1,
   camera,
-  ideType
+  ideType,
 }: {
   dataType: 'INIT' | ArtifactTypes
   artifact: any
@@ -218,9 +218,9 @@ export function PureIdeViewer({
       )}
       <div // eslint-disable-line jsx-a11y/no-static-element-interactions
         className={`opacity-0 absolute inset-0 transition-opacity duration-500 ${
-          ideType === 'curv' && dataType === 'png' ? // TODO hide axes while curve doesn't have a controllable camera
-          'opacity-0' :
-          !(isDragging || dataType !== 'png')
+          ideType === 'curv' && dataType === 'png' // TODO hide axes while curve doesn't have a controllable camera
+            ? 'opacity-0'
+            : !(isDragging || dataType !== 'png')
             ? 'hover:opacity-50'
             : 'opacity-100'
         }`}
@@ -230,7 +230,10 @@ export function PureIdeViewer({
           <Controls
             onDragStart={() => setIsDragging(true)}
             onInit={onInit}
-            onCameraChange={(...args) => {onCameraChange(...args); setIsDragging(false)}}
+            onCameraChange={(...args) => {
+              onCameraChange(...args)
+              setIsDragging(false)
+            }}
             controlsRef={controlsRef}
             camera={camera}
           />

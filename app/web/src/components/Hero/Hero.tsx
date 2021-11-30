@@ -351,7 +351,7 @@ function ChooseYourCharacter() {
           {
             cadPackage: 'curv',
             desc: "Curv is a programming language for creating art using mathematics. It's a 2D and 3D geometric modelling tool.",
-          }
+          },
         ].map(
           ({
             cadPackage,

@@ -9,13 +9,16 @@ const stl = async (req, _context, callback) => {
   console.log('eventBody', eventBody)
 
   const { file, settings } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath, tempFile } = await runCQ({ file, settings })
+  const { error, consoleMessage, fullPath, tempFile } = await runCQ({
+    file,
+    settings,
+  })
   await storeAssetAndReturnUrl({
     error,
     callback,
     fullPath,
     consoleMessage,
-    tempFile
+    tempFile,
   })
 }
 

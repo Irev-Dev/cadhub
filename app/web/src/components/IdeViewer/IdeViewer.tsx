@@ -25,7 +25,12 @@ const IdeViewer = ({
     })
     thunkDispatch((dispatch, getState) => {
       const state = getState()
-      if (['png', 'INIT'].includes(state?.objectData?.type) && (ideType === 'openscad' || state?.objectData?.type === 'INIT' || !state?.objectData?.type)) {
+      if (
+        ['png', 'INIT'].includes(state?.objectData?.type) &&
+        (ideType === 'openscad' ||
+          state?.objectData?.type === 'INIT' ||
+          !state?.objectData?.type)
+      ) {
         dispatch({ type: 'setLoading' })
         requestRender({
           state,

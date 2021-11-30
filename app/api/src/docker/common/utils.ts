@@ -104,7 +104,7 @@ export async function storeAssetAndReturnUrl({
   callback,
   fullPath,
   consoleMessage,
-  tempFile
+  tempFile,
 }: {
   error: string
   callback: Function

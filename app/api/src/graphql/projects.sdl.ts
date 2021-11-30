@@ -19,7 +19,7 @@ export const schema = gql`
     childForks: [Project]!
   }
 
-# should match enum in api/db/schema.prisma
+  # should match enum in api/db/schema.prisma
   enum CadPackage {
     openscad
     cadquery
