@@ -98,8 +98,8 @@ const menuOptions: {
   {
     name: 'Curv',
     sub: 'alpha ',
-    bgClasses: 'bg-ch-blue-700',
-    dotClasses: 'bg-blue-800',
+    bgClasses: 'bg-blue-600',
+    dotClasses: 'bg-green-500',
     ideType: 'curv',
   },
 ]

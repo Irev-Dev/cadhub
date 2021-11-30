@@ -25,8 +25,8 @@ export const cadPackageConfigs: { [key in CadPackageType]: CadPackageConfig } =
     },
     curv: {
       label: 'Curv',
-      buttonClasses: 'bg-ch-purple-500',
-      dotClasses: 'bg-yellow-300',
+      buttonClasses: 'bg-blue-600',
+      dotClasses: 'bg-green-500',
     },
     INIT: {
       label: '',
@@ -54,7 +54,7 @@ const CadPackage = ({
     <ButtonOrDiv
       onClick={onClick}
       className={
-        `grid grid-flow-col-dense items-center gap-2 text-gray-100 bg-opacity-30 
+        `grid grid-flow-col-dense items-center gap-2 text-gray-100 bg-opacity-30
          ${cadPackageConfig?.buttonClasses} ` + className
       }
     >

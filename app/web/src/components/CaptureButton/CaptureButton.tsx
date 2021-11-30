@@ -34,7 +34,7 @@ const CaptureButtonViewer = ({
   }
   const onCameraChange = (camera, isFirstCameraChange) => {
     const renderPromise =
-      state.ideType === 'openscad' &&
+      (state.ideType === 'openscad' || state.ideType === 'curv') &&
       requestRenderStateless({
         state,
         camera,
