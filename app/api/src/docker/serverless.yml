@@ -70,6 +70,7 @@ functions:
           method: post
           cors: true
     timeout: 25
+    memorySize: 2048
     environment:
       BUCKET: cad-preview-bucket-prod-001
   openscadstl:
