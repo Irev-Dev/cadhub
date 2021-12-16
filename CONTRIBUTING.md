@@ -22,9 +22,9 @@ Because Each CadPackage is it's own beast we opted to use Docker in order to giv
 ## Getting your dev environment setup
 
 
-Clone the repo and `cd` in the app directory (the docs directory is for [learn.cadhub](https://learn.cadhub.xyz/))
+Clone the repo, then `cd` in the repo and app directory (the docs directory is for [learn.cadhub](https://learn.cadhub.xyz/))
 ```
-cd app
+cd cadhub/app
 ```
 
 Install dependencies
