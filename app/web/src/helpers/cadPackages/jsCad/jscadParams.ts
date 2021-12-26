@@ -8,6 +8,7 @@ type JscadTypeNames =
   | 'group'
   | 'text'
   | 'int'
+  | 'float'
   | 'number'
   | 'slider'
   | 'email'
@@ -37,7 +38,7 @@ interface JscadTextParam extends JscadParamBase {
   maxLength: number
 }
 interface JscadIntNumberSliderParam extends JscadParamBase {
-  type: 'int' | 'number' | 'slider'
+  type: 'int' | 'number' | 'float' | 'slider'
   initial: number
   min?: number
   max?: number
@@ -93,6 +94,7 @@ export function jsCadToCadhubParams(input: JsCadParams[]): CadhubParams[] {
       switch (param.type) {
         case 'slider':
         case 'number':
+        case 'float':
         case 'int':
           return {
             type: 'number',

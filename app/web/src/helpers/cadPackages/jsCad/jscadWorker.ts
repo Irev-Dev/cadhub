@@ -315,9 +315,12 @@ function parseDef(code, line) {
 }
 
 const makeScriptWorker = ({ callback, convertToSolids }) => {
-  let onInit, main, scriptStats, entities
+  let onInit, main, scriptStats, entities, lastParamsDef
 
   function runMain(params = {}) {
+    if(lastParamsDef) lastParamsDef.forEach(def=>{
+      if(!(def.name in params) && 'initial' in def) params[def.name] = def.initial
+    })
     let time = Date.now()
     let solids
     const transfer = []
@@ -397,10 +400,12 @@ const makeScriptWorker = ({ callback, convertToSolids }) => {
           if (idx === -1) {
             paramsDef.push(p)
           } else {
-            paramsDef.splice(idx, 1, p)
+            paramsDef[idx] = p
           }
         })
       }
+      console.log('paramsDef', paramsDef)
+      lastParamsDef = paramsDef
       callback({
         action: 'parameterDefinitions',
         worker: 'main',
