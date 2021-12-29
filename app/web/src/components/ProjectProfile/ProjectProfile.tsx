@@ -25,6 +25,7 @@ const ProjectProfile = ({
   onDelete,
   onReaction,
   onComment,
+  onStlDownload,
 }) => {
   const [comment, setComment] = useState('')
   const [isEditing, setIsEditing] = useState(false)
@@ -97,6 +98,17 @@ const ProjectProfile = ({
                     cadPackage={project?.cadPackage}
                     className="px-3 py-2 rounded"
                   />
+                  <Button
+                    className={getActiveClasses(
+                      'mr-auto bg-red-500 ml-5 text-ch-gray-300',
+                      { 'bg-indigo-200': currentUser }
+                    )}
+                    shouldAnimateHover
+                    iconName={'document-download'}
+                    onClick={onStlDownload}
+                  >
+                    Download STL
+                  </Button>
                 </div>
                 {(project?.description || hasPermissionToEdit) && (
                   <KeyValue

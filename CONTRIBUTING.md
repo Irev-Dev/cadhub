@@ -32,9 +32,9 @@ Install dependencies
 yarn install
 ```
 
-Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup).
+Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup). 
 
-Run the following
+Run the following (Note: these commands require the `DATABASE_URL` env variable to be set. if you see no result when you run `echo $DATABASE_URL`, you can set it with a command like `export DATABASE_URL=postgres://postgres:somepassword@localhost`)
 ``` terminal
 yarn rw prisma migrate dev
 yarn rw prisma db seed

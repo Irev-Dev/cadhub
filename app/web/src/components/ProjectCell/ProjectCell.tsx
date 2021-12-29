@@ -2,6 +2,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
+import { makeStlDownloadHandler } from 'src/helpers/download_stl'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
 import { CREATE_PROJECT_MUTATION } from 'src/components/NavPlusButton/NavPlusButton'
@@ -192,6 +193,15 @@ export const Success = ({ userProject, refetch }) => {
       },
     })
 
+  const onStlDownload = makeStlDownloadHandler({
+      type: state.objectData?.type,
+      ideType: state.ideType,
+      geometry: state.objectData?.data,
+      quality: state.objectData?.quality,
+      fileName: `${userProject.title }.stl`,
+      thunkDispatch,
+    })
+
   return (
     <IdeContext.Provider
       value={{
@@ -213,6 +223,7 @@ export const Success = ({ userProject, refetch }) => {
         onDelete={onDelete}
         onReaction={onReaction}
         onComment={onComment}
+        onStlDownload={onStlDownload}
       />
     </IdeContext.Provider>
   )
