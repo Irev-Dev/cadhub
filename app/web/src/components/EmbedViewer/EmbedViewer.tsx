@@ -7,10 +7,14 @@ function EmbedViewer() {
     const { state, project } = useIdeContext()
     console.log('from EmbedViewer', { cadPackage: project.cadPackage, code: project.code })
     useIdeInit(project?.cadPackage, project?.code || state?.code, "viewer")
-    const { viewerDomRef } = use3dViewerResize()
+    const { viewerDomRef, handleViewerSizeUpdate } = use3dViewerResize()
+
+    React.useEffect(() => {
+      handleViewerSizeUpdate()
+    }, [])
 
     return (
-        <div className="h-screen flex flex-col">
+        <div className="h-screen flex flex-col" ref={viewerDomRef}>
             <IdeViewer isMinimal={true} />
         </div>
     )
