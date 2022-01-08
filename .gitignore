@@ -1,4 +1,5 @@
 .idea
+.history
 .DS_Store
 .env
 .netlify
