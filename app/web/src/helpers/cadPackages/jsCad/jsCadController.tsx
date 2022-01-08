@@ -20,7 +20,7 @@ import TheWorker from 'worker-loader!./jscadWorker'
 
 const materials = {
   mesh: {
-    def: new MeshPhongMaterial({ color: 0x0084d1, flatShading: true }),
+    def: new MeshPhongMaterial({ color: 0x13579d, flatShading: true }),
     material: (params) => new MeshPhongMaterial(params),
   },
   line: {
