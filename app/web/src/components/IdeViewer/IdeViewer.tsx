@@ -4,8 +4,10 @@ import { PureIdeViewer } from './PureIdeViewer'
 
 const IdeViewer = ({
   handleOwnCamera = false,
+  isMinimal = false,
 }: {
-  handleOwnCamera?: boolean
+  handleOwnCamera?: boolean,
+  isMinimal?: boolean,
 }) => {
   const { state, thunkDispatch } = useIdeContext()
   const dataType = state.objectData?.type
@@ -41,7 +43,7 @@ const IdeViewer = ({
       }
     })
   }
-
+  
   return (
     <PureIdeViewer
       dataType={dataType}
