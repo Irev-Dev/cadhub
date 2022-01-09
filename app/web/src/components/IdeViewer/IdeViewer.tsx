@@ -53,6 +53,7 @@ const IdeViewer = ({
       isLoading={state.isLoading}
       camera={state?.camera}
       ideType={ideType}
+      isMinimal={isMinimal}
     />
   )
 }

@@ -1,7 +1,7 @@
 import useUser from 'src/helpers/hooks/useUser'
-import EmbedProject from 'src/components/EmbedProject/EmbedProject'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
+import EmbedViewer from '../EmbedViewer/EmbedViewer'
 
 export const QUERY = gql`
   query FIND_PROJECT_BY_USENAME_TITLE(
@@ -65,7 +65,7 @@ export const Success = ({
 
   return (
       <IdeContext.Provider value={{ state, thunkDispatch, project }}>
-        <EmbedProject project={project} />
+        <EmbedViewer project={project} />
       </IdeContext.Provider>
   )
 }
