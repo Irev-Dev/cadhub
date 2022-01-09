@@ -12,6 +12,7 @@ import {
 } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership, requireProjectOwnership } from 'src/lib/owner'
+import { sendChat } from 'src/lib/discord'
 
 export const projects = ({ userName }) => {
   if (!userName) {
@@ -243,7 +244,7 @@ export const updateProjectImages = async ({
     const [updatedProject] = await Promise.all([
       projectPromise,
       imageDestroyPromise,
-    ])
+    ]).then(() => sendChat(`project image updated: ${id}`));
     return updatedProject
   }
 

@@ -17,7 +17,9 @@
     'SENTRY_AUTH_TOKEN',
     'SENTRY_ORG',
     'SENTRY_PROJECT',
-    'EMAIL_PASSWORD'
+    'EMAIL_PASSWORD',
+    'DISCORD_TOKEN',
+    'DISCORD_CHANNEL_ID',
     ]
   # experimentalFastRefresh = true # this seems to break cascadeStudio
 [api]
