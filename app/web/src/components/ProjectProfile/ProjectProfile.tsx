@@ -25,6 +25,7 @@ const ProjectProfile = ({
   onDelete,
   onReaction,
   onComment,
+  onStlDownload,
 }) => {
   const [comment, setComment] = useState('')
   const [isEditing, setIsEditing] = useState(false)
@@ -91,12 +92,25 @@ const ProjectProfile = ({
                 <h3 className="text-5xl capitalize text-ch-gray-300">
                   {project?.title.replace(/-/g, ' ')}
                 </h3>
-                <div className="flex items-center text-gray-100">
-                  <span className="pr-4">Built with</span>
-                  <CadPackage
-                    cadPackage={project?.cadPackage}
-                    className="px-3 py-2 rounded"
-                  />
+                <div className="flex items-center text-gray-100 flex-wrap">
+                  <div className="flex flex-grow items-center">
+                    <span className="pr-4">Built with</span>
+                    <CadPackage
+                      cadPackage={project?.cadPackage}
+                      className="px-3 py-2 rounded"
+                    />
+                  </div>
+                  <Button
+                    className={getActiveClasses(
+                      'ml-3 hover:bg-opacity-100 bg-ch-pink-800 bg-opacity-30 mt-4 mb-3 text-ch-gray-300',
+                                { 'bg-indigo-200': currentUser }
+                    )}
+                    shouldAnimateHover
+                    iconName={'document-download'}
+                    onClick={onStlDownload}
+                  >
+                    Download STL
+                  </Button>
                 </div>
                 {(project?.description || hasPermissionToEdit) && (
                   <KeyValue
