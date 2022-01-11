@@ -16,12 +16,11 @@ const EmbedProject = ({ project }: Props) => {
   const { viewerDomRef, handleViewerSizeUpdate } = use3dViewerResize()
 
   useEffect(() => {
-    console.log({ rect: viewerDomRef.current.getBoundingClientRect(), status: 'uh what?'})
     handleViewerSizeUpdate()
   }, [])
 
   return (
-    <div className="h-screen flex flex-col" ref={viewerDomRef} >
+    <div className="flex flex-col h-screen" ref={viewerDomRef} >
         <IdeContext.Provider value={{ state, thunkDispatch, project }}>
             <IdeViewer />
         </IdeContext.Provider>

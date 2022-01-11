@@ -1,33 +1,9 @@
-import useUser from 'src/helpers/hooks/useUser'
 import { useIdeState } from 'src/helpers/hooks/useIdeState'
 import { IdeContext } from 'src/helpers/hooks/useIdeContext'
 import EmbedViewer from '../EmbedViewer/EmbedViewer'
+import { QUERY as IdeQuery } from 'src/components/IdeProjectCell'
 
-export const QUERY = gql`
-  query FIND_PROJECT_BY_USENAME_TITLE(
-    $projectTitle: String!
-    $userName: String!
-  ) {
-    project: projectByUserAndTitle(
-      projectTitle: $projectTitle
-      userName: $userName
-    ) {
-      id
-      title
-      description
-      code
-      mainImage
-      createdAt
-      cadPackage
-      user {
-        id
-        userName
-        image
-      }
-    }
-  }
-`
-
+export const QUERY = IdeQuery
 export interface Project {
   id: string
   title: string
