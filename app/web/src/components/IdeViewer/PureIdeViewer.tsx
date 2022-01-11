@@ -212,7 +212,7 @@ export function PureIdeViewer({
             alt="code-cad preview"
             id="special"
             src={URL.createObjectURL(image)}
-            className="h-full w-full"
+            className="w-full h-full"
           />
         </div>
       )}
