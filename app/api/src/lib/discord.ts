@@ -1,19 +1,29 @@
-import {Client, Intents} from "discord.js"
+import {Client, Intents, MessageAttachment} from "discord.js"
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
 
-export async function sendChat(text: string) {
+export async function sendDiscordMessage(text: string, url?: string) {
   if (!client.isReady()) {
     console.error(`Discord: client is not ready to send message ("${text}")`);
   } else {
     const channel = await client.channels.fetch(process.env.DISCORD_CHANNEL_ID);
-    channel.send(text);
+    if (url) {
+      channel.send({ embeds: [{
+        title: text,
+        image: {
+          url: url,
+        },
+      }] });
+
+    } else {
+      channel.send(text)
+    }
+
   }
 }
 
 client.on("ready", async () => {
   console.log(`Discord: logged in as ${client.user.tag}`)
-  await sendChat("started");
 })
 
 if (!process.env.DISCORD_TOKEN || !process.env.DISCORD_CHANNEL_ID) {
