@@ -2,6 +2,7 @@
 command = "yarn rw deploy netlify"
 publish = "web/dist"
 functions = "api/dist/functions"
+ignore = "false"
 
 [dev]
   # To use [Netlify Dev](https://www.netlify.com/products/dev/),
