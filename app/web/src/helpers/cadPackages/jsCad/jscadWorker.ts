@@ -404,7 +404,6 @@ const makeScriptWorker = ({ callback, convertToSolids }) => {
           }
         })
       }
-      console.log('paramsDef', paramsDef)
       lastParamsDef = paramsDef
       callback({
         action: 'parameterDefinitions',

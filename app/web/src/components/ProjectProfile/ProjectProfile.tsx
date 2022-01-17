@@ -53,7 +53,6 @@ const ProjectProfile = ({
         })
       )
   }, [currentUser, project?.title, userProject.userName])
-  console.log('from ProjectProfile', { cadPackage: project.cadPackage, code: project.code })
   useIdeInit(project?.cadPackage, project?.code, 'viewer')
   const [newDescription, setNewDescription] = useState(project?.description)
   const onDescriptionChange = (description) => setNewDescription(description())
