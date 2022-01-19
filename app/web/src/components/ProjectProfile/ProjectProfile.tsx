@@ -103,7 +103,7 @@ const ProjectProfile = ({
                   <Button
                     className={getActiveClasses(
                       'ml-3 hover:bg-opacity-100 bg-ch-pink-800 bg-opacity-30 mt-4 mb-3 text-ch-gray-300',
-                                { 'bg-indigo-200': currentUser }
+                      { 'bg-indigo-200': currentUser }
                     )}
                     shouldAnimateHover
                     iconName={'document-download'}

@@ -194,13 +194,13 @@ export const Success = ({ userProject, refetch }) => {
     })
 
   const onStlDownload = makeStlDownloadHandler({
-      type: state.objectData?.type,
-      ideType: state.ideType,
-      geometry: state.objectData?.data,
-      quality: state.objectData?.quality,
-      fileName: `${userProject.Project.title }.stl`,
-      thunkDispatch,
-    })
+    type: state.objectData?.type,
+    ideType: state.ideType,
+    geometry: state.objectData?.data,
+    quality: state.objectData?.quality,
+    fileName: `${userProject.Project.title}.stl`,
+    thunkDispatch,
+  })
 
   return (
     <IdeContext.Provider

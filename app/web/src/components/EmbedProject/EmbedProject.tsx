@@ -6,7 +6,6 @@ import { IdeContext } from 'src/helpers/hooks/useIdeContext'
 import { use3dViewerResize } from 'src/helpers/hooks/use3dViewerResize'
 import { useEffect } from 'react'
 
-
 interface Props {
   project?: Project
 }
@@ -20,10 +19,10 @@ const EmbedProject = ({ project }: Props) => {
   }, [])
 
   return (
-    <div className="flex flex-col h-screen" ref={viewerDomRef} >
-        <IdeContext.Provider value={{ state, thunkDispatch, project }}>
-            <IdeViewer />
-        </IdeContext.Provider>
+    <div className="flex flex-col h-screen" ref={viewerDomRef}>
+      <IdeContext.Provider value={{ state, thunkDispatch, project }}>
+        <IdeViewer />
+      </IdeContext.Provider>
     </div>
   )
 }

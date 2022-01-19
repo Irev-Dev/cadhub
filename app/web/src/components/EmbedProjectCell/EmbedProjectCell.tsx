@@ -38,10 +38,9 @@ export const Success = ({
 }) => {
   const [state, thunkDispatch] = useIdeState()
 
-
   return (
-      <IdeContext.Provider value={{ state, thunkDispatch, project }}>
-        <EmbedViewer project={project} />
-      </IdeContext.Provider>
+    <IdeContext.Provider value={{ state, thunkDispatch, project }}>
+      <EmbedViewer project={project} />
+    </IdeContext.Provider>
   )
 }

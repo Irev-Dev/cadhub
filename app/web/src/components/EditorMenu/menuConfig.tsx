@@ -1,6 +1,9 @@
 import React from 'react'
 import { useRender } from 'src/components/IdeWrapper/useRender'
-import { makeStlDownloadHandler, PullTitleFromFirstLine } from 'src/helpers/download_stl'
+import {
+  makeStlDownloadHandler,
+  PullTitleFromFirstLine,
+} from 'src/helpers/download_stl'
 import { useSaveCode } from 'src/components/IdeWrapper/useSaveCode'
 import { DropdownItem } from './Dropdowns'
 import { useShortcutsModalContext } from './AllShortcutsModal'

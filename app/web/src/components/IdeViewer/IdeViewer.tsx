@@ -6,8 +6,8 @@ const IdeViewer = ({
   handleOwnCamera = false,
   isMinimal = false,
 }: {
-  handleOwnCamera?: boolean,
-  isMinimal?: boolean,
+  handleOwnCamera?: boolean
+  isMinimal?: boolean
 }) => {
   const { state, thunkDispatch } = useIdeContext()
   const dataType = state.objectData?.type
@@ -43,7 +43,7 @@ const IdeViewer = ({
       }
     })
   }
-  
+
   return (
     <PureIdeViewer
       dataType={dataType}

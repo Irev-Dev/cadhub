@@ -318,9 +318,11 @@ const makeScriptWorker = ({ callback, convertToSolids }) => {
   let onInit, main, scriptStats, entities, lastParamsDef
 
   function runMain(params = {}) {
-    if(lastParamsDef) lastParamsDef.forEach(def=>{
-      if(!(def.name in params) && 'initial' in def) params[def.name] = def.initial
-    })
+    if (lastParamsDef)
+      lastParamsDef.forEach((def) => {
+        if (!(def.name in params) && 'initial' in def)
+          params[def.name] = def.initial
+      })
     let time = Date.now()
     let solids
     const transfer = []

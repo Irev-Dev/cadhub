@@ -1,7 +1,7 @@
 import { createGraphQLHandler } from '@redwoodjs/graphql-server'
 import { createSentryApolloPlugin } from 'src/lib/sentry'
 import { logger } from 'src/lib/logger'
-import "discord.js"
+import 'discord.js'
 
 import directives from 'src/directives/**/*.{js,ts}'
 import sdls from 'src/graphql/**/*.sdl.{js,ts}'
