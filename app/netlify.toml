@@ -2,6 +2,7 @@
 command = "yarn rw deploy netlify"
 publish = "web/dist"
 functions = "api/dist/functions"
+environment = { AWS_LAMBDA_JS_RUNTIME = "nodejs14.x" }
 
 [dev]
   # To use [Netlify Dev](https://www.netlify.com/products/dev/),
