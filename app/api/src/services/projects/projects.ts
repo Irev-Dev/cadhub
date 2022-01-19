@@ -12,8 +12,6 @@ import {
 } from 'src/services/helpers'
 import { requireAuth } from 'src/lib/auth'
 import { requireOwnership, requireProjectOwnership } from 'src/lib/owner'
-import { sendDiscordMessage } from 'src/lib/discord'
-
 
 export const projects = ({ userName }) => {
   if (!userName) {
@@ -245,19 +243,7 @@ export const updateProjectImages = async ({
     const [updatedProject] = await Promise.all([
       projectPromise,
       imageDestroyPromise,
-    ]).then(async (result) => {
-      const { userName } = await db.user.findUnique({
-        where: { id: project.userId },
-      })
-      sendDiscordMessage([
-        `${userName} just added an image to their ${project.cadPackage} project:`,
-        `  =>  ${project.title}`,
-        ``,
-        `Check it out, leave a comment, make them feel welcome!`,
-        `https://cadhub.xyz/u/${userName}/${project.title}`
-      ].join('\n'), `https://res.cloudinary.com/irevdev/image/upload/c_scale,w_700/v1/${mainImage}`)
-      return result
-    })
+    ])
     return updatedProject
   }
 

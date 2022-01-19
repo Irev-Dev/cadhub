@@ -9,7 +9,6 @@
     "axios": "^0.21.1",
     "cloudinary": "^1.23.0",
     "cors": "^2.8.5",
-    "discord.js": "^13.5.1",
     "express": "^4.17.1",
     "human-id": "^2.0.1",
     "middy": "^0.36.0",

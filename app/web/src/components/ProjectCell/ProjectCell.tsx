@@ -198,7 +198,7 @@ export const Success = ({ userProject, refetch }) => {
       ideType: state.ideType,
       geometry: state.objectData?.data,
       quality: state.objectData?.quality,
-      fileName: `${userProject.Project.title }.stl`,
+      fileName: `${userProject.Project?.title }.stl`,
       thunkDispatch,
     })
 
