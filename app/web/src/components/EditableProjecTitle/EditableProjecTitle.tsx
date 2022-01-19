@@ -42,6 +42,13 @@ const EditableProjectTitle = ({
     }
     setNewTitle(target.value.replace(/([^a-zA-Z\d_:])/g, '-').slice(0, 25))
   }
+  const onKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      updateProject({ variables: { id, input: { title: newTitle } } });
+    }
+  }
   return (
     <>
       {!inEditMode && (
@@ -76,6 +83,7 @@ const EditableProjectTitle = ({
               value={newTitle}
               onChange={onTitleChange}
               ref={inputRef}
+              onKeyDown={onKeyDown}
               onBlur={() =>
                 setTimeout(() => {
                   setInEditMode(false)
