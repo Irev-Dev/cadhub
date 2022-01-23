@@ -32,7 +32,7 @@ Install dependencies
 yarn install
 ```
 
-Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup). 
+Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup).
 
 Run the following (Note: these commands require the `DATABASE_URL` env variable to be set. if you see no result when you run `echo $DATABASE_URL`, you can set it with a command like `export DATABASE_URL=postgres://postgres:somepassword@localhost`)
 ``` terminal
@@ -58,6 +58,27 @@ localUser1@kurthutten.com: `abc123`
 localUser2@kurthutten.com: `abc123`
 
 localAdmin@kurthutten.com: `abc123`
+
+### Discord bot setup
+
+To set up the discord bot to notify when users publish new content, we're using the [REST](https://discord.com/developers/docs/resources/channel#message-object) API directly, used more as a notification service rather than a bot since we are not listening to messages in the chat.
+
+1. If you're setting up the bot in a dev environment, create a new discord server (the "plus" button on the left when logged into the Discord webpage). Make note of the name of the project.
+2. With [developer mode turned on](https://www.howtogeek.com/714348/how-to-enable-or-disable-developer-mode-on-discord/), right click the channel you wish the bot to announce on and select "Copy ID". Add this to `.env.defaults` as `DISCORD_CHANNEL_ID`.
+3. [create a new application](https://discord.com/developers/applications), or navigate to an existing one.
+4. Create a bot within that application. Copy the bot token and add it to `.env.defaults` as `DISCORD_TOKEN`.
+5. Go to the "URL Generator" under "OAuth2" and create a URL with scope "bot" and text permission "Send Messages".
+6. Copy the generated URL and open it in a new tab. Follow the instructions on the page to add the bot to your discord server.
+
+When you next start CADHub, you should see in the logs `Discord: logged in as <bot name>` and you should see a startup message from the bot in the channel.
+
+To send messages as the bot when things happen in the service, use the `sendChat` helper function:
+
+```typescript
+import { sendDiscordMessage } from 'src/lib/discord'
+
+sendDiscordMessage("hello world!")
+```
 
 ## Designs
 
