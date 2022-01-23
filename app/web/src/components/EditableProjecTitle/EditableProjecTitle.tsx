@@ -53,14 +53,14 @@ const EditableProjectTitle = ({
     <>
       {!inEditMode && (
         <>
-          <Link
+          /<Link
+            className="underline-hovered"
             to={routes.project({
               userName,
               projectTitle,
             })}
-            className="pl-4"
           >
-            /{projectTitle}
+            {projectTitle}
           </Link>
           {canEdit && (
             <button
