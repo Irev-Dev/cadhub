@@ -32,7 +32,7 @@ Install dependencies
 yarn install
 ```
 
-Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup). 
+Setting up the db, you'll need to have a postgres installed locally, you can [follow this guide](https://redwoodjs.com/docs/local-postgres-setup).
 
 Run the following (Note: these commands require the `DATABASE_URL` env variable to be set. if you see no result when you run `echo $DATABASE_URL`, you can set it with a command like `export DATABASE_URL=postgres://postgres:somepassword@localhost`)
 ``` terminal
@@ -61,7 +61,7 @@ localAdmin@kurthutten.com: `abc123`
 
 ### Discord bot setup
 
-To set up the discord bot to notify when users publish new content (see also [the discord JS tutorial](https://discordjs.guide/preparations/setting-up-a-bot-application.html)):
+To set up the discord bot to notify when users publish new content, we're using the [REST](https://discord.com/developers/docs/resources/channel#message-object) API directly, used more as a notification service rather than a bot since we are not listening to messages in the chat.
 
 1. If you're setting up the bot in a dev environment, create a new discord server (the "plus" button on the left when logged into the Discord webpage). Make note of the name of the project.
 2. With [developer mode turned on](https://www.howtogeek.com/714348/how-to-enable-or-disable-developer-mode-on-discord/), right click the channel you wish the bot to announce on and select "Copy ID". Add this to `.env.defaults` as `DISCORD_CHANNEL_ID`.
@@ -75,9 +75,9 @@ When you next start CADHub, you should see in the logs `Discord: logged in as <b
 To send messages as the bot when things happen in the service, use the `sendChat` helper function:
 
 ```typescript
-import { sendChat } from 'src/lib/discord'
+import { sendDiscordMessage } from 'src/lib/discord'
 
-sendChat("hello world!")
+sendDiscordMessage("hello world!")
 ```
 
 ## Designs
