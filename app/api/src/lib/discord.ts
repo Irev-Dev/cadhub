@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {Client, Intents, MessageAttachment} from "discord.js"
 
 let inst = null;
 if (!process.env.DISCORD_TOKEN || !process.env.DISCORD_CHANNEL_ID) {
@@ -18,10 +17,11 @@ export async function sendDiscordMessage(text: string, url?: string) {
   } else {
     const API_URL = `/channels/${process.env.DISCORD_CHANNEL_ID}/messages`;
     if (url) {
+      console.log(`posting "${text}" to: ${url}`)
       return inst.post(API_URL, { embeds: [{
         title: text,
         image: {
-          url: url,
+          url,
         },
       }] });
     } else {
