@@ -144,3 +144,6 @@ label {
 input.error, textarea.error {
   border: 1px solid red;
 }
+a.underline-hovered:hover {
+  text-decoration: underline;
+}

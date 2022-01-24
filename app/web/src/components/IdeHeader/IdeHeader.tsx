@@ -102,9 +102,9 @@ export default function IdeHeader({
         <div className="flex h-full items-center text-gray-300">
           {project?.id && (
             <>
-              <span className="bg-ch-gray-700 h-full grid grid-flow-col-dense items-center gap-2 px-4">
-                <Gravatar image={project?.user?.image} className="w-10" />
+              <span className="h-full grid grid-flow-col-dense items-center gap-2 ml-4">
                 <Link
+                  className="underline-hovered"
                   to={routes.user({
                     userName: projectOwner,
                   })}
@@ -129,7 +129,7 @@ export default function IdeHeader({
                 <TopButton
                   onClick={onClick}
                   name="Save Project Image"
-                  className=" bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+                  className="bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
                 >
                   <Svg name="camera" className="w-6 h-6 text-ch-blue-400" />
                 </TopButton>
@@ -138,19 +138,19 @@ export default function IdeHeader({
           )}
           {!isProfile && (
             <TopButton
-              className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+              className="bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
               onClick={handleRender}
               name={canEdit ? 'Save' : 'Preview'}
             >
               <Svg
                 name={canEdit ? 'floppy-disk' : 'photograph'}
-                className="w-6 h-6 text-ch-pink-500"
+                className="w-6 h-6 text-ch-blue-400"
               />
             </TopButton>
           )}
           {isProfile && (
             <TopButton
-              className="bg-ch-pink-800 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+              className="bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
               onClick={() =>
                 navigate(
                   routes.ide({
@@ -161,7 +161,7 @@ export default function IdeHeader({
               }
               name="Editor"
             >
-              <Svg name="terminal" className="w-6 h-6 text-ch-pink-500" />
+              <Svg name="terminal" className="w-6 h-6 text-ch-blue-400" />
             </TopButton>
           )}
           <Popover className="relative outline-none w-full h-full">
@@ -172,11 +172,11 @@ export default function IdeHeader({
                     <TopButton
                       Tag="div"
                       name="Share"
-                      className=" bg-ch-purple-400 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
+                      className="bg-ch-blue-650 bg-opacity-30 hover:bg-opacity-80 text-ch-gray-300"
                     >
                       <Svg
                         name="share"
-                        className="w-6 h-6 text-ch-purple-500 mt-1"
+                        className="w-6 h-6 text-ch-blue-400 mt-1"
                       />
                     </TopButton>
                   </Popover.Button>
@@ -221,7 +221,7 @@ export default function IdeHeader({
             <div className="fixed bg-white w-60 h-10 top-16 right-24 z-10 rounded-md text-sm flex p-2 items-center">
               <Svg
                 name="exclamation-circle"
-                className="w-8 h-8 mx-2 text-ch-blue-500"
+                className="w-8 h-8 mx-2 text-ch-blue-400"
               />{' '}
               Fork to save your work
             </div>
