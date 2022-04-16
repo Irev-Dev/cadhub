@@ -19,7 +19,7 @@ It's software that allows you to define 3D CAD models with code. It's a niche po
 
 I recommend reading through the entire list below to see if one chimes with you and your needs, beyond that I can make the following recommendation and points:
 <!--truncate-->
-- My main recommendation is to use one of the packages that uses a B-rep kernal (and for opensounce tools that means OpenCascade, a mature C++ CAD library). Packages that do so are CadQuery, CascadeStudio, DeclaraCAD and pythonOCC. My reasons for recommending these are as follows:
+- My main recommendation is to use one of the packages that uses a B-rep kernal (and for opensource tools that means OpenCascade, a mature C++ CAD library). Packages that do so are CadQuery, CascadeStudio, DeclaraCAD and pythonOCC. My reasons for recommending these are as follows:
   - Most of Code-CAD tools are plagued with a CSG mindset (that is unions, subtractions and intersections of primitive shapes; cubes spheres etc). This is an inherently limited paradigm (one simple example of this is how internal fillets, which are important for reducing stress concentrations in parts, become very difficult). While CadQuery, CascadeStudio, DeclaraCAD and pythonOCC still offer CSG functionality, you're also able to move beyond.
   - OpenCascade uses a B-rep (boundary representation) kernel, In my opinion, this means you'll be learning a future-proof tool that won't limit the types of applications you can model for, which is likely the case for mesh kernels, which will cause trouble in for some applications like optics and injection moulding.
 
