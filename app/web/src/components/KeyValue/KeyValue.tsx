@@ -5,6 +5,7 @@ interface EditToggleType {
   onEdit?: React.MouseEventHandler
   isEditing?: boolean
 }
+// small change
 
 const EditToggle = ({
   onEdit = () => {
