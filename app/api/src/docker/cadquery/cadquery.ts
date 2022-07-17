@@ -9,7 +9,7 @@ const stl = async (req, _context, callback) => {
   console.log('eventBody', eventBody)
 
   const { file, settings } = JSON.parse(eventBody)
-  const { error, consoleMessage, fullPath, tempFile } = await runCQ({
+  const { error, fullPath } = await runCQ({
     file,
     settings,
   })
@@ -17,8 +17,8 @@ const stl = async (req, _context, callback) => {
     error,
     callback,
     fullPath,
-    consoleMessage,
-    tempFile,
+    consoleMessage: '',
+    tempFile : '',
   })
 }
 

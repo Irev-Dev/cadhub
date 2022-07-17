@@ -30,31 +30,32 @@ export const runCQ = async ({
   ].join(' ')
   console.log('command', command)
   let consoleMessage = ''
-  try {
-    consoleMessage = await runCommand(command, 30000)
-    const params = JSON.parse(
-      await readFile(customizerPath, { encoding: 'ascii' })
-    )
-    await writeFiles(
-      [
-        {
-          file: JSON.stringify({
-            customizerParams: params,
-            consoleMessage,
-            type: 'stl',
-          }),
-          fileName: 'metadata.json',
-        },
-      ],
-      tempFile
-    )
-    await runCommand(
-      `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
-      15000,
-      true
-    )
-    return { consoleMessage, fullPath, tempFile }
-  } catch (error) {
-    return { error: consoleMessage || error, fullPath }
-  }
+  return { error: 'python execution currently disabled, see: https://github.com/Irev-Dev/cadhub/issues/611', fullPath }
+  // try {
+  //   consoleMessage = await runCommand(command, 30000)
+  //   const params = JSON.parse(
+  //     await readFile(customizerPath, { encoding: 'ascii' })
+  //   )
+  //   await writeFiles(
+  //     [
+  //       {
+  //         file: JSON.stringify({
+  //           customizerParams: params,
+  //           consoleMessage,
+  //           type: 'stl',
+  //         }),
+  //         fileName: 'metadata.json',
+  //       },
+  //     ],
+  //     tempFile
+  //   )
+  //   await runCommand(
+  //     `cat ${stlPath} /var/task/cadhub-concat-split /tmp/${tempFile}/metadata.json | gzip > ${fullPath}`,
+  //     15000,
+  //     true
+  //   )
+  //   return { consoleMessage, fullPath, tempFile }
+  // } catch (error) {
+  //   return { error: consoleMessage || error, fullPath }
+  // }
 }
