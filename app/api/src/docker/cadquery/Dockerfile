@@ -41,8 +41,8 @@ RUN npm install aws-lambda-ric@1.0.0
 RUN conda --version
 
 # Install CadQuery
-RUN conda install -c cadquery -c conda-forge cadquery=master ocp=7.5.2 python=3.8
-RUN conda info
+# RUN conda install -c cadquery -c conda-forge cadquery=master ocp=7.5.2 python=3.8
+# RUN conda info
 
 # Get a copy of cq-cli from GitHub
 RUN git clone https://github.com/CadQuery/cq-cli.git
