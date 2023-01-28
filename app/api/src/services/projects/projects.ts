@@ -291,8 +291,8 @@ export const Project = {
   forkedFrom: (_obj, { root }) =>
     root.forkedFromId &&
     db.project.findUnique({ where: { id: root.forkedFromId } }),
-  childForks: (_obj, { root }) =>
-    db.project.findMany({ where: { forkedFromId: root.id } }),
+  childForks: (_obj, { root }) => ([]),
+    // db.project.findMany({ where: { forkedFromId: root.id } }),
   user: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
     db.user.findUnique({ where: { id: root.userId } }),
   socialCard: (_obj, { root }: ResolverArgs<ReturnType<typeof project>>) =>
